@@ -54,7 +54,7 @@
   "id": "m-al-03",
   "section": "math",
   "domain": "Algebra",
-  "skill": "Systems of two linear equations",
+  "skill": "Systems of linear equations",
   "difficulty": 2,
   "type": "spr",
   "stem": "2x + y = 11\nx − y = 1\nIf (x, y) is the solution to the system of equations above, what is the value of x?",
@@ -100,7 +100,7 @@
   "id": "m-al-05",
   "section": "math",
   "domain": "Algebra",
-  "skill": "Systems of two linear equations",
+  "skill": "Systems of linear equations",
   "difficulty": 3,
   "type": "spr",
   "stem": "3x − 2y = 7\nkx − 4y = 10\nIn the system of equations above, k is a constant. For what value of k does the system have no solution?",
@@ -135,6 +135,52 @@
    "Answer: −5."
   ],
   "key": "Perpendicular slopes are negative reciprocals: m₁ × m₂ = −1."
+ },
+ {
+  "id": "m-al-07",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear inequalities",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A student has $40 to spend on notebooks. Each notebook costs $3, and the order has a one-time $4 delivery fee. Which inequality represents the number of notebooks, n, the student can buy?",
+  "choices": [
+   "3n + 4 ≤ 40",
+   "3n + 4 ≥ 40",
+   "4n + 3 ≤ 40",
+   "3n ≤ 40 + 4"
+  ],
+  "answer": 0,
+  "explanation": "The total cost is 3n + 4, and it can be at most $40, so 3n + 4 ≤ 40.",
+  "key": "\"At most\" and \"no more than\" mean ≤. Build the expression first, then compare it to the limit.",
+  "steps": [
+   "Cost of the notebooks: $3 each, so 3n.",
+   "Add the one-time fee: total cost = 3n + 4.",
+   "The student can spend at most $40, and \"at most\" means ≤.",
+   "Inequality: 3n + 4 ≤ 40.",
+   "Trap: ≥ would mean the student must spend at least $40."
+  ],
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-08",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear inequalities",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "5 − 2x > −9\nWhat is the greatest integer value of x that satisfies the inequality above?",
+  "answer": "6",
+  "explanation": "5 − 2x > −9 gives −2x > −14, so x < 7. The greatest integer less than 7 is 6.",
+  "key": "Dividing or multiplying an inequality by a negative number flips the inequality sign.",
+  "steps": [
+   "Subtract 5 from both sides: −2x > −14.",
+   "Divide both sides by −2 and flip the sign: x < 7.",
+   "x must be less than 7, so 7 itself does not work.",
+   "The greatest integer less than 7 is 6.",
+   "Check: 5 − 2(6) = −7, and −7 > −9 ✓"
+  ],
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
  },
  {
   "id": "m-am-01",
@@ -191,7 +237,7 @@
   "id": "m-am-03",
   "section": "math",
   "domain": "Advanced Math",
-  "skill": "Nonlinear equations in one variable",
+  "skill": "Nonlinear equations and systems",
   "difficulty": 2,
   "type": "spr",
   "stem": "x² − 5x − 14 = 0\nWhat is the positive solution to the equation above?",
@@ -283,7 +329,7 @@
   "id": "m-gt-01",
   "section": "math",
   "domain": "Geometry and Trigonometry",
-  "skill": "Right triangles",
+  "skill": "Right triangles and trigonometry",
   "difficulty": 1,
   "type": "mc",
   "stem": "A rectangle has a length of 12 and a width of 5. What is the length of a diagonal of the rectangle?",
@@ -422,7 +468,7 @@
   "id": "m-pd-01",
   "section": "math",
   "domain": "Problem-Solving and Data Analysis",
-  "skill": "Ratios, rates, and proportions",
+  "skill": "Ratios, rates, and units",
   "difficulty": 1,
   "type": "mc",
   "stem": "A recipe uses 3 cups of flour to make 24 cookies. At this rate, how many cups of flour are needed to make 40 cookies?",
@@ -498,7 +544,7 @@
   "id": "m-pd-04",
   "section": "math",
   "domain": "Problem-Solving and Data Analysis",
-  "skill": "Inference from sample statistics",
+  "skill": "Sample statistics and margin of error",
   "difficulty": 2,
   "type": "spr",
   "stem": "A school has 1,500 students. In a random sample of 200 of these students, 46 said they bike to school. Based on the sample, what is the best estimate of the number of students at the school who bike to school?",
@@ -587,6 +633,104 @@
    "Check with $100: $100 → $120 → $120 × 0.8 = $96 ✓"
   ],
   "key": "Successive percent changes multiply. They do not add."
+ },
+ {
+  "id": "m-pd-07",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Two-variable data",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A scatterplot shows the height of a plant over time. The line of best fit is y = 2.5x + 12, where y is the predicted height, in centimeters, x weeks after the study began. What is the best interpretation of 2.5 in this context?",
+  "choices": [
+   "The predicted height increases by 2.5 centimeters each week.",
+   "The plant was 2.5 centimeters tall when the study began.",
+   "The predicted height increases by 12 centimeters each week.",
+   "The plant reaches a height of 2.5 centimeters after 12 weeks."
+  ],
+  "answer": 0,
+  "explanation": "2.5 is the slope: the change in predicted height (cm) for each 1-week increase in x.",
+  "key": "In y = mx + b, the slope m is the change in y per 1 unit of x; b is the value of y when x = 0.",
+  "steps": [
+   "Identify the form: y = mx + b with m = 2.5 and b = 12.",
+   "The slope m tells how much y changes when x increases by 1.",
+   "x is in weeks and y in centimeters, so the slope is centimeters per week.",
+   "So the predicted height increases by 2.5 cm each week.",
+   "Trap: 12 is the starting height (when x = 0), not the weekly growth."
+  ],
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-08",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Two-variable data",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "The line of best fit for a plant's height is y = 2.5x + 12, where y is the predicted height, in centimeters, x weeks after the study began. At week 8, the plant's actual height was 29 centimeters. By how many centimeters is the predicted height greater than the actual height at week 8?",
+  "answer": "3",
+  "explanation": "Predicted: 2.5(8) + 12 = 32 cm. 32 − 29 = 3 cm.",
+  "key": "A model's prediction comes from substituting into the line; the difference from the real data point is the residual.",
+  "steps": [
+   "Substitute x = 8 into the model: y = 2.5(8) + 12.",
+   "Compute: 20 + 12 = 32, so the predicted height is 32 cm.",
+   "The actual height is 29 cm.",
+   "Difference: 32 − 29 = 3.",
+   "Answer: the prediction is 3 cm greater than the actual height."
+  ],
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-09",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Observational studies and experiments",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "Researchers randomly selected 500 adults who live in a city. Each adult was asked whether they exercise regularly and how many hours they usually sleep. On average, adults who exercise regularly reported more sleep. Which conclusion is best supported by the study?",
+  "choices": [
+   "Among adults in the city, exercising regularly is associated with getting more sleep.",
+   "Exercising regularly causes adults in the city to get more sleep.",
+   "Exercising regularly causes all adults everywhere to get more sleep.",
+   "No conclusion can be drawn about adults in the city."
+  ],
+  "answer": 0,
+  "explanation": "A random sample lets you generalize to the city's adults, but with no random assignment you can only claim an association, not cause and effect.",
+  "key": "Random sampling → generalize to the population. Random assignment → cause and effect. This study has only the first.",
+  "steps": [
+   "Check sampling: the adults were randomly selected from the city, so results can be generalized to adults in that city.",
+   "Check assignment: the researchers did not assign who exercises; people chose for themselves.",
+   "Without random assignment, other factors (such as stress or job type) could explain the difference, so no cause and effect.",
+   "So the strongest valid conclusion is an association among adults in the city.",
+   "Eliminate: B and C claim causation; C also generalizes beyond the city; D ignores the random sample."
+  ],
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-10",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Observational studies and experiments",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "A teacher wants to find out whether a new study app causes higher quiz scores among the 300 students at a school. Which study design would best allow a cause-and-effect conclusion for these students?",
+  "choices": [
+   "Randomly assign the 300 students to use the app or not use it, then compare their quiz scores.",
+   "Compare the quiz scores of students who chose to use the app with those who did not.",
+   "Survey students about whether they think the app helped them.",
+   "Give the app to the 30 highest-scoring students and compare their scores with everyone else's."
+  ],
+  "answer": 0,
+  "explanation": "Only random assignment balances other differences between the groups, so a difference in scores can be attributed to the app.",
+  "key": "Cause and effect requires a randomized experiment: random assignment to treatment and control groups.",
+  "steps": [
+   "To show the app causes higher scores, the two groups must be alike in every way except app use.",
+   "Random assignment makes the groups similar on average (motivation, ability, study time).",
+   "B lets students choose, and motivated students may choose the app, which confounds the result.",
+   "C measures opinions, not scores. D compares groups that were already different (top scorers).",
+   "Answer: randomly assign students, then compare quiz scores."
+  ],
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
  },
  {
   "id": "rw-cs-01",
@@ -943,7 +1087,7 @@
   "id": "rw-ii-02",
   "section": "rw",
   "domain": "Information and Ideas",
-  "skill": "Command of Evidence (Textual)",
+  "skill": "Command of Evidence",
   "difficulty": 1,
   "type": "mc",
   "passage": "A student is writing about an imagined poem titled \"Harbor Town\" and claims that the speaker portrays the sea as threatening.",
@@ -970,7 +1114,7 @@
   "id": "rw-ii-03",
   "section": "rw",
   "domain": "Information and Ideas",
-  "skill": "Command of Evidence (Quantitative)",
+  "skill": "Command of Evidence",
   "difficulty": 2,
   "type": "mc",
   "passage": "A city library runs a summer reading program. The table shows the number of participants in three recent years.",
@@ -1045,7 +1189,7 @@
   "id": "rw-ii-05",
   "section": "rw",
   "domain": "Information and Ideas",
-  "skill": "Command of Evidence (Textual)",
+  "skill": "Command of Evidence",
   "difficulty": 3,
   "type": "mc",
   "passage": "A biologist hypothesizes that a species of desert lizard changes color mainly to regulate its body temperature rather than to hide from predators.",

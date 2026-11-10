@@ -16,6 +16,9 @@ Progress is saved in the student's own browser on their own device. Nothing is s
 ## About the questions
 College Board does not release past SAT papers for reuse. The questions in `questions.json` are original practice items written to College Board's published Digital SAT content specifications. For official practice, use [Bluebook](https://bluebook.collegeboard.org/) and the [SAT Suite Question Bank](https://satsuitequestionbank.collegeboard.org/).
 
+## More practice by skill
+Every skill in the Question Bank links to the matching skill page of the free [TalimSAT question bank](https://talimsat.com/question-bank), which is organized by the same 29 official Digital SAT skills. TalimSAT's terms don't allow copying its questions, so they are linked, not included here. Students need a free TalimSAT account to answer them there.
+
 ## Adding questions
 Edit `questions.json` and add an object to the list:
 

@@ -148,7 +148,18 @@ a:hover{text-decoration:underline}
 .disclaim{font-size:.76rem;color:var(--muted)}
 
 /* quick start */
-.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.g-mis{background:linear-gradient(145deg,#FF9F0A,#FF375F)}
+.skills{display:flex;flex-direction:column}
+.skills .dh{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:14px 0 6px}
+.skills .dh:first-child{padding-top:0}
+.sk{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.sk .nm{font-weight:500;font-size:.92rem;border:0;background:none;padding:0;text-align:left;color:var(--ink)}
+.sk .nm:hover{color:var(--accent)}
+.sk .ct{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ext{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.ext .ico{width:13px;height:13px}
+.morelink{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:var(--r-sm);background:var(--fill);font-size:.86rem}
 .qs{display:flex;flex-direction:column;gap:14px;text-align:left;border:0;padding:20px;border-radius:var(--r-lg);background:var(--surface);box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
 .qs:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(0,0,0,.04),0 14px 34px rgba(0,0,0,.09)}
 .qs:disabled{opacity:.5;cursor:not-allowed;transform:none}
@@ -335,6 +346,7 @@ details.more[open] summary{margin-bottom:14px}
 }
 
 /* ---------- tablet / phone ---------- */
+@media (max-width:1180px) and (min-width:861px){.quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:1000px){
   .setup{grid-template-columns:minmax(0,1fr)}
   .summary{position:static}
@@ -364,6 +376,8 @@ details.more[open] summary{margin-bottom:14px}
   .hero-grid,.res-hero{grid-template-columns:minmax(0,1fr);justify-items:center;gap:22px}
   .hero-side{width:100%}
   .quick{grid-template-columns:minmax(0,1fr)}
+  .sk{grid-template-columns:minmax(0,1fr) auto}
+  .sk .ct{grid-column:1;grid-row:2;margin-top:-6px}
   .qs{flex-direction:row;align-items:center;padding:16px}
   .qs .txt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
   .qs .go{display:none}
@@ -408,6 +422,8 @@ details.more[open] summary{margin-bottom:14px}
   <symbol id="i-auto" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></symbol>
   <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-e" viewBox="0 0 24 24"><path d="M17.5 12.2H6.8M17.6 12.2c0-3.3-2.4-5.7-5.5-5.7-3.2 0-5.6 2.5-5.6 5.6s2.4 5.6 5.7 5.6c2 0 3.6-.8 4.7-2.3" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round"/><circle cx="19" cy="17.6" r="1.4" fill="#E0B25A"/></symbol>
 </svg>
 
@@ -477,6 +493,7 @@ details.more[open] summary{margin-bottom:14px}
           <button class="qs" data-quick="full"><span class="glyph g-full"><svg><use href="#i-layers"/></svg></span><span class="txt"><strong>Whole syllabus</strong><span>Both sections, mixed like test day</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
           <button class="qs" data-quick="rw"><span class="glyph g-rw"><svg><use href="#i-book"/></svg></span><span class="txt"><strong>Reading &amp; Writing</strong><span>Four domains, passage-based</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
           <button class="qs" data-quick="math"><span class="glyph g-math"><svg><use href="#i-sigma"/></svg></span><span class="txt"><strong>Math</strong><span>Four domains, with type-in answers</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
+          <button class="qs" id="q-mis"><span class="glyph g-mis"><svg><use href="#i-redo"/></svg></span><span class="txt"><strong>Retry mistakes</strong><span id="mis-sub">Questions you got wrong</span></span><span class="go" id="mis-go">Nothing to retry yet</span></button>
         </div>
       </div>
 
@@ -501,6 +518,20 @@ details.more[open] summary{margin-bottom:14px}
             <div class="list" id="dom-list" role="radiogroup" aria-label="Domain"></div>
             <span class="group-f">Focus on one content domain, or keep all four for balanced practice.</span>
           </div>
+          <div class="group" id="skill-group" hidden>
+            <span class="group-l">Skill</span>
+            <div class="list" id="skill-list" role="radiogroup" aria-label="Skill"></div>
+          </div>
+          <div class="group">
+            <span class="group-l">Difficulty</span>
+            <div class="list seg-pad"><div class="segmented" id="lvl">
+              <button data-v="adaptive" aria-pressed="true">Adaptive</button>
+              <button data-v="1" aria-pressed="false">Easy</button>
+              <button data-v="2" aria-pressed="false">Medium</button>
+              <button data-v="3" aria-pressed="false">Hard</button>
+            </div></div>
+            <span class="group-f">Adaptive moves up after correct answers and down after misses. Pick a level to practice only at that difficulty.</span>
+          </div>
           <div class="group">
             <span class="group-l">Length</span>
             <div class="list seg-pad"><div class="segmented" id="len">
@@ -513,6 +544,7 @@ details.more[open] summary{margin-bottom:14px}
             <span class="group-l">Options</span>
             <div class="list">
               <label class="row" for="pace"><span class="grow"><span class="t">Test-day pacing timer</span><br><span class="d">71 s per Reading &amp; Writing question, 95 s per Math question</span></span><span class="switch"><input type="checkbox" id="pace" checked><span></span></span></label>
+              <label class="row" for="unsolved"><span class="grow"><span class="t">Only questions I haven't solved</span><br><span class="d">Skip questions you've already answered correctly</span></span><span class="switch"><input type="checkbox" id="unsolved"><span></span></span></label>
             </div>
           </div>
         </div>
@@ -521,8 +553,9 @@ details.more[open] summary{margin-bottom:14px}
           <div>
             <div class="line"><span>Subject</span><span id="sum-sub">Whole syllabus</span></div>
             <div class="line"><span>Domain</span><span id="sum-dom">All</span></div>
+            <div class="line"><span>Skill</span><span id="sum-skill">All</span></div>
             <div class="line"><span>Questions</span><span id="sum-len">10</span></div>
-            <div class="line"><span>Starting level</span><span id="sum-lvl">Medium</span></div>
+            <div class="line"><span>Difficulty</span><span id="sum-lvl">Medium</span></div>
           </div>
           <button class="btn block" id="go" disabled>Start practice</button>
           <p class="disclaim" id="go-note">Loading questions…</p>
@@ -552,7 +585,7 @@ details.more[open] summary{margin-bottom:14px}
         <div class="card-h"><h2>About these questions</h2></div>
         <p class="note">College Board does not release past SAT papers for reuse. The SAT AIS bank therefore contains original practice questions written by following College Board's published Digital SAT specifications: the same two sections, eight content domains, skills and question formats. For official questions, use College Board's free
           <a href="https://bluebook.collegeboard.org/" target="_blank" rel="noopener">Bluebook full-length practice tests</a> and the
-          <a href="https://satsuitequestionbank.collegeboard.org/" target="_blank" rel="noopener">SAT Suite Question Bank</a>. Department staff can add questions by editing <code>questions.json</code> in the GitHub repository.</p>
+          <a href="https://satsuitequestionbank.collegeboard.org/" target="_blank" rel="noopener">SAT Suite Question Bank</a>. For more practice by skill, each skill links to the matching page of the free <a href="https://talimsat.com/question-bank" target="_blank" rel="noopener">TalimSAT question bank</a>, which follows the same 29 skills. Its questions stay on its site (a free account is needed to answer them). </p><p class="note" style="margin-top:10px">Department staff can add questions by editing <code>questions.json</code> in the GitHub repository.</p>
       </div>
       </section>
   </div>
@@ -627,6 +660,19 @@ details.more[open] summary{margin-bottom:14px}
 const DOMAINS={
   rw:["Information and Ideas","Craft and Structure","Expression of Ideas","Standard English Conventions"],
   math:["Algebra","Advanced Math","Problem-Solving and Data Analysis","Geometry and Trigonometry"]};
+const SKILLS={
+  "Information and Ideas":["Central Ideas and Details","Command of Evidence","Inferences"],
+  "Craft and Structure":["Words in Context","Text Structure and Purpose","Cross-Text Connections"],
+  "Expression of Ideas":["Rhetorical Synthesis","Transitions"],
+  "Standard English Conventions":["Boundaries","Form, Structure, and Sense"],
+  "Algebra":["Linear equations in one variable","Linear equations in two variables","Linear functions","Systems of linear equations","Linear inequalities"],
+  "Advanced Math":["Equivalent expressions","Nonlinear equations and systems","Nonlinear functions"],
+  "Problem-Solving and Data Analysis":["Ratios, rates, and units","Percentages","One-variable data","Two-variable data","Probability","Sample statistics and margin of error","Observational studies and experiments"],
+  "Geometry and Trigonometry":["Area and volume","Lines, angles, and triangles","Right triangles and trigonometry","Circles"]};
+/* External practice: TalimSAT's free question bank (questions stay on their site; free account needed to answer). */
+const TALIM_BASE="https://talimsat.com/question-bank/";
+const slug=t=>t.toLowerCase().replace(/[,.]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+function talimURL(section,skill){if(!skill)return TALIM_BASE;return TALIM_BASE+(section==="rw"?"reading-writing/":"math/")+slug(skill);}
 const DCOLOR={"Information and Ideas":"#FF375F","Craft and Structure":"#FF9F0A","Expression of Ideas":"#BF5AF2","Standard English Conventions":"#5E5CE6",
   "Algebra":"#0A84FF","Advanced Math":"#30D158","Problem-Solving and Data Analysis":"#40C8E0","Geometry and Trigonometry":"#FFB340"};
 const SEC_NAME={rw:"Reading & Writing",math:"Math"};
@@ -640,7 +686,7 @@ const icon=(id,cls)=>'<svg class="ico'+(cls?' '+cls:'')+'"><use href="#i-'+id+'"
 let bank=[], bankState="loading";
 let db=null, uid=null, canEditBank=false, saveMode="memory";
 let progress=freshProgress();
-let opts={mode:"full",domain:null,len:10,pace:true};
+let opts={mode:"full",domain:null,skill:null,level:"adaptive",unsolved:false,len:10,pace:true};
 let S=null, timerId=null, tab="today", gid=0, booted=false;
 
 /* ---------- preferences: theme + sound ---------- */
@@ -691,7 +737,7 @@ function play(kind){
   }catch(e){}
 }
 
-function freshProgress(){return {v:1,theta:{rw:0,math:0},answered:{rw:0,math:0},correct:{rw:0,math:0},domains:{},sessions:[],seen:[],days:[]};}
+function freshProgress(){return {v:1,theta:{rw:0,math:0},answered:{rw:0,math:0},correct:{rw:0,math:0},domains:{},sessions:[],seen:[],days:[],solved:[],wrong:[]};}
 
 /* ---------- model ---------- */
 const prob=(t,b)=>1/(1+Math.exp(-1.7*(t-b)));
@@ -786,6 +832,10 @@ function renderToday(){
   $("stats").innerHTML=[["Answered",N,""],["Accuracy",N?Math.round(C/N*100):"—",N?"%":""],["Day streak",st,st===1?" day":" days"],["Hard questions",hard," reached"]]
     .map(x=>'<div class="stat"><span class="k">'+x[0]+'</span><span class="v num">'+x[1]+'<small>'+x[2]+'</small></span></div>').join("");
   document.querySelectorAll("[data-quick]").forEach(b=>b.disabled=bankState!=="ready");
+  const ids=new Set(bank.map(q=>q.id)), mis=(p.wrong||[]).filter(i=>ids.has(i)).length;
+  $("q-mis").disabled=bankState!=="ready"||!mis;
+  $("mis-sub").textContent=mis?"Questions you got wrong, with solutions":"Questions you miss will collect here";
+  $("mis-go").innerHTML=mis?mis+" to retry "+'<svg width="14" height="14"><use href="#i-chev"/></svg>':"Nothing to retry yet";
 }
 function renderPractice(){
   document.querySelectorAll("#mode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===opts.mode));
@@ -796,14 +846,24 @@ function renderPractice(){
       .map(o=>'<button class="row" role="radio" data-v="'+esc(o.v)+'" aria-checked="'+((opts.domain||"")===o.v)+'">'+(o.c?'<span class="swatch" style="background:'+o.c+'"></span>':'<span class="swatch" style="background:var(--fill-2)"></span>')+
         '<span class="grow"><span class="t">'+esc(o.t)+'</span>'+(o.d?'<br><span class="d">'+esc(o.d)+'</span>':'')+'</span>'+icon("check","check")+'</button>').join("");
   }
-  const pool=poolFor(opts.mode,opts.domain).length;
+  $("skill-group").hidden=!opts.domain;
+  if(opts.domain){
+    const sec=opts.mode;
+    $("skill-list").innerHTML=[{v:"",t:"All skills in this domain"}].concat(SKILLS[opts.domain].map(k=>({v:k,t:k,n:bank.filter(q=>q.skill===k).length})))
+      .map(o=>'<button class="row" role="radio" data-v="'+esc(o.v)+'" aria-checked="'+((opts.skill||"")===o.v)+'"><span class="grow"><span class="t">'+esc(o.t)+'</span>'+(o.v?'<br><span class="d">'+o.n+' question'+(o.n===1?'':'s')+' here</span>':'')+'</span>'+icon("check","check")+'</button>').join("")+
+      (opts.skill?'<div class="row"><span class="grow"><span class="d">Want more on this skill? TalimSAT has a large free bank, organized by the same skills (free account needed to answer).</span></span><a class="ext" href="'+talimURL(sec,opts.skill)+'" target="_blank" rel="noopener">TalimSAT '+icon("out")+'</a></div>':'');
+  }
+  document.querySelectorAll("#lvl button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===String(opts.level)));
+  $("unsolved").checked=opts.unsolved;
+  const pool=poolFor(opts.mode,opts.domain,opts.skill,opts.level,opts.unsolved).length;
   $("sum-sub").textContent=opts.mode==="full"?"Whole syllabus":SEC_NAME[opts.mode];
   $("sum-dom").textContent=opts.domain||"All";
+  $("sum-skill").textContent=opts.skill||"All";
   $("sum-len").textContent=opts.len;
   const th=opts.mode==="full"?(progress.theta.rw+progress.theta.math)/2:progress.theta[opts.mode];
-  $("sum-lvl").textContent=LEVEL[levelFor(th)].name;
+  $("sum-lvl").textContent=opts.level==="adaptive"?"Adaptive, from "+LEVEL[levelFor(th)].name:LEVEL[opts.level].name+" only";
   $("go").disabled=!(bankState==="ready"&&pool>0);
-  $("go-note").textContent=bankState!=="ready"?bankMsg():pool<opts.len?"Only "+pool+" questions match this choice. The set ends when they run out.":pool+" questions available · step-by-step solutions included";
+  $("go-note").textContent=bankState!=="ready"?bankMsg():pool<opts.len?(pool?"Only "+pool+(pool===1?" question matches":" questions match"):"No questions match")+" this choice."+(pool?" The set ends when they run out.":" Try another difficulty or skill."):pool+" questions available · step-by-step solutions included";
 }
 function bankMsg(){return {loading:"Loading the question bank…",slow:"The question bank is slow to respond. It will appear when the connection returns.",
   unavailable:"The question bank could not be loaded.",empty:"The question bank is empty.",error:"The question bank could not be loaded. Reload to try again."}[bankState]||"";}
@@ -824,27 +884,34 @@ function renderBank(){
   $("bank-sub").textContent=bank.length+" questions, each tagged by section, domain, skill and difficulty, and each with a step-by-step solution.";
   $("bank-cards").innerHTML=["rw","math"].map(s=>{
     const n=bank.filter(q=>q.section===s).length;
-    return '<div class="card"><div class="card-h"><h2>'+SEC_NAME[s]+'</h2><span class="aside num">'+n+' questions</span></div><table class="btable"><thead><tr><th>Domain</th><th class="r">Easy</th><th class="r">Med</th><th class="r">Hard</th></tr></thead><tbody>'+
-      DOMAINS[s].map(d=>{const c=l=>bank.filter(q=>q.section===s&&q.domain===d&&q.difficulty===l).length;
-        return '<tr><td><span style="display:inline-flex;gap:8px;align-items:center"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(d)+'</span></td><td class="r">'+c(1)+'</td><td class="r">'+c(2)+'</td><td class="r">'+c(3)+'</td></tr>';}).join("")+'</tbody></table></div>';
+    return '<div class="card"><div class="card-h"><h2>'+SEC_NAME[s]+'</h2><span class="aside num">'+n+' questions · '+DOMAINS[s].reduce((a,d)=>a+SKILLS[d].length,0)+' skills</span></div><div class="skills">'+
+      DOMAINS[s].map(d=>'<div class="dh"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(d)+'</div>'+SKILLS[d].map(k=>{
+        const qs=bank.filter(q=>q.skill===k), c=l=>qs.filter(q=>q.difficulty===l).length;
+        return '<div class="sk"><button class="nm" data-sec="'+s+'" data-dom="'+esc(d)+'" data-skill="'+esc(k)+'">'+esc(k)+'</button><span class="ct">'+(qs.length?qs.length+' · '+c(1)+'E '+c(2)+'M '+c(3)+'H':'0 here')+'</span><a class="ext" href="'+talimURL(s,k)+'" target="_blank" rel="noopener" aria-label="'+esc(k)+' on TalimSAT">TalimSAT '+icon("out")+'</a></div>';}).join("")).join("")+'</div></div>';
   }).join("");
 }
-function poolFor(mode,domain){return bank.filter(q=>(mode==="full"||q.section===mode)&&(!domain||q.domain===domain));}
+function poolFor(mode,domain,skill,level,unsolved){
+  const solved=new Set(progress.solved||[]);
+  return bank.filter(q=>(mode==="full"||q.section===mode)&&(!domain||q.domain===domain)&&(!skill||q.skill===skill)&&(!level||level==="adaptive"||q.difficulty===+level)&&(!unsolved||!solved.has(q.id)));
+}
 
 /* ---------- session ---------- */
-function startSession(mode,domain,len){
-  S={mode,domain,len,pace:opts.pace,theta:{...progress.theta},nSec:{rw:0,math:0},items:[],cur:null,used:new Set()};
+function startSession(mode,domain,len,extra){
+  extra=extra||{};
+  S={mode,domain,len,pace:opts.pace,theta:{...progress.theta},nSec:{rw:0,math:0},items:[],cur:null,used:new Set(),
+    skill:extra.skill||null,level:extra.level||"adaptive",unsolved:!!extra.unsolved,only:extra.only?new Set(extra.only):null};
   $("sheet").hidden=false; document.body.style.overflow="hidden"; play("open"); nextQuestion();
 }
-function chooseSection(){if(S.mode!=="full")return S.mode;return S.nSec.rw*44<=S.nSec.math*54?"rw":"math";}
+function chooseSection(){if(S.mode!=="full"&&S.mode!=="mistakes")return S.mode;return S.nSec.rw*44<=S.nSec.math*54?"rw":"math";}
 function pickQuestion(){
   const seen=new Set(progress.seen);
-  const secs=[chooseSection()]; if(S.mode==="full")secs.push(secs[0]==="rw"?"math":"rw");
+  const secs=[chooseSection()]; if(S.mode==="full"||S.mode==="mistakes")secs.push(secs[0]==="rw"?"math":"rw");
   for(const sec of secs){
-    let pool=bank.filter(q=>q.section===sec&&!S.used.has(q.id)&&(!S.domain||q.domain===S.domain));
+    const solved=new Set(progress.solved||[]);
+    let pool=bank.filter(q=>q.section===sec&&!S.used.has(q.id)&&(!S.domain||q.domain===S.domain)&&(!S.skill||q.skill===S.skill)&&(!S.only||S.only.has(q.id))&&(!S.unsolved||!solved.has(q.id)));
     if(!pool.length)continue;
-    const th=S.theta[sec], levels=[1,2,3].sort((a,b)=>Math.abs(LEVEL[a].b-th)-Math.abs(LEVEL[b].b-th));
-    if(!S.domain){
+    const th=S.theta[sec], levels=S.level==="adaptive"?[1,2,3].sort((a,b)=>Math.abs(LEVEL[a].b-th)-Math.abs(LEVEL[b].b-th)):[+S.level];
+    if(!S.domain&&!S.only){
       const cnt={}; S.items.forEach(it=>{if(it.section===sec)cnt[it.domain]=(cnt[it.domain]||0)+1;});
       const m=Math.min(...pool.map(q=>cnt[q.domain]||0)), spread=pool.filter(q=>(cnt[q.domain]||0)===m);
       if(spread.some(q=>q.difficulty===levels[0]))pool=spread;
@@ -919,6 +986,7 @@ function solutionHTML(q,open){
   if(q.key)body+='<div class="key"><b>Key idea</b><span>'+esc(q.key)+'</span></div>';
   if(steps&&q.explanation)body+='<p class="note"><strong>In short:</strong> '+esc(q.explanation)+'</p>';
   const head='<div class="sol-h">'+icon("steps")+'Step-by-step solution</div>';
+  if(q.skill&&SKILLS[q.domain]&&SKILLS[q.domain].includes(q.skill))body+='<div class="morelink"><span>More practice on <strong>'+esc(q.skill)+'</strong></span><a class="ext" href="'+talimURL(q.section,q.skill)+'" target="_blank" rel="noopener">TalimSAT question bank '+icon("out")+'</a></div>';
   if(open)return '<div class="card solution">'+head+body+'</div>';
   return '<div class="card"><details class="more"><summary>'+icon("steps")+' Show the step-by-step solution</summary><div class="solution">'+body+'</div></details></div>';
 }
@@ -938,6 +1006,9 @@ function submit(){
   S.items.push({id:q.id,section:sec,domain:q.domain,level:q.difficulty,correct:ok,response:resp,ms:Date.now()-c.start,q,order:c.order});
   progress.theta[sec]=after; progress.answered[sec]++; if(ok)progress.correct[sec]++;
   const d=progress.domains[q.domain]||(progress.domains[q.domain]={c:0,t:0}); d.t++; if(ok)d.c++;
+  progress.solved=progress.solved||[]; progress.wrong=progress.wrong||[];
+  if(ok){if(!progress.solved.includes(q.id))progress.solved.push(q.id);progress.wrong=progress.wrong.filter(x=>x!==q.id);}
+  else if(!progress.wrong.includes(q.id))progress.wrong.push(q.id);
   progress.seen.push(q.id); progress.days=progress.days||[]; if(!progress.days.includes(today()))progress.days.push(today());
   save();
 
@@ -978,7 +1049,7 @@ function finish(msg){
   const n=S.items.length,c=S.items.filter(i=>i.correct).length;
   const secs=[...new Set(S.items.map(i=>i.section))];
   const est=secs.map(s=>(s==="rw"?"R&W ":"Math ")+scaled(S.theta[s])).join(" · ");
-  const label=S.mode==="full"?"Whole syllabus":SEC_NAME[S.mode]+(S.domain?" · "+S.domain:"");
+  const label=S.mode==="mistakes"?"Retry mistakes":(S.mode==="full"?"Whole syllabus":SEC_NAME[S.mode]+(S.skill?" · "+S.skill:S.domain?" · "+S.domain:""))+(S.level!=="adaptive"?" ("+LEVEL[S.level].name+")":"");
   const hard=S.items.filter(i=>i.level===3).length;
   progress.sessions.push({at:Date.now(),label,n,correct:c,est,hard}); save();
 
@@ -999,11 +1070,16 @@ function finish(msg){
 }
 
 /* ---------- events ---------- */
-$("mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;play("select");opts.mode=b.dataset.v;opts.domain=null;renderPractice();});
-$("dom-list").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;play("select");opts.domain=b.dataset.v||null;renderPractice();});
+$("mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;play("select");opts.mode=b.dataset.v;opts.domain=null;opts.skill=null;renderPractice();});
+$("dom-list").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;play("select");opts.domain=b.dataset.v||null;opts.skill=null;renderPractice();});
+$("lvl").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;play("select");opts.level=b.dataset.v==="adaptive"?"adaptive":+b.dataset.v;renderPractice();});
+$("skill-list").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;play("select");opts.skill=b.dataset.v||null;renderPractice();});
+$("unsolved").addEventListener("change",e=>{opts.unsolved=e.target.checked;renderPractice();});
+$("q-mis").addEventListener("click",()=>{const ids=new Set(bank.map(q=>q.id)),w=(progress.wrong||[]).filter(i=>ids.has(i));if(w.length)startSession("mistakes",null,Math.min(w.length,20),{only:w});});
+$("bank-cards").addEventListener("click",e=>{const b=e.target.closest(".nm");if(!b)return;opts.mode=b.dataset.sec;opts.domain=b.dataset.dom;opts.skill=b.dataset.skill;opts.level="adaptive";location.hash="#practice";});
 $("len").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;play("select");opts.len=+b.dataset.v;renderPractice();});
 $("pace").addEventListener("change",e=>{opts.pace=e.target.checked;});
-$("go").addEventListener("click",()=>startSession(opts.mode,opts.domain,opts.len));
+$("go").addEventListener("click",()=>startSession(opts.mode,opts.domain,opts.len,{skill:opts.skill,level:opts.level,unsolved:opts.unsolved}));
 document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>startSession(b.dataset.quick,null,10)));
 $("q-submit").addEventListener("click",submit);
 $("quit").addEventListener("click",()=>finish("You ended this set early."));
