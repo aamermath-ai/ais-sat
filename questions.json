@@ -1,0 +1,1260 @@
+[
+ {
+  "id": "m-al-01",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in one variable",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "If 3x + 7 = 22, what is the value of x?",
+  "choices": [
+   "5",
+   "15",
+   "29/3",
+   "3"
+  ],
+  "answer": 0,
+  "explanation": "Subtract 7 from both sides: 3x = 15. Divide by 3: x = 5.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Start: 3x + 7 = 22",
+   "Subtract 7 from both sides: 3x = 15",
+   "Divide both sides by 3: x = 5",
+   "Check: 3(5) + 7 = 15 + 7 = 22 ✓"
+  ],
+  "key": "Undo operations in reverse order to isolate x."
+ },
+ {
+  "id": "m-al-02",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear functions",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A gym charges a one-time sign-up fee of $25 plus $15 per month. Which expression gives the total cost, in dollars, of a membership for m months?",
+  "choices": [
+   "25 + 15m",
+   "15 + 25m",
+   "40m",
+   "(25 + 15)m"
+  ],
+  "answer": 0,
+  "explanation": "The $25 fee is paid once and $15 is paid each month, so the cost is 25 + 15m.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Identify the one-time cost (constant): $25.",
+   "Identify the rate: $15 for each month, so 15m for m months.",
+   "Add them: total = 25 + 15m.",
+   "Check with m = 2: 25 + 30 = $55, which matches $25 + 2 × $15 ✓",
+   "Trap: 15 + 25m swaps the fee and the rate."
+  ],
+  "key": "Linear model: total = fixed amount + rate × quantity."
+ },
+ {
+  "id": "m-al-03",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Systems of two linear equations",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "2x + y = 11\nx − y = 1\nIf (x, y) is the solution to the system of equations above, what is the value of x?",
+  "answer": "4",
+  "explanation": "Add the equations to eliminate y: 3x = 12, so x = 4. (Then y = 3; check: 8 + 3 = 11.)",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Write the system: 2x + y = 11 and x − y = 1.",
+   "The y-terms are +y and −y, so add the equations: (2x + x) + (y − y) = 11 + 1.",
+   "Simplify: 3x = 12, so x = 4.",
+   "Find y: 4 − y = 1, so y = 3.",
+   "Check in the first equation: 2(4) + 3 = 11 ✓"
+  ],
+  "key": "Elimination: add the equations when one variable has opposite coefficients."
+ },
+ {
+  "id": "m-al-04",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in two variables",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "A line in the xy-plane passes through the points (2, 5) and (6, 13). What is the slope of the line?",
+  "choices": [
+   "2",
+   "1/2",
+   "4",
+   "3"
+  ],
+  "answer": 0,
+  "explanation": "Slope = (13 − 5) / (6 − 2) = 8 / 4 = 2.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Points: (2, 5) and (6, 13).",
+   "Change in y: 13 − 5 = 8.",
+   "Change in x: 6 − 2 = 4.",
+   "Slope = 8 ÷ 4 = 2.",
+   "Trap: 1/2 comes from dividing x-change by y-change."
+  ],
+  "key": "Slope = change in y ÷ change in x."
+ },
+ {
+  "id": "m-al-05",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Systems of two linear equations",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "3x − 2y = 7\nkx − 4y = 10\nIn the system of equations above, k is a constant. For what value of k does the system have no solution?",
+  "answer": "6",
+  "explanation": "No solution means parallel lines: the x- and y-coefficients are in the same ratio but the constants are not. −4 / −2 = 2, so k = 3 · 2 = 6. The constants give 10 / 7 ≠ 2, so the lines are distinct.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Write both: 3x − 2y = 7 and kx − 4y = 10.",
+   "Compare y-coefficients: −4 ÷ −2 = 2. The second equation's coefficients must be 2 times the first's.",
+   "So k = 2 × 3 = 6.",
+   "Check the constants: 2 × 7 = 14, but the second constant is 10. Since 14 ≠ 10, the lines are parallel and distinct.",
+   "Answer: k = 6."
+  ],
+  "key": "No solution means parallel lines: same slope, different intercept. The coefficients are proportional but the constants are not."
+ },
+ {
+  "id": "m-al-06",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in two variables",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "Line ℓ is perpendicular to the line 2x + 3y = 6 and passes through the point (4, 1). If the equation of line ℓ is y = ax + b, what is the value of b?",
+  "answer": "-5",
+  "explanation": "The given line has slope −2/3, so ℓ has slope 3/2. Substitute (4, 1): 1 = (3/2)(4) + b = 6 + b, so b = −5.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Rewrite 2x + 3y = 6 in slope form: 3y = −2x + 6, so y = −(2/3)x + 2. Slope = −2/3.",
+   "Perpendicular slope = negative reciprocal = 3/2.",
+   "Line ℓ: y = (3/2)x + b. Substitute the point (4, 1): 1 = (3/2)(4) + b.",
+   "Simplify: 1 = 6 + b, so b = −5.",
+   "Answer: −5."
+  ],
+  "key": "Perpendicular slopes are negative reciprocals: m₁ × m₂ = −1."
+ },
+ {
+  "id": "m-am-01",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear functions",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "The function f is defined by f(x) = x² − 3x + 2. What is the value of f(4)?",
+  "choices": [
+   "6",
+   "2",
+   "10",
+   "30"
+  ],
+  "answer": 0,
+  "explanation": "f(4) = 16 − 12 + 2 = 6.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "f(4) = (4)² − 3(4) + 2",
+   "Square first: 16 − 3(4) + 2",
+   "Multiply: 16 − 12 + 2",
+   "Add and subtract left to right: 4 + 2 = 6",
+   "Answer: 6."
+  ],
+  "key": "Substitute the input everywhere x appears, then follow order of operations."
+ },
+ {
+  "id": "m-am-02",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Equivalent expressions",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "Which expression is equivalent to (x + 3)²?",
+  "choices": [
+   "x² + 6x + 9",
+   "x² + 9",
+   "x² + 3x + 9",
+   "x² + 6x + 6"
+  ],
+  "answer": 0,
+  "explanation": "(x + 3)(x + 3) = x² + 3x + 3x + 9 = x² + 6x + 9.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Write it as a product: (x + 3)(x + 3).",
+   "Multiply out (FOIL): x·x + x·3 + 3·x + 3·3.",
+   "Simplify: x² + 3x + 3x + 9 = x² + 6x + 9.",
+   "Trap: x² + 9 forgets the middle term 2ab = 6x."
+  ],
+  "key": "(a + b)² = a² + 2ab + b². Never just square each term."
+ },
+ {
+  "id": "m-am-03",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear equations in one variable",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "x² − 5x − 14 = 0\nWhat is the positive solution to the equation above?",
+  "answer": "7",
+  "explanation": "Factor: (x − 7)(x + 2) = 0, so x = 7 or x = −2. The positive solution is 7.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Equation: x² − 5x − 14 = 0.",
+   "Find two numbers with product −14 and sum −5: −7 and +2.",
+   "Factor: (x − 7)(x + 2) = 0.",
+   "Set each factor to zero: x = 7 or x = −2.",
+   "The positive solution is 7."
+  ],
+  "key": "Factor: find two numbers that multiply to c and add to b."
+ },
+ {
+  "id": "m-am-04",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear functions",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "A culture starts with 500 bacteria, and the number of bacteria doubles every 3 hours. Which function gives the number of bacteria, P(t), after t hours?",
+  "choices": [
+   "P(t) = 500 · 2^(t/3)",
+   "P(t) = 500 · 2^(3t)",
+   "P(t) = 500 · 3^(t/2)",
+   "P(t) = 500 + 2t/3"
+  ],
+  "answer": 0,
+  "explanation": "Doubling means base 2. The number of doublings after t hours is t/3, so P(t) = 500 · 2^(t/3). Check: P(3) = 1,000.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Initial amount: 500.",
+   "\"Doubles\" means the growth factor is 2.",
+   "It doubles every 3 hours, so after t hours there have been t/3 doublings.",
+   "P(t) = 500 · 2^(t/3).",
+   "Check: P(3) = 500 · 2¹ = 1,000 ✓ and P(6) = 500 · 2² = 2,000 ✓"
+  ],
+  "key": "Exponential growth: P(t) = initial × (growth factor)^(t ÷ period)."
+ },
+ {
+  "id": "m-am-05",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear functions",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "In the xy-plane, the graph of y = x² − 6x + c, where c is a constant, intersects the x-axis at exactly one point. What is the value of c?",
+  "answer": "9",
+  "explanation": "One x-intercept means the discriminant is 0: (−6)² − 4(1)(c) = 0, so 36 = 4c and c = 9.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Identify a = 1, b = −6, c = c.",
+   "Set the discriminant to zero: (−6)² − 4(1)(c) = 0.",
+   "Simplify: 36 − 4c = 0.",
+   "Solve: 4c = 36, so c = 9.",
+   "Check: x² − 6x + 9 = (x − 3)², which touches the x-axis only at x = 3 ✓"
+  ],
+  "key": "A parabola touches the x-axis exactly once when the discriminant b² − 4ac = 0."
+ },
+ {
+  "id": "m-am-06",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Equivalent expressions",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "Which expression is equivalent to (x² − 9) / (x² + x − 6), for x ≠ −3 and x ≠ 2?",
+  "choices": [
+   "(x − 3) / (x − 2)",
+   "(x + 3) / (x − 2)",
+   "(x − 3) / (x + 2)",
+   "3 / 2"
+  ],
+  "answer": 0,
+  "explanation": "Factor: x² − 9 = (x − 3)(x + 3) and x² + x − 6 = (x + 3)(x − 2). Cancel (x + 3) to get (x − 3) / (x − 2).",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Factor the numerator (difference of squares): x² − 9 = (x − 3)(x + 3).",
+   "Factor the denominator: x² + x − 6. Find numbers with product −6 and sum 1: 3 and −2, giving (x + 3)(x − 2).",
+   "Rewrite: (x − 3)(x + 3) / [(x + 3)(x − 2)].",
+   "Cancel the common factor (x + 3), which is allowed because x ≠ −3.",
+   "Result: (x − 3)/(x − 2)."
+  ],
+  "key": "Simplify rational expressions by factoring fully, then cancelling common factors."
+ },
+ {
+  "id": "m-gt-01",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Right triangles",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A rectangle has a length of 12 and a width of 5. What is the length of a diagonal of the rectangle?",
+  "choices": [
+   "13",
+   "17",
+   "60",
+   "7"
+  ],
+  "answer": 0,
+  "explanation": "The diagonal is the hypotenuse of a right triangle with legs 12 and 5: √(144 + 25) = √169 = 13.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Legs: 12 and 5.",
+   "c² = 12² + 5² = 144 + 25 = 169.",
+   "c = √169 = 13.",
+   "Tip: 5-12-13 is a common Pythagorean triple worth memorizing.",
+   "Trap: 17 comes from simply adding 12 + 5."
+  ],
+  "key": "A rectangle's diagonal is the hypotenuse of a right triangle: use a² + b² = c²."
+ },
+ {
+  "id": "m-gt-02",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Lines, angles, and triangles",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "Two angles of a triangle measure 48° and 67°. What is the measure, in degrees, of the third angle?",
+  "answer": "65",
+  "explanation": "The angles of a triangle add to 180°: 180 − 48 − 67 = 65.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Add the known angles: 48° + 67° = 115°.",
+   "Subtract from 180°: 180° − 115° = 65°.",
+   "Check: 48 + 67 + 65 = 180 ✓"
+  ],
+  "key": "The interior angles of a triangle sum to 180°."
+ },
+ {
+  "id": "m-gt-03",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Circles",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "In the xy-plane, a circle has the equation (x − 3)² + (y + 2)² = 49. What are the center and radius of the circle?",
+  "choices": [
+   "Center (3, −2), radius 7",
+   "Center (−3, 2), radius 7",
+   "Center (3, −2), radius 49",
+   "Center (−3, 2), radius 49"
+  ],
+  "answer": 0,
+  "explanation": "The form (x − h)² + (y − k)² = r² has center (h, k) and radius r. Here h = 3, k = −2, and r² = 49 so r = 7.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Match x: (x − 3) means h = 3.",
+   "Match y: (y + 2) = (y − (−2)), so k = −2.",
+   "Center: (3, −2). Watch the sign flip.",
+   "r² = 49, so r = 7. The radius is the square root, not 49.",
+   "Answer: center (3, −2), radius 7."
+  ],
+  "key": "Standard form (x − h)² + (y − k)² = r²: center (h, k), radius r."
+ },
+ {
+  "id": "m-gt-04",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Right triangles and trigonometry",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "In right triangle ABC, angle C is the right angle and sin A = 5/13. What is cos A?",
+  "choices": [
+   "12/13",
+   "5/12",
+   "13/12",
+   "8/13"
+  ],
+  "answer": 0,
+  "explanation": "sin A = opposite/hypotenuse = 5/13. The adjacent side is √(13² − 5²) = 12, so cos A = 12/13.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "sin A = opposite/hypotenuse = 5/13, so opposite = 5 and hypotenuse = 13.",
+   "Find the adjacent side: √(13² − 5²) = √(169 − 25) = √144 = 12.",
+   "cos A = adjacent/hypotenuse = 12/13.",
+   "Check: sin²A + cos²A = 25/169 + 144/169 = 1 ✓"
+  ],
+  "key": "SOH-CAH-TOA, plus the Pythagorean theorem to find the missing side."
+ },
+ {
+  "id": "m-gt-05",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Circles",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "A circle has a radius of 9. What is the length of an arc of the circle formed by a central angle of 120°?",
+  "choices": [
+   "6π",
+   "3π",
+   "27π",
+   "12π"
+  ],
+  "answer": 0,
+  "explanation": "Arc length = (120/360) × 2π(9) = (1/3)(18π) = 6π.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Circumference = 2πr = 2π(9) = 18π.",
+   "Fraction of the circle: 120° ÷ 360° = 1/3.",
+   "Arc length = (1/3) × 18π = 6π.",
+   "Trap: 27π uses area-style thinking (πr² ÷ 3), not circumference."
+  ],
+  "key": "Arc length = (central angle ÷ 360°) × circumference."
+ },
+ {
+  "id": "m-gt-06",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Area and volume",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "Cylinder A has a radius of 3 and a height of 10. Cylinder B has a radius of 6 and a height of 5. The volume of cylinder B is how many times the volume of cylinder A?",
+  "answer": "2",
+  "explanation": "V = πr²h. A: π(9)(10) = 90π. B: π(36)(5) = 180π. 180π / 90π = 2.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Cylinder A: π(3²)(10) = π(9)(10) = 90π.",
+   "Cylinder B: π(6²)(5) = π(36)(5) = 180π.",
+   "Ratio B ÷ A = 180π ÷ 90π = 2.",
+   "Shortcut: the radius doubles (×4 area) and the height halves (×½), so ×4 × ½ = ×2."
+  ],
+  "key": "Cylinder volume V = πr²h. The radius is squared, so doubling it quadruples the base area."
+ },
+ {
+  "id": "m-pd-01",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Ratios, rates, and proportions",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A recipe uses 3 cups of flour to make 24 cookies. At this rate, how many cups of flour are needed to make 40 cookies?",
+  "choices": [
+   "5",
+   "4",
+   "6",
+   "8"
+  ],
+  "answer": 0,
+  "explanation": "3 cups per 24 cookies is 1/8 cup per cookie. 40 × 1/8 = 5 cups.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Write the proportion: 3 cups / 24 cookies = x cups / 40 cookies.",
+   "Cross-multiply: 24x = 3 × 40 = 120.",
+   "Divide: x = 120 ÷ 24 = 5.",
+   "Check: 5/40 = 1/8 and 3/24 = 1/8 ✓"
+  ],
+  "key": "Set up a proportion with matching units."
+ },
+ {
+  "id": "m-pd-02",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Percentages",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A jacket originally priced at $80 is on sale for 25% off. What is the sale price?",
+  "choices": [
+   "$60",
+   "$55",
+   "$20",
+   "$64"
+  ],
+  "answer": 0,
+  "explanation": "25% of $80 is $20. $80 − $20 = $60.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Convert the discount: 25% = 0.25.",
+   "Multiply: 80 × (1 − 0.25) = 80 × 0.75.",
+   "Compute: 80 × 0.75 = 60.",
+   "Trap: $20 is the discount amount, not the sale price."
+  ],
+  "key": "Sale price = original × (1 − discount rate)."
+ },
+ {
+  "id": "m-pd-03",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "One-variable data",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "The data set 4, 7, 7, 9, 13 is changed by replacing 13 with 23. Which statement about the new data set is true?",
+  "choices": [
+   "The mean increases and the median stays the same.",
+   "Both the mean and the median increase.",
+   "The median increases and the mean stays the same.",
+   "Neither the mean nor the median changes."
+  ],
+  "answer": 0,
+  "explanation": "The sum grows by 10, so the mean rises from 8 to 10. The middle value is still 7, so the median does not change.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Original data: 4, 7, 7, 9, 13. Sum = 40, mean = 40 ÷ 5 = 8. Median (3rd value) = 7.",
+   "New data: 4, 7, 7, 9, 23. Sum = 50, mean = 50 ÷ 5 = 10.",
+   "The values are still in order, and the 3rd value is still 7, so the median is unchanged.",
+   "So the mean increased (8 → 10) and the median stayed at 7.",
+   "Answer: A."
+  ],
+  "key": "The mean uses every value; the median depends only on the middle position."
+ },
+ {
+  "id": "m-pd-04",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Inference from sample statistics",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "A school has 1,500 students. In a random sample of 200 of these students, 46 said they bike to school. Based on the sample, what is the best estimate of the number of students at the school who bike to school?",
+  "answer": "345",
+  "explanation": "46 / 200 = 0.23 of the sample. 0.23 × 1,500 = 345.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Sample proportion: 46 ÷ 200 = 0.23.",
+   "Apply it to the population: 0.23 × 1,500.",
+   "Compute: 0.23 × 1,500 = 345.",
+   "Answer: 345 students."
+  ],
+  "key": "A random sample's proportion estimates the population's proportion."
+ },
+ {
+  "id": "m-pd-05",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Probability",
+  "difficulty": 3,
+  "type": "spr",
+  "table": {
+   "caption": "Instrument survey",
+   "head": [
+    "",
+    "Plays an instrument",
+    "Does not play",
+    "Total"
+   ],
+   "rows": [
+    [
+     "Grade 11",
+     "42",
+     "58",
+     "100"
+    ],
+    [
+     "Grade 12",
+     "36",
+     "64",
+     "100"
+    ],
+    [
+     "Total",
+     "78",
+     "122",
+     "200"
+    ]
+   ]
+  },
+  "stem": "The table shows how many students in two grades play a musical instrument. If a student who plays an instrument is selected at random, what is the probability that the student is in grade 12? (Enter a fraction or a decimal.)",
+  "answer": "6/13",
+  "explanation": "There are 42 + 36 = 78 students who play an instrument. Of them, 36 are in grade 12. 36 / 78 = 6/13 ≈ 0.4615.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "The condition is \"a student who plays an instrument\", so the denominator is the instrument total: 42 + 36 = 78.",
+   "Favorable outcomes: instrument players in grade 12 = 36.",
+   "Probability = 36 ÷ 78.",
+   "Simplify by dividing by 6: 6/13 (≈ 0.4615).",
+   "Trap: 36/200 uses all students, ignoring the condition."
+  ],
+  "key": "Conditional probability: \"given\" restricts the denominator to that group only."
+ },
+ {
+  "id": "m-pd-06",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Percentages",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "The price of a bicycle is increased by 20%. Later, the new price is decreased by 20%. Compared with the original price, the final price is",
+  "choices": [
+   "4% less",
+   "the same",
+   "4% more",
+   "2% less"
+  ],
+  "answer": 0,
+  "explanation": "Multiply: 1.20 × 0.80 = 0.96. The final price is 96% of the original, which is 4% less.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "A 20% increase means × 1.20.",
+   "A 20% decrease means × 0.80.",
+   "Combined: 1.20 × 0.80 = 0.96.",
+   "0.96 means 96% of the original, which is 4% less.",
+   "Check with $100: $100 → $120 → $120 × 0.8 = $96 ✓"
+  ],
+  "key": "Successive percent changes multiply. They do not add."
+ },
+ {
+  "id": "rw-cs-01",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Words in Context",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "The botanist's field notes were remarkably ______: each entry recorded the date, the soil temperature, and the exact location of every seedling.",
+  "stem": "Which choice completes the text with the most logical and precise word or phrase?",
+  "choices": [
+   "meticulous",
+   "hasty",
+   "ambiguous",
+   "sparse"
+  ],
+  "answer": 0,
+  "explanation": "Each entry records date, soil temperature and exact location. That level of detail describes notes that are meticulous (extremely careful and precise).",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Find the clue. After the colon the text lists what each entry recorded: the date, the soil temperature and the exact location of every seedling.",
+   "Describe the clue in your own words before looking at the choices: the notes were very detailed and careful.",
+   "Test the choices. \"Meticulous\" means showing great attention to detail, which matches.",
+   "Eliminate the rest. \"Hasty\" (rushed), \"ambiguous\" (unclear) and \"sparse\" (thin, lacking detail) all contradict the detailed list.",
+   "Answer: meticulous."
+  ],
+  "key": "Words in Context: the clue after the colon defines the blank."
+ },
+ {
+  "id": "rw-cs-02",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Words in Context",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Although the town council expected the proposal to be controversial, it received ______ support, with every member voting in favor.",
+  "stem": "Which choice completes the text with the most logical and precise word or phrase?",
+  "choices": [
+   "unanimous",
+   "tentative",
+   "divided",
+   "reluctant"
+  ],
+  "answer": 0,
+  "explanation": "\"Every member voting in favor\" means all members agreed, so the support was unanimous.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Notice the contrast word \"Although\": the council expected controversy, but something else happened.",
+   "Find the decisive clue: \"with every member voting in favor.\"",
+   "Every member agreeing is the definition of \"unanimous\".",
+   "Eliminate: \"tentative\" and \"reluctant\" suggest hesitation; \"divided\" means disagreement. None fit a vote where everyone said yes.",
+   "Answer: unanimous."
+  ],
+  "key": "Words in Context: an explicit fact in the sentence fixes the meaning."
+ },
+ {
+  "id": "rw-cs-03",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Text Structure and Purpose",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Monarch butterflies are often described as fragile, and individually they are: a single storm can kill thousands. Yet each autumn, millions complete a migration of up to 4,000 kilometers, guided by a time-compensated sun compass that researchers are still working to fully explain.",
+  "stem": "Which choice best describes the overall structure of the text?",
+  "choices": [
+   "It presents a common characterization of monarch butterflies, then qualifies it by describing a remarkable capability.",
+   "It describes a scientific debate about monarch butterflies and then resolves it.",
+   "It explains a migration route and then lists the dangers along it.",
+   "It compares monarch butterflies with other migratory insects."
+  ],
+  "answer": 0,
+  "explanation": "The text opens with the view that monarchs are fragile, agrees in part (\"individually they are\"), then turns with \"Yet\" to their 4,000-kilometer migration. That is a characterization followed by a qualification.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Sentence 1 states a common view (monarchs are fragile) and partly agrees with it (\"individually they are\").",
+   "Sentence 2 begins with \"Yet\", a turn. It describes a remarkable ability: a migration of up to 4,000 km guided by a sun compass.",
+   "So the structure is: common characterization → qualification through an impressive capability.",
+   "Check the others. There is no debate being resolved (B), no list of dangers along a route (C) and no other insects (D).",
+   "Answer: it presents a common characterization, then qualifies it."
+  ],
+  "key": "Text Structure: label what each sentence does, then match the sequence."
+ },
+ {
+  "id": "rw-cs-04",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Words in Context",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "The composer's later works were initially dismissed as derivative, but critics have since come to regard their apparent simplicity as ______, the result of years of deliberate refinement rather than a lack of imagination.",
+  "stem": "Which choice completes the text with the most logical and precise word or phrase?",
+  "choices": [
+   "hard-won",
+   "accidental",
+   "superficial",
+   "borrowed"
+  ],
+  "answer": 0,
+  "explanation": "The text says the simplicity came from \"years of deliberate refinement\". Something achieved through long effort is hard-won.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "The sentence contrasts the early view (\"derivative\") with critics' later view.",
+   "The phrase after the blank explains it: \"the result of years of deliberate refinement rather than a lack of imagination.\"",
+   "So the simplicity was achieved through long, careful effort.",
+   "\"Hard-won\" means gained through great effort. \"Accidental\" contradicts \"deliberate\"; \"superficial\" and \"borrowed\" repeat the early criticism the sentence rejects.",
+   "Answer: hard-won."
+  ],
+  "key": "Words in Context: use the explanation that follows the comma."
+ },
+ {
+  "id": "rw-cs-05",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Cross-Text Connections",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Text 1\nSome economists argue that a four-day workweek raises productivity because rested employees work more efficiently. Pilot programs at several companies reported stable or higher output after the change.\n\nText 2\nPilot programs of the four-day workweek have mostly involved firms that volunteered to participate, often firms whose leaders already expected the change to succeed. Such programs may say less about the policy itself than about the companies that chose to try it.",
+  "stem": "Based on the texts, how would the author of Text 2 most likely respond to the evidence described in Text 1?",
+  "choices": [
+   "By suggesting that the pilot results may reflect which firms took part rather than the effect of the policy alone",
+   "By arguing that rested employees are not more efficient than tired ones",
+   "By claiming that output at the pilot companies actually fell",
+   "By recommending that companies keep a five-day workweek"
+  ],
+  "answer": 0,
+  "explanation": "Text 2 points out that the firms volunteered and expected success. Its concern is selection: the results may describe the companies, not the policy. It never says output fell or that rest does not help.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Text 1's evidence: pilot programs showed stable or higher output after a four-day week.",
+   "Text 2's point: the firms volunteered, and their leaders already expected success.",
+   "That is a selection problem. The good results might come from the kind of company that joined, not from the policy itself.",
+   "Eliminate: Text 2 never says rest doesn't help (B), never says output fell (C) and never recommends a five-day week (D).",
+   "Answer: the results may reflect which firms participated rather than the policy alone."
+  ],
+  "key": "Cross-Text: identify exactly what Text 2 doubts about Text 1's evidence."
+ },
+ {
+  "id": "rw-cs-06",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Words in Context",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "In her review, the critic did not condemn the novel outright; instead, her praise was so ______ that readers could hardly miss her reservations.",
+  "stem": "Which choice completes the text with the most logical and precise word or phrase?",
+  "choices": [
+   "qualified",
+   "effusive",
+   "unequivocal",
+   "spontaneous"
+  ],
+  "answer": 0,
+  "explanation": "The critic did not condemn the novel but readers could see her reservations, so the praise came with limits. Praise with reservations is qualified. \"Effusive\" and \"unequivocal\" would hide the reservations.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "The critic did not condemn the novel, so there was some praise.",
+   "But readers \"could hardly miss her reservations\", so the praise had limits.",
+   "Praise with limits or conditions is \"qualified\" praise.",
+   "\"Effusive\" (gushing) and \"unequivocal\" (without doubt) would hide reservations; \"spontaneous\" is about timing, not limits.",
+   "Answer: qualified."
+  ],
+  "key": "Words in Context: the blank must allow \"reservations\" to show through."
+ },
+ {
+  "id": "rw-ei-01",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Transitions",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Coral reefs cover less than 1 percent of the ocean floor. ______ they support roughly a quarter of all known marine species.",
+  "stem": "Which choice completes the text with the most logical transition?",
+  "choices": [
+   "Nevertheless,",
+   "Similarly,",
+   "For example,",
+   "Therefore,"
+  ],
+  "answer": 0,
+  "explanation": "A tiny area supporting a huge share of species is a contrast with what you would expect. \"Nevertheless\" signals that contrast.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Sentence 1: reefs cover less than 1% of the ocean floor (small).",
+   "Sentence 2: they support about a quarter of marine species (huge).",
+   "Small area vs. huge importance is a contrast, so you need a contrast transition.",
+   "\"Nevertheless\" signals contrast. \"Similarly\" (likeness), \"For example\" (illustration) and \"Therefore\" (result) do not.",
+   "Answer: Nevertheless,"
+  ],
+  "key": "Transitions: decide the relationship between the two sentences first."
+ },
+ {
+  "id": "rw-ei-02",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Transitions",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "The first step in the experiment was to measure each plant's height. ______ the researchers recorded the number of leaves on each plant.",
+  "stem": "Which choice completes the text with the most logical transition?",
+  "choices": [
+   "Next,",
+   "However,",
+   "In contrast,",
+   "Instead,"
+  ],
+  "answer": 0,
+  "explanation": "The text describes steps in order: first measuring height, then counting leaves. \"Next\" signals the following step.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Sentence 1 describes \"the first step\".",
+   "Sentence 2 describes another action in the same experiment.",
+   "The relationship is sequence: the step that follows.",
+   "\"Next\" signals sequence. \"However\", \"In contrast\" and \"Instead\" signal opposition, which isn't present.",
+   "Answer: Next,"
+  ],
+  "key": "Transitions: sequence words for steps in a process."
+ },
+ {
+  "id": "rw-ei-03",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Rhetorical Synthesis",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "While researching a topic, a student has taken the following notes:\n• Ada Lovelace (1815–1852) was an English mathematician.\n• She wrote detailed notes on Charles Babbage's proposed Analytical Engine.\n• Her notes included an algorithm for computing Bernoulli numbers.\n• This algorithm is often regarded as one of the first computer programs.",
+  "stem": "The student wants to emphasize the significance of Lovelace's notes. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+  "choices": [
+   "Lovelace's notes on Babbage's Analytical Engine included an algorithm for computing Bernoulli numbers, which is often regarded as one of the first computer programs.",
+   "Ada Lovelace was born in 1815 and died in 1852.",
+   "Charles Babbage proposed a calculating machine called the Analytical Engine.",
+   "Lovelace was an English mathematician who wrote notes about a machine."
+  ],
+  "answer": 0,
+  "explanation": "The goal is significance. Only A says what the notes contained and why that matters (one of the first computer programs).",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "The goal: emphasize the significance of Lovelace's notes.",
+   "Significance needs (1) what the notes contained and (2) why that matters.",
+   "Choice A: the notes contained an algorithm for Bernoulli numbers (content) and it is regarded as one of the first computer programs (significance).",
+   "B gives dates only, C is about Babbage, and D is vague. All are true but none shows significance.",
+   "Answer: A."
+  ],
+  "key": "Rhetorical Synthesis: pick the choice that achieves the stated goal, not just one that is true."
+ },
+ {
+  "id": "rw-ei-04",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Transitions",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Some desert plants survive long droughts by storing water in thick, fleshy leaves. ______ certain desert frogs store water in their bladders, drawing on it while they wait underground for rain.",
+  "stem": "Which choice completes the text with the most logical transition?",
+  "choices": [
+   "Similarly,",
+   "Instead,",
+   "However,",
+   "As a result,"
+  ],
+  "answer": 0,
+  "explanation": "Both sentences describe desert organisms storing water in their bodies. The second gives a parallel example, so \"Similarly\" fits.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Sentence 1: desert plants store water in fleshy leaves.",
+   "Sentence 2: desert frogs store water in their bladders.",
+   "Both describe desert organisms storing water. The second is a parallel example.",
+   "\"Similarly\" signals a parallel. \"Instead\" and \"However\" signal contrast; \"As a result\" signals cause, and the frogs' behavior isn't caused by the plants'.",
+   "Answer: Similarly,"
+  ],
+  "key": "Transitions: similarity vs. contrast."
+ },
+ {
+  "id": "rw-ei-05",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Rhetorical Synthesis",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "While researching a topic, a student has taken the following notes:\n• In 2016, Seattle public high schools moved their start time from 7:50 a.m. to 8:45 a.m.\n• Researchers measured students' sleep with wrist monitors before and after the change.\n• After the change, students slept a median of 34 minutes more per night.\n• Students' median biology grades rose by 4.5 percent.",
+  "stem": "The student wants to emphasize the effect of the later start time on students' sleep. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+  "choices": [
+   "After Seattle high schools moved their start time from 7:50 a.m. to 8:45 a.m., students slept a median of 34 minutes more per night.",
+   "Researchers used wrist monitors to measure the sleep of Seattle high school students.",
+   "Students' median biology grades rose by 4.5 percent after the change.",
+   "In 2016, Seattle public high schools changed their start time."
+  ],
+  "answer": 0,
+  "explanation": "The goal is the effect on sleep. A names the change and the measured sleep gain. C is about grades, not sleep.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Goal: emphasize the effect of the later start time on sleep.",
+   "Required pieces: the change (7:50 → 8:45) and the sleep result (+34 minutes median).",
+   "Choice A includes both.",
+   "B is about the method, C is about grades (not sleep) and D mentions the change but not its effect.",
+   "Answer: A."
+  ],
+  "key": "Rhetorical Synthesis: match the goal word for word. Here the goal is the effect on sleep."
+ },
+ {
+  "id": "rw-ei-06",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Transitions",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "The committee had hoped the survey would reveal a clear preference among residents. ______ the responses were split almost evenly between the two proposals.",
+  "stem": "Which choice completes the text with the most logical transition?",
+  "choices": [
+   "Instead,",
+   "Likewise,",
+   "Accordingly,",
+   "In addition,"
+  ],
+  "answer": 0,
+  "explanation": "The committee hoped for a clear preference; what happened replaced that hope with an even split. \"Instead\" introduces an outcome that takes the place of the expected one.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Sentence 1: the committee hoped for a clear preference.",
+   "Sentence 2: responses were split almost evenly, the opposite of a clear preference.",
+   "The second outcome replaces the hoped-for one.",
+   "\"Instead\" signals replacement. \"Likewise\" (similar), \"Accordingly\" (as a result) and \"In addition\" (adding) don't fit.",
+   "Answer: Instead,"
+  ],
+  "key": "Transitions: \"Instead\" introduces what happened in place of what was expected."
+ },
+ {
+  "id": "rw-ii-01",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Central Ideas and Details",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Urban beekeeping has grown rapidly in many cities. However, researchers studying several European cities found that where hive numbers rose sharply, wild bee populations declined, likely because honeybees compete with wild bees for a limited supply of flowers. The researchers suggest that planting more flowering plants may matter more for urban pollinators than adding hives.",
+  "stem": "Which choice best states the main idea of the text?",
+  "choices": [
+   "Adding honeybee hives in cities may harm wild bees, so planting more flowers could do more to support pollinators.",
+   "Urban beekeeping has made cities better habitats for every kind of pollinator.",
+   "Wild bees produce more honey than honeybees in European cities.",
+   "Several European cities have banned urban beekeeping."
+  ],
+  "answer": 0,
+  "explanation": "The text reports that wild bees declined where hives increased, and ends with the researchers' suggestion that flowers matter more than hives. Choice A combines both points.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Sentence 1: urban beekeeping is growing (background).",
+   "Sentence 2: where hives rose sharply, wild bees declined, likely due to competition for flowers (the finding).",
+   "Sentence 3: researchers suggest planting flowers may matter more than adding hives (the conclusion).",
+   "The best answer must combine the finding and the conclusion. Choice A does both.",
+   "Eliminate: B contradicts the finding; C (honey) and D (bans) are never mentioned."
+  ],
+  "key": "Central Idea: the main idea covers the whole text, usually including its conclusion."
+ },
+ {
+  "id": "rw-ii-02",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Command of Evidence (Textual)",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "A student is writing about an imagined poem titled \"Harbor Town\" and claims that the speaker portrays the sea as threatening.",
+  "stem": "Which quotation from the poem most effectively illustrates the claim?",
+  "choices": [
+   "\"The grey waves gather like a waiting army at the shore.\"",
+   "\"Gulls drift lazily above the sunlit water.\"",
+   "\"Children build castles where the tide has gone.\"",
+   "\"The harbor lights glow softly in the dusk.\""
+  ],
+  "answer": 0,
+  "explanation": "Comparing the waves to \"a waiting army\" presents the sea as a threat. The other lines describe calm or pleasant scenes.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Restate the claim: the speaker sees the sea as threatening.",
+   "Look for language that suggests danger or menace.",
+   "\"Waves gather like a waiting army\" compares the sea to an army ready to attack, which is a threat.",
+   "The other lines describe calm, pleasant or peaceful scenes (lazy gulls, sandcastles, glowing lights).",
+   "Answer: \"The grey waves gather like a waiting army at the shore.\""
+  ],
+  "key": "Command of Evidence: the quotation must show the exact quality in the claim, here \"threatening\"."
+ },
+ {
+  "id": "rw-ii-03",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Command of Evidence (Quantitative)",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "A city library runs a summer reading program. The table shows the number of participants in three recent years.",
+  "table": {
+   "caption": "Summer reading program participants",
+   "head": [
+    "Year",
+    "Participants"
+   ],
+   "rows": [
+    [
+     "2021",
+     "1,240"
+    ],
+    [
+     "2022",
+     "1,610"
+    ],
+    [
+     "2023",
+     "2,050"
+    ]
+   ]
+  },
+  "stem": "Which choice most effectively uses data from the table to support the claim that participation increased each year from 2021 to 2023?",
+  "choices": [
+   "Participation rose from 1,240 in 2021 to 1,610 in 2022 and then to 2,050 in 2023.",
+   "In 2023, 2,050 people took part in the program.",
+   "Participation in 2022 was 1,610.",
+   "Participation was 1,240 in 2021, which was lower than in 2023."
+  ],
+  "answer": 0,
+  "explanation": "The claim is about every year-to-year step. Only A gives all three values and shows both increases. D compares only 2021 and 2023, which would not rule out a dip in 2022.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "The claim says participation increased each year from 2021 to 2023. That needs two increases: 2021→2022 and 2022→2023.",
+   "From the table: 1,240 → 1,610 (up) and 1,610 → 2,050 (up).",
+   "Choice A states all three values in order, showing both increases.",
+   "B and C give a single year, which proves no trend. D compares only 2021 and 2023, which wouldn't rule out a drop in 2022.",
+   "Answer: A."
+  ],
+  "key": "Quantitative Evidence: match the data to every part of the claim."
+ },
+ {
+  "id": "rw-ii-04",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Inferences",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Archaeologists excavating a coastal site found bones from deep-water fish species that cannot be caught from shore. The site contained no remains of boats, but wooden boats are rarely preserved in the region's acidic soil. Therefore, the absence of boat remains ______",
+  "stem": "Which choice most logically completes the text?",
+  "choices": [
+   "does not necessarily indicate that the site's inhabitants lacked boats.",
+   "proves that the inhabitants traded with deep-sea fishers.",
+   "shows that the soil at the site was not acidic.",
+   "suggests that deep-water fish once lived close to shore."
+  ],
+  "answer": 0,
+  "explanation": "Boats are rarely preserved in acidic soil, so finding none is expected even if boats were used. The deep-water fish bones actually hint that they did have boats. So the absence proves nothing.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Fact 1: deep-water fish bones were found. Those fish can't be caught from shore, which hints that the people had boats.",
+   "Fact 2: no boat remains were found, but wooden boats rarely survive in this acidic soil.",
+   "So missing boats are expected even if boats existed. The absence is not evidence that there were no boats.",
+   "Eliminate: nothing mentions trade (B); the text says the soil is acidic (C); nothing suggests the fish lived near shore (D).",
+   "Answer: does not necessarily indicate that the inhabitants lacked boats."
+  ],
+  "key": "Inference: complete the logic using only what the text establishes."
+ },
+ {
+  "id": "rw-ii-05",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Command of Evidence (Textual)",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "A biologist hypothesizes that a species of desert lizard changes color mainly to regulate its body temperature rather than to hide from predators.",
+  "stem": "Which finding, if true, would most directly support the biologist's hypothesis?",
+  "choices": [
+   "The lizards darken in the cool early morning and lighten at midday, whether or not predators are nearby.",
+   "The lizards are darker than most other desert lizard species.",
+   "The lizards' main predators have poor color vision.",
+   "The lizards change color more often during the mating season."
+  ],
+  "answer": 0,
+  "explanation": "If color tracks temperature (dark when cool to absorb heat, light when hot) and ignores predators, that directly supports temperature regulation over camouflage. C only weakens camouflage indirectly and says nothing about temperature.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Hypothesis: color change is mainly for temperature, not for hiding from predators.",
+   "Strong support would show color changing with temperature AND not with predators.",
+   "Choice A: dark in the cool morning (absorbs heat), light at hot midday (reflects heat), and this happens whether or not predators are present. That tests both parts.",
+   "C only weakens the predator idea indirectly and says nothing about temperature. B and D are unrelated to the specific claim.",
+   "Answer: A."
+  ],
+  "key": "Supporting a hypothesis: the best evidence links the cause in the hypothesis directly to the effect and rules out the alternative."
+ },
+ {
+  "id": "rw-ii-06",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Inferences",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "In a study of 300 hospital patients recovering from the same type of surgery, those whose rooms had a window view of trees had shorter average stays than those whose rooms faced a brick wall. Patients were assigned rooms based on availability, not on their condition. The researchers conclude that the view may have contributed to faster recovery. The fact that rooms were assigned based on availability is important because it ______",
+  "stem": "Which choice most logically completes the text?",
+  "choices": [
+   "makes it less likely that patients with less serious conditions were systematically placed in rooms with tree views.",
+   "proves that views of trees cause faster recovery in every patient.",
+   "shows that all of the patients had the same medical condition.",
+   "means that patients were able to choose their own rooms."
+  ],
+  "answer": 0,
+  "explanation": "If rooms had been assigned by condition, healthier patients might have ended up with the view and gone home sooner for that reason. Assignment by availability reduces that alternative explanation. It does not prove causation.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Finding: tree-view patients had shorter stays.",
+   "Possible alternative: if healthier patients had been given tree-view rooms, they would leave sooner anyway, and the view would not be the cause.",
+   "Assigning rooms by availability (not by condition) makes that alternative less likely.",
+   "It does not prove causation (B), does not mean conditions were identical in every way (C) and is the opposite of patients choosing rooms (D).",
+   "Answer: A."
+  ],
+  "key": "Inference about study design: ask what alternative explanation the detail rules out."
+ },
+ {
+  "id": "rw-se-01",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Form, Structure, and Sense",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "The students in the robotics club ______ their prototype at the regional science fair last spring.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "presented",
+   "presents",
+   "will present",
+   "is presenting"
+  ],
+  "answer": 0,
+  "explanation": "\"Last spring\" places the action in the past, so the past tense \"presented\" is needed.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Find the time marker: \"last spring\".",
+   "\"Last spring\" is in the past, so the verb must be past tense.",
+   "\"Presented\" is simple past.",
+   "\"Presents\" (present), \"will present\" (future) and \"is presenting\" (present progressive) clash with \"last spring\".",
+   "Answer: presented."
+  ],
+  "key": "Verb tense: let time markers decide."
+ },
+ {
+  "id": "rw-se-02",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Form, Structure, and Sense",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "The collection of rare maps, which includes several hand-drawn charts from the 1600s, ______ on display at the city library this month.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "is",
+   "are",
+   "were",
+   "have been"
+  ],
+  "answer": 0,
+  "explanation": "The subject is \"collection\" (singular), not \"maps\" or \"charts\". \"This month\" calls for present tense. So: \"is\".",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Remove the prepositional phrase \"of rare maps\" and the clause \"which includes … 1600s\".",
+   "What's left: \"The collection ______ on display\".",
+   "\"Collection\" is singular, so it needs a singular verb.",
+   "\"This month\" calls for present tense. \"Is\" is singular and present.",
+   "Eliminate: \"are\" and \"were\" are plural; \"have been\" is plural and the wrong tense."
+  ],
+  "key": "Subject–verb agreement: strip away phrases and clauses to find the true subject."
+ },
+ {
+  "id": "rw-se-03",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Boundaries",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "The expedition faced severe ______ the team reached the summit two days ahead of schedule.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "weather; nevertheless,",
+   "weather, nevertheless,",
+   "weather nevertheless,",
+   "weather, nevertheless;"
+  ],
+  "answer": 0,
+  "explanation": "Both parts are independent clauses joined by the adverb \"nevertheless\". A comma alone creates a comma splice, so a semicolon goes before \"nevertheless\" and a comma after it.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Check each side. \"The expedition faced severe weather\" is a complete sentence. \"The team reached the summit…\" is also a complete sentence.",
+   "\"Nevertheless\" is a conjunctive adverb, not a conjunction like \"but\". It cannot join two sentences with just a comma.",
+   "Correct pattern: clause; nevertheless, clause.",
+   "B creates a comma splice, C is a run-on, and D puts the semicolon in the wrong place.",
+   "Answer: weather; nevertheless,"
+  ],
+  "key": "Boundaries: two independent clauses joined by a conjunctive adverb need a semicolon (or period) before it."
+ },
+ {
+  "id": "rw-se-04",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Form, Structure, and Sense",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Each of the orchestras that toured Europe last summer released ______ own recording of the program.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "its",
+   "their",
+   "they're",
+   "it's"
+  ],
+  "answer": 0,
+  "explanation": "The antecedent is \"Each\", which is singular, so the singular possessive \"its\" is correct. \"It's\" means \"it is\".",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Find the antecedent: the subject is \"Each\" (each of the orchestras).",
+   "\"Each\" is always singular, even when followed by \"of the + plural noun\".",
+   "So the possessive pronoun must be singular: \"its\".",
+   "\"Their\" is plural, \"they're\" means \"they are\" and \"it's\" means \"it is\".",
+   "Answer: its."
+  ],
+  "key": "Pronoun–antecedent agreement: \"each\" is singular."
+ },
+ {
+  "id": "rw-se-05",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Form, Structure, and Sense",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Having studied the migration data for years, ______",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "the biologist identified a previously unknown stopover site.",
+   "a previously unknown stopover site was identified by the biologist.",
+   "the data revealed a previously unknown stopover site.",
+   "a previously unknown stopover site became clear to the biologist."
+  ],
+  "answer": 0,
+  "explanation": "The opening phrase \"Having studied the migration data for years\" must describe the noun right after the comma. Only the biologist studied the data, so the sentence must continue with \"the biologist\".",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Ask who did the action in \"Having studied the migration data for years\".",
+   "Only a person can study data, so here it is the biologist.",
+   "The noun right after the comma must be \"the biologist\".",
+   "B and D put \"a stopover site\" first (a site can't study), and C puts \"the data\" first (data can't study itself).",
+   "Answer: the biologist identified a previously unknown stopover site."
+  ],
+  "key": "Dangling modifiers: an introductory phrase describes the noun right after the comma."
+ },
+ {
+  "id": "rw-se-06",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Boundaries",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "The novelist's two most celebrated works—one set in colonial Lagos, the other in present-day ______ explore questions of belonging and memory.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "London—",
+   "London,",
+   "London;",
+   "London"
+  ],
+  "answer": 0,
+  "explanation": "The phrase \"one set in colonial Lagos, the other in present-day London\" is opened with a dash, so it must be closed with a dash before the sentence continues.",
+  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "steps": [
+   "Find where the interruption starts: \"works—one set in colonial Lagos…\" opens with a dash.",
+   "The interruption ends after \"present-day London\".",
+   "To close it, use the same mark: a second dash.",
+   "Check by removing the interruption: \"The novelist's two most celebrated works explore questions of belonging…\" is a complete, correct sentence.",
+   "Answer: London—"
+  ],
+  "key": "Boundaries: paired punctuation must match. A dash opened must be closed with a dash."
+ }
+]
