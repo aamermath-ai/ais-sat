@@ -582,8 +582,8 @@ details.more[open] summary{margin-bottom:14px}
         <h2 class="sect-h">Start practicing</h2>
         <div class="quick">
           <button class="qs" data-quick="full"><span class="glyph g-full"><svg><use href="#i-layers"/></svg></span><span class="txt"><strong>Whole syllabus</strong><span>Both sections, mixed like test day</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
-          <button class="qs" data-quick="rw"><span class="glyph g-rw"><svg><use href="#i-book"/></svg></span><span class="txt"><strong>Reading &amp; Writing</strong><span>Four domains, passage-based</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
           <button class="qs" data-quick="math"><span class="glyph g-math"><svg><use href="#i-sigma"/></svg></span><span class="txt"><strong>Math</strong><span>Four domains, with type-in answers</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
+          <button class="qs" data-quick="rw"><span class="glyph g-rw"><svg><use href="#i-book"/></svg></span><span class="txt"><strong>Reading &amp; Writing</strong><span>Four domains, passage-based</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
           <button class="qs" id="q-mis"><span class="glyph g-mis"><svg><use href="#i-redo"/></svg></span><span class="txt"><strong>Retry mistakes</strong><span id="mis-sub">Questions you got wrong</span></span><span class="go" id="mis-go">Nothing to retry yet</span></button>
         </div>
       </div>
@@ -599,8 +599,8 @@ details.more[open] summary{margin-bottom:14px}
             <span class="group-l">Subject</span>
             <div class="list seg-pad"><div class="segmented" id="mode">
               <button data-v="full" aria-pressed="true">Whole syllabus</button>
-              <button data-v="rw" aria-pressed="false">Reading &amp; Writing</button>
               <button data-v="math" aria-pressed="false">Math</button>
+              <button data-v="rw" aria-pressed="false">Reading &amp; Writing</button>
             </div></div>
           </div>
           <div class="group" id="dom-group" hidden>
@@ -657,8 +657,8 @@ details.more[open] summary{margin-bottom:14px}
     <section class="page fade" id="v-progress" hidden>
       <div class="ptitle"><h1>Progress</h1><p>Accuracy in each of the eight Digital SAT content domains. Each ring fills toward 100% correct.</p></div>
       <div class="mastery">
-        <div class="card"><div class="card-h"><h2>Reading &amp; Writing</h2><span class="aside" id="m-rw-n"></span></div><div class="mcard" id="m-rw"></div></div>
         <div class="card"><div class="card-h"><h2>Math</h2><span class="aside" id="m-math-n"></span></div><div class="mcard" id="m-math"></div></div>
+        <div class="card"><div class="card-h"><h2>Reading &amp; Writing</h2><span class="aside" id="m-rw-n"></span></div><div class="mcard" id="m-rw"></div></div>
       </div>
       <div class="group">
         <h2 class="sect-h">Recent sets</h2>
@@ -767,6 +767,7 @@ details.more[open] summary{margin-bottom:14px}
 <script>
 (function(){
 "use strict";
+const SEC_ORDER=["math","rw"];
 const DOMAINS={
   rw:["Information and Ideas","Craft and Structure","Expression of Ideas","Standard English Conventions"],
   math:["Algebra","Advanced Math","Problem-Solving and Data Analysis","Geometry and Trigonometry"]};
@@ -985,7 +986,7 @@ function renderToday(){
   if(ready("rw")&&ready("math")){
     const t=scaled(p.theta.rw)+scaled(p.theta.math), pct=Math.max(0,Math.min(1,(t-400)/(pf.target-400)));
     $("score-l").innerHTML='<div class="big" style="background:linear-gradient(90deg,#7D7AFF,#0A84FF);-webkit-background-clip:text;background-clip:text;color:transparent">'+t+'<small style="color:var(--muted)">/1600</small></div>'+
-      '<div class="sub">R&amp;W '+scaled(p.theta.rw)+' · Math '+scaled(p.theta.math)+'</div><div class="tbar"><i style="width:'+(pct*100).toFixed(0)+'%"></i></div>'+
+      '<div class="sub">Math '+scaled(p.theta.math)+' · R&amp;W '+scaled(p.theta.rw)+'</div><div class="tbar"><i style="width:'+(pct*100).toFixed(0)+'%"></i></div>'+
       '<div class="muted-note" style="margin-top:6px">'+(t>=pf.target?'Target of '+pf.target+' reached':'Target '+pf.target+' · '+(pf.target-t)+' to go')+'</div>';
     const pts=(p.scoreHist||[]).filter(x=>x.rw&&x.math).map(x=>x.rw+x.math);
     $("score-r").innerHTML=pts.length>=2?sparkline(pts.slice(-20),"#5E7BFF")+'<div class="muted-note">Last '+Math.min(20,pts.length)+' sets</div>':'<div class="muted-note">Your trend line appears after two more sets.</div>';
@@ -1066,7 +1067,7 @@ function bankMsg(){return {loading:"Loading the question bank…",slow:"The ques
   unavailable:"The question bank could not be loaded.",empty:"The question bank is empty.",error:"The question bank could not be loaded. Reload to try again."}[bankState]||"";}
 function renderProgress(){
   const p=progress;
-  ["rw","math"].forEach(s=>{
+  SEC_ORDER.forEach(s=>{
     const list=DOMAINS[s].map(d=>{const r=p.domains[d]||{c:0,t:0};return {d,color:DCOLOR[d],r,pct:r.t?r.c/r.t:0};});
     $("m-"+s).innerHTML=rings(list)+'<div class="legend">'+list.map(x=>'<div class="li"><span class="swatch" style="background:'+x.color+'"></span><span>'+esc(x.d)+'<small>'+(x.r.t?x.r.c+" of "+x.r.t+" correct":"Not practiced yet")+'</small></span><b>'+(x.r.t?Math.round(x.pct*100)+"%":"—")+'</b></div>').join("")+'</div>';
     $("m-"+s+"-n").textContent=p.answered[s]+" answered";
@@ -1079,7 +1080,7 @@ function renderProgress(){
 function renderBank(){
   if(bankState!=="ready"){$("bank-cards").innerHTML='<div class="card empty" style="grid-column:1/-1">'+esc(bankMsg())+'</div>';return;}
   $("bank-sub").textContent=bank.length+" questions, each tagged by section, domain, skill and difficulty, and each with a step-by-step solution.";
-  $("bank-cards").innerHTML=["rw","math"].map(s=>{
+  $("bank-cards").innerHTML=SEC_ORDER.map(s=>{
     const n=bank.filter(q=>q.section===s).length;
     return '<div class="card"><div class="card-h"><h2>'+SEC_NAME[s]+'</h2><span class="aside num">'+n+' questions · '+DOMAINS[s].reduce((a,d)=>a+SKILLS[d].length,0)+' skills</span></div><div class="skills">'+
       DOMAINS[s].map(d=>'<div class="dh"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(d)+'</div>'+SKILLS[d].map(k=>{
@@ -1099,7 +1100,7 @@ function startSession(mode,domain,len,extra){
     skill:extra.skill||null,level:extra.level||"adaptive",unsolved:!!extra.unsolved,only:extra.only?new Set(extra.only):null};
   $("sheet").hidden=false; document.body.style.overflow="hidden"; play("open"); nextQuestion();
 }
-function chooseSection(){if(S.mode!=="full"&&S.mode!=="mistakes")return S.mode;return S.nSec.rw*44<=S.nSec.math*54?"rw":"math";}
+function chooseSection(){if(S.mode!=="full"&&S.mode!=="mistakes")return S.mode;return S.nSec.math*54<=S.nSec.rw*44?"math":"rw";}
 function pickQuestion(){
   const seen=new Set(progress.seen);
   const secs=[chooseSection()]; if(S.mode==="full"||S.mode==="mistakes")secs.push(secs[0]==="rw"?"math":"rw");
@@ -1247,7 +1248,7 @@ function finish(msg){
   $("sheet").hidden=true;
   if(!S||!S.items.length){S=null;document.body.style.overflow="";return;}
   const n=S.items.length,c=S.items.filter(i=>i.correct).length;
-  const secs=[...new Set(S.items.map(i=>i.section))];
+  const secs=SEC_ORDER.filter(x=>S.items.some(i=>i.section===x));
   const est=secs.map(s=>(s==="rw"?"R&W ":"Math ")+scaled(S.theta[s])).join(" · ");
   const label=S.mode==="mistakes"?"Retry mistakes":(S.mode==="full"?"Whole syllabus":SEC_NAME[S.mode]+(S.skill?" · "+S.skill:S.domain?" · "+S.domain:""))+(S.level!=="adaptive"?" ("+LEVEL[S.level].name+")":"");
   const hard=S.items.filter(i=>i.level===3).length;
