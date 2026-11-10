@@ -1,4 +1,4 @@
-# Emir
+# SAT AIS
 
 Free adaptive Digital SAT practice for AIS students.
 Mathematics Department, American International School.

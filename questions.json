@@ -15,7 +15,7 @@
   ],
   "answer": 0,
   "explanation": "Subtract 7 from both sides: 3x = 15. Divide by 3: x = 5.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Start: 3x + 7 = 22",
    "Subtract 7 from both sides: 3x = 15",
@@ -40,7 +40,7 @@
   ],
   "answer": 0,
   "explanation": "The $25 fee is paid once and $15 is paid each month, so the cost is 25 + 15m.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Identify the one-time cost (constant): $25.",
    "Identify the rate: $15 for each month, so 15m for m months.",
@@ -60,7 +60,7 @@
   "stem": "2x + y = 11\nx − y = 1\nIf (x, y) is the solution to the system of equations above, what is the value of x?",
   "answer": "4",
   "explanation": "Add the equations to eliminate y: 3x = 12, so x = 4. (Then y = 3; check: 8 + 3 = 11.)",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Write the system: 2x + y = 11 and x − y = 1.",
    "The y-terms are +y and −y, so add the equations: (2x + x) + (y − y) = 11 + 1.",
@@ -86,7 +86,7 @@
   ],
   "answer": 0,
   "explanation": "Slope = (13 − 5) / (6 − 2) = 8 / 4 = 2.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Points: (2, 5) and (6, 13).",
    "Change in y: 13 − 5 = 8.",
@@ -106,7 +106,7 @@
   "stem": "3x − 2y = 7\nkx − 4y = 10\nIn the system of equations above, k is a constant. For what value of k does the system have no solution?",
   "answer": "6",
   "explanation": "No solution means parallel lines: the x- and y-coefficients are in the same ratio but the constants are not. −4 / −2 = 2, so k = 3 · 2 = 6. The constants give 10 / 7 ≠ 2, so the lines are distinct.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Write both: 3x − 2y = 7 and kx − 4y = 10.",
    "Compare y-coefficients: −4 ÷ −2 = 2. The second equation's coefficients must be 2 times the first's.",
@@ -126,7 +126,7 @@
   "stem": "Line ℓ is perpendicular to the line 2x + 3y = 6 and passes through the point (4, 1). If the equation of line ℓ is y = ax + b, what is the value of b?",
   "answer": "-5",
   "explanation": "The given line has slope −2/3, so ℓ has slope 3/2. Substitute (4, 1): 1 = (3/2)(4) + b = 6 + b, so b = −5.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Rewrite 2x + 3y = 6 in slope form: 3y = −2x + 6, so y = −(2/3)x + 2. Slope = −2/3.",
    "Perpendicular slope = negative reciprocal = 3/2.",
@@ -152,7 +152,7 @@
   ],
   "answer": 0,
   "explanation": "f(4) = 16 − 12 + 2 = 6.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "f(4) = (4)² − 3(4) + 2",
    "Square first: 16 − 3(4) + 2",
@@ -178,7 +178,7 @@
   ],
   "answer": 0,
   "explanation": "(x + 3)(x + 3) = x² + 3x + 3x + 9 = x² + 6x + 9.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Write it as a product: (x + 3)(x + 3).",
    "Multiply out (FOIL): x·x + x·3 + 3·x + 3·3.",
@@ -197,7 +197,7 @@
   "stem": "x² − 5x − 14 = 0\nWhat is the positive solution to the equation above?",
   "answer": "7",
   "explanation": "Factor: (x − 7)(x + 2) = 0, so x = 7 or x = −2. The positive solution is 7.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Equation: x² − 5x − 14 = 0.",
    "Find two numbers with product −14 and sum −5: −7 and +2.",
@@ -223,7 +223,7 @@
   ],
   "answer": 0,
   "explanation": "Doubling means base 2. The number of doublings after t hours is t/3, so P(t) = 500 · 2^(t/3). Check: P(3) = 1,000.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Initial amount: 500.",
    "\"Doubles\" means the growth factor is 2.",
@@ -243,7 +243,7 @@
   "stem": "In the xy-plane, the graph of y = x² − 6x + c, where c is a constant, intersects the x-axis at exactly one point. What is the value of c?",
   "answer": "9",
   "explanation": "One x-intercept means the discriminant is 0: (−6)² − 4(1)(c) = 0, so 36 = 4c and c = 9.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Identify a = 1, b = −6, c = c.",
    "Set the discriminant to zero: (−6)² − 4(1)(c) = 0.",
@@ -269,7 +269,7 @@
   ],
   "answer": 0,
   "explanation": "Factor: x² − 9 = (x − 3)(x + 3) and x² + x − 6 = (x + 3)(x − 2). Cancel (x + 3) to get (x − 3) / (x − 2).",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Factor the numerator (difference of squares): x² − 9 = (x − 3)(x + 3).",
    "Factor the denominator: x² + x − 6. Find numbers with product −6 and sum 1: 3 and −2, giving (x + 3)(x − 2).",
@@ -295,7 +295,7 @@
   ],
   "answer": 0,
   "explanation": "The diagonal is the hypotenuse of a right triangle with legs 12 and 5: √(144 + 25) = √169 = 13.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Legs: 12 and 5.",
    "c² = 12² + 5² = 144 + 25 = 169.",
@@ -315,7 +315,7 @@
   "stem": "Two angles of a triangle measure 48° and 67°. What is the measure, in degrees, of the third angle?",
   "answer": "65",
   "explanation": "The angles of a triangle add to 180°: 180 − 48 − 67 = 65.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Add the known angles: 48° + 67° = 115°.",
    "Subtract from 180°: 180° − 115° = 65°.",
@@ -339,7 +339,7 @@
   ],
   "answer": 0,
   "explanation": "The form (x − h)² + (y − k)² = r² has center (h, k) and radius r. Here h = 3, k = −2, and r² = 49 so r = 7.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Match x: (x − 3) means h = 3.",
    "Match y: (y + 2) = (y − (−2)), so k = −2.",
@@ -365,7 +365,7 @@
   ],
   "answer": 0,
   "explanation": "sin A = opposite/hypotenuse = 5/13. The adjacent side is √(13² − 5²) = 12, so cos A = 12/13.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "sin A = opposite/hypotenuse = 5/13, so opposite = 5 and hypotenuse = 13.",
    "Find the adjacent side: √(13² − 5²) = √(169 − 25) = √144 = 12.",
@@ -390,7 +390,7 @@
   ],
   "answer": 0,
   "explanation": "Arc length = (120/360) × 2π(9) = (1/3)(18π) = 6π.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Circumference = 2πr = 2π(9) = 18π.",
    "Fraction of the circle: 120° ÷ 360° = 1/3.",
@@ -409,7 +409,7 @@
   "stem": "Cylinder A has a radius of 3 and a height of 10. Cylinder B has a radius of 6 and a height of 5. The volume of cylinder B is how many times the volume of cylinder A?",
   "answer": "2",
   "explanation": "V = πr²h. A: π(9)(10) = 90π. B: π(36)(5) = 180π. 180π / 90π = 2.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Cylinder A: π(3²)(10) = π(9)(10) = 90π.",
    "Cylinder B: π(6²)(5) = π(36)(5) = 180π.",
@@ -434,7 +434,7 @@
   ],
   "answer": 0,
   "explanation": "3 cups per 24 cookies is 1/8 cup per cookie. 40 × 1/8 = 5 cups.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Write the proportion: 3 cups / 24 cookies = x cups / 40 cookies.",
    "Cross-multiply: 24x = 3 × 40 = 120.",
@@ -459,7 +459,7 @@
   ],
   "answer": 0,
   "explanation": "25% of $80 is $20. $80 − $20 = $60.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Convert the discount: 25% = 0.25.",
    "Multiply: 80 × (1 − 0.25) = 80 × 0.75.",
@@ -484,7 +484,7 @@
   ],
   "answer": 0,
   "explanation": "The sum grows by 10, so the mean rises from 8 to 10. The middle value is still 7, so the median does not change.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Original data: 4, 7, 7, 9, 13. Sum = 40, mean = 40 ÷ 5 = 8. Median (3rd value) = 7.",
    "New data: 4, 7, 7, 9, 23. Sum = 50, mean = 50 ÷ 5 = 10.",
@@ -504,7 +504,7 @@
   "stem": "A school has 1,500 students. In a random sample of 200 of these students, 46 said they bike to school. Based on the sample, what is the best estimate of the number of students at the school who bike to school?",
   "answer": "345",
   "explanation": "46 / 200 = 0.23 of the sample. 0.23 × 1,500 = 345.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Sample proportion: 46 ÷ 200 = 0.23.",
    "Apply it to the population: 0.23 × 1,500.",
@@ -552,7 +552,7 @@
   "stem": "The table shows how many students in two grades play a musical instrument. If a student who plays an instrument is selected at random, what is the probability that the student is in grade 12? (Enter a fraction or a decimal.)",
   "answer": "6/13",
   "explanation": "There are 42 + 36 = 78 students who play an instrument. Of them, 36 are in grade 12. 36 / 78 = 6/13 ≈ 0.4615.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "The condition is \"a student who plays an instrument\", so the denominator is the instrument total: 42 + 36 = 78.",
    "Favorable outcomes: instrument players in grade 12 = 36.",
@@ -578,7 +578,7 @@
   ],
   "answer": 0,
   "explanation": "Multiply: 1.20 × 0.80 = 0.96. The final price is 96% of the original, which is 4% less.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "A 20% increase means × 1.20.",
    "A 20% decrease means × 0.80.",
@@ -605,7 +605,7 @@
   ],
   "answer": 0,
   "explanation": "Each entry records date, soil temperature and exact location. That level of detail describes notes that are meticulous (extremely careful and precise).",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Find the clue. After the colon the text lists what each entry recorded: the date, the soil temperature and the exact location of every seedling.",
    "Describe the clue in your own words before looking at the choices: the notes were very detailed and careful.",
@@ -632,7 +632,7 @@
   ],
   "answer": 0,
   "explanation": "\"Every member voting in favor\" means all members agreed, so the support was unanimous.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Notice the contrast word \"Although\": the council expected controversy, but something else happened.",
    "Find the decisive clue: \"with every member voting in favor.\"",
@@ -659,7 +659,7 @@
   ],
   "answer": 0,
   "explanation": "The text opens with the view that monarchs are fragile, agrees in part (\"individually they are\"), then turns with \"Yet\" to their 4,000-kilometer migration. That is a characterization followed by a qualification.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Sentence 1 states a common view (monarchs are fragile) and partly agrees with it (\"individually they are\").",
    "Sentence 2 begins with \"Yet\", a turn. It describes a remarkable ability: a migration of up to 4,000 km guided by a sun compass.",
@@ -686,7 +686,7 @@
   ],
   "answer": 0,
   "explanation": "The text says the simplicity came from \"years of deliberate refinement\". Something achieved through long effort is hard-won.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "The sentence contrasts the early view (\"derivative\") with critics' later view.",
    "The phrase after the blank explains it: \"the result of years of deliberate refinement rather than a lack of imagination.\"",
@@ -713,7 +713,7 @@
   ],
   "answer": 0,
   "explanation": "Text 2 points out that the firms volunteered and expected success. Its concern is selection: the results may describe the companies, not the policy. It never says output fell or that rest does not help.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Text 1's evidence: pilot programs showed stable or higher output after a four-day week.",
    "Text 2's point: the firms volunteered, and their leaders already expected success.",
@@ -740,7 +740,7 @@
   ],
   "answer": 0,
   "explanation": "The critic did not condemn the novel but readers could see her reservations, so the praise came with limits. Praise with reservations is qualified. \"Effusive\" and \"unequivocal\" would hide the reservations.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "The critic did not condemn the novel, so there was some praise.",
    "But readers \"could hardly miss her reservations\", so the praise had limits.",
@@ -767,7 +767,7 @@
   ],
   "answer": 0,
   "explanation": "A tiny area supporting a huge share of species is a contrast with what you would expect. \"Nevertheless\" signals that contrast.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Sentence 1: reefs cover less than 1% of the ocean floor (small).",
    "Sentence 2: they support about a quarter of marine species (huge).",
@@ -794,7 +794,7 @@
   ],
   "answer": 0,
   "explanation": "The text describes steps in order: first measuring height, then counting leaves. \"Next\" signals the following step.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Sentence 1 describes \"the first step\".",
    "Sentence 2 describes another action in the same experiment.",
@@ -821,7 +821,7 @@
   ],
   "answer": 0,
   "explanation": "The goal is significance. Only A says what the notes contained and why that matters (one of the first computer programs).",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "The goal: emphasize the significance of Lovelace's notes.",
    "Significance needs (1) what the notes contained and (2) why that matters.",
@@ -848,7 +848,7 @@
   ],
   "answer": 0,
   "explanation": "Both sentences describe desert organisms storing water in their bodies. The second gives a parallel example, so \"Similarly\" fits.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Sentence 1: desert plants store water in fleshy leaves.",
    "Sentence 2: desert frogs store water in their bladders.",
@@ -875,7 +875,7 @@
   ],
   "answer": 0,
   "explanation": "The goal is the effect on sleep. A names the change and the measured sleep gain. C is about grades, not sleep.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Goal: emphasize the effect of the later start time on sleep.",
    "Required pieces: the change (7:50 → 8:45) and the sleep result (+34 minutes median).",
@@ -902,7 +902,7 @@
   ],
   "answer": 0,
   "explanation": "The committee hoped for a clear preference; what happened replaced that hope with an even split. \"Instead\" introduces an outcome that takes the place of the expected one.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Sentence 1: the committee hoped for a clear preference.",
    "Sentence 2: responses were split almost evenly, the opposite of a clear preference.",
@@ -929,7 +929,7 @@
   ],
   "answer": 0,
   "explanation": "The text reports that wild bees declined where hives increased, and ends with the researchers' suggestion that flowers matter more than hives. Choice A combines both points.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Sentence 1: urban beekeeping is growing (background).",
    "Sentence 2: where hives rose sharply, wild bees declined, likely due to competition for flowers (the finding).",
@@ -956,7 +956,7 @@
   ],
   "answer": 0,
   "explanation": "Comparing the waves to \"a waiting army\" presents the sea as a threat. The other lines describe calm or pleasant scenes.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Restate the claim: the speaker sees the sea as threatening.",
    "Look for language that suggests danger or menace.",
@@ -1004,7 +1004,7 @@
   ],
   "answer": 0,
   "explanation": "The claim is about every year-to-year step. Only A gives all three values and shows both increases. D compares only 2021 and 2023, which would not rule out a dip in 2022.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "The claim says participation increased each year from 2021 to 2023. That needs two increases: 2021→2022 and 2022→2023.",
    "From the table: 1,240 → 1,610 (up) and 1,610 → 2,050 (up).",
@@ -1031,7 +1031,7 @@
   ],
   "answer": 0,
   "explanation": "Boats are rarely preserved in acidic soil, so finding none is expected even if boats were used. The deep-water fish bones actually hint that they did have boats. So the absence proves nothing.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Fact 1: deep-water fish bones were found. Those fish can't be caught from shore, which hints that the people had boats.",
    "Fact 2: no boat remains were found, but wooden boats rarely survive in this acidic soil.",
@@ -1058,7 +1058,7 @@
   ],
   "answer": 0,
   "explanation": "If color tracks temperature (dark when cool to absorb heat, light when hot) and ignores predators, that directly supports temperature regulation over camouflage. C only weakens camouflage indirectly and says nothing about temperature.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Hypothesis: color change is mainly for temperature, not for hiding from predators.",
    "Strong support would show color changing with temperature AND not with predators.",
@@ -1085,7 +1085,7 @@
   ],
   "answer": 0,
   "explanation": "If rooms had been assigned by condition, healthier patients might have ended up with the view and gone home sooner for that reason. Assignment by availability reduces that alternative explanation. It does not prove causation.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Finding: tree-view patients had shorter stays.",
    "Possible alternative: if healthier patients had been given tree-view rooms, they would leave sooner anyway, and the view would not be the cause.",
@@ -1112,7 +1112,7 @@
   ],
   "answer": 0,
   "explanation": "\"Last spring\" places the action in the past, so the past tense \"presented\" is needed.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Find the time marker: \"last spring\".",
    "\"Last spring\" is in the past, so the verb must be past tense.",
@@ -1139,7 +1139,7 @@
   ],
   "answer": 0,
   "explanation": "The subject is \"collection\" (singular), not \"maps\" or \"charts\". \"This month\" calls for present tense. So: \"is\".",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Remove the prepositional phrase \"of rare maps\" and the clause \"which includes … 1600s\".",
    "What's left: \"The collection ______ on display\".",
@@ -1166,7 +1166,7 @@
   ],
   "answer": 0,
   "explanation": "Both parts are independent clauses joined by the adverb \"nevertheless\". A comma alone creates a comma splice, so a semicolon goes before \"nevertheless\" and a comma after it.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Check each side. \"The expedition faced severe weather\" is a complete sentence. \"The team reached the summit…\" is also a complete sentence.",
    "\"Nevertheless\" is a conjunctive adverb, not a conjunction like \"but\". It cannot join two sentences with just a comma.",
@@ -1193,7 +1193,7 @@
   ],
   "answer": 0,
   "explanation": "The antecedent is \"Each\", which is singular, so the singular possessive \"its\" is correct. \"It's\" means \"it is\".",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Find the antecedent: the subject is \"Each\" (each of the orchestras).",
    "\"Each\" is always singular, even when followed by \"of the + plural noun\".",
@@ -1220,7 +1220,7 @@
   ],
   "answer": 0,
   "explanation": "The opening phrase \"Having studied the migration data for years\" must describe the noun right after the comma. Only the biologist studied the data, so the sentence must continue with \"the biologist\".",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Ask who did the action in \"Having studied the migration data for years\".",
    "Only a person can study data, so here it is the biologist.",
@@ -1247,7 +1247,7 @@
   ],
   "answer": 0,
   "explanation": "The phrase \"one set in colonial Lagos, the other in present-day London\" is opened with a dash, so it must be closed with a dash before the sentence continues.",
-  "source": "Emir original item, written to the College Board Digital SAT content specifications",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications",
   "steps": [
    "Find where the interruption starts: \"works—one set in colonial Lagos…\" opens with a dash.",
    "The interruption ends after \"present-day London\".",
