@@ -731,9 +731,9 @@ details.more[open] summary{margin-bottom:14px}
       <div class="group">
         <h2 class="sect-h">Start practicing</h2>
         <div class="quick">
-          <button class="qs" data-quick="full"><span class="glyph g-full"><svg><use href="#i-layers"/></svg></span><span class="txt"><strong>Whole syllabus</strong><span>Both sections, mixed like test day</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
-          <button class="qs" data-quick="math"><span class="glyph g-math"><svg><use href="#i-sigma"/></svg></span><span class="txt"><strong>Math</strong><span>Four domains, with type-in answers</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
-          <button class="qs" data-quick="rw"><span class="glyph g-rw"><svg><use href="#i-book"/></svg></span><span class="txt"><strong>Reading &amp; Writing</strong><span>Four domains, passage-based</span></span><span class="go">10 questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
+          <button class="qs" data-quick="full"><span class="glyph g-full"><svg><use href="#i-layers"/></svg></span><span class="txt"><strong>Whole syllabus</strong><span>Both sections, mixed like test day</span></span><span class="go">10 hard questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
+          <button class="qs" data-quick="math"><span class="glyph g-math"><svg><use href="#i-sigma"/></svg></span><span class="txt"><strong>Math</strong><span>Four domains, with type-in answers</span></span><span class="go">10 hard questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
+          <button class="qs" data-quick="rw"><span class="glyph g-rw"><svg><use href="#i-book"/></svg></span><span class="txt"><strong>Reading &amp; Writing</strong><span>Four domains, passage-based</span></span><span class="go">10 hard questions <svg width="14" height="14"><use href="#i-chev"/></svg></span></button>
           <button class="qs" id="q-mis"><span class="glyph g-mis"><svg><use href="#i-redo"/></svg></span><span class="txt"><strong>Retry mistakes</strong><span id="mis-sub">Questions you got wrong</span></span><span class="go" id="mis-go">Nothing to retry yet</span></button>
         </div>
       </div>
@@ -742,7 +742,7 @@ details.more[open] summary{margin-bottom:14px}
 
     <!-- PRACTICE -->
     <section class="page fade" id="v-practice" hidden>
-      <div class="ptitle"><h1>Practice</h1><p>Choose a subject or the whole syllabus. Questions adapt to you as you answer: get one right and the next gets harder.</p></div>
+      <div class="ptitle"><h1>Practice</h1><p>Every question is at SAT Hard level, and each set opens with the toughest ones first. Choose a subject, a domain or a single skill.</p></div>
       <div class="setup">
         <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
           <div class="group">
@@ -764,13 +764,13 @@ details.more[open] summary{margin-bottom:14px}
           </div>
           <div class="group">
             <span class="group-l">Difficulty</span>
-            <div class="list seg-pad"><div class="segmented" id="lvl">
+            <div class="list seg-pad" hidden><div class="segmented" id="lvl">
               <button data-v="adaptive" aria-pressed="true">Adaptive</button>
               <button data-v="1" aria-pressed="false">Easy</button>
               <button data-v="2" aria-pressed="false">Medium</button>
               <button data-v="3" aria-pressed="false">Hard</button>
             </div></div>
-            <span class="group-f">Adaptive moves up after correct answers and down after misses. Pick a level to practice only at that difficulty.</span>
+            <div class="list"><div class="row"><span class="chip l3">Hard</span><span class="grow"><span class="t">SAT Hard level only</span><br><span class="d">The first 10 questions of every set are the most demanding.</span></span></div></div>
           </div>
           <div class="group">
             <span class="group-l">Length</span>
@@ -951,6 +951,12 @@ function talimURL(section,skill){if(!skill)return TALIM_BASE;return TALIM_BASE+(
 /* Official Digital SAT share of each section, by domain (College Board test specifications). */
 const DWEIGHT={"Information and Ideas":26,"Craft and Structure":28,"Expression of Ideas":20,"Standard English Conventions":26,
   "Algebra":35,"Advanced Math":35,"Problem-Solving and Data Analysis":15,"Geometry and Trigonometry":15};
+/* Website shows SAT Hard-level questions only (easy/medium are kept in the data files, not served). */
+const HARD_ONLY=true;
+const onlyHard=list=>HARD_ONLY?list.filter(q=>q.difficulty===3):list;
+/* Hardness score used to put the toughest questions first in every set. */
+function hardness(q){const w=(q.passage||"").split(/\s+/).length;
+  return (q.type==="spr"?1.6:0)+Math.min(7,(q.steps||[]).length)*0.35+((q.table||q.figure)?0.5:0)+(q.section==="rw"?Math.min(1.4,w/55):0)+(/^g2?-/.test(q.id)?0:0.6)+((q.stem||"").length>160?0.4:0);}
 const DCOLOR={"Information and Ideas":"#FF375F","Craft and Structure":"#FF9F0A","Expression of Ideas":"#BF5AF2","Standard English Conventions":"#5E5CE6",
   "Algebra":"#0A84FF","Advanced Math":"#30D158","Problem-Solving and Data Analysis":"#40C8E0","Geometry and Trigonometry":"#FFB340"};
 const SEC_NAME={rw:"Reading & Writing",math:"Math"};
@@ -1523,7 +1529,7 @@ function renderPractice(){
   $("sum-skill").textContent=opts.skill||"All";
   $("sum-len").textContent=opts.len;
   const th=opts.mode==="full"?(progress.theta.rw+progress.theta.math)/2:progress.theta[opts.mode];
-  $("sum-lvl").textContent=opts.level==="adaptive"?"Adaptive, from "+LEVEL[levelFor(th)].name:LEVEL[opts.level].name+" only";
+  $("sum-lvl").textContent="Hard · toughest first";
   $("go").disabled=!(bankState==="ready"&&pool>0);
   $("go-note").textContent=bankState!=="ready"?bankMsg():pool<opts.len?(pool?"Only "+pool+(pool===1?" question matches":" questions match"):"No questions match")+" this choice."+(pool?" The set ends when they run out.":" Try another difficulty or skill."):pool+" questions available · step-by-step solutions included";
 }
@@ -1543,13 +1549,13 @@ function renderProgress(){
 }
 function renderBank(){
   if(bankState!=="ready"){$("bank-cards").innerHTML='<div class="card empty" style="grid-column:1/-1">'+esc(bankMsg())+'</div>';return;}
-  $("bank-sub").textContent=bank.length+" questions, each tagged by section, domain, skill and difficulty, and each with a step-by-step solution.";
+  $("bank-sub").textContent=bank.length+" SAT Hard-level questions, each tagged by section, domain and skill, and each with a step-by-step solution.";
   $("bank-cards").innerHTML=SEC_ORDER.map(s=>{
     const n=bank.filter(q=>q.section===s).length;
     return '<div class="card"><div class="card-h"><h2>'+SEC_NAME[s]+'</h2><span class="aside num">'+n+' questions · '+DOMAINS[s].reduce((a,d)=>a+SKILLS[d].length,0)+' skills</span></div><div class="skills">'+
       DOMAINS[s].map(d=>'<div class="dh"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(d)+'</div>'+SKILLS[d].map(k=>{
         const qs=bank.filter(q=>q.skill===k), c=l=>qs.filter(q=>q.difficulty===l).length;
-        return '<div class="sk"><button class="nm" data-sec="'+s+'" data-dom="'+esc(d)+'" data-skill="'+esc(k)+'">'+esc(k)+'</button><span class="ct">'+(qs.length?qs.length+' · '+c(1)+'E '+c(2)+'M '+c(3)+'H':'0 here')+'</span><a class="ext" href="'+talimURL(s,k)+'" target="_blank" rel="noopener" aria-label="'+esc(k)+' on TalimSAT">TalimSAT '+icon("out")+'</a></div>';}).join("")).join("")+'</div></div>';
+        return '<div class="sk"><button class="nm" data-sec="'+s+'" data-dom="'+esc(d)+'" data-skill="'+esc(k)+'">'+esc(k)+'</button><span class="ct">'+(qs.length?qs.length+' hard':'0 here')+'</span><a class="ext" href="'+talimURL(s,k)+'" target="_blank" rel="noopener" aria-label="'+esc(k)+' on TalimSAT">TalimSAT '+icon("out")+'</a></div>';}).join("")).join("")+'</div></div>';
   }).join("");
 }
 function poolFor(mode,domain,skill,level,unsolved){
@@ -1581,7 +1587,8 @@ function pickQuestion(){
     }
     for(const l of levels){
       const atL=pool.filter(q=>q.difficulty===l); if(!atL.length)continue;
-      const fresh=atL.filter(q=>!seen.has(q.id)), from=fresh.length?fresh:atL;
+      const fresh=atL.filter(q=>!seen.has(q.id));let from=fresh.length?fresh:atL;
+      if(S.items.length<10&&from.length>3){from=from.slice().sort((a,b)=>hardness(b)-hardness(a)).slice(0,Math.max(3,Math.ceil(from.length/3)));}
       return from[Math.floor(Math.random()*from.length)];
     }
   }
@@ -1621,7 +1628,7 @@ function renderQuestion(){
   $("q-feedback").innerHTML="";
   $("q-submit").textContent="Check answer"; $("q-submit").disabled=true;
   const th=S.theta[q.section];
-  $("q-adapt").innerHTML=icon("layers")+'<span>'+(i===0?"Starting at your current level":"Chosen for your running "+SEC_NAME[q.section]+" level (~"+scaled(th)+")")+'</span>';
+  $("q-adapt").innerHTML=icon("layers")+'<span>'+(i<10?"Hard level · toughest questions first":"Hard level · "+SEC_NAME[q.section]+" estimate ~"+scaled(th))+'</span>';
   renderSegs(); startTimer();
   $("sheet").scrollTo({top:0});
 }
@@ -1687,7 +1694,7 @@ function submit(){
   if(!ok)fb+='<div class="compare fade"><div class="yours"><small>Your answer</small>'+esc(resp)+'</div><div class="corr"><small>Correct answer</small>'+esc(correctText(q,c.order))+'</div></div>';
   fb+=solutionHTML(q,!ok);
   $("q-feedback").innerHTML=fb;
-  const dir=after>before+0.02?["up","Next question moves up a level"]:after<before-0.02?["down","Next question eases off"]:["flat","Level holds steady"];
+  const dir=after>before+0.02?["up","Estimate rises"]:after<before-0.02?["down","Estimate dips"]:["flat","Estimate holds"];
   $("q-adapt").innerHTML=icon(dir[0])+'<span>'+dir[1]+' · '+SEC_NAME[sec]+' ~'+scaled(after)+'</span>';
   $("q-submit").textContent=S.items.length>=S.len?"See results":"Continue"; $("q-submit").disabled=false;
   renderSegs(); $("q-submit").focus({preventScroll:true});
@@ -1819,7 +1826,7 @@ route(); booted=true;
     const r=await fetch("questions.json",{cache:"no-cache"});
     if(!r.ok)throw new Error(r.status);
     const data=await r.json();
-    bank=(Array.isArray(data)?data:[]).filter(q=>q&&q.id&&!validQ(q));
+    bank=onlyHard((Array.isArray(data)?data:[]).filter(q=>q&&q.id&&!validQ(q)));
     bankState=bank.length?"ready":"empty";
     setConn(bank.length?"ok":"warn",bank.length?bank.length+" questions loaded":"Question bank is empty");
   }catch(e){bankState="error";setConn("err","Question bank could not be loaded");}
