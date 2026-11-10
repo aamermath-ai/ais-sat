@@ -392,6 +392,32 @@ button.tile:hover{transform:translateY(-2px)}
 @media (max-width:1000px){.fgrid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:480px){.frow{grid-template-columns:minmax(0,1fr);gap:4px}.m{font-size:1.1rem}}
 
+/* geometry diagrams */
+.dg{display:block;width:100%;height:auto;overflow:visible}
+.dg .f{fill:var(--fc,var(--accent));fill-opacity:.13;stroke:var(--fc,var(--accent));stroke-width:2.2;stroke-linejoin:round}
+.dg .f.strong{fill-opacity:.32}
+.dg .s{fill:none;stroke:var(--ink-2);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dg .s.acc{stroke:var(--fc,var(--accent));stroke-width:2.2}
+.dg .s.bold{stroke:var(--fc,var(--accent));stroke-width:4.5}
+.dg .s.thin{stroke-width:1.5}
+.dg .d{stroke-dasharray:4 3.5;stroke-width:1.5}
+.dg .ax{stroke:var(--muted);stroke-width:1.4}
+.dg .an{fill:none;stroke:var(--ink-2);stroke-width:1.5}
+.dg .an.acc{stroke:var(--fc,var(--accent));stroke-width:2}
+.dg .ra{fill:none;stroke:var(--ink-2);stroke-width:1.4}
+.dg .dot{fill:var(--ink)}
+.dg .t{fill:var(--ink);font-family:var(--f-read);font-style:italic;font-size:14px;font-weight:600}
+.dg .ts{font-family:var(--f-ui);font-style:normal;font-size:11px;font-weight:600;fill:var(--ink-2)}
+.frow.has-dg{grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr) 150px}
+.dgw{width:150px;padding:4px;border-radius:12px;background:color-mix(in srgb,var(--fc) 6%,transparent)}
+.fgrid.geo{grid-template-columns:repeat(2,minmax(0,1fr))}
+.qfig{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px;--fc:var(--accent)}
+.qfig .dg{max-width:340px}
+.qfig figcaption{font-size:.78rem;color:var(--muted);font-style:italic;font-family:var(--f-ui)}
+.passage .qfig{margin-bottom:14px}
+@media (max-width:1180px){.fgrid.geo{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:480px){.qfig .dg{max-width:250px}.frow.has-dg{grid-template-columns:minmax(0,1fr)}.dgw{width:min(220px,100%);justify-self:center}}
+
 /* modal sheet */
 .modal{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
@@ -1105,6 +1131,98 @@ function drawRings(){
   $("rleg").classList.toggle("has-sel",ringSel!==null);
   $("rleg").innerHTML=ringData.map((x,i)=>'<button data-i="'+i+'" aria-pressed="'+(ringSel===i)+'"><div class="k">'+x.k+'</div><div class="v" style="color:'+x.color+'">'+x.v+'/'+x.g+(x.u?'<small>'+x.u+'</small>':'')+'</div></button>').join("");
 }
+/* ---------- geometry diagrams (original SVG drawings) ---------- */
+const DG=(()=>{
+  const P=Math.PI/180, f1=n=>(+n).toFixed(1);
+  const T=(x,y,t,o)=>{o=o||{};return '<text class="t'+(o.s?' ts':'')+'" x="'+f1(x)+'" y="'+f1(y)+'" text-anchor="'+(o.a||'middle')+'">'+esc(t)+'</text>';};
+  const poly=(pts,c)=>'<polygon class="'+(c||'f')+'" points="'+pts.map(p=>f1(p[0])+','+f1(p[1])).join(' ')+'"/>';
+  const ln=(x1,y1,x2,y2,c)=>'<line class="'+(c||'s')+'" x1="'+f1(x1)+'" y1="'+f1(y1)+'" x2="'+f1(x2)+'" y2="'+f1(y2)+'"/>';
+  const pt=(x,y)=>'<circle class="dot" cx="'+f1(x)+'" cy="'+f1(y)+'" r="2.6"/>';
+  const ra=(x,y,u,v,s)=>{s=s||9;return '<path class="ra" d="M'+f1(x+u[0]*s)+' '+f1(y+u[1]*s)+' L'+f1(x+u[0]*s+v[0]*s)+' '+f1(y+u[1]*s+v[1]*s)+' L'+f1(x+v[0]*s)+' '+f1(y+v[1]*s)+'"/>';};
+  const arc=(cx,cy,r,a1,a2,c)=>{const x1=cx+r*Math.cos(a1*P),y1=cy-r*Math.sin(a1*P),x2=cx+r*Math.cos(a2*P),y2=cy-r*Math.sin(a2*P);
+    return '<path class="'+(c||'an')+'" d="M'+f1(x1)+' '+f1(y1)+' A'+r+' '+r+' 0 '+((a2-a1)%360>180?1:0)+' 0 '+f1(x2)+' '+f1(y2)+'"/>';};
+  const at=(cx,cy,r,a)=>[cx+r*Math.cos(a*P),cy-r*Math.sin(a*P)];
+  const ang=(ax,ay,bx,by)=>{let a=Math.atan2(-(by-ay),bx-ax)/P;return a<0?a+360:a;};
+  const mark=(x1,y1,x2,y2,n)=>{const mx=(x1+x2)/2,my=(y1+y2)/2,dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),nx=-dy/L*5,ny=dx/L*5,tx=dx/L*3,ty=dy/L*3;let s='';
+    for(let i=0;i<(n||1);i++){const o=(i-((n||1)-1)/2);s+=ln(mx+tx*o*1.4-nx,my+ty*o*1.4-ny,mx+tx*o*1.4+nx,my+ty*o*1.4+ny,'s thin');}return s;};
+  const svg=(body,lbl)=>'<svg class="dg" viewBox="0 0 200 140" role="img" aria-label="'+esc(lbl||'Diagram')+'">'+body+'</svg>';
+  const ellipse=(cx,cy,rx,ry,c)=>'<ellipse class="'+(c||'s')+'" cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'"/>';
+  const halfE=(cx,cy,rx,ry,front,c)=>'<path class="'+(c||'s')+'" d="M'+(cx-rx)+' '+cy+' A'+rx+' '+ry+' 0 0 '+(front?0:1)+' '+(cx+rx)+' '+cy+'"/>';
+  const D={};
+  D.rtri=o=>{const C=[44,112],A=[44,26],B=[168,112];let s=poly([A,B,C])+ra(C[0],C[1],[1,0],[0,-1]);
+    s+=T(30,72,o.a||'a',{a:'end'})+T(106,130,o.b||'b')+T(115,57,o.c||'c',{a:'start'});
+    if(o.th){const a1=ang(B[0],B[1],A[0],A[1]);s+=arc(B[0],B[1],22,a1,180)+T(...at(B[0],B[1],36,(a1+180)/2),o.th);}
+    if(o.letters)s+=T(A[0]-8,A[1]-4,'A',{s:1})+T(B[0]+10,B[1]+4,'B',{s:1})+T(C[0]-10,C[1]+12,'C',{s:1});
+    return svg(s,'Right triangle');};
+  D.sohcah=()=>{const C=[44,112],A=[168,26],B=[168,112];let s=poly([A,B,C])+ra(B[0],B[1],[-1,0],[0,-1]);const a1=ang(C[0],C[1],A[0],A[1]);
+    s+=arc(C[0],C[1],26,0,a1)+T(...at(C[0],C[1],40,a1/2),'θ')+T(180,74,'opp',{a:'start',s:1})+T(106,130,'adj',{s:1})+T(96,56,'hyp',{a:'end',s:1});return svg(s,'Right triangle with opposite, adjacent and hypotenuse');};
+  D.comp=()=>{const C=[44,112],A=[44,26],B=[168,112];let s=poly([A,B,C])+ra(C[0],C[1],[1,0],[0,-1]);const a1=ang(B[0],B[1],A[0],A[1]),a2=ang(A[0],A[1],B[0],B[1]);
+    s+=arc(B[0],B[1],22,a1,180)+T(...at(B[0],B[1],40,(a1+180)/2),'x°')+arc(A[0],A[1],18,a2,270)+T(...at(A[0],A[1],38,(a2+270)/2),'90 − x°',{s:1});return svg(s,'Complementary acute angles');};
+  D.s45=o=>{const C=[52,114],A=[52,30],B=[136,114];let s=poly([A,B,C])+ra(C[0],C[1],[1,0],[0,-1])+mark(C[0],C[1],A[0],A[1])+mark(C[0],C[1],B[0],B[1]);
+    s+=T(38,76,o.leg||'x',{a:'end'})+T(94,132,o.leg2||o.leg||'x')+T(100,64,o.hyp||'x√2',{a:'start'})+T(124,106,'45°',{s:1,a:'end'})+T(58,52,'45°',{s:1,a:'start'});return svg(s,'45-45-90 triangle');};
+  D.s30=o=>{const C=[34,114],A=[34,44],B=[155,114];let s=poly([A,B,C])+ra(C[0],C[1],[1,0],[0,-1]);
+    s+=T(22,82,o.short||'x',{a:'end'})+T(95,132,o.long||'x√3')+T(100,70,o.hyp||'2x',{a:'start'})+T(128,108,'30°',{s:1,a:'end'})+T(40,64,'60°',{s:1,a:'start'});return svg(s,'30-60-90 triangle');};
+  D.tri3=o=>{const A=[14,116],B=[186,116],C=[100,22];let s=poly([A,B,C]);
+    s+=arc(A[0],A[1],20,0,ang(...A,...C))+arc(B[0],B[1],20,ang(...B,...C),180)+arc(C[0],C[1],16,ang(...C,...A),ang(...C,...B)+360);
+    s+=T(A[0]+28,A[1]-7,o.A||'a°',{a:'start'})+T(B[0]-30,B[1]-26,o.B||'b°',{a:'end'})+T(C[0],C[1]+36,o.C||'c°');
+    if(o.letters)s+=T(A[0]-8,A[1]+12,o.letters[0],{s:1})+T(B[0]+8,B[1]+12,o.letters[1],{s:1})+T(C[0],C[1]-8,o.letters[2],{s:1});
+    return svg(s,'Triangle with angles');};
+  D.tribh=o=>{const A=[24,114],B=[176,114],C=[120,24];let s=poly([A,B,C])+ln(C[0],C[1],C[0],114,'s d')+ra(C[0],114,[-1,0],[0,-1],8);
+    s+=T(100,132,o.b||'b')+T(C[0]+8,74,o.h||'h',{a:'start'});return svg(s,'Triangle with base and height');};
+  D.rect=o=>{let s=poly([[30,30],[170,30],[170,110],[30,110]]);if(o.d)s+=ln(30,110,170,30,'s acc');
+    s+=T(100,128,o.l||'l')+T(182,74,o.w||'w',{a:'start'})+(o.d?T(92,64,o.d,{a:'end'}):'');return svg(s,'Rectangle');};
+  D.recttri=()=>{let s=poly([[12,40],[82,40],[82,104],[12,104]])+T(47,122,'l')+T(90,76,'w',{a:'start'});
+    s+=poly([[104,104],[192,104],[150,30]])+ln(150,30,150,104,'s d')+ra(150,104,[-1,0],[0,-1],7)+T(148,122,'b')+T(156,74,'h',{a:'start'});return svg(s,'Rectangle and triangle');};
+  D.circle=o=>{let s='<circle class="f" cx="100" cy="70" r="52"/>'+ln(100,70,152,70,'s acc')+pt(100,70)+T(126,62,o.r||'r')+T(96,84,'O',{s:1,a:'end'});
+    if(o.d)s=s.replace(ln(100,70,152,70,'s acc'),ln(48,70,152,70,'s acc')).replace(T(126,62,o.r||'r'),T(126,62,o.d));return svg(s,'Circle');};
+  D.full=()=>{let s='<circle class="f" cx="100" cy="70" r="46"/>'+pt(100,70)+ln(100,70,146,70)+arc(100,70,20,4,350,'an acc')+T(100,22,'360° = 2π rad',{s:1});return svg(s,'Full circle 360 degrees');};
+  D.semi=()=>{let s='<path class="f" d="M48 96 A52 52 0 0 1 152 96 Z"/>'+pt(100,96)+arc(100,96,18,0,180,'an acc')+T(100,74,'π',{})+T(100,124,'π radians = 180°',{s:1});return svg(s,'Half circle pi radians');};
+  D.arc=o=>{const th=Math.max(30,Math.min(300,+o.th||100)),a1=20,a2=a1+th;let s='<circle class="s" cx="100" cy="70" r="52"/>'+ln(100,70,...at(100,70,52,a1))+ln(100,70,...at(100,70,52,a2))+arc(100,70,52,a1,a2,'s bold')+arc(100,70,14,a1,a2);
+    s+=T(...at(100,70,26,(a1+a2)/2),o.thl||'θ')+T(...at(100,70,66,(a1+a2)/2),o.s||'s')+T(...at(100,70,40,a1-12),o.r||'r')+pt(100,70);return svg(s,'Arc of a circle');};
+  D.sector=o=>{const th=Math.max(30,Math.min(300,+o.th||100)),a1=20,a2=a1+th,p1=at(100,70,52,a1),p2=at(100,70,52,a2);
+    let s='<circle class="s" cx="100" cy="70" r="52"/><path class="f strong" d="M100 70 L'+f1(p1[0])+' '+f1(p1[1])+' A52 52 0 '+(th>180?1:0)+' 0 '+f1(p2[0])+' '+f1(p2[1])+' Z"/>'+arc(100,70,14,a1,a2);
+    s+=T(...at(100,70,28,(a1+a2)/2),o.thl||'θ')+T(...at(100,70,40,a1-12),o.r||'r')+pt(100,70);return svg(s,'Sector of a circle');};
+  D.inscr=()=>{const O=[100,72],A=at(100,72,52,212),B=at(100,72,52,328),C=at(100,72,52,96);let s='<circle class="s" cx="100" cy="72" r="52"/>'+ln(...A,...O,'s acc')+ln(...B,...O,'s acc')+ln(...A,...C)+ln(...B,...C);
+    s+=arc(...O,13,ang(...O,...A),ang(...O,...B),'an acc')+T(O[0],O[1]+26,'2x',{})+arc(...C,18,ang(...C,...A),ang(...C,...B))+T(C[0]+2,C[1]+32,'x',{})+pt(...O)+pt(...A)+pt(...B)+pt(...C);return svg(s,'Inscribed and central angles');};
+  D.tangent=()=>{const O=[82,78],Tp=at(82,78,46,45),d=[0.7071,0.7071];let s='<circle class="f" cx="82" cy="78" r="46"/>'+ln(...O,...Tp,'s acc')+ln(Tp[0]-62*d[0],Tp[1]-62*d[1],Tp[0]+62*d[0],Tp[1]+62*d[1],'s bold');
+    s+=ra(Tp[0],Tp[1],[-0.7071,0.7071],[0.7071,0.7071],8)+pt(...O)+pt(...Tp)+T(70,72,'r',{})+T(Tp[0]+14,Tp[1]-6,'tangent',{s:1,a:'start'});return svg(s,'Tangent perpendicular to radius');};
+  D.circeq=o=>{let s='<line class="ax" x1="26" y1="122" x2="190" y2="122"/><line class="ax" x1="34" y1="132" x2="34" y2="10"/>'+T(192,118,'x',{a:'end'})+T(40,16,'y',{a:'start'});
+    s+='<circle class="f" cx="122" cy="64" r="40"/>'+ln(122,64,122,122,'s d')+ln(122,64,34,64,'s d')+ln(122,64,150,36,'s acc')+pt(122,64)+T(122,134,o.h||'h')+T(26,68,o.k||'k',{a:'end'})+T(140,46,o.r||'r',{a:'start'})+T(112,78,'(h, k)',{s:1,a:'end'});return svg(s,'Circle in the coordinate plane');};
+  D.parallel=o=>{const Y1=44,Y2=100,x=y=>62+(136-y)/126*86;let s=ln(8,Y1,192,Y1)+ln(8,Y2,192,Y2)+ln(62,136,148,10,'s acc');
+    s+='<path class="s" d="M176 '+(Y1-5)+' l6 5 l-6 5 M176 '+(Y2-5)+' l6 5 l-6 5"/>';const t=ang(x(Y2),Y2,x(Y1),Y1);
+    const p=x(Y1),q=x(Y2);if(o.kind==='alternate interior'){s+=arc(p,Y1,16,180,180+t)+arc(q,Y2,16,0,t)+T(...at(p,Y1,30,180+t/2),o.p||'a°',{a:'end'})+T(...at(q,Y2,30,t/2),o.q||'b°',{a:'start'});}
+    else {s+=arc(p,Y1,16,0,t)+arc(q,Y2,16,0,t)+T(...at(p,Y1,30,t/2),o.p||'a°',{a:'start'})+T(...at(q,Y2,30,t/2),o.q||'a°',{a:'start'});}
+    return svg(s,'Parallel lines cut by a transversal');};
+  D.vert=()=>{const O=[100,70];let s=ln(20,30,180,110)+ln(30,122,170,18);const a1=ang(...O,180,110),a2=ang(...O,170,18),a3=ang(...O,20,30),a4=ang(...O,30,122);
+    s+=arc(...O,18,a2,a3,'an acc')+arc(...O,18,a4,a1+360,'an acc')+T(...at(...O,32,(a2+a3)/2),'a')+T(...at(...O,32,(a4+a1+360)/2),'a')+T(...at(...O,30,(a1+a2)/2+180),'b',{})+T(...at(...O,30,(a1+a2)/2),'b',{});return svg(s,'Vertical angles');};
+  D.ext=()=>{const A=[22,112],B=[122,112],C=[72,30];let s=poly([A,B,C])+ln(122,112,190,112);
+    s+=arc(...A,18,0,ang(...A,...C))+arc(...C,14,ang(...C,...A),ang(...C,...B)+360)+arc(...B,16,0,ang(...B,...C),'an acc');
+    s+=T(A[0]+28,A[1]-6,'a',{a:'start'})+T(C[0],C[1]+30,'b')+T(B[0]+22,B[1]-16,'d = a + b',{a:'start',s:1});return svg(s,'Exterior angle');};
+  D.polygon=()=>{const pts=[];for(let i=0;i<5;i++)pts.push(at(100,74,54,90+i*72));let s=poly(pts)+arc(pts[1][0],pts[1][1],14,ang(...pts[1],...pts[2]),ang(...pts[1],...pts[0]));
+    s+=T(100,136,'n sides: (n − 2) · 180°',{s:1});return svg(s,'Polygon');};
+  D.similar=o=>{const a=[[18,116],[70,116],[34,72]],k=1.85,b=a.map(p=>[96+(p[0]-18)*k,116-(116-p[1])*k]);let s=poly(a)+poly(b);
+    s+=T(44,132,o.ab||'a')+T(60,90,o.bc||'b',{a:'start'})+T(144,132,o.de||'ka')+T(166,72,o.ef||'kb',{a:'start'});
+    if(o.letters){const L='ABCDEF';s+=T(a[0][0]-4,a[0][1]+12,'A',{s:1})+T(a[1][0]+2,a[1][1]+12,'B',{s:1})+T(a[2][0],a[2][1]-6,'C',{s:1})+T(b[0][0]-4,b[0][1]+12,'D',{s:1})+T(b[1][0]+4,b[1][1]+12,'E',{s:1})+T(b[2][0],b[2][1]-6,'F',{s:1});}
+    return svg(s,'Similar triangles');};
+  D.iso=o=>{const A=[100,20],B=[36,116],C=[164,116];let s=poly([A,B,C])+mark(...A,...B,2)+mark(...A,...C,2);
+    s+=arc(...A,16,ang(...A,...B),ang(...A,...C)+360)+arc(...B,18,0,ang(...B,...A))+arc(...C,18,ang(...C,...A),180);
+    s+=T(100,58,o.v||'v°')+T(62,108,o.b||'b°',{a:'start'})+T(138,108,o.b||'b°',{a:'end'});return svg(s,'Isosceles triangle');};
+  D.box=o=>{const dx=34,dy=-24;let s=ln(24+dx,52+dy,24+dx,116+dy,'s d')+ln(24+dx,116+dy,112+dx,116+dy,'s d')+ln(24+dx,116+dy,24,116,'s d')+poly([[24,52],[112,52],[112,116],[24,116]])+poly([[24,52],[24+dx,52+dy],[112+dx,52+dy],[112,52]])+poly([[112,52],[112+dx,52+dy],[112+dx,116+dy],[112,116]]);
+    s+=T(68,132,o.l||'l')+T(136,112,o.w||'w',{a:'start'})+T(14,88,o.h||'h',{a:'end'});return svg(s,o.cube?'Cube':'Rectangular box');};
+  D.cyl=o=>{const cx=o.cx||100,rx=o.rx||44,top=30,bot=110;let s='<path class="f" d="M'+(cx-rx)+' '+top+' L'+(cx-rx)+' '+bot+' A'+rx+' 12 0 0 0 '+(cx+rx)+' '+bot+' L'+(cx+rx)+' '+top+'"/>'+ellipse(cx,top,rx,12,'f')+halfE(cx,bot,rx,12,false,'s d');
+    s+=ln(cx,top,cx+rx,top,'s acc')+pt(cx,top)+T(cx+rx/2,top-4,o.r||'r')+T(cx+rx+8,74,o.h||'h',{a:'start'});return o.raw?s:svg(s,'Cylinder');};
+  D.cyl2=o=>{let s=D.cyl({cx:52,rx:24,r:o.r1,h:o.h1,raw:1})+D.cyl({cx:146,rx:40,r:o.r2,h:o.h2,raw:1})+T(52,134,'A',{s:1})+T(146,134,'B',{s:1});return svg(s,'Two cylinders');};
+  D.sphere=()=>{let s='<circle class="f" cx="100" cy="70" r="54"/>'+halfE(100,70,54,14,true,'s')+halfE(100,70,54,14,false,'s d')+ln(100,70,154,70,'s acc')+pt(100,70)+T(128,92,'r');return svg(s,'Sphere');};
+  D.cone=()=>{let s='<path class="f" d="M100 16 L50 110 A50 13 0 0 0 150 110 Z"/>'+halfE(100,110,50,13,false,'s d')+ln(100,16,100,110,'s d')+ln(100,110,150,110,'s acc')+ra(100,110,[1,0],[0,-1],7)+T(125,104,'r')+T(92,70,'h',{a:'end'});return svg(s,'Cone');};
+  D.pyramid=()=>{const B=[[28,112],[124,112],[160,88],[64,88]],A=[94,18];let s='<path class="f" d="M28 112 L124 112 L160 88 L94 18 Z M124 112 L94 18 M28 112 L94 18"/>'+ln(64,88,28,112,'s d')+ln(64,88,160,88,'s d')+ln(64,88,94,18,'s d')+ln(94,18,94,100,'s d');
+    s+=T(76,128,'l')+T(150,106,'w',{a:'start'})+T(100,64,'h',{a:'start'});return svg(s,'Pyramid');};
+  D.trap=()=>{let s=poly([[22,112],[178,112],[142,40],[62,40]])+ln(62,40,62,112,'s d')+ra(62,112,[1,0],[0,-1],7)+T(102,32,'b₁')+T(100,130,'b₂')+T(54,80,'h',{a:'end'});return svg(s,'Trapezoid');};
+  D.para=()=>{let s=poly([[20,112],[146,112],[180,40],[54,40]])+ln(54,40,54,112,'s d')+ra(54,112,[1,0],[0,-1],7)+T(84,130,'b')+T(46,80,'h',{a:'end'});return svg(s,'Parallelogram');};
+  D.scale=()=>{let s=poly([[18,78],[52,78],[52,112],[18,112]])+poly([[96,26],[182,26],[182,112],[96,112]])+T(35,128,'s')+T(139,128,'ks')+'<path class="s acc" d="M60 92 C72 80 80 76 90 74 M84 68 l7 6 -9 3"/>'+T(72,66,'× k',{s:1});return svg(s,'Scaling');};
+  D.supp=o=>{let s=ln(16,104,184,104)+ln(100,104,58,28,'s acc');const a=ang(100,104,58,28);s+=arc(100,104,16,0,a)+arc(100,104,22,a,180)+T(...at(100,104,36,a/2),o.a||'a°')+T(...at(100,104,40,(a+180)/2),o.b||'b°');return svg(s,'Angles on a straight line');};
+  return {D,draw:(t,o)=>D[t]?D[t](o||{}):''};
+})();
+
 /* ---------- formula sheet & mind map ---------- */
 const fr=(a,b)=>'<span class="fr"><span>'+a+'</span><span>'+b+'</span></span>', sq=x=>'√<span class="sq">'+x+'</span>', v=x=>'<i>'+x+'</i>';
 const FORMULAS={
@@ -1127,10 +1245,10 @@ const FORMULAS={
   "Sample statistics and margin of error":[["Estimate a total","sample proportion × population size"],["Plausible range","estimate ± margin of error"],["Sample size","larger random sample → smaller margin of error"],["Bias","only random samples represent the population"]],
   "Observational studies and experiments":[["Random sampling","results generalize to the population sampled"],["Random assignment","supports cause and effect"],["Observational study","shows association only, not causation"],["Both","cause and effect for the whole population sampled"]]},
  "Geometry and Trigonometry":{
-  "Area and volume":[["Rectangle · Triangle",v("A")+" = "+v("lw")+"  ·  "+v("A")+" = "+fr("1","2")+v("bh"),1],["Circle",v("A")+" = π"+v("r")+"<sup>2</sup>   "+v("C")+" = 2π"+v("r"),1],["Box · Cylinder",v("V")+" = "+v("lwh")+"  ·  "+v("V")+" = π"+v("r")+"<sup>2</sup>"+v("h"),1],["Sphere · Cone",v("V")+" = "+fr("4","3")+"π"+v("r")+"<sup>3</sup>  ·  "+v("V")+" = "+fr("1","3")+"π"+v("r")+"<sup>2</sup>"+v("h"),1],["Pyramid",v("V")+" = "+fr("1","3")+v("lwh"),1],["Trapezoid · Parallelogram",v("A")+" = "+fr("1","2")+"("+v("b")+"<sub>1</sub> + "+v("b")+"<sub>2</sub>)"+v("h")+"  ·  "+v("A")+" = "+v("bh")],["Scaling by k","lengths × "+v("k")+" → area × "+v("k")+"<sup>2</sup> → volume × "+v("k")+"<sup>3</sup>"]],
-  "Lines, angles, and triangles":[["Triangle angles","sum = 180°",1],["Straight line · vertical angles","angles on a line sum to 180° · vertical angles are equal"],["Parallel lines + transversal","corresponding & alternate interior angles equal; same-side interior sum to 180°"],["Polygon interior angles","("+v("n")+" − 2) × 180°"],["Exterior angle","equals the sum of the two remote interior angles"],["Similar triangles","corresponding sides are proportional; angles equal"]],
-  "Right triangles and trigonometry":[["Pythagorean theorem",v("a")+"<sup>2</sup> + "+v("b")+"<sup>2</sup> = "+v("c")+"<sup>2</sup>",1],["Special right triangles","45-45-90: "+v("x")+", "+v("x")+", "+v("x")+sq("2")+"  ·  30-60-90: "+v("x")+", "+v("x")+sq("3")+", 2"+v("x"),1],["SOH-CAH-TOA","sin = "+fr("opp","hyp")+"  cos = "+fr("adj","hyp")+"  tan = "+fr("opp","adj")],["Complementary angles","sin "+v("x")+"° = cos(90° − "+v("x")+"°)"],["Common triples","3-4-5 · 5-12-13 · 8-15-17 · 7-24-25"],["Radians","π radians = 180°"]],
-  "Circles":[["Full circle","360° = 2π radians",1],["Equation","("+v("x")+" − "+v("h")+")<sup>2</sup> + ("+v("y")+" − "+v("k")+")<sup>2</sup> = "+v("r")+"<sup>2</sup>"],["Arc length",fr("θ","360°")+" · 2π"+v("r")+"   (radians: "+v("s")+" = "+v("r")+"θ)"],["Sector area",fr("θ","360°")+" · π"+v("r")+"<sup>2</sup>"],["Inscribed angle","half the central angle on the same arc"],["Tangent line","perpendicular to the radius at the point of contact"],["From x² + y² + Dx + Ey + F = 0","complete the square in "+v("x")+" and "+v("y")]]}};
+  "Area and volume":[["Rectangle · Triangle",v("A")+" = "+v("lw")+"  ·  "+v("A")+" = "+fr("1","2")+v("bh"),1,"recttri"],["Circle",v("A")+" = π"+v("r")+"<sup>2</sup>   "+v("C")+" = 2π"+v("r"),1,"circle"],["Box · Cylinder",v("V")+" = "+v("lwh")+"  ·  "+v("V")+" = π"+v("r")+"<sup>2</sup>"+v("h"),1,"box"],["Sphere · Cone",v("V")+" = "+fr("4","3")+"π"+v("r")+"<sup>3</sup>  ·  "+v("V")+" = "+fr("1","3")+"π"+v("r")+"<sup>2</sup>"+v("h"),1,"sphere"],["Pyramid",v("V")+" = "+fr("1","3")+v("lwh"),1,"pyramid"],["Trapezoid · Parallelogram",v("A")+" = "+fr("1","2")+"("+v("b")+"<sub>1</sub> + "+v("b")+"<sub>2</sub>)"+v("h")+"  ·  "+v("A")+" = "+v("bh"),0,"trap"],["Scaling by k","lengths × "+v("k")+" → area × "+v("k")+"<sup>2</sup> → volume × "+v("k")+"<sup>3</sup>",0,"scale"]],
+  "Lines, angles, and triangles":[["Triangle angles","sum = 180°",1,"tri3"],["Straight line · vertical angles","angles on a line sum to 180° · vertical angles are equal",0,"vert"],["Parallel lines + transversal","corresponding & alternate interior angles equal; same-side interior sum to 180°",0,"parallel"],["Polygon interior angles","("+v("n")+" − 2) × 180°",0,"polygon"],["Exterior angle","equals the sum of the two remote interior angles",0,"ext"],["Similar triangles","corresponding sides are proportional; angles equal",0,"similar"]],
+  "Right triangles and trigonometry":[["Pythagorean theorem",v("a")+"<sup>2</sup> + "+v("b")+"<sup>2</sup> = "+v("c")+"<sup>2</sup>",1,"rtri"],["Special right triangles","45‑45‑90: "+v("x")+", "+v("x")+", "+v("x")+sq("2")+"  ·  30‑60‑90: "+v("x")+", "+v("x")+sq("3")+", 2"+v("x"),1,"s30"],["SOH-CAH-TOA","sin = "+fr("opp","hyp")+"  cos = "+fr("adj","hyp")+"  tan = "+fr("opp","adj"),0,"sohcah"],["Complementary angles","sin "+v("x")+"° = cos(90° − "+v("x")+"°)",0,"comp"],["Common triples","3-4-5 · 5-12-13 · 8-15-17 · 7-24-25"],["Radians","π radians = 180°",0,"semi"]],
+  "Circles":[["Full circle","360° = 2π radians",1,"full"],["Equation","("+v("x")+" − "+v("h")+")<sup>2</sup> + ("+v("y")+" − "+v("k")+")<sup>2</sup> = "+v("r")+"<sup>2</sup>",0,"circeq"],["Arc length",fr("θ","360°")+" · 2π"+v("r")+"   (radians: "+v("s")+" = "+v("r")+"θ)",0,"arc"],["Sector area",fr("θ","360°")+" · π"+v("r")+"<sup>2</sup>",0,"sector"],["Inscribed angle","half the central angle on the same arc",0,"inscr"],["Tangent line","perpendicular to the radius at the point of contact",0,"tangent"],["From x² + y² + Dx + Ey + F = 0","complete the square in "+v("x")+" and "+v("y")]]}};
 const DSHORT={"Algebra":"Algebra","Advanced Math":"Advanced Math","Problem-Solving and Data Analysis":"Problem-Solving & Data","Geometry and Trigonometry":"Geometry & Trig"};
 const MAPLBL={"Linear equations in one variable":"Linear eq. in one variable","Linear equations in two variables":"Linear eq. in two variables","Systems of linear equations":"Systems of linear eq.",
   "Nonlinear equations and systems":"Nonlinear eq. & systems","Sample statistics and margin of error":"Sample stats & margin of error","Observational studies and experiments":"Studies & experiments",
@@ -1147,8 +1265,8 @@ function renderFormulas(){
       const hit=rows.filter(r=>!q||(sk+" "+r[0]+" "+r[1].replace(/<[^>]+>/g,"")).toLowerCase().includes(q)); if(!hit.length)return "";
       n+=hit.length;
       return '<article class="fcard" id="'+fslug(sk)+'" style="--fc:'+DCOLOR[d]+'"><div class="fcard-h"><h3>'+esc(sk)+'</h3><button class="btn small plain" data-prac="'+esc(sk)+'" data-dom="'+esc(d)+'">Practice</button></div>'+
-        hit.map(r=>'<div class="frow"><div class="fl">'+r[0]+(r[2]?'<br><span class="refb">Reference</span>':'')+'</div><div class="m">'+r[1]+'</div></div>').join("")+'</article>';}).join("");
-    if(cards)html+='<div class="fdom-h"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(d)+'</div><div class="fgrid">'+cards+'</div>';
+        hit.map(r=>'<div class="frow'+(r[3]?' has-dg':'')+'"><div class="fl">'+r[0]+(r[2]?'<br><span class="refb">Reference</span>':'')+'</div><div class="m">'+r[1]+'</div>'+(r[3]?'<div class="dgw">'+DG.draw(r[3],{})+'</div>':'')+'</div>').join("")+'</article>';}).join("");
+    if(cards)html+='<div class="fdom-h"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(d)+'</div><div class="fgrid'+(d==="Geometry and Trigonometry"?' geo':'')+'">'+cards+'</div>';
   });
   $("f-list").innerHTML=html||'<div class="fempty">No formulas match "'+esc(q)+'". Try "slope", "circle" or "percent".</div>';
   renderMap();
@@ -1487,9 +1605,9 @@ function renderQuestion(){
   $("q-sec").textContent=SEC_NAME[q.section];
   const lv=$("q-level"); lv.className="chip l"+q.difficulty; lv.textContent=LEVEL[q.difficulty].name;
   $("q-dom").textContent=q.domain+(q.skill?" · "+q.skill:"");
-  const hasLeft=!!(q.passage||q.table);
+  const hasLeft=!!(q.passage||q.table||q.figure);
   $("q-left").hidden=!hasLeft; $("q-split").classList.toggle("solo",!hasLeft);
-  let ph=esc(q.passage||"");
+  let ph=(q.figure?'<figure class="qfig">'+DG.draw(q.figure.t,q.figure)+'<figcaption>Note: Figure not drawn to scale.</figcaption></figure>':'')+esc(q.passage||"");
   if(q.table)ph+='<table><caption>'+esc(q.table.caption||"")+'</caption><thead><tr>'+q.table.head.map(x=>'<th>'+esc(x)+'</th>').join("")+'</tr></thead><tbody>'+q.table.rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';
   $("q-passage").innerHTML=ph;
   $("q-stem").textContent=q.stem;
@@ -1611,7 +1729,7 @@ function finish(msg){
   $("r-msg").textContent=(msg?msg+" ":"")+"Score estimates are practice estimates on the 200–800 section scale.";
   renderPath($("r-path"),S.items,S.len);
   $("r-review").innerHTML=S.items.map((it,k)=>'<details'+(it.correct?'':' open')+'><summary><span class="mk '+(it.correct?'ok':'no')+'">'+icon(it.correct?"check":"x")+'</span><strong>Question '+(k+1)+'</strong><span class="chip l'+it.level+'">'+LEVEL[it.level].name+'</span><span class="muted" style="font-size:.84rem">'+esc(it.domain)+'</span></summary><div class="body">'+
-    (it.q.passage?'<p class="passage" style="font-size:1rem">'+esc(it.q.passage)+'</p>':'')+'<p class="stem" style="margin:0">'+esc(it.q.stem)+'</p>'+
+    (it.q.figure?'<figure class="qfig" style="max-width:300px">'+DG.draw(it.q.figure.t,it.q.figure)+'</figure>':'')+(it.q.passage?'<p class="passage" style="font-size:1rem">'+esc(it.q.passage)+'</p>':'')+'<p class="stem" style="margin:0">'+esc(it.q.stem)+'</p>'+
     '<div class="compare">'+(it.correct?'':'<div class="yours"><small>Your answer</small>'+esc(it.response)+'</div>')+'<div class="corr"><small>Correct answer</small>'+esc(correctText(it.q,it.order))+'</div></div>'+
     solutionHTML(it.q,true).replace('class="card solution"','class="solution"')+'</div></details>').join("");
   S=null; $("results").hidden=false; $("results").scrollTo({top:0}); play("done");
