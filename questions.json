@@ -183,6 +183,521 @@
   "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
  },
  {
+  "id": "m-al-09",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in one variable",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "If 7 − x = 12, what is the value of x?",
+  "choices": [
+   "−5",
+   "5",
+   "19",
+   "−19"
+  ],
+  "answer": 0,
+  "steps": [
+   "Start: 7 − x = 12",
+   "Subtract 7 from both sides: −x = 5",
+   "Multiply both sides by −1: x = −5",
+   "Check: 7 − (−5) = 7 + 5 = 12 ✓"
+  ],
+  "key": "When the variable has a negative sign, finish by multiplying (or dividing) both sides by −1.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-10",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in one variable",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "2(x + 3) = 5x − 9\nWhat is the solution to the equation above?",
+  "answer": "5",
+  "steps": [
+   "Distribute: 2x + 6 = 5x − 9",
+   "Subtract 2x from both sides: 6 = 3x − 9",
+   "Add 9 to both sides: 15 = 3x",
+   "Divide by 3: x = 5",
+   "Check: 2(8) = 16 and 5(5) − 9 = 16 ✓"
+  ],
+  "key": "Distribute first, then collect the variable on one side and the constants on the other.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-11",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in one variable",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "A taxi charges $3.50 plus $2.25 per mile. A ride cost $21.50 in total. How many miles long was the ride?",
+  "choices": [
+   "8",
+   "9.6",
+   "7",
+   "10"
+  ],
+  "answer": 0,
+  "steps": [
+   "Write the equation: 3.50 + 2.25m = 21.50",
+   "Subtract the fixed charge: 2.25m = 18",
+   "Divide: m = 18 ÷ 2.25 = 8",
+   "Check: 3.50 + 2.25(8) = 3.50 + 18 = 21.50 ✓",
+   "Trap: 9.6 comes from dividing 21.50 by 2.25 without removing the $3.50 first."
+  ],
+  "key": "Total = fixed charge + rate × quantity. Remove the fixed charge before dividing by the rate.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-12",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in one variable",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "x/3 + x/4 = 14\nWhat is the value of x?",
+  "answer": "24",
+  "steps": [
+   "Clear the fractions by multiplying every term by 12 (the least common denominator).",
+   "12(x/3) + 12(x/4) = 12(14) gives 4x + 3x = 168.",
+   "Combine: 7x = 168.",
+   "Divide: x = 24.",
+   "Check: 24/3 + 24/4 = 8 + 6 = 14 ✓"
+  ],
+  "key": "Multiply every term by the least common denominator to clear fractions in one step.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-13",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in one variable",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "a(x − 2) = 3x + 6\nIn the equation above, a is a constant. For what value of a does the equation have no solution?",
+  "choices": [
+   "3",
+   "−3",
+   "2",
+   "6"
+  ],
+  "answer": 0,
+  "steps": [
+   "Distribute: ax − 2a = 3x + 6.",
+   "A linear equation has no solution when the x-terms match on both sides but the constants do not.",
+   "Match the x-coefficients: a = 3.",
+   "Check the constants with a = 3: left side constant is −2(3) = −6, right side is 6. Since −6 ≠ 6, there is no solution.",
+   "So a = 3. (If the constants had matched too, there would be infinitely many solutions.)"
+  ],
+  "key": "No solution: same coefficient of x on both sides, different constants. Infinitely many: both the same.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-14",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in two variables",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "Which point lies on the line y = 3x − 4?",
+  "choices": [
+   "(2, 2)",
+   "(2, 10)",
+   "(0, 4)",
+   "(1, 1)"
+  ],
+  "answer": 0,
+  "steps": [
+   "A point lies on the line if its coordinates make the equation true.",
+   "Test (2, 2): 3(2) − 4 = 2 ✓",
+   "Test (2, 10): 3(2) − 4 = 2, not 10 ✗",
+   "Test (0, 4): 3(0) − 4 = −4, not 4 ✗",
+   "Test (1, 1): 3(1) − 4 = −1, not 1 ✗"
+  ],
+  "key": "Substitute the x-value and check whether you get the y-value.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-15",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in two variables",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "In the xy-plane, what is the y-intercept of the graph of 2x + 5y = 20?",
+  "choices": [
+   "(0, 4)",
+   "(0, 20)",
+   "(10, 0)",
+   "(0, 5)"
+  ],
+  "answer": 0,
+  "steps": [
+   "The y-intercept is where the graph crosses the y-axis, so x = 0.",
+   "Substitute x = 0: 2(0) + 5y = 20, so 5y = 20.",
+   "Divide: y = 4.",
+   "The y-intercept is (0, 4).",
+   "Trap: (10, 0) is the x-intercept (set y = 0)."
+  ],
+  "key": "For the y-intercept set x = 0; for the x-intercept set y = 0.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-16",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in two variables",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "A line in the xy-plane passes through the points (−1, 4) and (3, −8). What is the slope of the line?",
+  "answer": "-3",
+  "steps": [
+   "Slope = (y₂ − y₁) ÷ (x₂ − x₁).",
+   "Change in y: −8 − 4 = −12.",
+   "Change in x: 3 − (−1) = 4.",
+   "Slope = −12 ÷ 4 = −3.",
+   "The line falls as x increases, so a negative slope makes sense."
+  ],
+  "key": "Subtract in the same order on top and bottom; watch the signs when subtracting a negative.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-17",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear equations in two variables",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "Line k has the equation 4x − 6y = 9. Line m is parallel to line k and passes through the point (3, 5). What is the y-coordinate of the y-intercept of line m?",
+  "answer": "3",
+  "steps": [
+   "Find the slope of k: −6y = −4x + 9, so y = (2/3)x − 3/2. The slope is 2/3.",
+   "Parallel lines have equal slopes, so m has slope 2/3.",
+   "Write m as y = (2/3)x + b and substitute (3, 5): 5 = (2/3)(3) + b = 2 + b.",
+   "Solve: b = 3.",
+   "The y-intercept of m is (0, 3), so the answer is 3."
+  ],
+  "key": "Parallel lines share a slope. Find the slope, then use the given point to find b.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-18",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear functions",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "The function f is defined by f(x) = 4x − 7. What is the value of f(3)?",
+  "choices": [
+   "5",
+   "19",
+   "−5",
+   "12"
+  ],
+  "answer": 0,
+  "steps": [
+   "Substitute 3 for x: f(3) = 4(3) − 7.",
+   "Multiply: 12 − 7.",
+   "Subtract: 5."
+  ],
+  "key": "f(3) means: replace every x with 3.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-19",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear functions",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "The function C(m) = 18m + 40 gives the total cost, in dollars, of a phone plan for m months. What is the best interpretation of 40 in this context?",
+  "choices": [
+   "A fixed charge of $40 that does not depend on the number of months",
+   "A charge of $40 for each month",
+   "The total cost, in dollars, after 18 months",
+   "The number of months covered by the plan"
+  ],
+  "answer": 0,
+  "steps": [
+   "In C(m) = 18m + 40, the term 18m changes with the number of months; 40 does not.",
+   "When m = 0, C(0) = 40, so $40 is charged even before any months are counted.",
+   "So 40 is a fixed, one-time part of the cost.",
+   "18 is the monthly charge (the slope), not 40."
+  ],
+  "key": "In a linear model, the constant term is the starting or fixed value; the coefficient of the variable is the rate.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-20",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear functions",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "For the linear function g, g(2) = 7 and g(6) = 19. What is the value of g(10)?",
+  "answer": "31",
+  "steps": [
+   "Slope = (19 − 7) ÷ (6 − 2) = 12 ÷ 4 = 3.",
+   "Each increase of 1 in x adds 3 to g(x).",
+   "From x = 6 to x = 10 is an increase of 4, so g increases by 4 × 3 = 12.",
+   "g(10) = 19 + 12 = 31."
+  ],
+  "key": "A linear function changes by the same amount for each equal step in x.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-21",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear functions",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "For the linear function h, h(0) = −4 and h(5) = 11. For what value of x is h(x) = 26?",
+  "answer": "10",
+  "steps": [
+   "h(0) = −4 gives the y-intercept: b = −4.",
+   "Slope = (11 − (−4)) ÷ (5 − 0) = 15 ÷ 5 = 3.",
+   "So h(x) = 3x − 4.",
+   "Set h(x) = 26: 3x − 4 = 26, so 3x = 30.",
+   "x = 10."
+  ],
+  "key": "Build the function (slope and intercept) first, then solve h(x) = value.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-22",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear functions",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "The table shows three values of x and their corresponding values of y for a linear relationship. Which equation represents the relationship?",
+  "choices": [
+   "y = 3x + 5",
+   "y = 6x + 2",
+   "y = 3x + 8",
+   "y = 2x + 6"
+  ],
+  "answer": 0,
+  "steps": [
+   "Slope = change in y ÷ change in x = (14 − 8) ÷ (3 − 1) = 6 ÷ 2 = 3.",
+   "Use (1, 8) in y = 3x + b: 8 = 3 + b, so b = 5.",
+   "Equation: y = 3x + 5.",
+   "Check (5, 20): 3(5) + 5 = 20 ✓",
+   "Trap: y = 6x + 2 and y = 2x + 6 both fit (1, 8) but fail at the other points."
+  ],
+  "key": "Get the slope from two rows, then the intercept from any row; always check a third row.",
+  "table": {
+   "caption": "",
+   "head": [
+    "x",
+    "y"
+   ],
+   "rows": [
+    [
+     "1",
+     "8"
+    ],
+    [
+     "3",
+     "14"
+    ],
+    [
+     "5",
+     "20"
+    ]
+   ]
+  },
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-23",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Systems of linear equations",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "y = 2x\nx + y = 15\nIf (x, y) is the solution to the system above, what is the value of x?",
+  "answer": "5",
+  "steps": [
+   "Substitute y = 2x into the second equation: x + 2x = 15.",
+   "Combine: 3x = 15.",
+   "Divide: x = 5.",
+   "(Then y = 10. Check: 5 + 10 = 15 ✓)"
+  ],
+  "key": "Substitution works best when one equation is already solved for a variable.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-24",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Systems of linear equations",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "Adult tickets to a show cost $8 and child tickets cost $5. A family bought 10 tickets for $62. How many adult tickets did the family buy?",
+  "choices": [
+   "4",
+   "6",
+   "5",
+   "3"
+  ],
+  "answer": 0,
+  "steps": [
+   "Let a = adult tickets and c = child tickets.",
+   "Number of tickets: a + c = 10, so c = 10 − a.",
+   "Cost: 8a + 5c = 62. Substitute: 8a + 5(10 − a) = 62.",
+   "Simplify: 8a + 50 − 5a = 62, so 3a = 12 and a = 4.",
+   "Check: 4 adults ($32) + 6 children ($30) = $62 ✓"
+  ],
+  "key": "Write one equation for the count and one for the value, then substitute.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-25",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Systems of linear equations",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "3x + 2y = 16\nx − 2y = 0\nIf (x, y) is the solution to the system above, what is the value of y?",
+  "choices": [
+   "2",
+   "4",
+   "8",
+   "1"
+  ],
+  "answer": 0,
+  "steps": [
+   "The y-terms are +2y and −2y, so add the equations.",
+   "(3x + x) + (2y − 2y) = 16 + 0 gives 4x = 16, so x = 4.",
+   "Substitute into x − 2y = 0: 4 − 2y = 0, so y = 2.",
+   "Check: 3(4) + 2(2) = 16 ✓",
+   "Trap: 4 is the value of x, not y."
+  ],
+  "key": "Add the equations when a variable has opposite coefficients, and answer for the variable asked.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-26",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Systems of linear equations",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "2x + 3y = 6\n4x + 6y = c\nIn the system above, c is a constant. For what value of c does the system have infinitely many solutions?",
+  "choices": [
+   "12",
+   "6",
+   "3",
+   "24"
+  ],
+  "answer": 0,
+  "steps": [
+   "Infinitely many solutions means the two equations describe the same line.",
+   "The second equation's x- and y-coefficients are 2 times the first's (4 = 2 × 2 and 6 = 2 × 3).",
+   "So the constant must also be doubled: c = 2 × 6 = 12.",
+   "With any other c, the lines are parallel and there is no solution."
+  ],
+  "key": "Infinitely many solutions: one equation is an exact multiple of the other, constants included.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-27",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear inequalities",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "Which value of x satisfies the inequality 3x − 5 < 10?",
+  "choices": [
+   "4",
+   "5",
+   "6",
+   "7"
+  ],
+  "answer": 0,
+  "steps": [
+   "Add 5 to both sides: 3x < 15.",
+   "Divide by 3: x < 5.",
+   "Only 4 is less than 5.",
+   "Trap: 5 makes both sides equal (10 < 10 is false), so it does not satisfy a strict inequality."
+  ],
+  "key": "\"<\" is strict: the boundary value itself is not a solution.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-28",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear inequalities",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "A van can carry at most 1,200 pounds. The driver weighs 180 pounds, and each box to be loaded weighs 40 pounds. What is the maximum number of boxes the van can carry with the driver?",
+  "choices": [
+   "25",
+   "26",
+   "30",
+   "21"
+  ],
+  "answer": 0,
+  "steps": [
+   "Total weight: 180 + 40b ≤ 1,200.",
+   "Subtract 180: 40b ≤ 1,020.",
+   "Divide by 40: b ≤ 25.5.",
+   "Boxes must be whole, so the maximum is 25.",
+   "Trap: 30 ignores the driver's weight (1,200 ÷ 40)."
+  ],
+  "key": "For \"at most\" problems, solve the inequality and round down to stay within the limit.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-29",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear inequalities",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "y > 2x − 1\ny ≤ −x + 5\nWhich point (x, y) is a solution to the system of inequalities above?",
+  "choices": [
+   "(1, 3)",
+   "(3, 4)",
+   "(0, 6)",
+   "(2, 2)"
+  ],
+  "answer": 0,
+  "steps": [
+   "A solution must make both inequalities true.",
+   "(1, 3): 3 > 2(1) − 1 = 1 ✓ and 3 ≤ −1 + 5 = 4 ✓ → solution.",
+   "(3, 4): 4 > 5? ✗",
+   "(0, 6): 6 > −1 ✓ but 6 ≤ 5? ✗",
+   "(2, 2): 2 > 3? ✗"
+  ],
+  "key": "Test each point in every inequality; one failure rules it out.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-al-30",
+  "section": "math",
+  "domain": "Algebra",
+  "skill": "Linear inequalities",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "A club needs to raise at least $600. It already has $135. It sells T-shirts for $12 each, and each shirt costs the club $3 to make. What is the minimum number of shirts the club must sell to reach its goal?",
+  "answer": "52",
+  "steps": [
+   "Profit per shirt: $12 − $3 = $9.",
+   "Inequality: 135 + 9s ≥ 600.",
+   "Subtract 135: 9s ≥ 465, so s ≥ 51.67.",
+   "Shirts must be whole and the goal must be reached, so round up: s = 52.",
+   "Check: 51 shirts gives $594 (not enough); 52 gives $603 ✓"
+  ],
+  "key": "For \"at least\" goals, round up to the next whole number.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
   "id": "m-am-01",
   "section": "math",
   "domain": "Advanced Math",
@@ -326,6 +841,272 @@
   "key": "Simplify rational expressions by factoring fully, then cancelling common factors."
  },
  {
+  "id": "m-am-07",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Equivalent expressions",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "Which expression is equivalent to 3(2x − 5) − 4x?",
+  "choices": [
+   "2x − 15",
+   "2x − 5",
+   "10x − 15",
+   "2x + 15"
+  ],
+  "answer": 0,
+  "steps": [
+   "Distribute the 3: 6x − 15 − 4x.",
+   "Combine like terms: 6x − 4x = 2x.",
+   "Result: 2x − 15.",
+   "Trap: 2x − 5 forgets to multiply the 5 by 3."
+  ],
+  "key": "Distribute to every term inside the parentheses before combining.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-08",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Equivalent expressions",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "Which expression is equivalent to x² − 10x + 25?",
+  "choices": [
+   "(x − 5)²",
+   "(x + 5)²",
+   "(x − 5)(x + 5)",
+   "(x − 25)(x − 1)"
+  ],
+  "answer": 0,
+  "steps": [
+   "Look for a perfect square trinomial: a² − 2ab + b².",
+   "x² = (x)², 25 = (5)², and the middle term −10x = −2(x)(5).",
+   "So x² − 10x + 25 = (x − 5)².",
+   "Check: (x − 5)(x − 5) = x² − 5x − 5x + 25 ✓",
+   "(x − 5)(x + 5) = x² − 25, which is missing the middle term."
+  ],
+  "key": "If the first and last terms are squares and the middle is twice their product, it's a perfect square.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-09",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Equivalent expressions",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "Which expression is equivalent to (2x + 3)(x − 4)?",
+  "choices": [
+   "2x² − 5x − 12",
+   "2x² + 5x − 12",
+   "2x² − 11x − 12",
+   "2x² − 12"
+  ],
+  "answer": 0,
+  "steps": [
+   "Multiply each term (FOIL): 2x·x = 2x², 2x·(−4) = −8x, 3·x = 3x, 3·(−4) = −12.",
+   "Combine the middle terms: −8x + 3x = −5x.",
+   "Result: 2x² − 5x − 12.",
+   "Trap: 2x² − 12 forgets the middle terms entirely."
+  ],
+  "key": "Multiply every term by every term, then combine like terms.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-10",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Equivalent expressions",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "Which expression is equivalent to (x⁵ · x⁻²) / x⁴, for x ≠ 0?",
+  "choices": [
+   "1/x",
+   "x",
+   "x³",
+   "1/x⁶"
+  ],
+  "answer": 0,
+  "steps": [
+   "When multiplying powers with the same base, add exponents: x⁵ · x⁻² = x³.",
+   "When dividing, subtract exponents: x³ / x⁴ = x⁻¹.",
+   "A negative exponent means a reciprocal: x⁻¹ = 1/x.",
+   "Trap: x³ forgets to divide by x⁴."
+  ],
+  "key": "Multiply → add exponents; divide → subtract exponents; negative exponent → reciprocal.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-11",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear equations and systems",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "x² = 49\nIf x > 0, what is the value of x?",
+  "answer": "7",
+  "steps": [
+   "Take the square root of both sides: x = 7 or x = −7.",
+   "The condition x > 0 rules out −7.",
+   "Answer: 7."
+  ],
+  "key": "x² = k has two solutions, ±√k; use the given condition to pick one.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-12",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear equations and systems",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "What are the solutions to (x − 3)(x + 8) = 0?",
+  "choices": [
+   "3 and −8",
+   "−3 and 8",
+   "3 and 8",
+   "−3 and −8"
+  ],
+  "answer": 0,
+  "steps": [
+   "A product is zero when at least one factor is zero.",
+   "x − 3 = 0 gives x = 3.",
+   "x + 8 = 0 gives x = −8.",
+   "Trap: the signs flip from the factors, so (x + 8) gives −8, not 8."
+  ],
+  "key": "Zero-product property: set each factor equal to 0.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-13",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear equations and systems",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "√(x + 5) = 4\nWhat is the solution to the equation above?",
+  "answer": "11",
+  "steps": [
+   "Square both sides: x + 5 = 16.",
+   "Subtract 5: x = 11.",
+   "Check in the original: √(11 + 5) = √16 = 4 ✓",
+   "Always check radical equations; squaring can create false solutions."
+  ],
+  "key": "Isolate the radical, square both sides, then check your answer in the original.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-14",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear equations and systems",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "y = x²\ny = 2x + 3\nThe graphs of the equations above intersect at two points. Which of the following is the x-coordinate of one of those points?",
+  "choices": [
+   "3",
+   "1",
+   "−3",
+   "2"
+  ],
+  "answer": 0,
+  "steps": [
+   "At an intersection, the y-values are equal: x² = 2x + 3.",
+   "Rearrange: x² − 2x − 3 = 0.",
+   "Factor: (x − 3)(x + 1) = 0, so x = 3 or x = −1.",
+   "Only 3 is among the choices.",
+   "Check: x = 3 gives y = 9 in both equations ✓"
+  ],
+  "key": "To find intersections, set the expressions for y equal and solve.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-15",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear equations and systems",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "2x² − 3x − 9 = 0\nIf x > 0, what is the solution to the equation above?",
+  "answer": "3",
+  "steps": [
+   "Factor: look for two numbers that multiply to 2 × (−9) = −18 and add to −3: −6 and 3.",
+   "Rewrite: 2x² − 6x + 3x − 9 = 0 → 2x(x − 3) + 3(x − 3) = 0.",
+   "Factor: (2x + 3)(x − 3) = 0, so x = −3/2 or x = 3.",
+   "With x > 0, x = 3.",
+   "Check: 2(9) − 9 − 9 = 0 ✓"
+  ],
+  "key": "For ax² + bx + c with a ≠ 1, split the middle term using two numbers that multiply to ac.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-16",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear functions",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "The function f is defined by f(x) = 2ˣ. What is the value of f(5)?",
+  "choices": [
+   "32",
+   "10",
+   "25",
+   "7"
+  ],
+  "answer": 0,
+  "steps": [
+   "f(5) = 2⁵.",
+   "2⁵ = 2 × 2 × 2 × 2 × 2 = 32.",
+   "Trap: 10 is 2 × 5, which is multiplication, not an exponent."
+  ],
+  "key": "bˣ means multiply b by itself x times.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-17",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear functions",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "The function V(t) = 24,000(0.85)ᵗ models the value, in dollars, of a car t years after it was bought. Which statement best describes how the value changes?",
+  "choices": [
+   "The value decreases by 15% each year.",
+   "The value decreases by 85% each year.",
+   "The value increases by 15% each year.",
+   "The value decreases by $15 each year."
+  ],
+  "answer": 0,
+  "steps": [
+   "The form a(b)ᵗ is exponential, with growth or decay factor b = 0.85.",
+   "Since 0.85 < 1, the value decreases each year.",
+   "Each year the car keeps 85% of its value, so it loses 100% − 85% = 15%.",
+   "Trap: 85% is the amount kept, not the amount lost."
+  ],
+  "key": "In a(1 − r)ᵗ, r is the percent decrease per period; the factor itself is the percent kept.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-am-18",
+  "section": "math",
+  "domain": "Advanced Math",
+  "skill": "Nonlinear functions",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "y = x² − 8x + 21\nWhat is the minimum value of y for the equation above?",
+  "answer": "5",
+  "steps": [
+   "The parabola opens upward (positive x² term), so its vertex gives the minimum.",
+   "Vertex x-coordinate: x = −b/(2a) = 8/2 = 4.",
+   "Substitute x = 4: y = 16 − 32 + 21 = 5.",
+   "Or complete the square: y = (x − 4)² + 5, and (x − 4)² is never negative.",
+   "Minimum value: 5."
+  ],
+  "key": "For an upward parabola, the minimum is the y-value at x = −b/(2a).",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
   "id": "m-gt-01",
   "section": "math",
   "domain": "Geometry and Trigonometry",
@@ -463,6 +1244,375 @@
    "Shortcut: the radius doubles (×4 area) and the height halves (×½), so ×4 × ½ = ×2."
   ],
   "key": "Cylinder volume V = πr²h. The radius is squared, so doubling it quadruples the base area."
+ },
+ {
+  "id": "m-gt-07",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Area and volume",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "A rectangle has an area of 72 square units and a length of 9 units. What is its width, in units?",
+  "answer": "8",
+  "steps": [
+   "Area = length × width, so 72 = 9 × w.",
+   "Divide: w = 72 ÷ 9 = 8."
+  ],
+  "key": "Rearrange the area formula to find a missing side.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-08",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Area and volume",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "What is the volume, in cubic units, of a cube with an edge length of 4 units?",
+  "choices": [
+   "64",
+   "16",
+   "48",
+   "12"
+  ],
+  "answer": 0,
+  "steps": [
+   "Volume of a cube = s³.",
+   "4³ = 4 × 4 × 4 = 64.",
+   "Trap: 16 is the area of one face (4²)."
+  ],
+  "key": "Cube volume is edge cubed; face area is edge squared.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-09",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Area and volume",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "A triangle has a base of 14 units and a height of 9 units. What is its area, in square units?",
+  "choices": [
+   "63",
+   "126",
+   "23",
+   "31.5"
+  ],
+  "answer": 0,
+  "steps": [
+   "Area of a triangle = ½ × base × height.",
+   "½ × 14 × 9 = 7 × 9 = 63.",
+   "Trap: 126 forgets the ½."
+  ],
+  "key": "Triangle area is half of base × height.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-10",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Area and volume",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "A circle has an area of 81π square units. What is the radius of the circle, in units?",
+  "answer": "9",
+  "steps": [
+   "Area = πr², so πr² = 81π.",
+   "Divide by π: r² = 81.",
+   "Take the square root: r = 9."
+  ],
+  "key": "Set πr² equal to the given area and solve for r.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-11",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Area and volume",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "A rectangular prism has a volume of 360 cubic centimeters. If its length, width, and height are each doubled, what is the volume of the new prism, in cubic centimeters?",
+  "choices": [
+   "2,880",
+   "720",
+   "1,440",
+   "5,760"
+  ],
+  "answer": 0,
+  "steps": [
+   "Volume = l × w × h.",
+   "Doubling each dimension: (2l)(2w)(2h) = 8lwh.",
+   "New volume: 8 × 360 = 2,880.",
+   "Trap: 720 doubles the volume only once."
+  ],
+  "key": "Scaling every length by k scales area by k² and volume by k³.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-12",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Lines, angles, and triangles",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "Two angles are supplementary. One angle measures 68°. What is the measure, in degrees, of the other angle?",
+  "answer": "112",
+  "steps": [
+   "Supplementary angles add to 180°.",
+   "180 − 68 = 112."
+  ],
+  "key": "Supplementary = 180°; complementary = 90°.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-13",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Lines, angles, and triangles",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "Two parallel lines are cut by a transversal. Two corresponding angles measure (3x + 10)° and (5x − 30)°. What is the value of x?",
+  "choices": [
+   "20",
+   "25",
+   "10",
+   "40"
+  ],
+  "answer": 0,
+  "steps": [
+   "When parallel lines are cut by a transversal, corresponding angles are equal.",
+   "Set them equal: 3x + 10 = 5x − 30.",
+   "Subtract 3x and add 30: 40 = 2x.",
+   "x = 20.",
+   "Check: 3(20) + 10 = 70 and 5(20) − 30 = 70 ✓"
+  ],
+  "key": "Corresponding and alternate interior angles are equal; same-side interior angles add to 180°.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-14",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Lines, angles, and triangles",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "The vertex angle of an isosceles triangle measures 40°. What is the measure, in degrees, of each base angle?",
+  "answer": "70",
+  "steps": [
+   "The angles of a triangle add to 180°.",
+   "The two base angles are equal: 40 + 2b = 180.",
+   "2b = 140, so b = 70."
+  ],
+  "key": "In an isosceles triangle, the base angles are equal.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-15",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Lines, angles, and triangles",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "Triangle ABC is similar to triangle DEF, with A corresponding to D, B to E, and C to F. If AB = 6, DE = 15, and BC = 8, what is the length of EF?",
+  "choices": [
+   "20",
+   "17",
+   "12",
+   "3.2"
+  ],
+  "answer": 0,
+  "steps": [
+   "Similar triangles have proportional corresponding sides.",
+   "Scale factor from ABC to DEF: DE ÷ AB = 15 ÷ 6 = 2.5.",
+   "EF corresponds to BC: EF = 2.5 × 8 = 20.",
+   "Trap: 17 adds the difference (15 − 6 = 9) instead of multiplying by the scale factor."
+  ],
+  "key": "Similar figures scale by multiplying, not adding.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-16",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Lines, angles, and triangles",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "In triangle PQR, the measure of angle P is (2x)°, the measure of angle Q is (3x + 15)°, and the measure of angle R is (x + 9)°. What is the measure, in degrees, of the largest angle of the triangle?",
+  "answer": "93",
+  "steps": [
+   "The angles add to 180: 2x + (3x + 15) + (x + 9) = 180.",
+   "Combine: 6x + 24 = 180, so 6x = 156 and x = 26.",
+   "Angles: P = 52°, Q = 3(26) + 15 = 93°, R = 35°.",
+   "Check: 52 + 93 + 35 = 180 ✓",
+   "The largest angle is 93°. (Trap: answering 26, the value of x.)"
+  ],
+  "key": "Solve for x, then substitute back. The question asks for an angle, not for x.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-17",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Right triangles and trigonometry",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "A right triangle has legs of length 8 and 15. What is the length of the hypotenuse?",
+  "answer": "17",
+  "steps": [
+   "Pythagorean theorem: c² = 8² + 15² = 64 + 225 = 289.",
+   "c = √289 = 17.",
+   "Tip: 8-15-17 is a Pythagorean triple."
+  ],
+  "key": "a² + b² = c², where c is the hypotenuse.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-18",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Right triangles and trigonometry",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "In a right triangle, the side opposite angle θ has length 7 and the hypotenuse has length 25. What is tan θ?",
+  "choices": [
+   "7/24",
+   "24/7",
+   "7/25",
+   "24/25"
+  ],
+  "answer": 0,
+  "steps": [
+   "Find the adjacent side: √(25² − 7²) = √(625 − 49) = √576 = 24.",
+   "tan θ = opposite ÷ adjacent = 7/24.",
+   "Trap: 7/25 is sin θ, and 24/25 is cos θ."
+  ],
+  "key": "SOH-CAH-TOA: tan = opposite ÷ adjacent. Find any missing side first.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-19",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Right triangles and trigonometry",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "In right triangle ABC, angle C is the right angle and sin A = 0.6. What is the value of cos B?",
+  "answer": "0.6",
+  "steps": [
+   "In a right triangle, angles A and B are complementary (they add to 90°).",
+   "For complementary angles, sin A = cos B.",
+   "Why: the side opposite A is the side adjacent to B, and both ratios use the same hypotenuse.",
+   "So cos B = 0.6 (also written 3/5)."
+  ],
+  "key": "sin x = cos(90° − x): the two acute angles of a right triangle swap sine and cosine.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-20",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Right triangles and trigonometry",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "In a 30°-60°-90° triangle, the shorter leg has length 5. What are the lengths of the hypotenuse and the longer leg?",
+  "choices": [
+   "Hypotenuse 10, longer leg 5√3",
+   "Hypotenuse 5√3, longer leg 10",
+   "Hypotenuse 10, longer leg 5√2",
+   "Hypotenuse 5√2, longer leg 5"
+  ],
+  "answer": 0,
+  "steps": [
+   "Side ratio in a 30°-60°-90° triangle: shorter leg : longer leg : hypotenuse = 1 : √3 : 2.",
+   "Shorter leg = 5, so the hypotenuse = 2 × 5 = 10.",
+   "Longer leg = 5√3 ≈ 8.66.",
+   "Check: 5² + (5√3)² = 25 + 75 = 100 = 10² ✓",
+   "5√2 belongs to the 45°-45°-90° triangle."
+  ],
+  "key": "30-60-90: x, x√3, 2x. 45-45-90: x, x, x√2.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-21",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Circles",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "What is the circumference of a circle with a diameter of 12?",
+  "choices": [
+   "12π",
+   "36π",
+   "6π",
+   "144π"
+  ],
+  "answer": 0,
+  "steps": [
+   "Circumference = πd.",
+   "π × 12 = 12π.",
+   "Trap: 36π is the area (r = 6, so πr² = 36π)."
+  ],
+  "key": "C = πd = 2πr; A = πr². Don't mix them up.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-22",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Circles",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "A circle has a circumference of 14π. What is the radius of the circle?",
+  "answer": "7",
+  "steps": [
+   "Circumference = 2πr, so 2πr = 14π.",
+   "Divide by 2π: r = 7."
+  ],
+  "key": "Set 2πr equal to the circumference and solve for r.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-23",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Circles",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "Which equation represents a circle in the xy-plane with center (−2, 5) and radius 3?",
+  "choices": [
+   "(x + 2)² + (y − 5)² = 9",
+   "(x − 2)² + (y + 5)² = 9",
+   "(x + 2)² + (y − 5)² = 3",
+   "(x − 2)² + (y − 5)² = 9"
+  ],
+  "answer": 0,
+  "steps": [
+   "Standard form: (x − h)² + (y − k)² = r² with center (h, k).",
+   "h = −2, so (x − (−2))² = (x + 2)².",
+   "k = 5, so (y − 5)².",
+   "r² = 3² = 9.",
+   "Traps: the signs inside the parentheses are opposite to the center's coordinates, and the right side is r², not r."
+  ],
+  "key": "Center (h, k) appears as (x − h) and (y − k); the right side is r².",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-gt-24",
+  "section": "math",
+  "domain": "Geometry and Trigonometry",
+  "skill": "Circles",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "x² + y² − 6x + 8y = 0\nThe equation above defines a circle in the xy-plane. What is the radius of the circle?",
+  "answer": "5",
+  "steps": [
+   "Group terms: (x² − 6x) + (y² + 8y) = 0.",
+   "Complete the square for x: add (−6/2)² = 9. For y: add (8/2)² = 16. Add both to the right side too.",
+   "(x − 3)² + (y + 4)² = 25.",
+   "r² = 25, so r = 5. (The center is (3, −4).)"
+  ],
+  "key": "Complete the square in x and y to reach standard form (x − h)² + (y − k)² = r².",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
  },
  {
   "id": "m-pd-01",
@@ -733,6 +1883,767 @@
   "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
  },
  {
+  "id": "m-pd-11",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Ratios, rates, and units",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "A car travels 150 miles in 3 hours at a constant speed. At this speed, how many miles will the car travel in 5 hours?",
+  "answer": "250",
+  "steps": [
+   "Find the rate: 150 ÷ 3 = 50 miles per hour.",
+   "Multiply by the new time: 50 × 5 = 250 miles."
+  ],
+  "key": "Find the unit rate first, then scale it.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-12",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Ratios, rates, and units",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "There are 2.54 centimeters in 1 inch. Which of the following is closest to the number of inches in 40 centimeters?",
+  "choices": [
+   "15.7",
+   "101.6",
+   "37.5",
+   "42.5"
+  ],
+  "answer": 0,
+  "steps": [
+   "Set up the conversion so centimeters cancel: 40 cm × (1 in / 2.54 cm).",
+   "Compute: 40 ÷ 2.54 ≈ 15.7 inches.",
+   "Trap: 101.6 comes from multiplying by 2.54. An inch is longer than a centimeter, so there must be fewer inches than centimeters."
+  ],
+  "key": "Write units in the conversion factor so the unit you don't want cancels.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-13",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Ratios, rates, and units",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "On a map, 1 centimeter represents 25 kilometers. Two towns are 7.2 centimeters apart on the map. What is the actual distance, in kilometers, between the towns?",
+  "answer": "180",
+  "steps": [
+   "Scale: 1 cm on the map = 25 km.",
+   "Multiply: 7.2 × 25 = 180.",
+   "Actual distance: 180 km."
+  ],
+  "key": "Map distance × scale factor = actual distance.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-14",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Ratios, rates, and units",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "A printer prints 18 pages per minute. At this rate, how many seconds does it take to print 45 pages?",
+  "answer": "150",
+  "steps": [
+   "Time in minutes: 45 ÷ 18 = 2.5 minutes.",
+   "Convert to seconds: 2.5 × 60 = 150 seconds.",
+   "Trap: answering 2.5 forgets the unit the question asks for."
+  ],
+  "key": "Check the units in the question; convert at the end if needed.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-15",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Ratios, rates, and units",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "One gallon of paint covers 350 square feet. A wall is 12 feet high and 50 feet long and needs two coats of paint. If paint is sold only in whole gallons, what is the minimum number of gallons needed?",
+  "choices": [
+   "4",
+   "3",
+   "2",
+   "7"
+  ],
+  "answer": 0,
+  "steps": [
+   "Wall area: 12 × 50 = 600 square feet.",
+   "Two coats: 600 × 2 = 1,200 square feet.",
+   "Gallons: 1,200 ÷ 350 ≈ 3.43.",
+   "3 gallons would not be enough, so round up to 4.",
+   "Trap: 2 gallons covers only one coat."
+  ],
+  "key": "Account for every factor (here, two coats), then round up when you can't buy part of a unit.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-16",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Percentages",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "What is 30% of 250?",
+  "answer": "75",
+  "steps": [
+   "Convert the percent: 30% = 0.30.",
+   "Multiply: 0.30 × 250 = 75."
+  ],
+  "key": "\"Percent of\" means multiply by the decimal form.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-17",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Percentages",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "The population of a town grew from 1,600 to 2,000. By what percent did the population increase?",
+  "choices": [
+   "25%",
+   "20%",
+   "40%",
+   "400%"
+  ],
+  "answer": 0,
+  "steps": [
+   "Amount of increase: 2,000 − 1,600 = 400.",
+   "Percent increase = increase ÷ original = 400 ÷ 1,600 = 0.25.",
+   "0.25 = 25%.",
+   "Trap: 20% divides by the new value (400 ÷ 2,000) instead of the original."
+  ],
+  "key": "Percent change always divides by the original (starting) value.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-18",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Percentages",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "After a 15% discount, a jacket costs $68. What was the original price, in dollars?",
+  "answer": "80",
+  "steps": [
+   "After a 15% discount, the price is 85% of the original: 0.85p = 68.",
+   "Divide: p = 68 ÷ 0.85 = 80.",
+   "Check: 15% of $80 is $12, and $80 − $12 = $68 ✓",
+   "Trap: adding 15% of $68 to $68 gives $78.20, which is wrong because the 15% was taken from the original price."
+  ],
+  "key": "To undo a percent change, divide by the multiplier (0.85 for a 15% decrease).",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-19",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Percentages",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "The value of x is 40% of y, and y is 25% of z. The value of x is what percent of z?",
+  "choices": [
+   "10%",
+   "65%",
+   "15%",
+   "100%"
+  ],
+  "answer": 0,
+  "steps": [
+   "Write as equations: x = 0.40y and y = 0.25z.",
+   "Substitute: x = 0.40(0.25z) = 0.10z.",
+   "So x is 10% of z.",
+   "Check with z = 100: y = 25, x = 10, and 10 is 10% of 100 ✓",
+   "Trap: 65% adds the percents instead of multiplying them."
+  ],
+  "key": "A percent of a percent: multiply the decimals.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-20",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "One-variable data",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "What is the mean of the data set 6, 9, 10, 15?",
+  "answer": "10",
+  "steps": [
+   "Add the values: 6 + 9 + 10 + 15 = 40.",
+   "Divide by the number of values: 40 ÷ 4 = 10."
+  ],
+  "key": "Mean = sum ÷ count.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-21",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "One-variable data",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "What is the median of the data set 3, 11, 7, 2, 9?",
+  "choices": [
+   "7",
+   "6.4",
+   "9",
+   "2"
+  ],
+  "answer": 0,
+  "steps": [
+   "Order the values: 2, 3, 7, 9, 11.",
+   "There are 5 values, so the median is the 3rd one.",
+   "Median = 7.",
+   "Trap: 6.4 is the mean, not the median."
+  ],
+  "key": "Always put the data in order before finding the median.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-22",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "One-variable data",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "The mean of five numbers is 12. Four of the numbers are 8, 10, 15, and 11. What is the fifth number?",
+  "answer": "16",
+  "steps": [
+   "The sum of all five numbers = mean × count = 12 × 5 = 60.",
+   "The sum of the four known numbers is 8 + 10 + 15 + 11 = 44.",
+   "The fifth number = 60 − 44 = 16."
+  ],
+  "key": "Mean × count gives the total; subtract what you know to find what's missing.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-23",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "One-variable data",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "Data set A: 10, 20, 30, 40, 50\nData set B: 28, 29, 30, 31, 32\nWhich statement correctly compares the two data sets?",
+  "choices": [
+   "They have the same mean, and data set B has a smaller standard deviation.",
+   "They have the same mean, and data set A has a smaller standard deviation.",
+   "Data set B has a greater mean than data set A.",
+   "They have the same standard deviation."
+  ],
+  "answer": 0,
+  "steps": [
+   "Mean of A: 150 ÷ 5 = 30. Mean of B: 150 ÷ 5 = 30. The means are equal.",
+   "Standard deviation measures how spread out the values are from the mean.",
+   "A's values are 10 to 20 units from 30; B's are within 2 units of 30.",
+   "So B is less spread out and has the smaller standard deviation."
+  ],
+  "key": "Standard deviation is about spread around the mean; you can compare it without calculating.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-24",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "One-variable data",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "The mean score of 20 students on a test is 75. A new student takes the test and scores 96. What is the mean score of all 21 students?",
+  "choices": [
+   "76",
+   "85.5",
+   "75",
+   "77"
+  ],
+  "answer": 0,
+  "steps": [
+   "Total of the 20 scores: 20 × 75 = 1,500.",
+   "Add the new score: 1,500 + 96 = 1,596.",
+   "New mean: 1,596 ÷ 21 = 76.",
+   "Trap: 85.5 averages 75 and 96 as if they had equal weight."
+  ],
+  "key": "To update a mean, work with totals: new total ÷ new count.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-25",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Two-variable data",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A scatterplot shows that as the number of hours students practiced increased, the number of errors they made tended to decrease. Which best describes the association between hours of practice and number of errors?",
+  "choices": [
+   "Negative association",
+   "Positive association",
+   "No association",
+   "Exponential growth"
+  ],
+  "answer": 0,
+  "steps": [
+   "In a positive association, both variables increase together.",
+   "Here, one variable increases while the other decreases.",
+   "That pattern is a negative association."
+  ],
+  "key": "Positive: both go up together. Negative: one goes up as the other goes down.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-26",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Two-variable data",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "The model y = −4x + 90 predicts the number of concert tickets still available, y, x hours after tickets go on sale. According to the model, how many tickets are still available 12 hours after tickets go on sale?",
+  "answer": "42",
+  "steps": [
+   "Substitute x = 12: y = −4(12) + 90.",
+   "Multiply: −48 + 90.",
+   "Add: 42 tickets."
+  ],
+  "key": "To use a model, substitute the given input and evaluate.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-27",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Two-variable data",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "The table shows the number of members in a club at the start of each year. Which function best models the number of members, y, x years after year 0?",
+  "choices": [
+   "y = 200(1.1)ˣ",
+   "y = 200 + 20x",
+   "y = 200(0.9)ˣ",
+   "y = 220x"
+  ],
+  "answer": 0,
+  "steps": [
+   "Check the differences: 220 − 200 = 20, 242 − 220 = 22, 266 − 242 = 24. They are not constant, so the model isn't linear.",
+   "Check the ratios: 220 ÷ 200 = 1.1, 242 ÷ 220 = 1.1, 266 ÷ 242 ≈ 1.1. They are constant, so it's exponential.",
+   "Starting value 200 and growth factor 1.1 give y = 200(1.1)ˣ.",
+   "0.9 would mean decrease, and 220x gives 0 members at year 0."
+  ],
+  "key": "Constant differences → linear. Constant ratios → exponential.",
+  "table": {
+   "caption": "Club members",
+   "head": [
+    "Year",
+    "Members"
+   ],
+   "rows": [
+    [
+     "0",
+     "200"
+    ],
+    [
+     "1",
+     "220"
+    ],
+    [
+     "2",
+     "242"
+    ],
+    [
+     "3",
+     "266"
+    ]
+   ]
+  },
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-28",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Two-variable data",
+  "difficulty": 3,
+  "type": "spr",
+  "stem": "The line of best fit y = 0.8x + 3.6 models the quiz score y, out of 10, for a student who studied x hours. One student studied 5 hours and scored 9. What is the actual score minus the predicted score for this student?",
+  "answer": "1.4",
+  "steps": [
+   "Predicted score: 0.8(5) + 3.6 = 4 + 3.6 = 7.6.",
+   "Actual score: 9.",
+   "Actual − predicted = 9 − 7.6 = 1.4.",
+   "A positive difference means the student scored above the line of best fit."
+  ],
+  "key": "Residual = actual − predicted. Positive means the point lies above the line.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-29",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Probability",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A bag contains 4 red, 6 blue, and 10 green marbles. One marble is chosen at random. What is the probability that it is blue?",
+  "choices": [
+   "3/10",
+   "3/7",
+   "1/6",
+   "3/5"
+  ],
+  "answer": 0,
+  "steps": [
+   "Total marbles: 4 + 6 + 10 = 20.",
+   "Blue marbles: 6.",
+   "Probability = 6/20 = 3/10.",
+   "Trap: 3/7 (6/14) leaves out the green marbles."
+  ],
+  "key": "Probability = favorable outcomes ÷ total outcomes.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-30",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Probability",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "A fair six-sided die numbered 1 through 6 is rolled once. What is the probability of rolling a number greater than 4? (Enter a fraction or decimal.)",
+  "answer": "1/3",
+  "steps": [
+   "Numbers greater than 4: 5 and 6, which is 2 outcomes.",
+   "Total outcomes: 6.",
+   "Probability = 2/6 = 1/3.",
+   "Note: \"greater than 4\" does not include 4."
+  ],
+  "key": "Count carefully: \"greater than\" excludes the number itself.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-31",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Probability",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "The table shows survey results from 120 students. If a grade 12 student from the survey is selected at random, what is the probability that the student prefers online learning?",
+  "choices": [
+   "7/10",
+   "7/20",
+   "7/12",
+   "3/5"
+  ],
+  "answer": 0,
+  "steps": [
+   "The condition is \"a grade 12 student\", so use only the grade 12 row: 60 students.",
+   "Grade 12 students who prefer online: 42.",
+   "Probability = 42/60 = 7/10.",
+   "Trap: 7/20 (42/120) uses all students; 7/12 (42/72) uses all online students."
+  ],
+  "key": "With \"given\" or \"from this group\", the group total is the denominator.",
+  "table": {
+   "caption": "Preferred learning format",
+   "head": [
+    "",
+    "Online",
+    "In person",
+    "Total"
+   ],
+   "rows": [
+    [
+     "Grade 11",
+     "30",
+     "30",
+     "60"
+    ],
+    [
+     "Grade 12",
+     "42",
+     "18",
+     "60"
+    ],
+    [
+     "Total",
+     "72",
+     "48",
+     "120"
+    ]
+   ]
+  },
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-32",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Probability",
+  "difficulty": 2,
+  "type": "spr",
+  "stem": "The table shows survey results from 120 students. If a student who prefers online learning is selected at random, what is the probability that the student is in grade 11? (Enter a fraction or decimal.)",
+  "answer": "5/12",
+  "steps": [
+   "The condition is \"prefers online learning\", so use the Online column total: 72.",
+   "Of those, grade 11 students: 30.",
+   "Probability = 30/72 = 5/12 ≈ 0.4167."
+  ],
+  "key": "Find the group named in the condition and use its total as the denominator.",
+  "table": {
+   "caption": "Preferred learning format",
+   "head": [
+    "",
+    "Online",
+    "In person",
+    "Total"
+   ],
+   "rows": [
+    [
+     "Grade 11",
+     "30",
+     "30",
+     "60"
+    ],
+    [
+     "Grade 12",
+     "42",
+     "18",
+     "60"
+    ],
+    [
+     "Total",
+     "72",
+     "48",
+     "120"
+    ]
+   ]
+  },
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-33",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Probability",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "Two fair coins are flipped. What is the probability of getting at least one head?",
+  "choices": [
+   "3/4",
+   "1/2",
+   "1/4",
+   "2/3"
+  ],
+  "answer": 0,
+  "steps": [
+   "List all equally likely outcomes: HH, HT, TH, TT, which is 4 outcomes.",
+   "Outcomes with at least one head: HH, HT, TH, which is 3.",
+   "Probability = 3/4.",
+   "Shortcut: P(at least one head) = 1 − P(no heads) = 1 − 1/4 = 3/4.",
+   "Trap: 2/3 treats \"one head\", \"two heads\" and \"no heads\" as equally likely, but they aren't."
+  ],
+  "key": "\"At least one\" = 1 − P(none).",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-34",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Sample statistics and margin of error",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A principal wants to estimate how many hours per week students at her school spend on homework. Which sampling method is most likely to produce a representative sample?",
+  "choices": [
+   "Randomly selecting 100 students from a list of all students at the school",
+   "Surveying the members of the school's basketball team",
+   "Surveying students who are in the library at lunch",
+   "Posting an online survey and using the first 100 responses"
+  ],
+  "answer": 0,
+  "steps": [
+   "A representative sample should give every student an equal chance of being chosen.",
+   "Random selection from the full list does this.",
+   "The basketball team and library visitors are specific groups that may study more or less than average.",
+   "Voluntary online responses attract students who choose to answer, which is self-selection bias."
+  ],
+  "key": "Random selection from the whole population avoids bias.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-35",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Sample statistics and margin of error",
+  "difficulty": 1,
+  "type": "spr",
+  "stem": "In a random sample of 80 voters in a city, 52 support a proposal. What percent of the sample supports the proposal?",
+  "answer": "65",
+  "steps": [
+   "Fraction supporting: 52 ÷ 80 = 0.65.",
+   "Convert to a percent: 0.65 × 100 = 65%."
+  ],
+  "key": "Sample percent = part ÷ sample size × 100.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-36",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Sample statistics and margin of error",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "A survey of a random sample of residents estimates that 62% of residents support building a new park, with a margin of error of 4 percentage points. Which of the following is a plausible value for the percentage of all residents who support the park?",
+  "choices": [
+   "60%",
+   "55%",
+   "67%",
+   "70%"
+  ],
+  "answer": 0,
+  "steps": [
+   "The plausible range is 62% ± 4%, which is 58% to 66%.",
+   "Only 60% lies within that range.",
+   "55%, 67% and 70% fall outside it."
+  ],
+  "key": "Estimate ± margin of error gives the range of plausible values.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-37",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Sample statistics and margin of error",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "Two random samples are taken from the same population to estimate the mean height. Sample A has 100 people and sample B has 900 people. Which statement is most likely true?",
+  "choices": [
+   "The margin of error for sample B is smaller than for sample A.",
+   "The margin of error for sample A is smaller than for sample B.",
+   "The two samples have the same margin of error.",
+   "Sample B's estimate must equal the true population mean."
+  ],
+  "answer": 0,
+  "steps": [
+   "Margin of error depends on sample size: larger random samples give more precise estimates.",
+   "Sample B is 9 times larger, so its margin of error is smaller (about one-third as large).",
+   "No sample, however large, guarantees the exact population value."
+  ],
+  "key": "Bigger random sample → smaller margin of error, but never zero.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-38",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Sample statistics and margin of error",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "A random sample of 400 seniors at one high school found a mean study time of 6.2 hours per week, with a margin of error of 0.5 hours. Which conclusion is most appropriate?",
+  "choices": [
+   "It is plausible that the mean study time of all seniors at that school is between 5.7 and 6.7 hours per week.",
+   "The mean study time of all high school seniors in the country is between 5.7 and 6.7 hours per week.",
+   "Every senior at the school studies between 5.7 and 6.7 hours per week.",
+   "The mean study time of all seniors at the school is exactly 6.2 hours per week."
+  ],
+  "answer": 0,
+  "steps": [
+   "The range is 6.2 ± 0.5, which is 5.7 to 6.7 hours.",
+   "The sample came from one school, so conclusions apply only to that school's seniors, not the whole country.",
+   "The margin of error describes the mean, not every individual student.",
+   "The true mean is estimated, not known exactly."
+  ],
+  "key": "Generalize only to the population sampled, and only about the parameter estimated.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-39",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Observational studies and experiments",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "Which of the following describes an experiment rather than an observational study?",
+  "choices": [
+   "Researchers randomly assign 50 plants to receive fertilizer or no fertilizer, then measure their growth.",
+   "Researchers record how many hours students sleep and compare their grades.",
+   "Researchers survey shoppers about how often they buy organic food.",
+   "Researchers count birds at a lake each month for a year."
+  ],
+  "answer": 0,
+  "steps": [
+   "In an experiment, researchers impose a treatment on the subjects.",
+   "In an observational study, researchers only measure what already happens.",
+   "Only the first choice assigns a treatment (fertilizer), and it does so randomly."
+  ],
+  "key": "Experiment = researchers assign the treatment. Observational = researchers just observe.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-40",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Observational studies and experiments",
+  "difficulty": 1,
+  "type": "mc",
+  "stem": "A researcher surveys a random sample of 1,000 adults in a country and finds that coffee drinkers report fewer headaches than people who don't drink coffee. Can the researcher conclude that drinking coffee causes fewer headaches?",
+  "choices": [
+   "No, because the participants were not randomly assigned to drink coffee.",
+   "Yes, because the sample is large.",
+   "Yes, because the sample was selected at random.",
+   "No, because 1,000 adults is too small a sample."
+  ],
+  "answer": 0,
+  "steps": [
+   "Cause and effect requires random assignment to groups.",
+   "Here, people chose whether to drink coffee, so other differences between groups could explain the result.",
+   "A large random sample lets you generalize to the country's adults, but only as an association."
+  ],
+  "key": "Random sampling supports generalizing; only random assignment supports causation.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-41",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Observational studies and experiments",
+  "difficulty": 2,
+  "type": "mc",
+  "stem": "Volunteers at one gym were randomly assigned to follow exercise program A or program B for 8 weeks. Those in program A lost more weight on average. Which conclusion is best supported?",
+  "choices": [
+   "Program A likely causes more weight loss than program B for volunteers like these, but the result may not apply to all adults.",
+   "Program A causes more weight loss than program B for all adults.",
+   "The programs are only associated with weight loss; no cause can be determined.",
+   "No conclusion can be drawn because the participants were volunteers."
+  ],
+  "answer": 0,
+  "steps": [
+   "Random assignment to programs supports a cause-and-effect conclusion.",
+   "But the participants were volunteers at one gym, not a random sample of all adults.",
+   "So the causal conclusion applies to people similar to these volunteers."
+  ],
+  "key": "Random assignment → causation; who you studied limits who you can generalize to.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "m-pd-42",
+  "section": "math",
+  "domain": "Problem-Solving and Data Analysis",
+  "skill": "Observational studies and experiments",
+  "difficulty": 3,
+  "type": "mc",
+  "stem": "Researchers randomly selected 300 students from a school district and then randomly assigned half of them to receive weekly tutoring. After a semester, the tutored students had higher average test scores. Which conclusion is best supported?",
+  "choices": [
+   "Tutoring is likely to cause higher test scores for students in the district.",
+   "Tutoring is associated with higher test scores, but no causal conclusion can be made.",
+   "Tutoring causes higher test scores for students in every district in the country.",
+   "No conclusion can be drawn about students in the district."
+  ],
+  "answer": 0,
+  "steps": [
+   "Random selection from the district lets results generalize to the district's students.",
+   "Random assignment to tutoring supports a cause-and-effect conclusion.",
+   "With both, you can conclude tutoring likely causes higher scores for students in the district, but not beyond it."
+  ],
+  "key": "Random sample + random assignment = a causal conclusion for the population sampled.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
   "id": "rw-cs-01",
   "section": "rw",
   "domain": "Craft and Structure",
@@ -895,6 +2806,308 @@
   "key": "Words in Context: the blank must allow \"reservations\" to show through."
  },
  {
+  "id": "rw-cs-07",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Words in Context",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Engineers praised the new bridge design for being remarkably ______: it used far fewer materials than earlier designs while carrying heavier loads.",
+  "stem": "Which choice completes the text with the most logical and precise word or phrase?",
+  "choices": [
+   "efficient",
+   "ornate",
+   "fragile",
+   "temporary"
+  ],
+  "answer": 0,
+  "steps": [
+   "The clue after the colon: fewer materials, heavier loads.",
+   "Doing more with less is the definition of efficient.",
+   "\"Ornate\" means highly decorated; \"fragile\" contradicts carrying heavier loads; \"temporary\" is unsupported."
+  ],
+  "key": "The text after a colon often defines or explains the missing word.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-08",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Words in Context",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Although the candidate's speech lasted nearly an hour, reviewers found it surprisingly ______, noting that it offered few specific proposals despite its length.",
+  "stem": "Which choice completes the text with the most logical and precise word or phrase?",
+  "choices": [
+   "insubstantial",
+   "concise",
+   "controversial",
+   "meticulous"
+  ],
+  "answer": 0,
+  "steps": [
+   "\"Although\" sets up a contrast with the speech's long length.",
+   "The explanation: it offered few specific proposals, so it had little real content.",
+   "\"Insubstantial\" means lacking substance, which fits.",
+   "\"Concise\" (brief) contradicts the hour-long length; \"meticulous\" (very detailed) contradicts \"few specific proposals\"; \"controversial\" is not supported."
+  ],
+  "key": "Use both the contrast word and the explanation; the right word must fit both.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-09",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Text Structure and Purpose",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Before electric refrigerators were common, many households kept food cold in iceboxes: wooden cabinets lined with tin or zinc and cooled by a large block of ice. In winter, workers cut ice from frozen lakes and stored it in insulated icehouses, and throughout the year it was delivered to homes.",
+  "stem": "Which choice best states the main purpose of the text?",
+  "choices": [
+   "To explain how people kept food cold before electric refrigerators were common",
+   "To argue that iceboxes worked better than modern refrigerators",
+   "To describe how lakes freeze in winter",
+   "To compare the costs of different kinds of ice"
+  ],
+  "answer": 0,
+  "steps": [
+   "The text describes iceboxes and how ice was harvested, stored and delivered.",
+   "Its purpose is to explain a past method of keeping food cold.",
+   "It does not argue (B), focus on lakes freezing (C) or discuss costs (D)."
+  ],
+  "key": "Purpose questions ask why the author wrote the text: to explain, argue, describe or compare.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-10",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Text Structure and Purpose",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Sea otters often float on their backs while eating. They use their chests as tables, cracking open shellfish against stones balanced there. Some otters even keep a favorite stone tucked in a loose pouch of skin under one forearm.",
+  "stem": "Which choice best describes the function of the third sentence in the overall structure of the text?",
+  "choices": [
+   "It adds a detail about how otters keep the tools they use for eating.",
+   "It introduces a new topic unrelated to eating.",
+   "It contradicts the description in the second sentence.",
+   "It explains why otters float on their backs."
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentences 1 and 2 describe how otters eat, using stones as tools.",
+   "Sentence 3 adds that some otters store a favorite stone in a skin pouch.",
+   "That extends the tool-use detail, so A.",
+   "It stays on topic (not B), agrees with sentence 2 (not C), and doesn't explain floating (not D)."
+  ],
+  "key": "To find a sentence's function, ask how it connects to the sentence just before it.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-11",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Text Structure and Purpose",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Early telescopes used glass lenses, which bend different colors of light by slightly different amounts, so their images were often blurred by colored fringes. To avoid this problem, Isaac Newton built a telescope that gathered light with a curved mirror instead of a lens. Because a mirror reflects all colors the same way, his design produced sharper images.",
+  "stem": "Which choice best describes the overall structure of the text?",
+  "choices": [
+   "It identifies a problem with an early technology and then describes a solution to that problem.",
+   "It compares two scientists' competing theories about light.",
+   "It lists the steps for building a telescope at home.",
+   "It describes a scientific discovery and then explains why it was rejected."
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentence 1: a problem (lenses create colored fringes).",
+   "Sentence 2: a response (Newton used a mirror instead).",
+   "Sentence 3: why the response works (mirrors reflect all colors equally).",
+   "That is a problem → solution structure.",
+   "There is only one scientist (not B), no instructions (not C), and no rejection (not D)."
+  ],
+  "key": "Label each sentence's job (problem, solution, reason), then match the sequence.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-12",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Text Structure and Purpose",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "The following text is from an original short story.\nGrandmother's roses were famous on our street. Every June, neighbors slowed down to admire them over the fence. But the plant she cared for most was a scraggly lemon tree by the back door, grown from a seed she had carried from the village where she was born.",
+  "stem": "Which choice best describes the function of the third sentence in the text as a whole?",
+  "choices": [
+   "It reveals that the plant with the deepest personal meaning to Grandmother is not the one others admire.",
+   "It explains why the neighbors admire the roses.",
+   "It suggests that Grandmother plans to stop growing roses.",
+   "It describes how lemon trees are usually grown."
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentences 1 and 2 focus on the roses, the plant others admire.",
+   "Sentence 3 begins with \"But\", a contrast.",
+   "It reveals the lemon tree as the plant she values most, tied to her birthplace.",
+   "So it contrasts public admiration with private meaning.",
+   "B, C and D aren't supported: the sentence is about the lemon tree's personal value."
+  ],
+  "key": "A sentence starting with a contrast word usually shifts focus. Ask what it shifts from and to.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-13",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Text Structure and Purpose",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Some critics dismiss video games as mere entertainment. Yet game designers routinely solve problems familiar to architects and novelists: guiding a visitor through a space, controlling the pace at which information is revealed, and making a person's choices feel meaningful. Recognizing these shared challenges, several universities now teach game design alongside architecture and creative writing.",
+  "stem": "Which choice best states the main purpose of the text?",
+  "choices": [
+   "To argue that game design involves serious creative challenges that connect it to established fields",
+   "To explain how to design a successful video game",
+   "To criticize universities for teaching game design",
+   "To describe the history of architecture"
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentence 1 gives a view the author disagrees with: games are \"mere entertainment.\"",
+   "\"Yet\" introduces the author's counterpoint: designers solve problems like architects and novelists.",
+   "Sentence 3 supports this with universities teaching these subjects together.",
+   "So the purpose is to argue that game design is serious creative work linked to other fields.",
+   "B (how-to), C (criticism of universities) and D (history) don't match."
+  ],
+  "key": "When a text opens with a view and then says \"Yet\", the author is usually arguing against that view.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-14",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Cross-Text Connections",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Text 1\nSome elementary school teachers believe that assigning homework every night helps young students build good study habits.\n\nText 2\nStudies of young students have found little connection between the amount of homework they do and their later success in school. For these students, free play and reading for enjoyment may be a better use of evening time.",
+  "stem": "Based on the texts, how would the author of Text 2 most likely respond to the teachers discussed in Text 1?",
+  "choices": [
+   "By questioning whether nightly homework benefits young students as much as the teachers assume",
+   "By agreeing that homework is the best way to build study habits",
+   "By recommending more homework for older students",
+   "By arguing that young students should not read at home"
+  ],
+  "answer": 0,
+  "steps": [
+   "Text 1: teachers think nightly homework helps young students.",
+   "Text 2: research shows little connection between homework and later success, and suggests other activities.",
+   "So Text 2's author would doubt the teachers' assumption.",
+   "B contradicts Text 2; C (older students) isn't discussed; D contradicts Text 2's support for reading."
+  ],
+  "key": "Find the point where the texts disagree, then predict the response from Text 2's evidence.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-15",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Cross-Text Connections",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Text 1\nUrban planners in some cities have widened sidewalks and added bike lanes downtown, arguing that these changes make city centers livelier and better for local businesses.\n\nText 2\nAfter one city added bike lanes to its main shopping street, many shops reported higher sales, as more people stopped to browse while passing through.",
+  "stem": "Which choice best describes how Text 2 relates to Text 1?",
+  "choices": [
+   "It provides an example that supports the planners' argument.",
+   "It challenges the planners' argument with contrary evidence.",
+   "It explains how bike lanes are built.",
+   "It argues that sidewalks should be narrower."
+  ],
+  "answer": 0,
+  "steps": [
+   "Text 1's claim: bike lanes and wider sidewalks help downtown businesses.",
+   "Text 2: in one city, bike lanes were followed by higher shop sales.",
+   "That is a specific case consistent with Text 1's claim.",
+   "So Text 2 supports Text 1 with an example."
+  ],
+  "key": "Decide first whether Text 2 supports, challenges or extends Text 1.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-16",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Cross-Text Connections",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Text 1\nMany nutrition guides recommend eating breakfast every morning, claiming that it improves concentration during the first hours of the day.\n\nText 2\nIn a recent study of adults, researchers found that skipping breakfast did not lower participants' scores on morning attention tests, although those who skipped breakfast reported feeling hungrier.",
+  "stem": "Based on the texts, how would the researchers in Text 2 most likely respond to the claim in Text 1?",
+  "choices": [
+   "By noting that their study found no drop in adults' morning attention when breakfast was skipped",
+   "By agreeing that breakfast clearly improves concentration",
+   "By claiming that hunger improves attention",
+   "By recommending that adults eat two breakfasts"
+  ],
+  "answer": 0,
+  "steps": [
+   "Text 1 claims breakfast improves morning concentration.",
+   "Text 2 found that skipping breakfast did not lower attention scores in adults.",
+   "So the researchers would point to their result as evidence against the claim (at least for adults).",
+   "B contradicts their finding; C overreaches (hunger didn't help, it just didn't hurt); D is absurd."
+  ],
+  "key": "Base the response on exactly what the study found, no more and no less.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-17",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Cross-Text Connections",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Text 1\nA critic argues that the novel's ending is unsatisfying because it leaves the main characters' futures unresolved, denying readers a sense of closure.\n\nText 2\nAnother critic contends that the novel's open ending is deliberate. Throughout the book, the characters live with uncertainty about their jobs, their homes, and one another; an ending that tied everything up neatly would betray that experience.",
+  "stem": "Based on the texts, how would the critic in Text 2 most likely respond to the critic in Text 1?",
+  "choices": [
+   "By arguing that the unresolved ending is an intentional choice that reflects the novel's themes",
+   "By agreeing that the ending was a mistake",
+   "By suggesting the novel should have been shorter",
+   "By claiming that the characters' futures are clearly resolved"
+  ],
+  "answer": 0,
+  "steps": [
+   "Both critics agree the ending is unresolved.",
+   "Text 1 sees that as a flaw (no closure).",
+   "Text 2 sees it as deliberate, matching the characters' uncertainty throughout the book.",
+   "So Text 2 would defend the ending as purposeful.",
+   "D contradicts both texts; B and C aren't Text 2's view."
+  ],
+  "key": "Critics can agree on a fact but disagree on its value. Identify which part they disagree about.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-cs-18",
+  "section": "rw",
+  "domain": "Craft and Structure",
+  "skill": "Cross-Text Connections",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Text 1\nSome astronomers argue that the search for life beyond Earth should focus on planets in a star's \"habitable zone,\" the range of distances where temperatures allow liquid water to exist on a planet's surface.\n\nText 2\nLiquid water may also exist far outside the habitable zone. Several icy moons of Jupiter and Saturn, warmed by tidal forces from the giant planets they orbit, are thought to hold oceans beneath their frozen crusts.",
+  "stem": "Based on the texts, the author of Text 2 would most likely suggest that the astronomers in Text 1 ______",
+  "choices": [
+   "may be overlooking places where liquid water could exist outside the habitable zone.",
+   "are correct that liquid water exists only in the habitable zone.",
+   "should stop searching for liquid water.",
+   "have already discovered life on icy moons."
+  ],
+  "answer": 0,
+  "steps": [
+   "Text 1 focuses the search on the habitable zone because of surface liquid water.",
+   "Text 2 points out that water can exist beneath the ice of moons far from the habitable zone.",
+   "So Text 2 implies Text 1's focus is too narrow.",
+   "B contradicts Text 2; C and D are not stated or implied."
+  ],
+  "key": "When Text 2 adds an exception, it usually implies Text 1's view is incomplete.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
   "id": "rw-ei-01",
   "section": "rw",
   "domain": "Expression of Ideas",
@@ -1055,6 +3268,155 @@
    "Answer: Instead,"
   ],
   "key": "Transitions: \"Instead\" introduces what happened in place of what was expected."
+ },
+ {
+  "id": "rw-ei-07",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Rhetorical Synthesis",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "While researching a topic, a student has taken the following notes:\n• Mount Kilimanjaro is the highest mountain in Africa.\n• It is located in Tanzania.\n• Its summit is about 5,895 meters above sea level.\n• Climbers can reach the summit without technical climbing equipment.",
+  "stem": "The student wants to identify the country in which Mount Kilimanjaro is located. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+  "choices": [
+   "Mount Kilimanjaro is located in Tanzania.",
+   "Mount Kilimanjaro is the highest mountain in Africa.",
+   "Mount Kilimanjaro's summit is about 5,895 meters above sea level.",
+   "Climbers can reach Kilimanjaro's summit without technical equipment."
+  ],
+  "answer": 0,
+  "steps": [
+   "The goal: identify the country.",
+   "Only one note names a country: Tanzania.",
+   "A states it directly.",
+   "B, C and D are true but don't answer the goal."
+  ],
+  "key": "Read the goal first, then find the note that matches it exactly.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ei-08",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Rhetorical Synthesis",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "While researching a topic, a student has taken the following notes:\n• Honeybees live in colonies.\n• A worker bee that finds food returns to the hive.\n• There, it performs a movement called the \"waggle dance.\"\n• The direction and length of the dance indicate the direction and distance of the food.",
+  "stem": "The student wants to explain how honeybees share the location of food. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+  "choices": [
+   "A honeybee that finds food performs a \"waggle dance\" whose direction and length show other bees where the food is and how far away it is.",
+   "Honeybees live in colonies.",
+   "A worker bee returns to the hive after finding food.",
+   "Honeybees perform a movement called the \"waggle dance.\""
+  ],
+  "answer": 0,
+  "steps": [
+   "The goal: explain how bees share food locations.",
+   "A complete explanation needs the dance and what it communicates.",
+   "A includes both: the waggle dance, and that its direction and length show direction and distance.",
+   "D names the dance but doesn't explain what it communicates."
+  ],
+  "key": "\"Explain how\" needs the mechanism, not just the name of it.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ei-09",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Rhetorical Synthesis",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "While researching a topic, a student has taken the following notes:\n• Alligators and crocodiles are both large reptiles.\n• Alligators have wide, U-shaped snouts.\n• Crocodiles have narrower, V-shaped snouts.\n• Alligators live mostly in fresh water, while many crocodiles can tolerate salt water.",
+  "stem": "The student wants to emphasize a difference between the snouts of alligators and crocodiles. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+  "choices": [
+   "While alligators have wide, U-shaped snouts, crocodiles have narrower, V-shaped snouts.",
+   "Alligators and crocodiles are both large reptiles.",
+   "Alligators live mostly in fresh water, while many crocodiles can tolerate salt water.",
+   "Crocodiles have V-shaped snouts."
+  ],
+  "answer": 0,
+  "steps": [
+   "The goal: a difference in snouts.",
+   "A contrasts both snouts in one sentence with \"While.\"",
+   "C shows a difference, but in habitat, not snouts.",
+   "D describes only one animal, so it shows no difference."
+  ],
+  "key": "A \"difference\" goal needs both things compared, on the exact feature named.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ei-10",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Rhetorical Synthesis",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "While researching a topic, a student has taken the following notes:\n• Katherine Johnson (1918–2020) was an American mathematician.\n• She worked for NASA and its predecessor agency.\n• She calculated flight paths for early U.S. spaceflights.\n• These included John Glenn's 1962 flight, the first time an American orbited Earth.",
+  "stem": "The student wants to introduce Katherine Johnson and her work to an audience unfamiliar with her. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+  "choices": [
+   "Katherine Johnson, an American mathematician at NASA, calculated flight paths for early spaceflights, including John Glenn's 1962 orbit of Earth.",
+   "Katherine Johnson lived from 1918 to 2020.",
+   "John Glenn orbited Earth in 1962.",
+   "Johnson calculated flight paths for spaceflights."
+  ],
+  "answer": 0,
+  "steps": [
+   "An introduction for an unfamiliar audience should say who she was and what she did.",
+   "A identifies her (American mathematician at NASA) and her work (flight paths, including Glenn's orbit).",
+   "B gives dates only; C is about Glenn; D uses \"Johnson\" without introducing who she was."
+  ],
+  "key": "\"Introduce to an unfamiliar audience\" means identify the person and the significance of the work.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ei-11",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Transitions",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Early users found the first version of the app difficult to navigate. ______ the developers interviewed dozens of users and redesigned the menus based on their feedback.",
+  "stem": "Which choice completes the text with the most logical transition?",
+  "choices": [
+   "In response,",
+   "Similarly,",
+   "For instance,",
+   "Nevertheless,"
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentence 1: a problem (the app was hard to navigate).",
+   "Sentence 2: the developers acted to fix it.",
+   "The relationship is reaction to a problem: \"In response.\"",
+   "\"Similarly\" signals likeness, \"For instance\" an example, and \"Nevertheless\" a contrast. None fit."
+  ],
+  "key": "Name the relationship between the sentences (contrast, example, cause, response) before choosing.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ei-12",
+  "section": "rw",
+  "domain": "Expression of Ideas",
+  "skill": "Transitions",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Early reviewers praised the documentary's striking photography. ______ many of them criticized its slow pacing, which they found tedious.",
+  "stem": "Which choice completes the text with the most logical transition?",
+  "choices": [
+   "At the same time,",
+   "As a result,",
+   "For this reason,",
+   "Specifically,"
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentence 1: praise (photography).",
+   "Sentence 2: criticism (pacing) from the same reviewers.",
+   "Both reactions held together, with a contrast between them: \"At the same time.\"",
+   "\"As a result\" and \"For this reason\" wrongly suggest the praise caused the criticism; \"Specifically\" would introduce a detail of the praise."
+  ],
+  "key": "\"At the same time\" can signal two contrasting things that are both true.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
  },
  {
   "id": "rw-ii-01",
@@ -1240,6 +3602,332 @@
   "key": "Inference about study design: ask what alternative explanation the detail rules out."
  },
  {
+  "id": "rw-ii-07",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Central Ideas and Details",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "When the town of Millbrook replaced a parking lot near the river with a small park, several shop owners on Main Street worried that fewer customers would visit. A year later, a survey of those shops found that foot traffic had risen by nearly 20 percent, and many owners said the park now draws families who stop to shop on their way home.",
+  "stem": "Which choice best states the main idea of the text?",
+  "choices": [
+   "Shop owners' worries about replacing a parking lot with a park proved unfounded, as foot traffic increased.",
+   "Parks cost a town more to maintain than parking lots do.",
+   "Families in Millbrook prefer shopping in larger cities.",
+   "Most shops on Main Street closed after the park opened."
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentence 1 sets up a worry: losing the parking lot might reduce customers.",
+   "Sentence 2 reports what actually happened: foot traffic rose about 20%, and families now stop to shop.",
+   "The main idea combines the worry with the outcome that contradicted it.",
+   "B (costs), C (larger cities) and D (closures) are not in the text; D contradicts it."
+  ],
+  "key": "The main idea usually links the setup and the outcome, especially when the outcome reverses an expectation.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-08",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Central Ideas and Details",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "The following text is from an original short story.\nMara had practiced the piano piece for weeks, yet when she sat down at the recital, her hands felt like someone else's. She glanced at the audience, found her grandfather's steady nod in the third row, and began. The first notes wavered; by the second page, they rang clear.",
+  "stem": "Which choice best states the main idea of the text?",
+  "choices": [
+   "A nervous performer gains confidence after seeing a supportive family member.",
+   "Mara decides she no longer wants to play the piano.",
+   "Mara's grandfather teaches her a difficult new piece.",
+   "The audience leaves before Mara finishes playing."
+  ],
+  "answer": 0,
+  "steps": [
+   "Mara starts out nervous: her hands \"felt like someone else's.\"",
+   "She sees her grandfather's \"steady nod\" and begins.",
+   "Her playing changes from wavering to clear, which shows growing confidence.",
+   "So the text is about nerves giving way to confidence, helped by family support.",
+   "B, C and D describe events that never happen in the text."
+  ],
+  "key": "In literary texts, track how a character changes from beginning to end.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-09",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Central Ideas and Details",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Ecologists studying a mountain stream noticed that sections shaded by trees stayed several degrees cooler in summer than sections running through open meadows. Trout, which need cold water, were found almost entirely in the shaded sections. The researchers concluded that protecting the trees along the stream may be essential to keeping it habitable for trout as summers grow warmer.",
+  "stem": "Which choice best states the main idea of the text?",
+  "choices": [
+   "Trees along the stream keep the water cool, which may be crucial for the trout's survival.",
+   "Trout prefer meadows to forests.",
+   "Mountain streams are warmer than lowland rivers.",
+   "Ecologists plan to plant meadows along the stream."
+  ],
+  "answer": 0,
+  "steps": [
+   "Detail 1: shaded sections are cooler than meadow sections.",
+   "Detail 2: trout, which need cold water, live mainly in the shade.",
+   "Conclusion: protecting streamside trees may be essential for trout.",
+   "A captures the link between trees, cool water and trout survival.",
+   "B contradicts the text; C and D are never mentioned."
+  ],
+  "key": "Look for the sentence that pulls the details together. Here it's the researchers' conclusion.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-10",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Central Ideas and Details",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Historians once described the 19th-century workers at a New England textile mill as passive, accepting long hours without complaint. Recent study of the workers' letters and the town's records, however, reveals that they formed reading groups, petitioned for shorter workdays, and briefly stopped work in protest. These sources point to a far more active workforce than earlier accounts allowed.",
+  "stem": "Which choice best states the main idea of the text?",
+  "choices": [
+   "New evidence challenges an earlier view of the mill workers as passive.",
+   "The mill workers were satisfied with their long working hours.",
+   "Historians agree that 19th-century records are unreliable.",
+   "Reading groups were the most common activity in 19th-century towns."
+  ],
+  "answer": 0,
+  "steps": [
+   "Sentence 1 gives the older view: the workers were passive.",
+   "\"However\" signals a turn: new sources show reading groups, petitions and a protest.",
+   "Sentence 3 states the conclusion: the workforce was more active than earlier accounts allowed.",
+   "So the main idea is that new evidence overturns the old view.",
+   "B repeats the old view the text rejects; C and D are not claims the text makes."
+  ],
+  "key": "Words like \"once\" and \"however\" often signal an old view being challenged, and the challenge is the main idea.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-11",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Central Ideas and Details",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Some scientists argue that octopuses' skill at solving puzzles shows an intelligence comparable to that of many mammals. Others caution that the octopus nervous system is organized so differently, with most of its neurons located in its arms rather than its brain, that such comparisons may be misleading. For these researchers, the more useful question is not how intelligent octopuses are compared with mammals but how their unusual nervous system produces such flexible behavior.",
+  "stem": "Which choice best states the main idea of the text?",
+  "choices": [
+   "Some researchers argue that octopus intelligence should be studied on its own terms rather than compared with mammals'.",
+   "Octopuses are more intelligent than all mammals.",
+   "Most of an animal's neurons are always located in its brain.",
+   "Octopuses cannot solve puzzles without help."
+  ],
+  "answer": 0,
+  "steps": [
+   "The text presents two views: one compares octopuses with mammals; the other cautions against it.",
+   "The text ends with the second group's preferred question: how the octopus's own system produces flexible behavior.",
+   "So the central idea is the call to study octopus intelligence on its own terms.",
+   "B overstates; C contradicts the text (octopus neurons are mostly in the arms); D contradicts the puzzle-solving."
+  ],
+  "key": "When a text presents two views and ends by developing one, that view is usually the focus.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-12",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Command of Evidence",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "A student tracked how many students biked to school during three months of the spring term. The student claims that more students biked to school in May than in March.",
+  "stem": "Which choice most effectively uses data from the table to support the student's claim?",
+  "choices": [
+   "61 students biked to school in May, compared with 42 in March.",
+   "55 students biked to school in April.",
+   "42 students biked to school in March.",
+   "More students biked in April than in March."
+  ],
+  "answer": 0,
+  "steps": [
+   "The claim compares May with March.",
+   "Evidence must include both of those months.",
+   "From the table: March = 42 and May = 61, and 61 > 42.",
+   "B and C give one month only; D compares the wrong months."
+  ],
+  "key": "Match the evidence exactly to what the claim compares.",
+  "table": {
+   "caption": "Students biking to school",
+   "head": [
+    "Month",
+    "Students"
+   ],
+   "rows": [
+    [
+     "March",
+     "42"
+    ],
+    [
+     "April",
+     "55"
+    ],
+    [
+     "May",
+     "61"
+    ]
+   ]
+  },
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-13",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Command of Evidence",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "In an original short story, the narrator waits at a bakery counter for a cake she ordered. A student claims that the narrator is impatient.",
+  "stem": "Which quotation from the story most effectively illustrates the student's claim?",
+  "choices": [
+   "\"I checked the clock for the third time in five minutes and drummed my fingers on the counter.\"",
+   "\"The bakery smelled of cinnamon and warm bread.\"",
+   "\"A young boy pressed his face to the glass case, admiring the tarts.\"",
+   "\"The baker smiled and said my cake would be ready soon.\""
+  ],
+  "answer": 0,
+  "steps": [
+   "The claim is about the narrator's impatience.",
+   "Evidence should show the narrator acting or feeling impatient.",
+   "Checking the clock repeatedly and drumming fingers are classic signs of impatience.",
+   "B describes the setting, C describes another character, and D describes the baker."
+  ],
+  "key": "The quotation must show the specific trait in the claim, done by the person the claim is about.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-14",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Command of Evidence",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "A researcher hypothesizes that students remember new vocabulary better when they test themselves than when they reread their notes.",
+  "stem": "Which finding, if true, would most directly support the researcher's hypothesis?",
+  "choices": [
+   "Students who spent 20 minutes quizzing themselves recalled more words a week later than students who spent 20 minutes rereading their notes.",
+   "Most students said they prefer rereading their notes to quizzing themselves.",
+   "Students who reread their notes said they felt confident about the words.",
+   "Both groups of students studied the same list of 40 words."
+  ],
+  "answer": 0,
+  "steps": [
+   "The hypothesis compares two methods by how well students remember.",
+   "The best support measures memory for both methods under fair conditions (same time).",
+   "A does exactly that, and self-testing wins.",
+   "B and C measure preferences and feelings, not memory. D describes a setup but gives no result."
+  ],
+  "key": "Strong support measures the outcome named in the hypothesis and compares the groups fairly.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-15",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Inferences",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Maya planted identical tomato plants on both sides of her yard. The plants on the sunny side produced dozens of tomatoes, while the plants on the shaded side produced only a few. Maya concluded that ______",
+  "stem": "Which choice most logically completes the text?",
+  "choices": [
+   "the amount of sunlight likely affected how many tomatoes the plants produced.",
+   "shaded plants grow taller than sunny plants.",
+   "tomato plants need very little water.",
+   "the plants on the shaded side were a different variety."
+  ],
+  "answer": 0,
+  "steps": [
+   "The plants were identical, so the variety didn't cause the difference (this rules out D).",
+   "The only stated difference is sun versus shade.",
+   "The sunny side produced far more tomatoes.",
+   "So the logical conclusion is that sunlight affected tomato production.",
+   "B and C are about height and water, which the text never mentions."
+  ],
+  "key": "An inference must follow from the text's facts. Find the one difference that could explain the result.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-16",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Inferences",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "The city museum usually closes at 5 p.m. On the first Friday of each month, however, it stays open until 9 p.m. for an evening concert. Today is the first Friday of the month, so visitors who arrive at 6 p.m. ______",
+  "stem": "Which choice most logically completes the text?",
+  "choices": [
+   "will be able to enter the museum.",
+   "will find the museum closed.",
+   "must buy tickets a month in advance.",
+   "will miss the concert by one hour."
+  ],
+  "answer": 0,
+  "steps": [
+   "Normally the museum closes at 5 p.m.",
+   "On the first Friday, it stays open until 9 p.m.",
+   "Today is the first Friday, so it is open until 9 p.m.",
+   "6 p.m. is before 9 p.m., so visitors can enter.",
+   "B applies the normal hours by mistake; C and D are not supported."
+  ],
+  "key": "Apply the exception the text gives, not the general rule.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-17",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Inferences",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "A bakery began listing the nutritional content of every loaf it sells. Afterward, sales of its whole-wheat bread rose sharply, while sales of its other breads stayed the same. One explanation for this pattern is that ______",
+  "stem": "Which choice most logically completes the text?",
+  "choices": [
+   "some customers chose whole-wheat bread after learning about its nutritional content.",
+   "the bakery stopped selling its other breads.",
+   "customers bought less bread overall after the labels appeared.",
+   "whole-wheat bread became cheaper than the other breads."
+  ],
+  "answer": 0,
+  "steps": [
+   "The change: nutrition labels were added.",
+   "The result: only whole-wheat sales rose.",
+   "A plausible link: the labels made whole-wheat bread's nutrition visible, and some customers chose it.",
+   "B contradicts \"other breads stayed the same\"; C contradicts rising sales; D introduces price, which the text never mentions."
+  ],
+  "key": "Connect the change described to the specific result, without adding outside information.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-ii-18",
+  "section": "rw",
+  "domain": "Information and Ideas",
+  "skill": "Inferences",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "In a laboratory study, bumblebees that received a small sugar reward before a task were quicker to approach an unfamiliar object than bees that received no reward. The researchers note that this resembles optimism in humans. However, they caution that the sugar might simply have given the bees more energy. To tell these explanations apart, the researchers would most likely need to ______",
+  "stem": "Which choice most logically completes the text?",
+  "choices": [
+   "compare rewarded bees with bees given the same energy boost in a form they do not experience as a reward.",
+   "give every bee a larger sugar reward.",
+   "repeat the study using honeybees instead of bumblebees.",
+   "measure how long each bee lives after the study."
+  ],
+  "answer": 0,
+  "steps": [
+   "There are two explanations: a positive (optimism-like) state, or extra energy.",
+   "To separate them, keep energy the same while removing the reward experience.",
+   "If bees with energy but no reward behave like the no-reward group, energy alone doesn't explain it.",
+   "B keeps both explanations mixed together; C and D don't address the question."
+  ],
+  "key": "To test between two explanations, change one factor while holding the other constant.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
   "id": "rw-se-01",
   "section": "rw",
   "domain": "Standard English Conventions",
@@ -1400,5 +4088,155 @@
    "Answer: London—"
   ],
   "key": "Boundaries: paired punctuation must match. A dash opened must be closed with a dash."
+ },
+ {
+  "id": "rw-se-07",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Boundaries",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "The museum's new exhibit opens on ______ it will feature paintings from three different centuries.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "Saturday;",
+   "Saturday,",
+   "Saturday",
+   "Saturday, which"
+  ],
+  "answer": 0,
+  "steps": [
+   "Both sides are complete sentences: \"The museum's new exhibit opens on Saturday\" and \"it will feature paintings…\"",
+   "Two complete sentences can be joined with a semicolon.",
+   "A comma alone is a comma splice; no punctuation is a run-on.",
+   "\"Saturday, which it will feature\" is ungrammatical."
+  ],
+  "key": "Two independent clauses: use a period, a semicolon, or a comma plus a conjunction (and, but, so).",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-se-08",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Boundaries",
+  "difficulty": 1,
+  "type": "mc",
+  "passage": "Lena packed three essentials for the ______ water, a trail map, and a rain jacket.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "hike:",
+   "hike;",
+   "hike, and",
+   "hike"
+  ],
+  "answer": 0,
+  "steps": [
+   "The part before the blank is a complete sentence that announces a list (\"three essentials\").",
+   "A colon introduces a list after a complete sentence.",
+   "A semicolon needs complete sentences on both sides, and the list isn't one.",
+   "\"hike, and\" and no punctuation don't introduce the list correctly."
+  ],
+  "key": "Use a colon after a complete sentence to introduce a list or explanation.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-se-09",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Boundaries",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "The marine biologist, who had studied coral reefs for two ______ was invited to speak at the international conference.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "decades,",
+   "decades",
+   "decades;",
+   "decades—"
+  ],
+  "answer": 0,
+  "steps": [
+   "\"who had studied coral reefs for two decades\" is extra information that interrupts the main sentence.",
+   "It opens with a comma after \"biologist\", so it must close with a comma.",
+   "A dash or semicolon wouldn't match the opening comma; no punctuation leaves it unclosed.",
+   "Check: \"The marine biologist was invited to speak…\" works on its own."
+  ],
+  "key": "Interrupting phrases need matching punctuation on both sides: comma…comma or dash…dash.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-se-10",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Boundaries",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "Many desert animals are ______ they rest in burrows during the hottest part of the day and become active after sunset.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "nocturnal:",
+   "nocturnal,",
+   "nocturnal",
+   "nocturnal, so,"
+  ],
+  "answer": 0,
+  "steps": [
+   "The first part is a complete sentence: \"Many desert animals are nocturnal.\"",
+   "The second part explains what nocturnal means for them, and it's also a complete sentence.",
+   "A colon can join two complete sentences when the second explains the first.",
+   "A comma alone is a comma splice, no punctuation is a run-on, and \"so,\" with a trailing comma is wrong."
+  ],
+  "key": "A colon can join two independent clauses when the second explains or illustrates the first.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-se-11",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Form, Structure, and Sense",
+  "difficulty": 2,
+  "type": "mc",
+  "passage": "Neither the coach nor the players ______ expecting the storm to cancel the championship game.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "were",
+   "was",
+   "is",
+   "has been"
+  ],
+  "answer": 0,
+  "steps": [
+   "With \"neither…nor\", the verb agrees with the subject closer to it.",
+   "The closer subject is \"the players\", which is plural.",
+   "So the verb must be plural: \"were.\"",
+   "\"Was\", \"is\" and \"has been\" are singular."
+  ],
+  "key": "With either/or and neither/nor, match the verb to the nearer subject.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
+ },
+ {
+  "id": "rw-se-12",
+  "section": "rw",
+  "domain": "Standard English Conventions",
+  "skill": "Form, Structure, and Sense",
+  "difficulty": 3,
+  "type": "mc",
+  "passage": "The number of students who signed up for the school's robotics program ______ doubled since last year.",
+  "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+  "choices": [
+   "has",
+   "have",
+   "are",
+   "were"
+  ],
+  "answer": 0,
+  "steps": [
+   "Find the true subject: \"The number\", which is singular. (\"of students who signed up…\" describes it.)",
+   "\"Since last year\" calls for present perfect tense.",
+   "Singular present perfect is \"has doubled.\"",
+   "Note: \"A number of students have…\" is plural, but \"The number…has\" is singular."
+  ],
+  "key": "\"The number of…\" takes a singular verb; \"A number of…\" takes a plural verb.",
+  "source": "SAT AIS original item, written to the College Board Digital SAT content specifications"
  }
 ]
