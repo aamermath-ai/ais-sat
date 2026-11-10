@@ -673,6 +673,9 @@ const SKILLS={
 const TALIM_BASE="https://talimsat.com/question-bank/";
 const slug=t=>t.toLowerCase().replace(/[,.]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 function talimURL(section,skill){if(!skill)return TALIM_BASE;return TALIM_BASE+(section==="rw"?"reading-writing/":"math/")+slug(skill);}
+/* Official Digital SAT share of each section, by domain (College Board test specifications). */
+const DWEIGHT={"Information and Ideas":26,"Craft and Structure":28,"Expression of Ideas":20,"Standard English Conventions":26,
+  "Algebra":35,"Advanced Math":35,"Problem-Solving and Data Analysis":15,"Geometry and Trigonometry":15};
 const DCOLOR={"Information and Ideas":"#FF375F","Craft and Structure":"#FF9F0A","Expression of Ideas":"#BF5AF2","Standard English Conventions":"#5E5CE6",
   "Algebra":"#0A84FF","Advanced Math":"#30D158","Problem-Solving and Data Analysis":"#40C8E0","Geometry and Trigonometry":"#FFB340"};
 const SEC_NAME={rw:"Reading & Writing",math:"Math"};
@@ -912,9 +915,10 @@ function pickQuestion(){
     if(!pool.length)continue;
     const th=S.theta[sec], levels=S.level==="adaptive"?[1,2,3].sort((a,b)=>Math.abs(LEVEL[a].b-th)-Math.abs(LEVEL[b].b-th)):[+S.level];
     if(!S.domain&&!S.only){
+      // Follow the official Digital SAT domain weights: pick the domain furthest below its share so far.
       const cnt={}; S.items.forEach(it=>{if(it.section===sec)cnt[it.domain]=(cnt[it.domain]||0)+1;});
-      const m=Math.min(...pool.map(q=>cnt[q.domain]||0)), spread=pool.filter(q=>(cnt[q.domain]||0)===m);
-      if(spread.some(q=>q.difficulty===levels[0]))pool=spread;
+      const doms=[...new Set(pool.map(q=>q.domain))].sort((x,y)=>((cnt[x]||0)+.5)/(DWEIGHT[x]||25)-((cnt[y]||0)+.5)/(DWEIGHT[y]||25)||Math.random()-.5);
+      for(const dm of doms){const sub=pool.filter(q=>q.domain===dm);if(sub.some(q=>levels.includes(q.difficulty))&&sub.some(q=>q.difficulty===levels[0])){pool=sub;break;}}
     }
     for(const l of levels){
       const atL=pool.filter(q=>q.difficulty===l); if(!atL.length)continue;

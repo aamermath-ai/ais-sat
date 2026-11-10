@@ -48,6 +48,8 @@ def mp(v):  # always parenthesized, for multiplication like 3(5)
 def sl(m):  # slope as a coefficient
     m = Fr(m)
     return f"({S(m)})" if m.denominator != 1 else S(m)
+def DS(v):
+    return D1(v).replace("-", "−")
 def D1(v):
     return D(v, 1).rstrip("0").rstrip(".") if "." in D(v, 1) else D(v, 1)
 def par(v):  # value in parentheses if negative
@@ -77,8 +79,11 @@ def MC(stem, choices, steps, key, table=None):
     q = dict(type="mc", stem=stem, choices=choices, answer=0, steps=steps, key=key)
     if table: q["table"] = table
     return q
-def SPR(stem, ans, steps, key, table=None):
+def SPR(stem, ans, steps, key, table=None, alts=None, fmt=None):
     q = dict(type="spr", stem=stem, answer=A(ans), steps=steps, key=key)
+    if alts is not None:
+        f = fmt or S
+        q["_disp"] = f(ans); q["_alts"] = [f(Fr(a)) for a in alts]
     if table: q["table"] = table
     return q
 def nz(r, lo, hi):
@@ -106,7 +111,7 @@ def l1_basic(r, d):
                     f"Collect x-terms on one side and constants on the other: {lin(a - q, 0)} = {S(rr - a * p)}",
                     *([f"Divide by {S(a - q)}: x = {S(x)}"] if a - q != 1 else []),
                     f"Check: {a}({S(x)}{plus(p)}) = {S(a * (x + p))} and {q}{mp(x)}{plus(rr)} = {S(q * x + rr)} ✓"],
-                   "Distribute first, then collect the variable on one side and the constants on the other.")
+                   "Distribute first, then collect the variable on one side and the constants on the other.", alts=[Fr(rr + a * p, a - q), Fr(rr - a * p, a + q), x + 1])
     if r.random() < 0.5:
         m, n = r.sample([2, 3, 4, 5, 6], 2); L = m * n // math.gcd(m, n); x = L * r.randint(1, 6); c = Fr(x, m) + Fr(x, n)
         return SPR(f"x/{m} + x/{n} = {S(c)}\nWhat is the value of x?", x,
@@ -114,7 +119,7 @@ def l1_basic(r, d):
                     f"{L}(x/{m}) + {L}(x/{n}) = {L}({S(c)}) gives {coef(L // m, 'x')} + {coef(L // n, 'x')} = {S(L * c)}.",
                     f"Combine: {L // m + L // n}x = {S(L * c)}.", f"Divide: x = {S(x)}.",
                     f"Check: {S(x)}/{m} + {S(x)}/{n} = {S(Fr(x, m))} + {S(Fr(x, n))} = {S(c)} ✓"],
-                   "Multiply every term by the least common denominator to clear fractions in one step.")
+                   "Multiply every term by the least common denominator to clear fractions in one step.", alts=[c * m, c * n, Fr(c * (m + n), 2)])
     q = r.randint(2, 9); p = r.randint(1, 7); s = nz(r, -12, 12)
     while s == -q * p: s = nz(r, -12, 12)
     return MC(f"k(x − {p}) = {q}x{plus(s)}\nIn the equation above, k is a constant. For what value of k does the equation have no solution?",
@@ -171,7 +176,7 @@ def l2(r, d):
         return SPR(f"A line in the xy-plane passes through the points ({S(x1)}, {S(y1)}) and ({S(x2)}, {S(y2)}). What is the slope of the line?", m,
                    ["Slope = (y₂ − y₁) ÷ (x₂ − x₁).", f"Change in y: {S(y2)} − {par(y1)} = {S(y2 - y1)}.",
                     f"Change in x: {S(x2)} − {par(x1)} = {S(x2 - x1)}.", f"Slope = {S(y2 - y1)} ÷ {S(x2 - x1)} = {S(m)}."],
-                   "Subtract in the same order on top and bottom; watch the signs when subtracting a negative.")
+                   "Subtract in the same order on top and bottom; watch the signs when subtracting a negative.", alts=[Fr(x2 - x1, y2 - y1) if y2 != y1 else m + 1, -m, Fr(y2 + y1, x2 + x1) if x2 + x1 else m + 2])
     a = r.randint(1, 6); b = r.choice([2, 3, 4, 5, 6]); c = nz(r, -12, 12)
     m = Fr(-a, b); perp = r.random() < 0.5; ms = -1 / m if perp else m
     px = r.choice([k * b for k in range(-2, 3) if k]) if not perp else r.choice([k * a for k in range(-2, 3) if k]); py = r.randint(-6, 8)
@@ -223,13 +228,13 @@ def lf(r, d):
                     f"Each increase of 1 in x changes g(x) by {S(m)}.",
                     f"From x = {S(q)} to x = {S(s)} is an increase of {S(s - q)}, so g changes by {S(s - q)} × {par(m)} = {S(m * (s - q))}.",
                     f"g({S(s)}) = {S(g(q))}{plus(m * (s - q))} = {S(g(s))}."],
-                   "A linear function changes by the same amount for each equal step in x.")
+                   "A linear function changes by the same amount for each equal step in x.", alts=[m * s, g(q) + (s - q), g(s) + m])
     if r.random() < 0.5:
         m = nz(r, -6, 7); b = r.randint(-10, 10); k = r.randint(2, 6); x = r.randint(-5, 15); v = m * x + b
         return SPR(f"For the linear function h, h(0) = {S(b)} and h({k}) = {S(m * k + b)}. For what value of x is h(x) = {S(v)}?", x,
                    [f"h(0) = {S(b)} gives the y-intercept: b = {S(b)}.", f"Slope = ({S(m * k + b)} − {par(b)}) ÷ {k} = {S(m)}.",
                     f"So h(x) = {lin(m, b)}.", f"Set h(x) = {S(v)}: {lin(m, b)} = {S(v)}, so {coef(m, 'x')} = {S(v - b)}.", f"x = {S(x)}."],
-                   "Build the function (slope and intercept) first, then solve h(x) = value.")
+                   "Build the function (slope and intercept) first, then solve h(x) = value.", alts=[Fr(v, m), Fr(v + b, m), m * v + b])
     m = nz(r, -5, 6); b = nz(r, -9, 12); xs = sorted(r.sample(range(-2, 8), 3)); ys = [m * x + b for x in xs]
     wrong = [lin(m, ys[0]), lin(ys[0] - b, b) if ys[0] - b != m else lin(m + 1, b - 1), lin(m * 2, b - m * xs[0])]
     return MC("The table shows three values of x and their corresponding values of y for a linear relationship. Which equation represents the relationship?",
@@ -246,7 +251,7 @@ def sy(r, d):
             k = r.randint(2, 5); x = r.randint(2, 12); s = (k + 1) * x
             return SPR(f"y = {k}x\nx + y = {s}\nIf (x, y) is the solution to the system above, what is the value of x?", x,
                        [f"Substitute y = {k}x into the second equation: x + {k}x = {s}.", f"Combine: {k + 1}x = {s}.", f"Divide: x = {x}.",
-                        f"(Then y = {k * x}. Check: {x} + {k * x} = {s} ✓)"], "Substitution works best when one equation is already solved for a variable.")
+                        f"(Then y = {k * x}. Check: {x} + {k * x} = {s} ✓)"], "Substitution works best when one equation is already solved for a variable.", alts=[k * x, Fr(s, k), Fr(s, 2)])
         p1 = r.randint(6, 15); p2 = r.randint(3, p1 - 2); a = r.randint(2, 9); c = r.randint(2, 9); n = a + c; t = p1 * a + p2 * c
         it = r.choice([("Adult tickets to a show cost ${p1} and child tickets cost ${p2}", "adult", "child", "tickets"),
                        ("Large notebooks cost ${p1} and small notebooks cost ${p2}", "large", "small", "notebooks"),
@@ -299,7 +304,7 @@ def li(r, d):
                        [f"Subtract {p} from both sides: −{q}x > {S(rr - p)}.", f"Divide by −{q} and flip the sign: x < {S(bound)}.",
                         f"The greatest integer less than {S(bound)} is {S(g)}.",
                         f"Check: {p} − {q}({S(g)}) = {S(p - q * g)}, which is greater than {S(rr)} ✓"],
-                       "Dividing or multiplying an inequality by a negative number flips the sign.")
+                       "Dividing or multiplying an inequality by a negative number flips the sign.", alts=[g + 1, -g if g else g + 2, g - 1])
         cap = r.choice([800, 1000, 1200, 1500, 2000]); w = r.randint(150, 250); per = r.choice([30, 35, 40, 45, 50, 60]); mx = (cap - w) // per
         if (cap - w) % per == 0: return None
         return MC(f"A small elevator can carry at most {cap:,} pounds. An operator who weighs {w} pounds rides with the cargo, and each crate weighs {per} pounds. What is the maximum number of crates the elevator can carry on one trip?",
@@ -316,7 +321,7 @@ def li(r, d):
                     f"Subtract {have}: {prof}s ≥ {goal - have}, so s ≥ {D(Fr(goal - have, prof))}.",
                     f"Shirts are whole and the goal must be reached, so round up: s = {n}.",
                     f"Check: {n - 1} shirts gives ${have + prof * (n - 1)} (not enough); {n} gives ${have + prof * n} ✓"],
-                   "For \"at least\" goals, round up to the next whole number.")
+                   "For \"at least\" goals, round up to the next whole number.", alts=[n - 1, -(-goal // prof), -(-(goal - have) // price)])
     m1, b1, m2, b2 = nz(r, -3, 3), r.randint(-3, 3), nz(r, -3, 3), r.randint(2, 8)
     if m1 == m2: return None
     ok = lambda x, y: y > m1 * x + b1 and y <= m2 * x + b2
@@ -385,7 +390,7 @@ def ne(r, d):
             k = r.randint(3, 15)
             return SPR(f"x² = {k * k}\nIf x > 0, what is the value of x?", k,
                        [f"Take the square root of both sides: x = {k} or x = −{k}.", f"The condition x > 0 rules out −{k}.", f"Answer: {k}."],
-                       "x² = k has two solutions, ±√k; use the given condition to pick one.")
+                       "x² = k has two solutions, ±√k; use the given condition to pick one.", alts=[-k, 2 * k, k * k])
         a, b = r.randint(1, 12), r.randint(1, 12)
         return MC(f"What are the solutions to (x − {a})(x + {b}) = 0?",
                   pick4(f"{a} and −{b}", [f"−{a} and {b}", f"{a} and {b}", f"−{a} and −{b}"], []),
@@ -397,13 +402,13 @@ def ne(r, d):
             return SPR(f"√(x{plus(a)}) = {b}\nWhat is the solution to the equation above?", x,
                        [f"Square both sides: x{plus(a)} = {b * b}.", f"Solve: x = {S(x)}.", f"Check: √({S(x)}{plus(a)}) = √{b * b} = {b} ✓",
                         "Always check radical equations; squaring can create false solutions."],
-                       "Isolate the radical, square both sides, then check in the original.")
+                       "Isolate the radical, square both sides, then check in the original.", alts=[b - a, b * b + a, b * b])
         p, q = r.randint(1, 12), r.randint(1, 12)
         if p == q: return None
         B, C = q - p, -p * q
         return SPR(f"{quad(1, B, C)} = 0\nWhat is the positive solution to the equation above?", p,
                    [f"Find two numbers that multiply to {S(C)} and add to {S(B)}: {S(-p)} and {S(q)}.", f"Factor: (x − {p})(x + {q}) = 0.",
-                    f"Solutions: x = {p} or x = −{q}.", f"The positive solution is {p}."], "Factor by finding two numbers with product c and sum b.")
+                    f"Solutions: x = {p} or x = −{q}.", f"The positive solution is {p}."], "Factor by finding two numbers with product c and sum b.", alts=[q, p * q, abs(q - p) if abs(q - p) != p else p + q])
     if r.random() < 0.5:
         r1, r2 = r.sample([v for v in range(-5, 7) if v], 2); m, n = r1 + r2, -r1 * r2
         if m == 0: return None
@@ -423,7 +428,7 @@ def ne(r, d):
                [f"Look for two numbers that multiply to {a} × {par(C)} = {S(a * C)} and add to {S(B)}: {S(-a * p)} and {S(s)}.",
                 f"Factor: ({lin(a, s)})(x − {p}) = 0.", f"Solutions: x = {S(Fr(-s, a))} or x = {p}.", f"With x > 0, x = {p}.",
                 f"Check: {a}({p * p}){plus(B * p)}{plus(C)} = 0 ✓"],
-               "For ax² + bx + c with a ≠ 1, split the middle term using two numbers that multiply to ac.")
+               "For ax² + bx + c with a ≠ 1, split the middle term using two numbers that multiply to ac.", alts=[Fr(s, a), s, a * p])
 
 CTX_EXP = [("the value, in dollars, of a car t years after it was bought", "value", "year"),
            ("the number of fish in a lake t years after a study began", "number of fish", "year"),
@@ -463,11 +468,11 @@ def nf(r, d):
                    ["The parabola opens upward (positive x² term), so its vertex gives the minimum.",
                     f"Vertex x-coordinate: x = −b/(2a) = {S(-B)}/2 = {S(h)}.", f"Substitute x = {S(h)}: y = {S(h * h)}{plus(B * h)}{plus(C) if C else ''} = {S(k)}.",
                     f"Or complete the square: y = (x{plus(-h)})²{plus(k)}.", f"Minimum value: {S(k)}."],
-                   "For an upward parabola, the minimum is the y-value at x = −b/(2a).")
+                   "For an upward parabola, the minimum is the y-value at x = −b/(2a).", alts=[h, C, -k if k else k + 3])
     a = r.choice([2, 3, 4, 5, 6, 10]); b = r.choice([2, 3, 4]); n = r.randint(3, 4)
     return SPR(f"For the exponential function f, f(x) = a · bˣ, where a and b are positive constants. If f(0) = {a} and f(1) = {a * b}, what is the value of f({n})?", a * b ** n,
                [f"f(0) = a · b⁰ = a, so a = {a}.", f"f(1) = a · b = {a * b}, so b = {a * b} ÷ {a} = {b}.", f"f(x) = {a} · {b}ˣ.",
-                f"f({n}) = {a} · {pw(str(b), n)} = {a} · {b ** n} = {a * b ** n}."], "f(0) gives the starting value a; f(1) ÷ f(0) gives the growth factor b.")
+                f"f({n}) = {a} · {pw(str(b), n)} = {a} · {b ** n} = {a * b ** n}."], "f(0) gives the starting value a; f(1) ÷ f(0) gives the growth factor b.", alts=[a * b * n, (a * b) ** n, a * b ** (n - 1)])
 
 # ================================================================ PROBLEM-SOLVING & DATA
 RATE = [("A car travels {a} miles in {t} hours at a constant speed. At this speed, how many miles will it travel in {u} hours?", "miles per hour"),
@@ -479,7 +484,7 @@ def rr_(r, d):
         tpl, unit = r.choice(RATE); rate = r.randint(4, 60); t = r.randint(2, 6); u = r.randint(2, 9)
         if u == t: u += 1
         return SPR(tpl.format(a=rate * t, t=t, u=u), rate * u,
-                   [f"Find the unit rate: {rate * t} ÷ {t} = {rate} {unit}.", f"Multiply by {u}: {rate} × {u} = {rate * u}."], "Find the unit rate first, then scale it.")
+                   [f"Find the unit rate: {rate * t} ÷ {t} = {rate} {unit}.", f"Multiply by {u}: {rate} × {u} = {rate * u}."], "Find the unit rate first, then scale it.", alts=[rate * t * u, rate * t + u, rate * (u + t)])
     if d == 2:
         if r.random() < 0.5:
             conv = r.choice([("centimeters", "inches", Fr(254, 100), "2.54 centimeters in 1 inch"), ("kilograms", "pounds", None, None)])
@@ -498,14 +503,14 @@ def rr_(r, d):
         sc = r.choice([5, 10, 20, 25, 40, 50]); dist = Fr(r.randint(12, 95), 10)
         return SPR(f"On a map, 1 centimeter represents {sc} kilometers. Two towns are {D(dist, 1)} centimeters apart on the map. What is the actual distance, in kilometers, between the towns?", dist * sc,
                    [f"Scale: 1 cm on the map = {sc} km.", f"Multiply: {D(dist, 1)} × {sc} = {S(dist * sc) if (dist * sc).denominator == 1 else D(dist * sc, 1)}."],
-                   "Map distance × scale factor = actual distance.")
+                   "Map distance × scale factor = actual distance.", alts=[dist * sc / 10, dist * sc * 10, dist + sc], fmt=D1)
     if r.random() < 0.5:
         ppm = r.choice([12, 15, 18, 20, 24, 30, 36]); pages = Fr(ppm) * r.choice([Fr(1, 2), Fr(3, 2), Fr(5, 2), Fr(3, 4), Fr(5, 4), 2, 3])
         if pages.denominator != 1: return None
         sec = pages / ppm * 60
         return SPR(f"A printer prints {ppm} pages per minute. At this rate, how many seconds does it take to print {S(pages)} pages?", sec,
                    [f"Time in minutes: {S(pages)} ÷ {ppm} = {S(pages / ppm) if (pages / ppm).denominator == 1 else D(pages / ppm, 2)} minutes.",
-                    f"Convert to seconds: × 60 = {S(sec)} seconds.", "Check the unit the question asks for."], "Check the units in the question; convert at the end.")
+                    f"Convert to seconds: × 60 = {S(sec)} seconds.", "Check the unit the question asks for."], "Check the units in the question; convert at the end.", alts=[pages / ppm, Fr(ppm * 60) / pages, sec * 2], fmt=D1)
     cover = r.choice([250, 300, 350, 400]); hgt = r.randint(8, 12); ln = r.randint(20, 60); coats = r.choice([1, 2, 2, 3]); need = Fr(hgt * ln * coats, cover)
     g = math.ceil(need)
     if need.denominator == 1: return None
@@ -519,7 +524,7 @@ def pc(r, d):
     if d == 1:
         p = r.choice([5, 10, 15, 20, 25, 30, 40, 45, 60, 75]); n = r.randint(2, 30) * 20
         return SPR(f"What is {p}% of {n}?", Fr(p * n, 100), [f"Convert the percent: {p}% = {D(Fr(p, 100), 2)}.", f"Multiply: {D(Fr(p, 100), 2)} × {n} = {S(Fr(p * n, 100))}."],
-                   "\"Percent of\" means multiply by the decimal form.")
+                   "\"Percent of\" means multiply by the decimal form.", alts=[Fr(p * n, 10), n - Fr(p * n, 100), Fr(n, p)], fmt=D1)
     if d == 2:
         if r.random() < 0.5:
             a = r.randint(4, 40) * 50; ch = r.choice([10, 12, 15, 20, 25, 30, 40, 50, 60, 75]); up = r.random() < 0.5; b = a * (100 + ch) // 100 if up else a * (100 - ch) // 100
@@ -537,7 +542,7 @@ def pc(r, d):
                    [f"After a {disc}% discount, the price is {100 - disc}% of the original: {D(Fr(100 - disc, 100), 2)}p = {S(price)}.",
                     f"Divide: p = {S(price)} ÷ {D(Fr(100 - disc, 100), 2)} = {orig}.", f"Check: {disc}% of ${orig} is ${S(Fr(orig * disc, 100))}, and ${orig} − ${S(Fr(orig * disc, 100))} = ${S(price)} ✓",
                     f"Trap: adding {disc}% of ${S(price)} back on gives the wrong answer, because the {disc}% was taken from the original price."],
-                   "To undo a percent change, divide by the multiplier.")
+                   "To undo a percent change, divide by the multiplier.", alts=[price * Fr(100 + disc, 100), price + disc, orig - disc], fmt=D1)
     if r.random() < 0.5:
         a = r.choice([10, 20, 25, 30, 40, 50]); b = r.choice([10, 20, 25, 30, 40, 50]); f = Fr(100 + a, 100) * Fr(100 - b, 100); net = (f - 1) * 100
         if net == 0: return None
@@ -562,7 +567,7 @@ def ov(r, d):
             if last < 1 or last > 99: return None
             vals.append(last); r.shuffle(vals)
             return SPR(f"What is the mean of the data set {', '.join(map(str, vals))}?", mean,
-                       [f"Add the values: {' + '.join(map(str, vals))} = {sum(vals)}.", f"Divide by the number of values: {sum(vals)} ÷ {n} = {mean}."], "Mean = sum ÷ count.")
+                       [f"Add the values: {' + '.join(map(str, vals))} = {sum(vals)}.", f"Divide by the number of values: {sum(vals)} ÷ {n} = {mean}."], "Mean = sum ÷ count.", alts=[sum(vals), Fr(sum(vals), n - 1), mean + 1], fmt=D1)
         vals = r.sample(range(1, 40), r.choice([5, 7])); srt = sorted(vals); med = srt[len(srt) // 2]; mean = Fr(sum(vals), len(vals))
         return MC(f"What is the median of the data set {', '.join(map(str, vals))}?",
                   pick4(S(med), [S(vals[len(vals) // 2]), D(mean, 1) if mean.denominator != 1 else S(mean), S(srt[-1] - srt[0])], numpad(med)),
@@ -573,7 +578,7 @@ def ov(r, d):
         if miss < 0: return None
         return SPR(f"The mean of {n} numbers is {mean}. {n - 1} of the numbers are {', '.join(map(str, known[:-1]))}, and {known[-1]}. What is the remaining number?", miss,
                    [f"Sum of all {n} numbers = mean × count = {mean} × {n} = {mean * n}.", f"Sum of the known numbers: {sum(known)}.", f"Remaining number: {mean * n} − {sum(known)} = {miss}."],
-                   "Mean × count gives the total; subtract what you know to find what's missing.")
+                   "Mean × count gives the total; subtract what you know to find what's missing.", alts=[mean, mean * n, Fr(sum(known), n - 1)], fmt=D1)
     if r.random() < 0.5:
         n = r.randint(12, 30); m = r.randint(65, 85); new = r.randint(60, 100); tot = n * m + new
         if tot % (n + 1): return None
@@ -621,14 +626,14 @@ def tv(r, d):
                       "Slope = change in y per 1 unit of x; intercept = y when x = 0.")
         m = nz(r, -8, 8); b = r.randint(20, 150); x = r.randint(3, 15); v = m * x + b
         return SPR(f"The model y = {lin(m, b)} predicts the number of tickets, y, still available x hours after a concert's tickets go on sale. According to the model, how many tickets are still available {x} hours after tickets go on sale?", v,
-                   [f"Substitute x = {x}: y = {S(m)}({x}){plus(b)}.", f"Compute: {S(m * x)}{plus(b)} = {S(v)}."], "To use a model, substitute the given input and evaluate.") if m < 0 and v > 0 else None
+                   [f"Substitute x = {x}: y = {S(m)}({x}){plus(b)}.", f"Compute: {S(m * x)}{plus(b)} = {S(v)}."], "To use a model, substitute the given input and evaluate.", alts=[m * x, b - m * x, v + m]) if m < 0 and v > 0 else None
     if r.random() < 0.5:
         m = Fr(r.choice([k for k in range(2, 16) if k != 10]), 10); b = Fr(r.randint(5, 50), 10); x = r.randint(2, 7); pred = m * x + b; act = pred + Fr(r.choice([-18, -12, -8, -5, 4, 6, 9, 14]), 10)
         if act < 0 or act > 10: return None
         return SPR(f"The line of best fit y = {D(m, 1)}x + {D(b, 1)} models the quiz score y, out of 10, for a student who studied x hours. One student studied {x} hours and scored {D(act, 1).rstrip('0').rstrip('.')}. What is the student's actual score minus the score predicted by the model?", act - pred,
                    [f"Predicted score: {D(m, 1)}({x}) + {D(b, 1)} = {D(pred, 1)}.", f"Actual score: {D(act, 1)}.", f"Actual − predicted = {D(act, 1)} − {D(pred, 1)} = {D(act - pred, 1).replace('-', '−')}.",
                     f"A {'positive' if act > pred else 'negative'} difference means the point lies {'above' if act > pred else 'below'} the line."],
-                   "Residual = actual − predicted. Positive means above the line; negative means below.")
+                   "Residual = actual − predicted. Positive means above the line; negative means below.", alts=[pred - act, pred, act], fmt=DS)
     expo = r.random() < 0.5; a0 = r.choice([100, 200, 400, 500, 800]); g = r.choice([Fr(11, 10), Fr(12, 10), Fr(3, 2), 2])
     if expo:
         ys = [a0 * g ** k for k in range(4)]
@@ -655,7 +660,7 @@ def pr(r, d):
         sides = r.choice([6, 8, 10, 12]); k = r.randint(2, sides - 2); p = Fr(sides - k, sides)
         return SPR(f"A spinner has {sides} equal sections numbered 1 through {sides}. The spinner is spun once. What is the probability that it lands on a number greater than {k}? (Enter a fraction or decimal.)", p,
                    [f"Numbers greater than {k}: {k + 1} through {sides}, which is {sides - k} outcomes.", f"Total outcomes: {sides}.", f"Probability = {sides - k}/{sides}" + (f" = {S(p)}." if p.denominator != sides else "."),
-                    f"Note: \"greater than {k}\" does not include {k}."], "Count carefully: \"greater than\" excludes the number itself.")
+                    f"Note: \"greater than {k}\" does not include {k}."], "Count carefully: \"greater than\" excludes the number itself.", alts=[Fr(sides - k + 1, sides), Fr(k, sides), Fr(1, sides - k)])
     a, b, c, e = [r.randint(8, 60) for _ in range(4)]
     rows = [["Grade 11", str(a), str(b), str(a + b)], ["Grade 12", str(c), str(e), str(c + e)], ["Total", str(a + c), str(b + e), str(a + b + c + e)]]
     tab = {"caption": "Preferred lunch option", "head": ["", "Hot meal", "Salad bar", "Total"], "rows": rows}
@@ -671,7 +676,7 @@ def pr(r, d):
         p = Fr(a, a + c)
         return SPR(f"The table shows survey results from {a + b + c + e} students. If a student who prefers the hot meal is selected at random, what is the probability that the student is in grade 11? (Enter a fraction or decimal.)", p,
                    [f"The condition is \"prefers the hot meal\", so use the Hot meal column total: {a + c}.", f"Of those, grade 11: {a}.", f"Probability = {a}/{a + c}" + (f" = {S(p)}." if p.denominator != a + c else ".")],
-                   "Find the group named in the condition and use its total as the denominator.", table=tab)
+                   "Find the group named in the condition and use its total as the denominator.", table=tab, alts=[Fr(a, a + b + c + e), Fr(a, a + b), Fr(c, a + c)])
     kind = r.choice(["coins2", "coins3", "dice"])
     if kind == "dice":
         return MC("Two fair six-sided dice are rolled. What is the probability that at least one die shows a 6?", ["11/36", "1/6", "1/3", "1/36"],
@@ -692,7 +697,7 @@ def ss(r, d):
             n = r.choice([40, 50, 80, 100, 120, 200, 250, 400]); p = r.choice([15, 20, 25, 30, 35, 40, 45, 55, 60, 65, 70, 75, 80]); k = n * p // 100
             if n * p % 100: return None
             return SPR(f"In a random sample of {n} voters in a city, {k} support a proposal. What percent of the sample supports the proposal?", p,
-                       [f"Fraction supporting: {k} ÷ {n} = {D(Fr(p, 100), 2)}.", f"Convert to a percent: {p}%."], "Sample percent = part ÷ sample size × 100.")
+                       [f"Fraction supporting: {k} ÷ {n} = {D(Fr(p, 100), 2)}.", f"Convert to a percent: {p}%."], "Sample percent = part ÷ sample size × 100.", alts=[k, 100 - p, p + 10])
         pop, lst = r.choice(POPS); q = r.choice(SURV)
         return MC(f"A researcher wants to estimate {q} among {pop}. Which sampling method is most likely to produce a representative sample?",
                   [f"Randomly selecting 100 people from {lst}", "Surveying the first 100 people who respond to an online post", f"Surveying people at a single location on one afternoon", "Asking the researcher's friends who belong to the group"],
@@ -710,7 +715,7 @@ def ss(r, d):
         est = Fr(k, n) * N
         if est.denominator != 1: return None
         return SPR(f"A school has {N:,} students. In a random sample of {n} of these students, {k} said they walk to school. Based on the sample, what is the best estimate of the number of students at the school who walk to school?", est,
-                   [f"Sample proportion: {k} ÷ {n}.", f"Apply it to the population: ({k} ÷ {n}) × {N:,} = {S(est)}."], "A random sample's proportion estimates the population's proportion.")
+                   [f"Sample proportion: {k} ÷ {n}.", f"Apply it to the population: ({k} ÷ {n}) × {N:,} = {S(est)}."], "A random sample's proportion estimates the population's proportion.", alts=[N - est, k, Fr(k, n) * 100])
     if r.random() < 0.5:
         a = r.choice([100, 200, 300]); b = a * r.choice([4, 9, 16])
         return MC(f"Two random samples are taken from the same population to estimate the mean commute time. Sample A has {a} people and sample B has {b:,} people. Which statement is most likely true?",
@@ -767,7 +772,7 @@ def av(r, d):
         if r.random() < 0.5:
             l, w = r.randint(3, 20), r.randint(2, 15)
             return SPR(f"A rectangle has an area of {l * w} square units and a length of {l} units. What is its width, in units?", w,
-                       [f"Area = length × width, so {l * w} = {l} × w.", f"Divide: w = {l * w} ÷ {l} = {w}."], "Rearrange the area formula to find a missing side.")
+                       [f"Area = length × width, so {l * w} = {l} × w.", f"Divide: w = {l * w} ÷ {l} = {w}."], "Rearrange the area formula to find a missing side.", alts=[l * w - l, l, Fr(l * w, 2)])
         s = r.randint(2, 12)
         return MC(f"What is the volume, in cubic units, of a cube with an edge length of {s} units?", pick4(S(s ** 3), [S(s * s), S(6 * s * s), S(3 * s)], numpad(s ** 3)),
                   [f"Volume of a cube = s³.", f"{s}³ = {s} × {s} × {s} = {s ** 3}.", f"Trap: {s * s} is the area of one face."], "Cube volume is edge cubed; face area is edge squared.")
@@ -779,7 +784,7 @@ def av(r, d):
                       [f"Area of a triangle = ½ × base × height.", f"½ × {b} × {h} = {S(a) if a.denominator == 1 else D(a, 1)}.", f"Trap: {b * h} forgets the ½."], "Triangle area is half of base × height.")
         rad = r.randint(2, 15)
         return SPR(f"A circle has an area of {rad * rad}π square units. What is the radius of the circle, in units?", rad,
-                   [f"Area = πr², so πr² = {rad * rad}π.", f"Divide by π: r² = {rad * rad}.", f"r = {rad}."], "Set πr² equal to the given area and solve for r.")
+                   [f"Area = πr², so πr² = {rad * rad}π.", f"Divide by π: r² = {rad * rad}.", f"r = {rad}."], "Set πr² equal to the given area and solve for r.", alts=[rad * rad, 2 * rad, Fr(rad * rad, 2)])
     if r.random() < 0.5:
         k = r.choice([2, 3]); v = r.choice([60, 90, 120, 150, 200, 240, 360]); nv = v * k ** 3
         return MC(f"A rectangular prism has a volume of {v} cubic centimeters. If its length, width, and height are each multiplied by {k}, what is the volume of the new prism, in cubic centimeters?",
@@ -791,13 +796,13 @@ def av(r, d):
     if h2.denominator != 1: return None
     return SPR(f"Cylinder A has a radius of {r1} and a height of {h1}. Cylinder B has a radius of {r2} and a height of {S(h2)}. The volume of cylinder B is how many times the volume of cylinder A?", ratio,
                ["V = πr²h.", f"A: π({r1}²)({h1}) = {r1 * r1 * h1}π.", f"B: π({r2}²)({S(h2)}) = {S(r2 * r2 * h2)}π.", f"Ratio: {S(r2 * r2 * h2)}π ÷ {r1 * r1 * h1}π = {S(ratio)}."],
-               "Cylinder volume is πr²h; the radius is squared.")
+               "Cylinder volume is πr²h; the radius is squared.", alts=[Fr(r2 * h2, r1 * h1), Fr(r2 * r2, r1 * r1), Fr(h2, h1)])
 
 def la(r, d):
     if d == 1:
         t = r.choice([("supplementary", 180), ("complementary", 90)]); a = r.randint(10, t[1] - 10)
         return SPR(f"Two angles are {t[0]}. One angle measures {a}°. What is the measure, in degrees, of the other angle?", t[1] - a,
-                   [f"{t[0].capitalize()} angles add to {t[1]}°.", f"{t[1]} − {a} = {t[1] - a}."], "Supplementary = 180°; complementary = 90°.")
+                   [f"{t[0].capitalize()} angles add to {t[1]}°.", f"{t[1]} − {a} = {t[1] - a}."], "Supplementary = 180°; complementary = 90°.", alts=[(180 if t[1] == 90 else 90) - a if (180 if t[1] == 90 else 90) - a > 0 else t[1] + a, a, 360 - a])
     if d == 2:
         if r.random() < 0.5:
             x = r.randint(5, 30); a, c = r.sample(range(2, 7), 2); b = r.randint(-20, 30); dd = a * x + b - c * x
@@ -811,7 +816,7 @@ def la(r, d):
                       "Corresponding and alternate interior angles are equal; same-side interior angles add to 180°.")
         v = r.randint(10, 80) * 2
         return SPR(f"The vertex angle of an isosceles triangle measures {v}°. What is the measure, in degrees, of each base angle?", (180 - v) // 2,
-                   ["The angles of a triangle add to 180°.", f"The two base angles are equal: {v} + 2b = 180.", f"2b = {180 - v}, so b = {(180 - v) // 2}."], "In an isosceles triangle, the base angles are equal.")
+                   ["The angles of a triangle add to 180°.", f"The two base angles are equal: {v} + 2b = 180.", f"2b = {180 - v}, so b = {(180 - v) // 2}."], "In an isosceles triangle, the base angles are equal.", alts=[180 - v, v, Fr(v, 2)])
     if r.random() < 0.5:
         ab = r.randint(3, 12); k = r.choice([Fr(3, 2), 2, Fr(5, 2), 3, Fr(4, 3)]); de = ab * k; bc = r.randint(4, 15); ef = bc * k
         if de.denominator != 1 or ef.denominator != 1: return None
@@ -826,19 +831,19 @@ def la(r, d):
     return SPR(f"In triangle PQR, the measure of angle P is ({coef(a, 'x')})°, the measure of angle Q is ({lin(b, p)})°, and the measure of angle R is ({lin(c, q)})°. What is the measure, in degrees, of the largest angle of the triangle?", max(angs),
                [f"The angles add to 180: {coef(a, 'x')} + ({lin(b, p)}) + ({lin(c, q)}) = 180.", f"Combine: {lin(a + b + c, p + q)} = 180, so x = {x}.",
                 f"Angles: P = {angs[0]}°, Q = {angs[1]}°, R = {angs[2]}°.", f"Check: {' + '.join(map(str, angs))} = 180 ✓", f"Largest angle: {max(angs)}° (not x = {x})."],
-               "Solve for x, then substitute back. The question asks for an angle, not for x.")
+               "Solve for x, then substitute back. The question asks for an angle, not for x.", alts=[x, min(angs), sorted(angs)[1]])
 
 TRIP = [(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29)]
 def rt(r, d):
     a, b, c = r.choice(TRIP); k = r.randint(1, 4) if c < 20 else 1; a, b, c = a * k, b * k, c * k
     if d == 1:
         return SPR(f"A right triangle has legs of length {a} and {b}. What is the length of the hypotenuse?", c,
-                   [f"Pythagorean theorem: c² = {a}² + {b}² = {a * a} + {b * b} = {c * c}.", f"c = √{c * c} = {c}."], "a² + b² = c², where c is the hypotenuse.")
+                   [f"Pythagorean theorem: c² = {a}² + {b}² = {a * a} + {b * b} = {c * c}.", f"c = √{c * c} = {c}."], "a² + b² = c², where c is the hypotenuse.", alts=[a + b, b + 1, 2 * b])
     if d == 2:
         if r.random() < 0.5:
             return SPR(f"A right triangle has a hypotenuse of length {c} and one leg of length {a}. What is the length of the other leg?", b,
                        [f"a² + b² = c², so b² = {c}² − {a}² = {c * c} − {a * a} = {b * b}.", f"b = √{b * b} = {b}.", "Trap: adding the squares treats the hypotenuse as a leg."],
-                       "To find a leg, subtract: leg² = hypotenuse² − other leg².")
+                       "To find a leg, subtract: leg² = hypotenuse² − other leg².", alts=[c - a, a, c + a])
         fn = r.choice(["sin", "cos", "tan"]); val = {"sin": Fr(a, c), "cos": Fr(b, c), "tan": Fr(a, b)}[fn]
         return MC(f"In a right triangle, the side opposite angle θ has length {a} and the hypotenuse has length {c}. What is {fn} θ?",
                   pick4(S(val), [S(Fr(a, c)), S(Fr(b, c)), S(Fr(a, b)), S(Fr(b, a)), S(Fr(c, a))], []),
@@ -848,7 +853,7 @@ def rt(r, d):
         v = Fr(a, c)
         return SPR(f"In right triangle ABC, angle C is the right angle and sin A = {S(v)}. What is the value of cos B? (Enter a fraction or decimal.)", v,
                    ["In a right triangle, angles A and B are complementary (they add to 90°).", "For complementary angles, sin A = cos B.",
-                    "The side opposite A is the side adjacent to B, and both ratios use the same hypotenuse.", f"So cos B = {S(v)}."], "sin x = cos(90° − x).")
+                    "The side opposite A is the side adjacent to B, and both ratios use the same hypotenuse.", f"So cos B = {S(v)}."], "sin x = cos(90° − x).", alts=[1 - v, Fr(c, a), Fr(b, c)])
     s = r.randint(2, 12)
     if r.random() < 0.5:
         return MC(f"In a 30°-60°-90° triangle, the shorter leg has length {s}. What are the lengths of the hypotenuse and the longer leg?",
@@ -866,7 +871,7 @@ def ci(r, d):
                       ["Circumference = πd.", f"π × {dd} = {dd}π.", f"Trap: {(dd // 2) ** 2}π is the area."], "C = πd = 2πr; A = πr².")
         rad = r.randint(2, 20)
         return SPR(f"A circle has a circumference of {2 * rad}π. What is the radius of the circle?", rad,
-                   [f"Circumference = 2πr, so 2πr = {2 * rad}π.", f"Divide by 2π: r = {rad}."], "Set 2πr equal to the circumference and solve for r.")
+                   [f"Circumference = 2πr, so 2πr = {2 * rad}π.", f"Divide by 2π: r = {rad}."], "Set 2πr equal to the circumference and solve for r.", alts=[2 * rad, rad * rad, 4 * rad])
     if d == 2:
         if r.random() < 0.5:
             h, k, rad = nz(r, -8, 8), nz(r, -8, 8), r.randint(2, 9)
@@ -889,7 +894,7 @@ def ci(r, d):
                    [f"Group terms: (x²{plus(-2 * h)}x) + (y²{plus(-2 * k)}y) = {S(-C)}.",
                     f"Complete the square: add {h * h} for x and {k * k} for y to both sides.",
                     f"(x{plus(-h)})² + (y{plus(-k)})² = {S(-C + h * h + k * k)}.", f"r² = {rad * rad}, so r = {rad}. (Center: ({S(h)}, {S(k)}).)"],
-                   "Complete the square in x and y to reach standard form.")
+                   "Complete the square in x and y to reach standard form.", alts=[rad * rad, abs(h) + abs(k), -C if -C > 0 else abs(C) + 1])
     ang = r.choice([30, 45, 60, 72, 90, 120, 144, 180, 240]); rad = r.choice([2, 3, 4, 5, 6, 10, 12]); A_ = Fr(ang, 360) * rad * rad
     As = (S(A_) + "π") if A_ != 1 else "π"
     return MC(f"A circle has a radius of {rad}. What is the area of a sector of the circle with a central angle of {ang}°?",
@@ -897,33 +902,128 @@ def ci(r, d):
               [f"Area of the circle: π({rad}²) = {rad * rad}π.", f"Fraction of the circle: {ang}° ÷ 360° = {S(Fr(ang, 360))}.", f"Sector area = {S(Fr(ang, 360))} × {rad * rad}π = {As}.",
                "Trap: using 2πr gives the arc length, not the area."], "Sector area = (central angle ÷ 360°) × πr².")
 
+
+# ---------------- extra Advanced Math templates (audit: AM is 35% of the SAT Math section)
+def ee2(r, d):
+    if d == 1:
+        g = r.randint(2, 9); p_, q_ = r.randint(1, 7), nz(r, -9, 9)
+        if math.gcd(p_, abs(q_)) != 1: return None
+        corr = f"{g}x({lin(p_, q_)})"
+        return MC(f"Which expression is equivalent to {quad(g * p_, g * q_, 0)}?",
+                  pick4(corr, [f"{g}({quad(p_, q_, 0)})".replace("x²", "x") if False else f"{g}({lin(p_, q_)})", f"x({lin(g * p_, q_)})", f"{g}x({lin(p_, g * q_)})"], [f"{g * p_}x({lin(1, q_)})"]),
+                  [f"Find the greatest common factor of {coef(g * p_, 'x²')} and {coef(g * q_, 'x')}: both contain {g} and x, so the GCF is {g}x.",
+                   f"Divide each term by {g}x: {coef(g * p_, 'x²')} ÷ {g}x = {coef(p_, 'x')} and {coef(g * q_, 'x')} ÷ {g}x = {S(q_)}.",
+                   f"Result: {corr}.", f"Check by distributing: {g}x · {coef(p_, 'x')} = {coef(g * p_, 'x²')} and {g}x · {par(q_)} = {coef(g * q_, 'x')} ✓"],
+                  "Factor out the greatest common factor, including any shared power of x.")
+    if d == 2:
+        a = r.randint(1, 9); corr = coef(4 * a, "x")
+        return MC(f"Which expression is equivalent to (x + {a})² − (x − {a})²?", pick4(corr, ["0", S(2 * a * a), coef(2 * a, "x")], [lin(4 * a, 2 * a * a)]),
+                  [f"Expand: (x + {a})² = {quad(1, 2 * a, a * a)} and (x − {a})² = {quad(1, -2 * a, a * a)}.",
+                   f"Subtract: ({quad(1, 2 * a, a * a)}) − ({quad(1, -2 * a, a * a)}).", f"The x² terms cancel and the {a * a}s cancel, leaving {2 * a}x − (−{2 * a}x) = {corr}.",
+                   "Trap: 0 assumes the two squares cancel completely, but the middle terms have opposite signs."],
+                  "Expand each square with (a ± b)² = a² ± 2ab + b², then subtract carefully.")
+    k, m = r.sample(range(1, 9), 2)
+    num = f"x² − {k * k}"; den = quad(1, k - m, -k * m)
+    corr = f"(x − {k})/(x − {m})"
+    return MC(f"Which expression is equivalent to ({num}) / ({den}), for x ≠ {m} and x ≠ −{k}?",
+              [corr, f"(x + {k})/(x − {m})", f"(x − {k})/(x + {m})", f"−{k}/{m}" if k != m else "1"],
+              [f"Factor the numerator (difference of squares): x² − {k * k} = (x − {k})(x + {k}).",
+               f"Factor the denominator: find two numbers with product {S(-k * m)} and sum {S(k - m)}: {k} and −{m}, so {den} = (x + {k})(x − {m}).",
+               f"Cancel the common factor (x + {k}), allowed because x ≠ −{k}.", f"Result: {corr}."],
+              "Factor completely, then cancel common factors, never common terms.")
+
+def ne2(r, d):
+    if d == 1:
+        a = r.randint(1, 9); b = r.randint(2, 12)
+        return SPR(f"(x − {a})² = {b * b}\nWhat is the positive solution to the equation above?" if a < b else f"(x + {a})² = {b * b}\nWhat is the positive solution to the equation above?",
+                   (a + b) if a < b else (b - a if b > a else None) if False else (a + b if a < b else b - a), 
+                   ([f"Take the square root of both sides: x − {a} = {b} or x − {a} = −{b}.", f"So x = {a + b} or x = {S(a - b)}.", f"The positive solution is {a + b}."] if a < b else
+                    [f"Take the square root of both sides: x + {a} = {b} or x + {a} = −{b}.", f"So x = {S(b - a)} or x = {S(-b - a)}.", f"The positive solution is {b - a}."]),
+                   "Undo a square by taking the square root of both sides; remember both the positive and negative roots.",
+                   alts=([a, b, a * b] if a < b else [a + b, b, a])) if (a < b or b > a) else None
+    if d == 2:
+        b = r.randint(1, 12); case = r.choice(["two", "one", "zero"])
+        if case == "one": c = None; k = r.randint(1, 8); bb = 2 * k * r.choice([1, -1]); c = k * k
+        elif case == "two": bb = nz(r, -10, 10); c = r.randint(-15, (bb * bb) // 4 - 1) if (bb * bb) // 4 - 1 > -15 else -5
+        else: bb = nz(r, -8, 8); c = (bb * bb) // 4 + r.randint(1, 10)
+        disc = bb * bb - 4 * c; ans = "Exactly two" if disc > 0 else ("Exactly one" if disc == 0 else "No real solutions")
+        return MC(f"How many distinct real solutions does the equation {quad(1, bb, c)} = 0 have?",
+                  [ans] + [o for o in ["Exactly two", "Exactly one", "No real solutions", "Infinitely many"] if o != ans],
+                  ["The discriminant b² − 4ac tells how many real solutions a quadratic has.", f"Here a = 1, b = {S(bb)}, c = {S(c)}.",
+                   f"b² − 4ac = {S(bb * bb)} − 4(1){mp(c)} = {S(disc)}.", "Positive → two solutions; zero → one; negative → none.", f"So: {ans.lower()}."],
+                  "Discriminant b² − 4ac: positive → 2 real solutions, zero → 1, negative → 0.")
+    if r.random() < 0.5:
+        k = r.randint(2, 9)
+        return SPR(f"x² + bx + {k * k} = 0\nIn the equation above, b is a positive constant. For what value of b does the equation have exactly one real solution?", 2 * k,
+                   ["Exactly one real solution means the discriminant is 0: b² − 4ac = 0.", f"b² − 4(1)({k * k}) = 0, so b² = {4 * k * k}.", f"b = {2 * k} (b is positive).",
+                    f"Check: x² + {2 * k}x + {k * k} = (x + {k})², which has the single solution x = −{k} ✓"],
+                   "One real solution ⇔ discriminant = 0 (a perfect square trinomial).", alts=[k, k * k, 4 * k])
+    base, pw_ = r.choice([(2, [2, 3, 4]), (3, [2, 3]), (5, [2])]); e = r.choice(pw_); B = base ** e
+    p_, x = r.randint(1, 6), r.randint(-3, 6); s_ = nz(r, -4, 4); q_ = e * (x + s_) - p_ * x
+    if p_ == e: return None
+    assert p_ * x + q_ == e * (x + s_)
+    return SPR(f"{base}^({lin(p_, q_)}) = {B}^({lin(1, s_)})\nWhat value of x satisfies the equation above?", x,
+               [f"Rewrite {B} as a power of {base}: {B} = {base}^{e}.", f"So {B}^({lin(1, s_)}) = {base}^({e}({lin(1, s_)})) = {base}^({lin(e, e * s_)}).",
+                f"Same base, so set the exponents equal: {lin(p_, q_)} = {lin(e, e * s_)}.", f"Solve: {coef(p_ - e, 'x')} = {S(e * s_ - q_)}, so x = {S(x)}."],
+               "Rewrite both sides with the same base, then set the exponents equal.", alts=[x + 1, -x if x else 2, Fr(e * s_, p_) if p_ else 1])
+
+def nf2(r, d):
+    if d == 1:
+        a = r.randint(1, 5); h = nz(r, -8, 8); k = nz(r, -10, 15); hs = f"(x − {h})" if h > 0 else f"(x + {-h})"
+        return MC(f"The function f is defined by f(x) = {'' if a == 1 else a}{hs}²{plus(k)}. What is the minimum value of f(x)?",
+                  pick4(S(k), [S(h), S(-k), S(a)], numpad(k)),
+                  [f"f is in vertex form a(x − h)² + k with a = {a} > 0, so the graph opens upward.", f"{hs}² is never negative, and it equals 0 when x = {S(h)}.",
+                   f"So the minimum value is f({S(h)}) = {S(k)}.", f"Trap: {S(h)} is where the minimum happens (the x-value), not the minimum value."],
+                  "In f(x) = a(x − h)² + k with a > 0, the minimum value is k, reached at x = h.")
+    if d == 2:
+        p_, q_ = r.randint(1, 12), r.randint(1, 12)
+        if (p_ - q_) % 2: return None
+        return SPR(f"The function g is defined by g(x) = (x − {p_})(x + {q_}). What is the x-coordinate of the vertex of the graph of y = g(x)?", Fr(p_ - q_, 2),
+                   [f"The x-intercepts are x = {p_} and x = −{q_}.", "A parabola is symmetric, so its vertex lies halfway between the x-intercepts.",
+                    f"x = ({p_} + (−{q_})) ÷ 2 = {S(Fr(p_ - q_, 2))}."], "The vertex's x-coordinate is the average of the x-intercepts.", alts=[p_, -q_, p_ - q_ if p_ != q_ else 1])
+    h, k, c, dd = nz(r, -6, 6), nz(r, -6, 6), nz(r, -5, 5), nz(r, -5, 5)
+    cs = f"x − {c}" if c > 0 else f"x + {-c}"
+    corr = f"({S(h + c)}, {S(k + dd)})"
+    return MC(f"The graph of y = f(x) has its vertex at ({S(h)}, {S(k)}). What is the vertex of the graph of y = f({cs}){plus(dd)}?",
+              pick4(corr, [f"({S(h - c)}, {S(k + dd)})", f"({S(h + c)}, {S(k - dd)})", f"({S(h + dd)}, {S(k + c)})"], [f"({S(h - c)}, {S(k - dd)})"]),
+              [f"Replacing x with ({cs}) shifts the graph {abs(c)} unit{'s' if abs(c) != 1 else ''} {'right' if c > 0 else 'left'}.",
+               f"Adding {S(dd)} outside shifts it {abs(dd)} unit{'s' if abs(dd) != 1 else ''} {'up' if dd > 0 else 'down'}.",
+               f"New vertex: ({S(h)}{plus(c)}, {S(k)}{plus(dd)}) = {corr}.", "Trap: f(x − c) moves right, not left, which is the opposite of the sign you see."],
+              "f(x − c) shifts right by c; f(x) + d shifts up by d.")
+
 # ---------------------------------------------------------------- driver
 AL, AM, PD, GT = "Algebra", "Advanced Math", "Problem-Solving and Data Analysis", "Geometry and Trigonometry"
 SKILLS = [(AL, "Linear equations in one variable", "l1", [l1_basic, l1_word]), (AL, "Linear equations in two variables", "l2", [l2]),
           (AL, "Linear functions", "lf", [lf]), (AL, "Systems of linear equations", "sy", [sy]), (AL, "Linear inequalities", "li", [li]),
-          (AM, "Equivalent expressions", "ee", [ee]), (AM, "Nonlinear equations and systems", "ne", [ne]), (AM, "Nonlinear functions", "nf", [nf]),
+          (AM, "Equivalent expressions", "ee", [ee, ee2]), (AM, "Nonlinear equations and systems", "ne", [ne, ne2]), (AM, "Nonlinear functions", "nf", [nf, nf2]),
           (PD, "Ratios, rates, and units", "rr", [rr_]), (PD, "Percentages", "pc", [pc]), (PD, "One-variable data", "ov", [ov]), (PD, "Two-variable data", "tv", [tv]),
           (PD, "Probability", "pr", [pr]), (PD, "Sample statistics and margin of error", "ss", [ss]), (PD, "Observational studies and experiments", "os", [os_]),
           (GT, "Area and volume", "av", [av]), (GT, "Lines, angles, and triangles", "la", [la]), (GT, "Right triangles and trigonometry", "rt", [rt]), (GT, "Circles", "ci", [ci])]
 
-def generate(per_level=15, seed=2026):
+def generate(per_level=15, seed=2026, am_per_level=28, conv=0.3):
     r = random.Random(seed); out = []; seen = set()
     for dom, skill, code, fns in SKILLS:
-        n = 0
+        n = 0; want = am_per_level if dom == AM else per_level
         for d in (1, 2, 3):
             got, tries = 0, 0
-            while got < per_level and tries < 4000:
+            while got < want and tries < 6000:
                 tries += 1
                 fn = r.choice(fns)
                 if code == "l1" and d == 3: fn = l1_basic
                 try: q = fn(r, d)
-                except (ValueError, ZeroDivisionError): q = None
+                except (ValueError, ZeroDivisionError, TypeError): q = None
                 if not q: continue
                 if q["type"] == "mc" and len(set(q["choices"])) != 4: continue
                 k = q["stem"] + "|" + "|".join(q.get("choices") or [])
                 if k in seen: continue
+                alts, disp = q.pop("_alts", None), q.pop("_disp", None)
+                if alts and r.random() < conv:   # audit: keep student-produced responses near the SAT's ~25%
+                    try:
+                        ch = pick4(disp, [a for a in alts if a != disp], numpad(Fr(q["answer"])) if "/" not in disp or True else [])
+                        q.update(type="mc", choices=ch, answer=0); q["stem"] = q["stem"].replace(" (Enter a fraction or decimal.)", "")
+                    except (ValueError, ZeroDivisionError): pass
                 seen.add(k); n += 1; got += 1
-                q.update(id=f"g-{code}-{n:03d}", section="math", domain=dom, skill=skill, difficulty=d, source=SRC)
+                q.update(id=f"g2-{code}-{n:03d}", section="math", domain=dom, skill=skill, difficulty=d, source=SRC)
                 out.append(q)
     return out
 
