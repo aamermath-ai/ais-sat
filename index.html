@@ -28,12 +28,14 @@
   --warn:#C76E00; --warn-fill:rgba(255,149,0,.13);
   --glass:rgba(250,250,252,.74); --shadow:0 1px 1px rgba(0,0,0,.03),0 6px 24px rgba(0,0,0,.06);
   --mesh-a:rgba(94,92,230,.16); --mesh-b:rgba(0,113,227,.14); --mesh-c:rgba(52,199,89,.08);
+  --ring-q:#FF2D55; --ring-c:#2DB24A; --ring-m:#0AA5D8; --streak:#F08A00; --edit-ink:#1E7F34;
   --f-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;
   --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif;
   --f-read:"New York",ui-serif,"Source Serif 4",Georgia,serif;
   --r-lg:22px; --r:14px; --r-sm:10px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ring-q:#FF375F; --ring-c:#B4F34A; --ring-m:#3ED2F5; --streak:#FF9F0A; --edit-ink:#C8F56A;
   --bg:#000000; --surface:#1C1C1E; --fill:#2C2C2E; --fill-2:#3A3A3C; --ink:#F5F5F7; --ink-2:#D1D1D6; --muted:#98989D;
   --line:rgba(255,255,255,.11); --track:rgba(255,255,255,.10);
   --accent:#0A84FF; --accent-2:#7D7AFF; --accent-soft:rgba(10,132,255,.16); --on-accent:#FFFFFF;
@@ -44,6 +46,7 @@
   --glass:rgba(22,22,24,.72); --shadow:none;
   --mesh-a:rgba(125,122,255,.22); --mesh-b:rgba(10,132,255,.20); --mesh-c:rgba(48,209,88,.10); color-scheme:dark}}
 :root[data-theme="dark"]{
+  --ring-q:#FF375F; --ring-c:#B4F34A; --ring-m:#3ED2F5; --streak:#FF9F0A; --edit-ink:#C8F56A;
   --bg:#000000; --surface:#1C1C1E; --fill:#2C2C2E; --fill-2:#3A3A3C; --ink:#F5F5F7; --ink-2:#D1D1D6; --muted:#98989D;
   --line:rgba(255,255,255,.11); --track:rgba(255,255,255,.10);
   --accent:#0A84FF; --accent-2:#7D7AFF; --accent-soft:rgba(10,132,255,.16); --on-accent:#FFFFFF;
@@ -170,6 +173,8 @@ a:hover{text-decoration:underline}
 .g-math{background:linear-gradient(145deg,#40C8E0,#0A84FF)}
 .qs strong{font-family:var(--f-display);font-size:1.08rem;letter-spacing:-.02em}
 .qs span{font-size:.84rem;color:var(--muted)}
+.qs .txt strong{color:var(--ink)}
+.qs .glyph{color:#fff}
 .qs .go{display:flex;align-items:center;gap:4px;color:var(--accent);font-weight:600;font-size:.88rem}
 
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
@@ -245,6 +250,78 @@ button.row:hover{background:var(--fill)}
 .btable tr:last-child td{border-bottom:0}
 .note{font-size:.86rem;color:var(--ink-2);line-height:1.6}
 textarea{width:100%;min-height:150px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8rem;padding:12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--fill);color:var(--ink);resize:vertical}
+
+/* ---------- summary (home) ---------- */
+.sumhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.avatar{width:58px;height:58px;border-radius:50%;border:0;flex:none;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:1.25rem;letter-spacing:.02em;color:#fff;
+  background:linear-gradient(145deg,#8E8CF6,#5B6BD9 60%,#3E57C7);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 18px rgba(62,87,199,.35)}
+.editsum{width:100%;border:0;border-radius:999px;padding:16px 20px;font-weight:700;font-size:1.05rem;font-family:var(--f-display);letter-spacing:-.01em;
+  color:var(--edit-ink);background:color-mix(in srgb,var(--ring-c) 22%,var(--surface))}
+.editsum:hover{filter:brightness(1.05)}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.tile{background:var(--surface);border-radius:24px;box-shadow:var(--shadow);padding:18px 18px 16px;display:flex;flex-direction:column;gap:6px;min-width:0;border:0;text-align:left;color:var(--ink);font:inherit;position:relative;overflow:hidden}
+.tile.wide{grid-column:span 2}
+button.tile{cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+button.tile:hover{transform:translateY(-2px)}
+.tile-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tile-h h3{font-size:1.15rem;font-weight:700;letter-spacing:-.02em}
+.chev{width:28px;height:28px;border-radius:50%;background:var(--fill);display:grid;place-items:center;color:var(--muted);flex:none}
+.chev .ico{width:14px;height:14px}
+.tile .sub{font-size:.88rem;color:var(--ink-2);font-weight:500}
+.tile .big{font-family:var(--f-display);font-size:2.4rem;font-weight:700;letter-spacing:-.04em;line-height:1.05;font-variant-numeric:tabular-nums}
+.tile .big small{font-size:1rem;font-weight:700;letter-spacing:0;margin-left:3px;text-transform:uppercase}
+.tile .muted-note{font-size:.84rem;color:var(--muted)}
+.ringbox{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;padding-top:6px}
+.ringbox svg{width:170px;height:170px;display:block}
+.rleg{display:flex;flex-direction:column;gap:12px;min-width:0}
+.rleg .k{font-size:.92rem;font-weight:600;color:var(--ink)}
+.rleg .v{font-family:var(--f-display);font-size:1.55rem;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+.rleg .v small{font-size:.8rem;font-weight:700;margin-left:3px}
+.bars{width:100%;height:auto;display:block;margin-top:6px}
+.bars text{fill:var(--muted);font-size:11px;font-family:var(--f-ui)}
+.week{display:flex;justify-content:space-between;gap:4px;margin-top:8px}
+.week span{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.7rem;color:var(--muted);font-weight:600}
+.week i{width:22px;height:22px;border-radius:50%;background:var(--fill);display:block}
+.week i.on{background:var(--streak)}
+.week i.today{box-shadow:0 0 0 2px var(--surface),0 0 0 4px color-mix(in srgb,var(--streak) 60%,transparent)}
+.scorebox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:end}
+.tbar{height:8px;border-radius:4px;background:var(--fill);overflow:hidden;margin-top:10px}
+.tbar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#7D7AFF,#0A84FF)}
+.spark{width:100%;height:auto;display:block}
+.sesslist{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.sesslist div{display:flex;justify-content:space-between;gap:10px;font-size:.86rem;padding:8px 0;border-top:1px solid var(--line)}
+.sesslist div:first-child{border-top:0}
+.sesslist b{font-variant-numeric:tabular-nums}
+.emptyc{flex:1;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.95rem;padding:18px 6px}
+.medalwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding-top:4px}
+.medalwrap svg{width:96px;height:96px}
+.medalwrap b{font-size:1rem}
+.medalwrap span{font-size:.82rem;color:var(--muted)}
+/* modal sheet */
+.modal{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.msheet{background:var(--bg);border-radius:24px;width:100%;max-width:520px;max-height:100%;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:18px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.msheet-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.msheet-h h2{font-size:1.35rem;letter-spacing:-.02em}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.field input,.field select{font:inherit;font-size:1rem;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+.awgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.aw{background:var(--surface);border-radius:18px;padding:14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.aw svg{width:72px;height:72px}
+.aw b{font-size:.92rem}
+.aw span{font-size:.76rem;color:var(--muted)}
+.aw.locked svg{opacity:.35;filter:grayscale(1)}
+@media (max-width:1000px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){.modal{align-items:flex-end;padding:0}.msheet{border-radius:24px 24px 0 0;max-width:none;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}}
+@media (max-width:480px){
+  .ringbox{grid-template-columns:minmax(0,1fr);justify-items:center}
+  .ringbox .rleg{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
+  .rleg .v{font-size:1.15rem}
+  .tile .big{font-size:2rem}
+  .scorebox{grid-template-columns:minmax(0,1fr)}
+  .avatar{width:50px;height:50px;font-size:1.1rem}
+}
 
 /* ---------- practice sheet ---------- */
 .sheet{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;display:flex;flex-direction:column}
@@ -424,6 +501,13 @@ details.more[open] summary{margin-bottom:14px}
   <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-redo" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-summary" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-dasharray="40 14" stroke-linecap="round" transform="rotate(-90 12 12)"/><circle cx="12" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-dasharray="20 8" stroke-linecap="round" transform="rotate(-90 12 12)"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2.5 4L17 12H6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.2 0-3.4 2.6-5.3 3.6-8.8 2.1 1.5 3 3.4 3 5 .9-.6 1.6-1.8 1.8-3.2 2.4 1.9 4.6 4.3 4.6 7.2 0 3.5-2.6 6-6.5 6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 19l6.5-11 4 6.5 2.5-3.5L21 19z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-e" viewBox="0 0 24 24"><path d="M17.5 12.2H6.8M17.6 12.2c0-3.3-2.4-5.7-5.5-5.7-3.2 0-5.6 2.5-5.6 5.6s2.4 5.6 5.7 5.6c2 0 3.6-.8 4.7-2.3" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round"/><circle cx="19" cy="17.6" r="1.4" fill="#E0B25A"/></symbol>
 </svg>
 
@@ -438,7 +522,7 @@ details.more[open] summary{margin-bottom:14px}
       <span class="free"><svg><use href="#i-seal"/></svg>Free for AIS students</span>
     </div>
     <nav class="nav" id="nav-side">
-      <a href="#today" data-tab="today"><svg><use href="#i-today"/></svg>Today</a>
+      <a href="#today" data-tab="today"><svg><use href="#i-summary"/></svg>Summary</a>
       <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
       <a href="#progress" data-tab="progress"><svg><use href="#i-progress"/></svg>Progress</a>
       <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Question Bank</a>
@@ -471,20 +555,27 @@ details.more[open] summary{margin-bottom:14px}
   <div class="content">
     <!-- TODAY -->
     <section class="page fade" id="v-today">
-      <div class="ptitle"><span class="eyebrow" id="today-date"></span><h1 id="greet">Welcome</h1></div>
+      <div class="sumhead">
+        <div class="ptitle"><span class="eyebrow" id="today-date"></span><h1 id="greet">Summary</h1></div>
+        <button class="avatar" id="avatar" aria-label="Edit your profile"><span id="av-ini">ME</span></button>
+      </div>
+      <button class="editsum" id="edit-prof">Edit your profile &amp; goals</button>
 
-      <div class="card hero">
-        <div class="hero-grid">
-          <div class="gauge" id="gauge"></div>
-          <div class="hero-side">
-            <p class="lead" id="hero-lead">Your estimated SAT score updates with every question you answer. Practice a few questions in each section to unlock it.</p>
-            <div class="secs">
-              <div class="sec" id="sec-rw"></div>
-              <div class="sec" id="sec-math"></div>
-            </div>
-            <p class="disclaim">Practice estimates, not official College Board scores. For an official-format score, take a full test in Bluebook.</p>
-          </div>
-        </div>
+      <div class="tiles">
+        <article class="tile wide" aria-labelledby="h-rings">
+          <div class="tile-h"><h3 id="h-rings">Today's rings</h3><span class="muted-note" id="rings-note"></span></div>
+          <div class="ringbox"><div id="rings"></div><div class="rleg" id="rleg"></div></div>
+        </article>
+        <article class="tile wide" aria-labelledby="h-score">
+          <div class="tile-h"><h3 id="h-score">Estimated score</h3><span class="muted-note">Practice estimate</span></div>
+          <div class="scorebox"><div id="score-l"></div><div id="score-r"></div></div>
+        </article>
+        <article class="tile" aria-labelledby="h-q"><div class="tile-h"><h3 id="h-q">Questions</h3></div><span class="sub">Today</span><div id="t-q"></div></article>
+        <article class="tile" aria-labelledby="h-t"><div class="tile-h"><h3 id="h-t">Practice time</h3></div><span class="sub">Today</span><div id="t-t"></div></article>
+        <article class="tile" aria-labelledby="h-s"><div class="tile-h"><h3 id="h-s">Streak</h3></div><span class="sub">Days in a row</span><div id="t-s"></div></article>
+        <button class="tile" id="t-test-btn" aria-labelledby="h-d"><div class="tile-h"><h3 id="h-d">Test day</h3><span class="chev"><svg class="ico"><use href="#i-chev"/></svg></span></div><div id="t-d"></div></button>
+        <a class="tile wide" href="#progress" aria-labelledby="h-se" style="text-decoration:none"><div class="tile-h"><h3 id="h-se">Sessions</h3><span class="chev"><svg class="ico"><use href="#i-chev"/></svg></span></div><div id="t-se" style="display:flex;flex-direction:column;flex:1"></div></a>
+        <button class="tile wide" id="t-aw-btn" aria-labelledby="h-aw"><div class="tile-h"><h3 id="h-aw">Awards</h3><span class="chev"><svg class="ico"><use href="#i-chev"/></svg></span></div><div id="t-aw" style="display:flex;flex-direction:column;flex:1"></div></button>
       </div>
 
       <div class="group">
@@ -497,7 +588,6 @@ details.more[open] summary{margin-bottom:14px}
         </div>
       </div>
 
-      <div class="stats" id="stats"></div>
     </section>
 
     <!-- PRACTICE -->
@@ -591,7 +681,7 @@ details.more[open] summary{margin-bottom:14px}
   </div>
 
   <nav class="tabbar" id="nav-tab" aria-label="Sections">
-    <a href="#today" data-tab="today"><svg><use href="#i-today"/></svg>Today</a>
+    <a href="#today" data-tab="today"><svg><use href="#i-summary"/></svg>Summary</a>
     <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
     <a href="#progress" data-tab="progress"><svg><use href="#i-progress"/></svg>Progress</a>
     <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Bank</a>
@@ -600,6 +690,26 @@ details.more[open] summary{margin-bottom:14px}
 
 <!-- PRACTICE SHEET -->
 <div class="toast" id="toast" hidden role="status"></div>
+
+<div class="modal" id="m-prof" hidden role="dialog" aria-modal="true" aria-labelledby="mp-h">
+  <form class="msheet" id="prof-form">
+    <div class="msheet-h"><h2 id="mp-h">Profile &amp; goals</h2><button type="button" class="iconbtn" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button></div>
+    <div class="field"><label for="pf-name">Your name</label><input id="pf-name" maxlength="40" autocomplete="name" placeholder="e.g. Sara Ahmed"></div>
+    <div class="field"><label for="pf-target">Target SAT score</label><select id="pf-target"></select></div>
+    <div class="field"><label for="pf-date">Test date</label><input id="pf-date" type="date"></div>
+    <div class="field"><label>Daily questions goal</label><div class="segmented" id="pf-q"><button type="button" data-v="10">10</button><button type="button" data-v="20">20</button><button type="button" data-v="30">30</button><button type="button" data-v="40">40</button></div></div>
+    <div class="field"><label>Daily practice-time goal</label><div class="segmented" id="pf-m"><button type="button" data-v="15">15 min</button><button type="button" data-v="30">30 min</button><button type="button" data-v="45">45 min</button><button type="button" data-v="60">60 min</button></div></div>
+    <p class="disclaim">Your profile is saved with your progress on this device.</p>
+    <button class="btn block" type="submit">Save</button>
+  </form>
+</div>
+
+<div class="modal" id="m-aw" hidden role="dialog" aria-modal="true" aria-labelledby="ma-h">
+  <div class="msheet">
+    <div class="msheet-h"><h2 id="ma-h">Awards</h2><button type="button" class="iconbtn" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button></div>
+    <div class="awgrid" id="aw-grid"></div>
+  </div>
+</div>
 
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Practice set">
   <div class="sheet-top">
@@ -740,7 +850,7 @@ function play(kind){
   }catch(e){}
 }
 
-function freshProgress(){return {v:1,theta:{rw:0,math:0},answered:{rw:0,math:0},correct:{rw:0,math:0},domains:{},sessions:[],seen:[],days:[],solved:[],wrong:[]};}
+function freshProgress(){return {v:1,theta:{rw:0,math:0},answered:{rw:0,math:0},correct:{rw:0,math:0},domains:{},sessions:[],seen:[],days:[],solved:[],wrong:[],log:[],scoreHist:[],comebacks:0,profile:{}};}
 
 /* ---------- model ---------- */
 const prob=(t,b)=>1/(1+Math.exp(-1.7*(t-b)));
@@ -781,7 +891,7 @@ function loadLocal(){try{const r=localStorage.getItem(LS_KEY);if(r){const p=JSON
 let chain=Promise.resolve();
 function save(){
   const snap=JSON.parse(JSON.stringify(progress));
-  snap.seen=snap.seen.slice(-600); snap.sessions=snap.sessions.slice(-40); snap.days=(snap.days||[]).slice(-120);
+  snap.seen=snap.seen.slice(-600); snap.log=(snap.log||[]).slice(-3000); snap.scoreHist=(snap.scoreHist||[]).slice(-60); snap.sessions=snap.sessions.slice(-40); snap.days=(snap.days||[]).slice(-120);
   if(saveMode==="db"){
     chain=chain.then(()=>db.doc("data/users/"+uid+"/progress").set(snap)).catch(e=>{
       if(e&&e.code==="invalid_argument"){saveMode="local";}
@@ -810,35 +920,119 @@ function render(){
   if(tab==="progress")renderProgress();
   if(tab==="bank")renderBank();
 }
+const dayKey=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
+function prof(){const p=progress.profile||{};return {name:p.name||"",target:p.target||1300,testDate:p.testDate||"",qGoal:p.qGoal||20,mGoal:p.mGoal||30};}
+function initials(n){const w=n.trim().split(/\s+/).filter(Boolean);return w.length?(w[0][0]+(w.length>1?w[w.length-1][0]:"")).toUpperCase():"ME";}
+function bestStreak(){const d=[...new Set(progress.days||[])].sort();let best=0,cur=0,prev=null;
+  d.forEach(k=>{const t=new Date(k+"T12:00:00");cur=prev&&(t-prev)/864e5<1.5?cur+1:1;best=Math.max(best,cur);prev=t;});return best;}
+function ringsSVG(list){
+  let s='<svg viewBox="0 0 170 170" role="img" aria-label="Daily goal rings">',r=74;
+  list.forEach(x=>{const c=2*Math.PI*r,p=Math.min(1,x.pct);
+    s+='<circle cx="85" cy="85" r="'+r+'" fill="none" stroke="'+x.color+'" stroke-opacity=".2" stroke-width="18"/>';
+    if(p>0.004)s+='<circle class="arc" cx="85" cy="85" r="'+r+'" fill="none" stroke="'+x.color+'" stroke-width="18" stroke-linecap="round" stroke-dasharray="'+(c*p).toFixed(1)+' '+c.toFixed(1)+'" transform="rotate(-90 85 85)"/>';
+    if(x.pct>=1)s+='<circle cx="85" cy="'+(85-r)+'" r="5" fill="var(--surface)" fill-opacity=".9"/>';
+    r-=21;});
+  return s+'</svg>';
+}
+function hourBars(vals,color,label){
+  const max=Math.max(1,...vals);let s='<svg class="bars" viewBox="0 0 240 80" role="img" aria-label="'+label+' by hour">';
+  for(let i=0;i<=24;i+=1){const x=4+i*9.6;s+='<line x1="'+x+'" x2="'+x+'" y1="4" y2="60" stroke="var(--line)" stroke-width="'+(i%6?0.5:0.9)+'" stroke-dasharray="'+(i%6?'1.5 2.5':'0')+'"/>';}
+  vals.forEach((v,i)=>{const x=4+i*9.6+4.8,h=v?Math.max(3,52*v/max):0;
+    s+=v?'<rect x="'+(x-1.6)+'" y="'+(60-h)+'" width="3.2" height="'+h+'" rx="1.6" fill="'+color+'"/>':'<circle cx="'+x+'" cy="59" r="1.2" fill="var(--track)"/>';});
+  [["12 AM",0],["6 AM",6],["12 PM",12],["6 PM",18]].forEach(([t,i])=>{s+='<text x="'+(4+i*9.6)+'" y="77">'+t+'</text>';});
+  return s+'</svg>';
+}
+function sparkline(pts,color){
+  if(pts.length<2)return '';
+  const lo=Math.min(...pts)-20,hi=Math.max(...pts)+20,W=220,H=70,x=i=>6+i*(W-12)/(pts.length-1),y=v=>H-8-(v-lo)/(hi-lo)*(H-20);
+  const d=pts.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
+  return '<svg class="spark" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Score trend"><path d="'+d+' L'+x(pts.length-1).toFixed(1)+' '+(H-4)+' L6 '+(H-4)+' Z" fill="'+color+'" fill-opacity=".12"/><path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+x(pts.length-1).toFixed(1)+'" cy="'+y(pts[pts.length-1]).toFixed(1)+'" r="4.5" fill="'+color+'" stroke="var(--surface)" stroke-width="2"/></svg>';
+}
+const AWARDS=[
+  {id:"first",name:"First Set",desc:"Finish your first practice set",icon:"flag",color:["#5AC8FA","#007AFF"],ok:p=>p.sessions.length>=1},
+  {id:"goal",name:"Goal Getter",desc:"Reach your daily questions goal",icon:"target",color:["#B4F34A","#30B050"],ok:p=>{const g=prof().qGoal,c={};(p.log||[]).forEach(e=>{const k=dayKey(e[0]);c[k]=(c[k]||0)+1;});return Object.values(c).some(v=>v>=g);}},
+  {id:"c100",name:"Century",desc:"Answer 100 questions",icon:"check",color:["#FF8A65","#FF375F"],ok:p=>p.answered.rw+p.answered.math>=100},
+  {id:"roll",name:"On a Roll",desc:"Practice 3 days in a row",icon:"fire",color:["#FFC24B","#FF8A00"],ok:()=>bestStreak()>=3},
+  {id:"sharp",name:"Sharp Shooter",desc:"Score 90% or more on a set of 10+",icon:"star",color:["#FFE066","#F2B705"],ok:p=>p.sessions.some(x=>x.n>=10&&x.correct/x.n>=0.9)},
+  {id:"comeback",name:"Comeback",desc:"Get a past mistake right",icon:"redo",color:["#BF8CFF","#7D5CFF"],ok:p=>(p.comebacks||0)>=1},
+  {id:"all",name:"All-Rounder",desc:"Practice all 8 content domains",icon:"grid",color:["#64E0C8","#11A69A"],ok:p=>Object.values(p.domains||{}).filter(d=>d.t>0).length>=8},
+  {id:"summit",name:"Summit",desc:"Answer 10 hard questions correctly",icon:"mountain",color:["#9AA7FF","#4C5BD4"],ok:p=>(p.log||[]).filter(e=>e[3]===3&&e[1]).length>=10},
+  {id:"week",name:"Week Strong",desc:"Practice 7 days in a row",icon:"fire",color:["#FF9AA2","#E5484D"],ok:()=>bestStreak()>=7},
+  {id:"c500",name:"500 Club",desc:"Answer 500 questions",icon:"seal",color:["#E8C77A","#B8862B"],ok:p=>p.answered.rw+p.answered.math>=500}];
+function medal(a,on,uid){
+  const g="mg"+uid;
+  return '<svg viewBox="0 0 96 96" aria-hidden="true"><defs><linearGradient id="'+g+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+a.color[0]+'"/><stop offset="1" stop-color="'+a.color[1]+'"/></linearGradient></defs>'+
+    '<circle cx="48" cy="48" r="44" fill="url(#'+g+')"/><circle cx="48" cy="48" r="44" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>'+
+    '<circle cx="48" cy="48" r="33" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.5"/><circle cx="48" cy="48" r="27" fill="#000" fill-opacity=".14"/>'+
+    '<use href="#i-'+a.icon+'" x="30" y="30" width="36" height="36" style="color:#fff"/>'+
+    (on?'':'<circle cx="48" cy="48" r="44" fill="var(--surface)" fill-opacity=".1"/>')+'</svg>';
+}
 function renderToday(){
-  const p=progress, h=new Date().getHours();
-  $("greet").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+  const p=progress, pf=prof(), h=new Date().getHours(), now=Date.now(), tk=dayKey(now);
   $("today-date").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
+  $("greet").textContent=pf.name?(h<12?"Good morning, ":h<17?"Good afternoon, ":"Good evening, ")+pf.name.split(/\s+/)[0]:"Summary";
+  $("av-ini").textContent=initials(pf.name);
+  const today=(p.log||[]).filter(e=>dayKey(e[0])===tk);
+  const nQ=today.length, nC=today.reduce((a,e)=>a+e[1],0), mins=Math.round(today.reduce((a,e)=>a+e[2],0)/60), cGoal=Math.max(1,Math.round(pf.qGoal*0.7));
+  const css=getComputedStyle(document.documentElement), col=n=>css.getPropertyValue(n).trim()||"#888";
+  const R=[{k:"Questions",v:nQ,g:pf.qGoal,u:"",color:col("--ring-q")},{k:"Correct",v:nC,g:cGoal,u:"",color:col("--ring-c")},{k:"Minutes",v:mins,g:pf.mGoal,u:"MIN",color:col("--ring-m")}];
+  $("rings").innerHTML=ringsSVG(R.map(x=>({pct:x.v/x.g,color:x.color})));
+  $("rleg").innerHTML=R.map(x=>'<div><div class="k">'+x.k+'</div><div class="v" style="color:'+x.color+'">'+x.v+'/'+x.g+(x.u?'<small>'+x.u+'</small>':'')+'</div></div>').join("");
+  const closed=R.filter(x=>x.v>=x.g).length;
+  $("rings-note").textContent=closed===3?"All goals reached":closed?closed+" of 3 goals reached":"Goals reset at midnight";
+  // score
   const ready=s=>p.answered[s]>=5;
   if(ready("rw")&&ready("math")){
-    const t=scaled(p.theta.rw)+scaled(p.theta.math);
-    $("gauge").innerHTML=gauge((t-400)/1200,t,"of 1600","Estimated",["#7D7AFF","#0A84FF"]);
-    $("hero-lead").textContent="Based on "+(p.answered.rw+p.answered.math)+" answers. Keep practicing to narrow the range.";
+    const t=scaled(p.theta.rw)+scaled(p.theta.math), pct=Math.max(0,Math.min(1,(t-400)/(pf.target-400)));
+    $("score-l").innerHTML='<div class="big" style="background:linear-gradient(90deg,#7D7AFF,#0A84FF);-webkit-background-clip:text;background-clip:text;color:transparent">'+t+'<small style="color:var(--muted)">/1600</small></div>'+
+      '<div class="sub">R&amp;W '+scaled(p.theta.rw)+' · Math '+scaled(p.theta.math)+'</div><div class="tbar"><i style="width:'+(pct*100).toFixed(0)+'%"></i></div>'+
+      '<div class="muted-note" style="margin-top:6px">'+(t>=pf.target?'Target of '+pf.target+' reached':'Target '+pf.target+' · '+(pf.target-t)+' to go')+'</div>';
+    const pts=(p.scoreHist||[]).filter(x=>x.rw&&x.math).map(x=>x.rw+x.math);
+    $("score-r").innerHTML=pts.length>=2?sparkline(pts.slice(-20),"#5E7BFF")+'<div class="muted-note">Last '+Math.min(20,pts.length)+' sets</div>':'<div class="muted-note">Your trend line appears after two more sets.</div>';
   } else {
     const need=Math.max(0,5-p.answered.rw)+Math.max(0,5-p.answered.math);
-    $("gauge").innerHTML=gauge(0,"—","of 1600","Estimated",["#7D7AFF","#0A84FF"]);
-    $("hero-lead").textContent=need+" more answer"+(need===1?"":"s")+" to unlock your estimated total. Each section needs at least 5.";
+    $("score-l").innerHTML='<div class="big" style="color:var(--muted)">—<small>/1600</small></div><div class="sub">'+need+' more answer'+(need===1?'':'s')+' to unlock</div>';
+    $("score-r").innerHTML='<div class="muted-note">Answer at least 5 questions in each section and your estimated score and trend will appear here.</div>';
   }
-  ["rw","math"].forEach(s=>{
-    const n=p.answered[s], v=ready(s)?scaled(p.theta[s]):null;
-    $("sec-"+s).innerHTML=mini(v?(v-200)/600:0,s==="rw"?"#BF5AF2":"#0A84FF")+
-      '<div style="min-width:0"><div class="k">'+SEC_NAME[s]+'</div><div class="v num">'+(v??"—")+'</div><div class="s">'+(v?"± "+band(n)+" · 200–800":(n?(5-n)+" more to unlock":"200–800 scale"))+'</div></div>';
-  });
-  const N=p.answered.rw+p.answered.math, C=p.correct.rw+p.correct.math;
-  const hard=p.sessions.reduce((a,x)=>a+(x.hard||0),0);
-  const st=streak();
-  $("stats").innerHTML=[["Answered",N,""],["Accuracy",N?Math.round(C/N*100):"—",N?"%":""],["Day streak",st,st===1?" day":" days"],["Hard questions",hard," reached"]]
-    .map(x=>'<div class="stat"><span class="k">'+x[0]+'</span><span class="v num">'+x[1]+'<small>'+x[2]+'</small></span></div>').join("");
+  // hourly tiles
+  const hq=Array(24).fill(0), ht=Array(24).fill(0); today.forEach(e=>{const hr=new Date(e[0]).getHours();hq[hr]++;ht[hr]+=e[2]/60;});
+  $("t-q").innerHTML='<div class="big" style="color:var(--accent-2)">'+nQ.toLocaleString()+'</div>'+hourBars(hq,col("--accent-2"),"Questions");
+  $("t-t").innerHTML='<div class="big" style="color:var(--ring-m)">'+mins+'<small>min</small></div>'+hourBars(ht.map(v=>Math.round(v*10)/10),col("--ring-m"),"Minutes");
+  // streak
+  const st=streak(), days=new Set(p.days||[]); let wk='';
+  for(let i=6;i>=0;i--){const d=new Date(now-i*864e5);wk+='<span><i class="'+(days.has(dayKey(d))?'on':'')+(i===0?' today':'')+'"></i>'+d.toLocaleDateString(undefined,{weekday:"narrow"})+'</span>';}
+  $("t-s").innerHTML='<div class="big" style="color:var(--streak)">'+st+'<small>'+(st===1?'day':'days')+'</small></div><div class="week">'+wk+'</div>';
+  // test date
+  if(pf.testDate){const dd=Math.ceil((new Date(pf.testDate+"T08:00:00")-now)/864e5);
+    $("t-d").innerHTML=dd>=0?'<div class="big" style="color:var(--accent)">'+dd+'<small>'+(dd===1?'day':'days')+'</small></div><div class="sub">'+new Date(pf.testDate+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"})+'</div>':'<div class="sub">Test date has passed. Tap to set your next one.</div>';
+  } else $("t-d").innerHTML='<div class="emptyc">Add your SAT date to see a countdown.</div>';
+  // sessions
+  const hs=p.sessions.slice().reverse().slice(0,3);
+  $("t-se").innerHTML=hs.length?'<div class="sesslist">'+hs.map(x=>'<div><span>'+esc(x.label)+' <span class="muted">· '+esc(new Date(x.at).toLocaleDateString(undefined,{day:"numeric",month:"short"}))+'</span></span><b>'+x.correct+'/'+x.n+'</b></div>').join("")+'</div>':'<div class="emptyc">No sessions recorded.</div>';
+  // awards
+  const got=AWARDS.filter(a=>a.ok(p)), latest=got[got.length-1];
+  const show=latest||AWARDS[0];
+  $("t-aw").innerHTML='<div class="medalwrap">'+medal(show,!!latest,"t")+'<b>'+esc(show.name)+'</b><span>'+(latest?esc(show.desc)+' · '+got.length+' of '+AWARDS.length+' earned':'Next: '+esc(show.desc))+'</span></div>';
+  // quick start
   document.querySelectorAll("[data-quick]").forEach(b=>b.disabled=bankState!=="ready");
   const ids=new Set(bank.map(q=>q.id)), mis=(p.wrong||[]).filter(i=>ids.has(i)).length;
   $("q-mis").disabled=bankState!=="ready"||!mis;
   $("mis-sub").textContent=mis?"Questions you got wrong, with solutions":"Questions you miss will collect here";
   $("mis-go").innerHTML=mis?mis+" to retry "+'<svg width="14" height="14"><use href="#i-chev"/></svg>':"Nothing to retry yet";
+}
+function openModal(id){$(id).hidden=false;document.body.style.overflow="hidden";play("open");const f=$(id).querySelector("input,button:not([data-close])");if(f)f.focus();}
+function closeModal(id){$(id).hidden=true;if($("sheet").hidden&&$("results").hidden)document.body.style.overflow="";play("close");}
+let pfDraft=null;
+function openProfile(){
+  const pf=prof(); pfDraft={...pf};
+  $("pf-name").value=pf.name; $("pf-date").value=pf.testDate;
+  let o="";for(let v=1000;v<=1600;v+=50)o+='<option value="'+v+'"'+(v===pf.target?' selected':'')+'>'+v+'</option>';$("pf-target").innerHTML=o;
+  ["q","m"].forEach(k=>document.querySelectorAll("#pf-"+k+" button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.v===pfDraft[k+"Goal"])));
+  openModal("m-prof");
+}
+function openAwards(){
+  $("aw-grid").innerHTML=AWARDS.map((a,i)=>{const on=a.ok(progress);return '<div class="aw'+(on?'':' locked')+'">'+medal(a,on,"g"+i)+'<b>'+esc(a.name)+'</b><span>'+(on?'Earned · ':'')+esc(a.desc)+'</span></div>';}).join("");
+  openModal("m-aw");
 }
 function renderPractice(){
   document.querySelectorAll("#mode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===opts.mode));
@@ -1011,6 +1205,8 @@ function submit(){
   progress.theta[sec]=after; progress.answered[sec]++; if(ok)progress.correct[sec]++;
   const d=progress.domains[q.domain]||(progress.domains[q.domain]={c:0,t:0}); d.t++; if(ok)d.c++;
   progress.solved=progress.solved||[]; progress.wrong=progress.wrong||[];
+  if(ok&&progress.wrong.includes(q.id))progress.comebacks=(progress.comebacks||0)+1;
+  progress.log=progress.log||[]; progress.log.push([Date.now(),ok?1:0,Math.min(600,Math.round((Date.now()-c.start)/1000)),q.difficulty]);
   if(ok){if(!progress.solved.includes(q.id))progress.solved.push(q.id);progress.wrong=progress.wrong.filter(x=>x!==q.id);}
   else if(!progress.wrong.includes(q.id))progress.wrong.push(q.id);
   progress.seen.push(q.id); progress.days=progress.days||[]; if(!progress.days.includes(today()))progress.days.push(today());
@@ -1055,7 +1251,8 @@ function finish(msg){
   const est=secs.map(s=>(s==="rw"?"R&W ":"Math ")+scaled(S.theta[s])).join(" · ");
   const label=S.mode==="mistakes"?"Retry mistakes":(S.mode==="full"?"Whole syllabus":SEC_NAME[S.mode]+(S.skill?" · "+S.skill:S.domain?" · "+S.domain:""))+(S.level!=="adaptive"?" ("+LEVEL[S.level].name+")":"");
   const hard=S.items.filter(i=>i.level===3).length;
-  progress.sessions.push({at:Date.now(),label,n,correct:c,est,hard}); save();
+  progress.sessions.push({at:Date.now(),label,n,correct:c,est,hard});
+  progress.scoreHist=progress.scoreHist||[]; progress.scoreHist.push({t:Date.now(),rw:progress.answered.rw>=5?scaled(progress.theta.rw):null,math:progress.answered.math>=5?scaled(progress.theta.math):null}); save();
 
   const pct=c/n;
   $("r-gauge").innerHTML=gauge(pct,Math.round(pct*100)+"%",c+" of "+n+" correct","Score",pct>=.7?["#30D158","#0A84FF"]:["#7D7AFF","#0A84FF"]);
@@ -1116,6 +1313,19 @@ function validQ(q){
   if(q.steps!=null&&!(Array.isArray(q.steps)&&q.steps.every(s=>typeof s==="string")))return "steps must be a list of text lines";
   return null;
 }
+/* ---------- summary events ---------- */
+$("avatar").addEventListener("click",openProfile);
+$("edit-prof").addEventListener("click",openProfile);
+$("t-test-btn").addEventListener("click",openProfile);
+$("t-aw-btn").addEventListener("click",openAwards);
+["q","m"].forEach(k=>$("pf-"+k).addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;pfDraft[k+"Goal"]=+b.dataset.v;play("select");
+  document.querySelectorAll("#pf-"+k+" button").forEach(x=>x.setAttribute("aria-pressed",x===b));}));
+$("prof-form").addEventListener("submit",e=>{e.preventDefault();
+  progress.profile={name:$("pf-name").value.trim().slice(0,40),target:+$("pf-target").value,testDate:$("pf-date").value,qGoal:pfDraft.qGoal,mGoal:pfDraft.mGoal};
+  save();closeModal("m-prof");toast("Profile saved");render();});
+document.querySelectorAll(".modal").forEach(m=>{m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-close]"))closeModal(m.id);});});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal:not([hidden])").forEach(m=>closeModal(m.id));});
+
 /* ---------- prefs events ---------- */
 $("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;applyTheme(b.dataset.v);play("select");});
 $("m-theme").addEventListener("click",()=>{const order=["system","light","dark"];applyTheme(order[(order.indexOf(themePref)+1)%3],true);play("select");});
