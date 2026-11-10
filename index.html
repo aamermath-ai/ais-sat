@@ -341,6 +341,57 @@ button.tile:hover{transform:translateY(-2px)}
 .ch-stats{display:flex;gap:18px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
 .ch-stats b{color:var(--ink);font-variant-numeric:tabular-nums;font-size:.95rem;margin-right:3px}
 
+/* formulas + mind map */
+.refb{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent);vertical-align:middle}
+.mapcard{padding-bottom:12px}
+.mindmap{position:relative}
+.mindmap svg{display:block;width:100%;height:auto;overflow:visible}
+.mm-link{fill:none;stroke-width:2.2;stroke-linecap:round;opacity:.55;transition:opacity .25s,stroke-width .25s}
+.mm-node{cursor:pointer;outline:none}
+.mm-node rect{transition:transform .2s cubic-bezier(.3,1.4,.4,1),filter .2s;transform-box:fill-box;transform-origin:center}
+.mm-node:hover rect,.mm-node:focus-visible rect{transform:scale(1.06);filter:brightness(1.12)}
+.mm-node text{pointer-events:none;font-family:var(--f-ui)}
+.mm-dim .mm-link{opacity:.12}.mm-dim .mm-node{opacity:.28}.mm-dim .mm-on{opacity:1}.mm-dim .mm-link.mm-on{opacity:.9;stroke-width:3}
+@media (prefers-reduced-motion:no-preference){
+  .mm-link{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:mmdraw .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:var(--dl)}
+  @keyframes mmdraw{to{stroke-dashoffset:0}}
+  .mm-pop{animation:mmpop .5s cubic-bezier(.3,1.4,.4,1) both;animation-delay:var(--dl)}
+  @keyframes mmpop{from{opacity:0;transform:scale(.6)}}
+  .mm-core{animation:mmglow 3s ease-in-out infinite}
+  @keyframes mmglow{50%{filter:drop-shadow(0 0 10px rgba(94,123,255,.55))}}
+  .fcard.flash{animation:flash 1.4s ease}
+  @keyframes flash{0%,40%{box-shadow:0 0 0 3px var(--accent),var(--shadow)}}
+}
+.fbar{display:flex;flex-direction:column;gap:12px}
+.fsearch{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:14px;padding:0 14px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.fsearch .ico{color:var(--muted)}
+.fsearch input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:1rem;padding:13px 0;color:var(--ink);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.84rem;font-weight:600;display:inline-flex;align-items:center;gap:7px;color:var(--ink-2)}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.flist{display:flex;flex-direction:column;gap:22px}
+.fdom-h{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:700;letter-spacing:-.02em;margin:4px 0 -6px}
+.fdom-h .swatch{width:12px;height:12px}
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.fcard{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;scroll-margin-top:90px;border-top:4px solid var(--fc)}
+.fcard-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.fcard-h h3{font-size:1.02rem;font-weight:700;letter-spacing:-.01em}
+.frow{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.frow:first-of-type{border-top:0}
+.frow .fl{font-size:.82rem;color:var(--ink-2);font-weight:500;line-height:1.35}
+.frow .fl .refb{margin-top:4px}
+.m{font-family:var(--f-read);font-size:1.06rem;line-height:1.55;color:var(--ink);overflow-wrap:anywhere}
+.m .fr,.m sup,.m sub{white-space:nowrap}
+.m i{font-style:italic}
+.m sup,.m sub{font-size:.68em}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 2px;line-height:1.15}
+.fr>span:first-child{border-bottom:1.2px solid currentColor;padding:0 3px 1px}
+.fr>span:last-child{padding:1px 3px 0}
+.sq{border-top:1.2px solid currentColor;padding:0 2px;margin-left:1px}
+.fempty{padding:30px;text-align:center;color:var(--muted)}
+@media (max-width:1000px){.fgrid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:480px){.frow{grid-template-columns:minmax(0,1fr);gap:4px}.m{font-size:1.1rem}}
+
 /* modal sheet */
 .modal{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
@@ -502,6 +553,8 @@ details.more[open] summary{margin-bottom:14px}
   .tabbar a .tl{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;transition:max-width .38s cubic-bezier(.3,1.1,.4,1),opacity .2s}
   .tabbar a[aria-current="page"]{flex-grow:1.9;color:var(--bar-on);background:var(--bar-pill);box-shadow:inset 0 1px 0 var(--bar-edge)}
   .tabbar a[aria-current="page"] .tl{max-width:90px;opacity:1}
+  .tabbar{max-width:560px}
+  @media (max-width:400px){.tabbar a{font-size:.8rem;gap:6px}.tabbar a svg{width:23px;height:23px}.tabbar a[aria-current="page"]{flex-grow:2.2}}
   .tabbar a:active svg{transform:scale(.88)}
   .tabbar a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;box-shadow:none}
   .content{padding-block:22px calc(108px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -566,6 +619,7 @@ details.more[open] summary{margin-bottom:14px}
   <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 19l6.5-11 4 6.5 2.5-3.5L21 19z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-formula" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8 8h3.2M9.6 6.4v3.2M13 8.2h3M8.2 14.2l2.6 2.6M10.8 14.2l-2.6 2.6M13 14.6h3M13 16.6h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
   <symbol id="i-e" viewBox="0 0 24 24"><path d="M17.5 12.2H6.8M17.6 12.2c0-3.3-2.4-5.7-5.5-5.7-3.2 0-5.6 2.5-5.6 5.6s2.4 5.6 5.7 5.6c2 0 3.6-.8 4.7-2.3" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round"/><circle cx="19" cy="17.6" r="1.4" fill="#E0B25A"/></symbol>
 </svg>
 
@@ -582,6 +636,7 @@ details.more[open] summary{margin-bottom:14px}
     <nav class="nav" id="nav-side">
       <a href="#today" data-tab="today"><svg><use href="#i-summary"/></svg>Summary</a>
       <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
+      <a href="#formulas" data-tab="formulas"><svg><use href="#i-formula"/></svg>Formulas</a>
       <a href="#progress" data-tab="progress"><svg><use href="#i-progress"/></svg>Progress</a>
       <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Question Bank</a>
     </nav>
@@ -737,6 +792,19 @@ details.more[open] summary{margin-bottom:14px}
     </section>
 
     <!-- BANK -->
+    <section class="page fade" id="v-formulas" hidden>
+      <div class="ptitle"><span class="eyebrow">SAT Math</span><h1>Formulas</h1><p>Every Math topic on the Digital SAT, mapped and summarized. Formulas marked <span class="refb">Reference</span> also appear on the reference sheet in the test app. Learn the rest by heart.</p></div>
+      <div class="card mapcard">
+        <div class="card-h"><h2>Mind map</h2><span class="aside">Tap a topic to jump to its formulas</span></div>
+        <div id="mindmap" class="mindmap"></div>
+      </div>
+      <div class="fbar">
+        <label class="fsearch"><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg><input id="f-q" type="search" placeholder="Search formulas, e.g. slope, circle, percent" autocomplete="off"></label>
+        <div class="chips" id="f-dom"></div>
+      </div>
+      <div id="f-list" class="flist"></div>
+    </section>
+
     <section class="page fade" id="v-bank" hidden>
       <div class="ptitle"><h1>Question Bank</h1><p id="bank-sub">Every question is tagged by section, domain, skill and difficulty, and comes with a step-by-step solution.</p></div>
       <div class="bankgrid" id="bank-cards"></div>
@@ -752,6 +820,7 @@ details.more[open] summary{margin-bottom:14px}
   <nav class="tabbar" id="nav-tab" aria-label="Sections">
     <a href="#today" data-tab="today" aria-label="Summary"><svg aria-hidden="true"><use href="#i-summary"/></svg><span class="tl">Summary</span></a>
     <a href="#practice" data-tab="practice" aria-label="Practice"><svg aria-hidden="true"><use href="#i-practice"/></svg><span class="tl">Practice</span></a>
+    <a href="#formulas" data-tab="formulas" aria-label="Formulas"><svg aria-hidden="true"><use href="#i-formula"/></svg><span class="tl">Formulas</span></a>
     <a href="#progress" data-tab="progress" aria-label="Progress"><svg aria-hidden="true"><use href="#i-progress"/></svg><span class="tl">Progress</span></a>
     <a href="#bank" data-tab="bank" aria-label="Bank"><svg aria-hidden="true"><use href="#i-bank"/></svg><span class="tl">Bank</span></a>
   </nav>
@@ -972,7 +1041,7 @@ function save(){
 function setConn(kind,text){$("conn").innerHTML='<span class="dot '+kind+'"></span>'+esc(text);}
 
 /* ---------- routing ---------- */
-const TABS=["today","practice","progress","bank"];
+const TABS=["today","practice","formulas","progress","bank"];
 function route(){
   const h=(location.hash||"").replace("#","");
   tab=TABS.includes(h)?h:"today";
@@ -990,6 +1059,7 @@ function render(){
   if(tab==="practice")renderPractice();
   if(tab==="progress")renderProgress();
   if(tab==="bank")renderBank();
+  if(tab==="formulas")renderFormulas();
 }
 const dayKey=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
 function prof(){const p=progress.profile||{};return {name:p.name||"",target:p.target||1300,testDate:p.testDate||"",qGoal:p.qGoal||20,mGoal:p.mGoal||30};}
@@ -1035,6 +1105,105 @@ function drawRings(){
   $("rleg").classList.toggle("has-sel",ringSel!==null);
   $("rleg").innerHTML=ringData.map((x,i)=>'<button data-i="'+i+'" aria-pressed="'+(ringSel===i)+'"><div class="k">'+x.k+'</div><div class="v" style="color:'+x.color+'">'+x.v+'/'+x.g+(x.u?'<small>'+x.u+'</small>':'')+'</div></button>').join("");
 }
+/* ---------- formula sheet & mind map ---------- */
+const fr=(a,b)=>'<span class="fr"><span>'+a+'</span><span>'+b+'</span></span>', sq=x=>'√<span class="sq">'+x+'</span>', v=x=>'<i>'+x+'</i>';
+const FORMULAS={
+ "Algebra":{
+  "Linear equations in one variable":[["Solve ax + b = c","x = "+fr("c − b","a")],["No solution","Same x-coefficient on both sides, different constants (e.g. 2x + 1 = 2x + 5)"],["Infinitely many solutions","Both sides identical after simplifying (e.g. 3(x + 2) = 3x + 6)"],["Clear fractions","Multiply every term by the least common denominator"]],
+  "Linear equations in two variables":[["Slope",v("m")+" = "+fr(v("y")+"<sub>2</sub> − "+v("y")+"<sub>1</sub>",v("x")+"<sub>2</sub> − "+v("x")+"<sub>1</sub>")],["Slope-intercept form",v("y")+" = "+v("mx")+" + "+v("b")],["Point-slope form",v("y")+" − "+v("y")+"<sub>1</sub> = "+v("m")+"("+v("x")+" − "+v("x")+"<sub>1</sub>)"],["Standard form "+v("Ax")+" + "+v("By")+" = "+v("C"),"slope = −"+fr("A","B")+",  y-intercept = "+fr("C","B")],["Parallel lines","equal slopes"],["Perpendicular lines",v("m")+"<sub>1</sub> · "+v("m")+"<sub>2</sub> = −1 (negative reciprocals)"],["Horizontal / vertical",v("y")+" = "+v("k")+" (slope 0)  ·  "+v("x")+" = "+v("h")+" (undefined)"]],
+  "Linear functions":[["Linear function",v("f")+"("+v("x")+") = "+v("mx")+" + "+v("b")],["Meaning of m","rate of change: change in output per 1 unit of input"],["Meaning of b","starting value: output when "+v("x")+" = 0"],["From two points","find "+v("m")+" first, then substitute one point to get "+v("b")]],
+  "Systems of linear equations":[["Methods","substitution, or elimination (add/subtract to cancel a variable)"],["One solution","different slopes (lines cross once)"],["No solution",fr("a","d")+" = "+fr("b","e")+" ≠ "+fr("c","f")+"  (parallel lines)"],["Infinitely many",fr("a","d")+" = "+fr("b","e")+" = "+fr("c","f")+"  (same line)"]],
+  "Linear inequalities":[["Flip the sign","when multiplying or dividing by a negative number"],["Word clues","at least ≥ · at most ≤ · more than > · fewer than <"],["Graphing","solid line for ≤ or ≥, dashed for < or >; shade above for "+v("y")+" >"],["Whole-number answers","round down for \"at most\" limits, up for \"at least\" goals"]]},
+ "Advanced Math":{
+  "Equivalent expressions":[["Square of a sum","("+v("a")+" + "+v("b")+")<sup>2</sup> = "+v("a")+"<sup>2</sup> + 2"+v("ab")+" + "+v("b")+"<sup>2</sup>"],["Square of a difference","("+v("a")+" − "+v("b")+")<sup>2</sup> = "+v("a")+"<sup>2</sup> − 2"+v("ab")+" + "+v("b")+"<sup>2</sup>"],["Difference of squares",v("a")+"<sup>2</sup> − "+v("b")+"<sup>2</sup> = ("+v("a")+" − "+v("b")+")("+v("a")+" + "+v("b")+")"],["Product & quotient rules",v("x")+"<sup>a</sup> · "+v("x")+"<sup>b</sup> = "+v("x")+"<sup>a+b</sup>   "+fr(v("x")+"<sup>a</sup>",v("x")+"<sup>b</sup>")+" = "+v("x")+"<sup>a−b</sup>"],["Power rules","("+v("x")+"<sup>a</sup>)<sup>b</sup> = "+v("x")+"<sup>ab</sup>   "+v("x")+"<sup>0</sup> = 1   "+v("x")+"<sup>−a</sup> = "+fr("1",v("x")+"<sup>a</sup>")],["Rational exponents",v("x")+"<sup>m/n</sup> = <sup>n</sup>"+sq(v("x")+"<sup>m</sup>")]],
+  "Nonlinear equations and systems":[["Quadratic formula",v("x")+" = "+fr("−"+v("b")+" ± "+sq(v("b")+"<sup>2</sup> − 4"+v("ac")),"2"+v("a"))],["Discriminant "+v("D")+" = "+v("b")+"<sup>2</sup> − 4"+v("ac"),v("D")+" > 0: two real · "+v("D")+" = 0: one · "+v("D")+" < 0: none"],["Sum & product of roots","sum = −"+fr("b","a")+",  product = "+fr("c","a")],["Zero-product property","if "+v("AB")+" = 0, then "+v("A")+" = 0 or "+v("B")+" = 0"],["Radical equations","isolate the root, square both sides, check every answer"],["Linear–quadratic system","set the expressions equal, then solve the quadratic"]],
+  "Nonlinear functions":[["Vertex (standard form)",v("x")+" = "+fr("−"+v("b"),"2"+v("a"))+" for "+v("y")+" = "+v("ax")+"<sup>2</sup> + "+v("bx")+" + "+v("c")],["Vertex form",v("y")+" = "+v("a")+"("+v("x")+" − "+v("h")+")<sup>2</sup> + "+v("k")+" → vertex ("+v("h")+", "+v("k")+")"],["Factored form",v("y")+" = "+v("a")+"("+v("x")+" − "+v("p")+")("+v("x")+" − "+v("q")+") → zeros "+v("p")+", "+v("q")+"; vertex at "+fr(v("p")+" + "+v("q"),"2")],["Exponential growth / decay",v("y")+" = "+v("a")+"(1 ± "+v("r")+")<sup>t</sup>"],["Doubling every "+v("d"),v("y")+" = "+v("a")+" · 2<sup>t/d</sup>   (half-life: ("+fr("1","2")+")<sup>t/h</sup>)"],["Transformations",v("f")+"("+v("x")+" − "+v("h")+") + "+v("k")+": right "+v("h")+", up "+v("k")+" · −"+v("f")+"("+v("x")+"): flip over x-axis"]]},
+ "Problem-Solving and Data Analysis":{
+  "Ratios, rates, and units":[["Proportion",fr("a","b")+" = "+fr("c","d")+"  ⇒  "+v("ad")+" = "+v("bc")],["Distance","distance = rate × time"],["Unit rate","total ÷ number of units"],["Unit conversion","multiply by factors equal to 1, e.g. "+fr("60 min","1 h")]],
+  "Percentages":[["Percent of","part = "+fr("percent","100")+" × whole"],["Percent change",fr("new − original","original")+" × 100%"],["Increase / decrease by r%","× (1 + "+fr("r","100")+")  /  × (1 − "+fr("r","100")+")"],["Successive changes","multiply the factors (e.g. 1.2 × 0.8 = 0.96)"],["Original value","original = "+fr("final","multiplier")]],
+  "One-variable data":[["Mean",fr("sum of values","number of values")],["Median","middle value of ordered data (average the two middle values if even)"],["Range","maximum − minimum"],["Standard deviation","how spread out values are from the mean"],["Outliers","pull the mean; the median barely changes"]],
+  "Two-variable data":[["Line of best fit",v("y")+" = "+v("mx")+" + "+v("b")+": slope = predicted change per unit"],["Residual","actual − predicted (positive: above the line)"],["Linear vs exponential","constant differences → linear; constant ratios → exponential"],["Association","positive, negative, or none"]],
+  "Probability":[["Probability",v("P")+" = "+fr("favorable outcomes","total outcomes")],["Complement",v("P")+"(not "+v("A")+") = 1 − "+v("P")+"("+v("A")+")"],["At least one","1 − "+v("P")+"(none)"],["Independent events",v("P")+"("+v("A")+" and "+v("B")+") = "+v("P")+"("+v("A")+") · "+v("P")+"("+v("B")+")"],["Conditional (two-way table)",v("P")+"("+v("A")+" | "+v("B")+") = "+fr("count of A and B","total of B")]],
+  "Sample statistics and margin of error":[["Estimate a total","sample proportion × population size"],["Plausible range","estimate ± margin of error"],["Sample size","larger random sample → smaller margin of error"],["Bias","only random samples represent the population"]],
+  "Observational studies and experiments":[["Random sampling","results generalize to the population sampled"],["Random assignment","supports cause and effect"],["Observational study","shows association only, not causation"],["Both","cause and effect for the whole population sampled"]]},
+ "Geometry and Trigonometry":{
+  "Area and volume":[["Rectangle · Triangle",v("A")+" = "+v("lw")+"  ·  "+v("A")+" = "+fr("1","2")+v("bh"),1],["Circle",v("A")+" = π"+v("r")+"<sup>2</sup>   "+v("C")+" = 2π"+v("r"),1],["Box · Cylinder",v("V")+" = "+v("lwh")+"  ·  "+v("V")+" = π"+v("r")+"<sup>2</sup>"+v("h"),1],["Sphere · Cone",v("V")+" = "+fr("4","3")+"π"+v("r")+"<sup>3</sup>  ·  "+v("V")+" = "+fr("1","3")+"π"+v("r")+"<sup>2</sup>"+v("h"),1],["Pyramid",v("V")+" = "+fr("1","3")+v("lwh"),1],["Trapezoid · Parallelogram",v("A")+" = "+fr("1","2")+"("+v("b")+"<sub>1</sub> + "+v("b")+"<sub>2</sub>)"+v("h")+"  ·  "+v("A")+" = "+v("bh")],["Scaling by k","lengths × "+v("k")+" → area × "+v("k")+"<sup>2</sup> → volume × "+v("k")+"<sup>3</sup>"]],
+  "Lines, angles, and triangles":[["Triangle angles","sum = 180°",1],["Straight line · vertical angles","angles on a line sum to 180° · vertical angles are equal"],["Parallel lines + transversal","corresponding & alternate interior angles equal; same-side interior sum to 180°"],["Polygon interior angles","("+v("n")+" − 2) × 180°"],["Exterior angle","equals the sum of the two remote interior angles"],["Similar triangles","corresponding sides are proportional; angles equal"]],
+  "Right triangles and trigonometry":[["Pythagorean theorem",v("a")+"<sup>2</sup> + "+v("b")+"<sup>2</sup> = "+v("c")+"<sup>2</sup>",1],["Special right triangles","45-45-90: "+v("x")+", "+v("x")+", "+v("x")+sq("2")+"  ·  30-60-90: "+v("x")+", "+v("x")+sq("3")+", 2"+v("x"),1],["SOH-CAH-TOA","sin = "+fr("opp","hyp")+"  cos = "+fr("adj","hyp")+"  tan = "+fr("opp","adj")],["Complementary angles","sin "+v("x")+"° = cos(90° − "+v("x")+"°)"],["Common triples","3-4-5 · 5-12-13 · 8-15-17 · 7-24-25"],["Radians","π radians = 180°"]],
+  "Circles":[["Full circle","360° = 2π radians",1],["Equation","("+v("x")+" − "+v("h")+")<sup>2</sup> + ("+v("y")+" − "+v("k")+")<sup>2</sup> = "+v("r")+"<sup>2</sup>"],["Arc length",fr("θ","360°")+" · 2π"+v("r")+"   (radians: "+v("s")+" = "+v("r")+"θ)"],["Sector area",fr("θ","360°")+" · π"+v("r")+"<sup>2</sup>"],["Inscribed angle","half the central angle on the same arc"],["Tangent line","perpendicular to the radius at the point of contact"],["From x² + y² + Dx + Ey + F = 0","complete the square in "+v("x")+" and "+v("y")]]}};
+const DSHORT={"Algebra":"Algebra","Advanced Math":"Advanced Math","Problem-Solving and Data Analysis":"Problem-Solving & Data","Geometry and Trigonometry":"Geometry & Trig"};
+const MAPLBL={"Linear equations in one variable":"Linear eq. in one variable","Linear equations in two variables":"Linear eq. in two variables","Systems of linear equations":"Systems of linear eq.",
+  "Nonlinear equations and systems":"Nonlinear eq. & systems","Sample statistics and margin of error":"Sample stats & margin of error","Observational studies and experiments":"Studies & experiments",
+  "Right triangles and trigonometry":"Right triangles & trig","Lines, angles, and triangles":"Lines, angles & triangles","Problem-Solving and Data Analysis":"Problem-Solving & Data"};
+const ml=t=>MAPLBL[t]||t;
+let fDom=null, mmSel=null;
+const fslug=t=>"f-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+function renderFormulas(){
+  $("f-dom").innerHTML=['<button data-v="" aria-pressed="'+(!fDom)+'">All topics</button>'].concat(DOMAINS.math.map(d=>'<button data-v="'+esc(d)+'" aria-pressed="'+(fDom===d)+'"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(DSHORT[d])+'</button>')).join("");
+  const q=($("f-q").value||"").trim().toLowerCase(); let html="",n=0;
+  DOMAINS.math.forEach(d=>{
+    if(fDom&&fDom!==d)return;
+    const cards=Object.entries(FORMULAS[d]).map(([sk,rows])=>{
+      const hit=rows.filter(r=>!q||(sk+" "+r[0]+" "+r[1].replace(/<[^>]+>/g,"")).toLowerCase().includes(q)); if(!hit.length)return "";
+      n+=hit.length;
+      return '<article class="fcard" id="'+fslug(sk)+'" style="--fc:'+DCOLOR[d]+'"><div class="fcard-h"><h3>'+esc(sk)+'</h3><button class="btn small plain" data-prac="'+esc(sk)+'" data-dom="'+esc(d)+'">Practice</button></div>'+
+        hit.map(r=>'<div class="frow"><div class="fl">'+r[0]+(r[2]?'<br><span class="refb">Reference</span>':'')+'</div><div class="m">'+r[1]+'</div></div>').join("")+'</article>';}).join("");
+    if(cards)html+='<div class="fdom-h"><span class="swatch" style="background:'+DCOLOR[d]+'"></span>'+esc(d)+'</div><div class="fgrid">'+cards+'</div>';
+  });
+  $("f-list").innerHTML=html||'<div class="fempty">No formulas match "'+esc(q)+'". Try "slope", "circle" or "percent".</div>';
+  renderMap();
+}
+function renderMap(){
+  const box=$("mindmap"); if(!box||$("v-formulas").hidden)return;
+  const W=Math.max(300,box.clientWidth||900), wide=W>=760, css=getComputedStyle(document.documentElement);
+  const ink=css.getPropertyValue("--ink").trim()||"#111", surf=css.getPropertyValue("--surface").trim()||"#fff";
+  const nodes=[],links=[]; let H;
+  const tw=(t,fs)=>ml(t).length*fs*0.54+24;
+  const pill=(x,y,label,col,kind,data,fs,dl,w)=>{w=w||tw(label,fs);const h=fs*2.25;
+    const body=kind==="sk"?'<rect x="'+(x-w/2).toFixed(1)+'" y="'+(y-h/2).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+(h/2)+'" fill="'+surf+'"/><rect x="'+(x-w/2).toFixed(1)+'" y="'+(y-h/2).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+(h/2)+'" fill="'+col+'" fill-opacity=".16" stroke="'+col+'" stroke-opacity=".55" stroke-width="1.2"/>'
+      :'<rect x="'+(x-w/2).toFixed(1)+'" y="'+(y-h/2).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+(h/2)+'" fill="'+col+'"/>';
+    nodes.push('<g class="mm-node mm-pop '+data.cls+'" style="--dl:'+dl+'s" tabindex="0" role="button" '+data.attr+' aria-label="'+esc(label)+'">'+body+'<text x="'+x.toFixed(1)+'" y="'+(y+fs*0.36).toFixed(1)+'" text-anchor="middle" font-size="'+fs+'" font-weight="'+(kind==="sk"?600:700)+'" fill="'+(kind==="sk"?ink:"#fff")+'">'+esc(ml(label))+'</text></g>');return w;};
+  const link=(d,color,cls,dl)=>links.push('<path class="mm-link '+cls+'" d="'+d+'" stroke="'+color+'" style="--len:1600;--dl:'+dl+'s"/>');
+  const doms=DOMAINS.math;
+  if(wide){
+    // top-down mind map: core → 4 domains in a row → topics stacked under each domain
+    const colW=W/4, coreY=30, domY=112, gap=38; let maxN=0;
+    doms.forEach((d,di)=>{const col=DCOLOR[d], x=colW*(di+.5), sk=Object.keys(FORMULAS[d]); maxN=Math.max(maxN,sk.length);
+      let dfs=14.5, dw=tw(DSHORT[d],dfs); if(dw>colW-16){dfs=dfs*(colW-16)/dw;dw=tw(DSHORT[d],dfs);}
+      link("M"+(W/2)+" "+(coreY+14)+" C"+(W/2)+" "+(coreY+50)+" "+x+" "+(domY-56)+" "+x+" "+(domY-16),col,"mm-l-"+di,0.12+di*0.06);
+      const spineX=x-colW/2+18;
+      sk.forEach((s2,i)=>{const sy=domY+52+i*gap, xL=spineX+16, maxW=x+colW/2-6-xL; let fs=12.5,w=tw(s2,fs); if(w>maxW){fs=Math.max(9.5,fs*maxW/w);w=tw(s2,fs);}
+        link("M"+x+" "+(domY+16)+" C"+x+" "+(domY+34)+" "+spineX+" "+(domY+20)+" "+spineX+" "+(domY+40)+" L"+spineX+" "+(sy-10)+" Q"+spineX+" "+sy+" "+(spineX+10)+" "+sy+" L"+xL+" "+sy,col,"mm-l-"+di,0.4+di*0.06+i*0.04);
+        pill(xL+w/2,sy,s2,col,"sk",{cls:"mm-sk mm-d-"+di,attr:'data-skill="'+esc(s2)+'" data-dom="'+esc(d)+'"'},fs,0.55+di*0.06+i*0.04,w);});
+      pill(x,domY,DSHORT[d],col,"dom",{cls:"mm-d-"+di,attr:'data-dom="'+esc(d)+'"'},dfs,0.3+di*0.06,dw);});
+    H=domY+52+(maxN-1)*gap+30;
+    pill(W/2,coreY,"SAT Math","url(#mmcore)","core",{cls:"mm-core",attr:'data-root="1"'},18,0);
+  } else {
+    const x0=22, step=34; let y=24; const later=[];
+    later.push(()=>pill(x0+tw("SAT Math",15)/2-10,y0,"SAT Math","url(#mmcore)","core",{cls:"mm-core",attr:'data-root="1"'},15,0));
+    const y0=y; y+=8;
+    doms.forEach((d,di)=>{const col=DCOLOR[d], dy=y+step, dw=tw(DSHORT[d],14);
+      link("M"+x0+" "+(y+10)+" L"+x0+" "+(dy-8)+" Q"+x0+" "+dy+" "+(x0+8)+" "+dy+" L"+(x0+16)+" "+dy,col,"mm-l-"+di,0.1+di*0.1);
+      later.push(()=>pill(x0+16+dw/2,dy,DSHORT[d],col,"dom",{cls:"mm-d-"+di,attr:'data-dom="'+esc(d)+'"'},14,0.3+di*0.1,dw));
+      y=dy; const top=y;
+      Object.keys(FORMULAS[d]).forEach((s2,i)=>{const sy=y+step; let fs=12.5, w=tw(s2,fs); const xL=x0+44, maxW=W-xL-4; if(w>maxW){fs=Math.max(10,fs*maxW/w);w=tw(s2,fs);}
+        link("M"+(x0+28)+" "+(top+12)+" L"+(x0+28)+" "+(sy-8)+" Q"+(x0+28)+" "+sy+" "+(x0+36)+" "+sy+" L"+xL+" "+sy,col,"mm-l-"+di,0.35+di*0.1+i*0.03);
+        later.push(()=>pill(xL+w/2,sy,s2,col,"sk",{cls:"mm-sk mm-d-"+di,attr:'data-skill="'+esc(s2)+'" data-dom="'+esc(d)+'"'},fs,0.5+di*0.1+i*0.03,w)); y=sy;});
+      y+=12;});
+    H=y+20; later.forEach(f=>f());
+  }
+  box.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Mind map of SAT Math: 4 domains and 19 skills"><defs><linearGradient id="mmcore" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7D7AFF"/><stop offset="1" stop-color="#0A84FF"/></linearGradient></defs><g id="mm-g"'+(mmSel!==null?' class="mm-dim"':'')+'>'+links.join("")+nodes.join("")+'</g></svg>';
+  if(mmSel!==null)box.querySelectorAll(".mm-l-"+mmSel+",.mm-d-"+mmSel).forEach(e=>e.classList.add("mm-on"));
+}
+function mapPick(e){
+  const g=e.target.closest(".mm-node"); if(!g)return;
+  if(g.dataset.root){mmSel=null;fDom=null;play("select");renderFormulas();return;}
+  const d=g.dataset.dom, di=DOMAINS.math.indexOf(d);
+  if(g.dataset.skill){const el=$(fslug(g.dataset.skill)); if(fDom&&fDom!==d){fDom=null;renderFormulas();}
+    const t=$(fslug(g.dataset.skill)); if(t){t.scrollIntoView({behavior:"smooth",block:"start"});t.classList.remove("flash");void t.offsetWidth;t.classList.add("flash");} play("select");return;}
+  mmSel=mmSel===di?null:di; fDom=mmSel===null?null:d; play("select"); renderFormulas();
+}
+
 /* ---------- progress graph ---------- */
 let chMetric="q", chRange=7, chAnimate=true;
 function dayData(n){
@@ -1112,7 +1281,7 @@ function renderChart(){
   else{st=nums.length?'<span><b>'+nums[nums.length-1]+'</b>latest</span>'+(nums.length>1?'<span><b>'+((nums[nums.length-1]-nums[0]>=0?'+':'')+(nums[nums.length-1]-nums[0]))+'</b>change</span>':'')+'<span><b>'+Math.max(...nums)+'</b>best</span>':'';}
   $("ch-stats").innerHTML=st;
 }
-let rszT=null;window.addEventListener("resize",()=>{clearTimeout(rszT);rszT=setTimeout(()=>{if(tab==="today")renderChart();},150);});
+let rszT=null;window.addEventListener("resize",()=>{clearTimeout(rszT);rszT=setTimeout(()=>{if(tab==="today")renderChart();if(tab==="formulas")renderMap();},150);});
 function hourBars(vals,color,label){
   const max=Math.max(1,...vals);let s='<svg class="bars" viewBox="0 0 240 80" role="img" aria-label="'+label+' by hour">';
   for(let i=0;i<=24;i+=1){const x=4+i*9.6;s+='<line x1="'+x+'" x2="'+x+'" y1="4" y2="60" stroke="var(--line)" stroke-width="'+(i%6?0.5:0.9)+'" stroke-dasharray="'+(i%6?'1.5 2.5':'0')+'"/>';}
@@ -1491,6 +1660,13 @@ function validQ(q){
   if(q.steps!=null&&!(Array.isArray(q.steps)&&q.steps.every(s=>typeof s==="string")))return "steps must be a list of text lines";
   return null;
 }
+/* ---------- formulas events ---------- */
+$("mindmap").addEventListener("click",mapPick);
+$("mindmap").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();mapPick(e);}});
+$("f-q").addEventListener("input",()=>renderFormulas());
+$("f-dom").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fDom=b.dataset.v||null;mmSel=fDom?DOMAINS.math.indexOf(fDom):null;play("select");renderFormulas();});
+$("f-list").addEventListener("click",e=>{const b=e.target.closest("[data-prac]");if(!b)return;opts.mode="math";opts.domain=b.dataset.dom;opts.skill=b.dataset.prac;opts.level="adaptive";location.hash="#practice";});
+
 /* ---------- summary events ---------- */
 $("rings").addEventListener("click",e=>{const svg=e.target.closest("svg");if(!svg)return;const r=svg.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width*170-85,dy=(e.clientY-r.top)/r.height*170-85,d=Math.hypot(dx,dy);
   const i=d>62&&d<84?0:d>42&&d<62?1:d>22&&d<42?2:null;selectRing(i);});
