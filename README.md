@@ -19,6 +19,15 @@ College Board does not release past SAT papers for reuse. The questions in `ques
 ## More practice by skill
 Every skill in the Question Bank links to the matching skill page of the free [TalimSAT question bank](https://talimsat.com/question-bank), which is organized by the same 29 official Digital SAT skills. TalimSAT's terms don't allow copying its questions, so they are linked, not included here. Students need a free TalimSAT account to answer them there.
 
+## Generating more Math questions
+`tools/gen_math.py` builds original Math questions from templates for all 19 Math skills. Every answer is computed exactly, and each question gets its own worked steps. To make a new set (for example 20 per skill per difficulty, with a different random seed), edit `generate(...)` or run:
+
+```
+python3 tools/gen_math.py 20 generated_math.json
+```
+
+Then add the new items to `questions.json`. Generated question ids start with `g-`.
+
 ## Adding questions
 Edit `questions.json` and add an object to the list:
 
