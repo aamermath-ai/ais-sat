@@ -28,6 +28,7 @@
   --warn:#C76E00; --warn-fill:rgba(255,149,0,.13);
   --glass:rgba(250,250,252,.74); --shadow:0 1px 1px rgba(0,0,0,.03),0 6px 24px rgba(0,0,0,.06);
   --mesh-a:rgba(94,92,230,.16); --mesh-b:rgba(0,113,227,.14); --mesh-c:rgba(52,199,89,.08);
+  --bar-bg:rgba(250,250,252,.62); --bar-edge:rgba(255,255,255,.7); --bar-line:rgba(0,0,0,.08); --bar-pill:rgba(0,0,0,.075); --bar-ink:#48484A; --bar-on:#1D1D1F;
   --ring-q:#FF2D55; --ring-c:#2DB24A; --ring-m:#0AA5D8; --streak:#F08A00; --edit-ink:#1E7F34;
   --f-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;
   --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif;
@@ -35,6 +36,7 @@
   --r-lg:22px; --r:14px; --r-sm:10px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bar-bg:rgba(30,30,33,.55); --bar-edge:rgba(255,255,255,.16); --bar-line:rgba(255,255,255,.1); --bar-pill:rgba(255,255,255,.15); --bar-ink:rgba(255,255,255,.78); --bar-on:#FFFFFF;
   --ring-q:#FF375F; --ring-c:#B4F34A; --ring-m:#3ED2F5; --streak:#FF9F0A; --edit-ink:#C8F56A;
   --bg:#000000; --surface:#1C1C1E; --fill:#2C2C2E; --fill-2:#3A3A3C; --ink:#F5F5F7; --ink-2:#D1D1D6; --muted:#98989D;
   --line:rgba(255,255,255,.11); --track:rgba(255,255,255,.10);
@@ -46,6 +48,7 @@
   --glass:rgba(22,22,24,.72); --shadow:none;
   --mesh-a:rgba(125,122,255,.22); --mesh-b:rgba(10,132,255,.20); --mesh-c:rgba(48,209,88,.10); color-scheme:dark}}
 :root[data-theme="dark"]{
+  --bar-bg:rgba(30,30,33,.55); --bar-edge:rgba(255,255,255,.16); --bar-line:rgba(255,255,255,.1); --bar-pill:rgba(255,255,255,.15); --bar-ink:rgba(255,255,255,.78); --bar-on:#FFFFFF;
   --ring-q:#FF375F; --ring-c:#B4F34A; --ring-m:#3ED2F5; --streak:#FF9F0A; --edit-ink:#C8F56A;
   --bg:#000000; --surface:#1C1C1E; --fill:#2C2C2E; --fill-2:#3A3A3C; --ink:#F5F5F7; --ink-2:#D1D1D6; --muted:#98989D;
   --line:rgba(255,255,255,.11); --track:rgba(255,255,255,.10);
@@ -95,7 +98,7 @@ a:hover{text-decoration:underline}
 .hbtns{display:flex;align-items:center;gap:8px}
 .hbtn{width:34px;height:34px;border-radius:50%;border:0;background:var(--fill);display:grid;place-items:center;color:var(--ink-2)}
 .hbtn .ico{width:18px;height:18px}
-.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;padding:9px 16px;border-radius:999px;
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;padding:9px 16px;border-radius:999px;
   background:var(--ink);color:var(--bg);font-size:.84rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.18);pointer-events:none}
 .word{font-family:var(--f-display);font-weight:800;font-size:1.65rem;letter-spacing:-.035em;line-height:1}
 .inst{font-size:.78rem;line-height:1.35;color:var(--muted);font-weight:500}
@@ -311,6 +314,7 @@ button.tile:hover{transform:translateY(-2px)}
 .ring-center{pointer-events:none}
 .ring-center .rc-v{font-family:var(--f-display);font-weight:700;font-size:22px;fill:var(--ink);letter-spacing:-.5px}
 .ring-center .rc-k{font-size:8.5px;font-weight:700;fill:var(--muted);letter-spacing:1px;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){.tabbar a,.tabbar a .tl,.tabbar a svg{transition:none!important}}
 @media (prefers-reduced-motion:no-preference){
   .o0{animation:spin 16s linear infinite}
   .o1{animation:spin 11s linear infinite reverse}
@@ -483,13 +487,24 @@ details.more[open] summary{margin-bottom:14px}
   .mhead .word{font-size:1.2rem}
   .mhead .inst{font-size:.66rem;line-height:1.25}
   .mhead .free{font-size:.68rem;padding:4px 9px 4px 6px}
-  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;
-    background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--line);
-    padding-top:6px;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
-  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.66rem;font-weight:600;color:var(--muted);text-decoration:none;padding:4px 0}
-  .tabbar a svg{width:24px;height:24px}
-  .tabbar a[aria-current="page"]{color:var(--accent)}
-  .content{padding-block:22px calc(96px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  /* floating glass capsule */
+  .tabbar{display:flex;align-items:center;gap:4px;position:fixed;z-index:40;
+    left:max(14px,env(safe-area-inset-left,0px));right:max(14px,env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));
+    max-width:520px;margin:0 auto;padding:7px;border-radius:999px;
+    background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,0) 55%),var(--bar-bg);
+    backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);
+    border:1px solid var(--bar-line);
+    box-shadow:inset 0 1px 0 var(--bar-edge),inset 0 -1px 0 rgba(0,0,0,.18),0 12px 32px rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.12)}
+  .tabbar a{flex:1 1 0;min-width:0;height:52px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;
+    color:var(--bar-ink);text-decoration:none;font-size:.86rem;font-weight:700;letter-spacing:-.01em;position:relative;
+    transition:flex-grow .38s cubic-bezier(.3,1.25,.4,1),background-color .25s,color .25s;-webkit-tap-highlight-color:transparent}
+  .tabbar a svg{width:25px;height:25px;flex:none;transition:transform .3s cubic-bezier(.3,1.4,.4,1)}
+  .tabbar a .tl{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;transition:max-width .38s cubic-bezier(.3,1.1,.4,1),opacity .2s}
+  .tabbar a[aria-current="page"]{flex-grow:1.9;color:var(--bar-on);background:var(--bar-pill);box-shadow:inset 0 1px 0 var(--bar-edge)}
+  .tabbar a[aria-current="page"] .tl{max-width:90px;opacity:1}
+  .tabbar a:active svg{transform:scale(.88)}
+  .tabbar a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;box-shadow:none}
+  .content{padding-block:22px calc(108px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
   .page{gap:22px}
   .ptitle h1{font-size:2.05rem}
   .hero{padding:22px}
@@ -735,10 +750,10 @@ details.more[open] summary{margin-bottom:14px}
   </div>
 
   <nav class="tabbar" id="nav-tab" aria-label="Sections">
-    <a href="#today" data-tab="today"><svg><use href="#i-summary"/></svg>Summary</a>
-    <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
-    <a href="#progress" data-tab="progress"><svg><use href="#i-progress"/></svg>Progress</a>
-    <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Bank</a>
+    <a href="#today" data-tab="today" aria-label="Summary"><svg aria-hidden="true"><use href="#i-summary"/></svg><span class="tl">Summary</span></a>
+    <a href="#practice" data-tab="practice" aria-label="Practice"><svg aria-hidden="true"><use href="#i-practice"/></svg><span class="tl">Practice</span></a>
+    <a href="#progress" data-tab="progress" aria-label="Progress"><svg aria-hidden="true"><use href="#i-progress"/></svg><span class="tl">Progress</span></a>
+    <a href="#bank" data-tab="bank" aria-label="Bank"><svg aria-hidden="true"><use href="#i-bank"/></svg><span class="tl">Bank</span></a>
   </nav>
 </div>
 
