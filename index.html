@@ -14,7 +14,7 @@
 <title>SAT AIS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
 /* Layout: an institutional app. Desktop: frosted sidebar + content column. Phone: large-title header,
    frosted bottom tab bar. Practice runs as a full-screen sheet with a sticky action bar. */
@@ -665,10 +665,59 @@ details.more[open] summary{margin-bottom:14px}
 @media (prefers-reduced-motion:no-preference){
   .arc{animation:draw 1.1s cubic-bezier(.2,.8,.2,1) both}
   @keyframes draw{from{stroke-dasharray:0 2000}}
-  .fade{animation:fade .35s ease both}
+  .fade{animation:fade .35s ease backwards}
   @keyframes fade{from{opacity:.001;transform:translateY(6px)}}
 }
 
+
+/* ---------- NIGHT WALK theme: live bioluminescent-beach video behind frosted glass ---------- */
+:root[data-theme="night"]{
+  --bg:#060914; --surface:rgba(14,20,40,.50); --fill:rgba(120,170,255,.10); --fill-2:rgba(120,170,255,.16);
+  --ink:#EEF4FF; --ink-2:#C3D2EE; --muted:#8C9CC2;
+  --line:rgba(150,195,255,.15); --track:rgba(150,195,255,.12);
+  --accent:#3DBBFF; --accent-2:#9D7BFF; --accent-soft:rgba(61,187,255,.18); --on-accent:#03111F;
+  --navy:#CFE3FF; --gold:#FFC56E;
+  --good:#3BF0A0; --good-fill:rgba(59,240,160,.14); --good-ring:#3BF0A0;
+  --bad:#FF5C7A; --bad-fill:rgba(255,92,122,.16); --bad-ring:#FF5C7A;
+  --warn:#FFB443; --warn-fill:rgba(255,180,67,.15);
+  --glass:rgba(6,10,22,.46); --shadow:0 1px 0 rgba(255,255,255,.06) inset,0 10px 40px rgba(0,8,30,.45);
+  --mesh-a:rgba(61,187,255,.26); --mesh-b:rgba(157,123,255,.20); --mesh-c:rgba(255,197,110,.12);
+  --bar-bg:rgba(8,14,32,.48); --bar-edge:rgba(170,215,255,.22); --bar-line:rgba(150,195,255,.18); --bar-pill:rgba(61,187,255,.20); --bar-ink:rgba(220,234,255,.78); --bar-on:#FFFFFF;
+  --ring-q:#FF4FA3; --ring-c:#7CF7C4; --ring-m:#3DBBFF; --streak:#FFC56E; --edit-ink:#7CF7C4;
+  --f-ui:"Plus Jakarta Sans","Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --f-display:"Unbounded","Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  color-scheme:dark; background:#04060D}
+.nightbg{display:none}
+[data-theme="night"] body{background:transparent;letter-spacing:0}
+[data-theme="night"] .nightbg{display:block;position:fixed;inset:0;z-index:-1;overflow:hidden;background:#04060D url("assets/night-poster.jpg") center 58%/cover no-repeat}
+.nightbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 58%;opacity:0;transition:opacity 1.2s ease}
+.nightbg video.on{opacity:1}
+.nightbg .veil{position:absolute;inset:0;background:
+  radial-gradient(120% 70% at 50% 108%,rgba(30,140,255,.22),transparent 60%),
+  linear-gradient(180deg,rgba(3,5,12,.62) 0%,rgba(3,5,12,.38) 34%,rgba(3,5,12,.46) 62%,rgba(3,5,12,.80) 100%)}
+@media (min-width:861px){.nightbg .veil{background:
+  radial-gradient(90% 80% at 62% 100%,rgba(30,140,255,.20),transparent 60%),
+  linear-gradient(90deg,rgba(3,5,12,.55),rgba(3,5,12,.30) 45%,rgba(3,5,12,.52)),
+  linear-gradient(180deg,rgba(3,5,12,.40),rgba(3,5,12,.15) 45%,rgba(3,5,12,.65))}}
+[data-theme="night"] .card,[data-theme="night"] .qs,[data-theme="night"] .stat,[data-theme="night"] .list,[data-theme="night"] .review details,[data-theme="night"] .sec,[data-theme="night"] .tile,[data-theme="night"] .fcard,[data-theme="night"] .dxhero,[data-theme="night"] .dxcard,[data-theme="night"] .fsearch,[data-theme="night"] .refitem{
+  backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border:1px solid var(--line)}
+[data-theme="night"] .sheet{background:rgba(4,7,16,.84);backdrop-filter:blur(28px) saturate(140%);-webkit-backdrop-filter:blur(28px) saturate(140%)}
+[data-theme="night"] .msheet{background:rgba(8,12,26,.92);border:1px solid var(--line)}
+[data-theme="night"] h1,[data-theme="night"] h2,[data-theme="night"] h3{font-weight:600;letter-spacing:-.025em}
+[data-theme="night"] .word{font-weight:700;letter-spacing:-.04em}
+[data-theme="night"] .word span,[data-theme="night"] .ptitle h1{background:linear-gradient(100deg,#FFFFFF 0%,#BFE6FF 38%,#3DBBFF 70%,#9D7BFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+[data-theme="night"] .ptitle h1{filter:drop-shadow(0 2px 18px rgba(61,187,255,.28))}
+[data-theme="night"] .ptitle .eyebrow{color:#7FD3FF;letter-spacing:.14em}
+[data-theme="night"] .gauge .val,[data-theme="night"] .stat .v,[data-theme="night"] .sec .v{font-weight:600;letter-spacing:-.04em;text-shadow:0 0 24px rgba(61,187,255,.35)}
+[data-theme="night"] .btn{background:linear-gradient(135deg,#5FD0FF,#2F8CFF 55%,#7B6BFF);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.18) inset,0 8px 28px rgba(47,140,255,.45)}
+[data-theme="night"] .btn.plain{background:var(--fill);color:var(--ink);box-shadow:0 0 0 1px var(--line) inset}
+[data-theme="night"] .segmented{background:rgba(120,170,255,.10)}
+[data-theme="night"] .segmented button[aria-pressed="true"]{background:rgba(61,187,255,.22);color:#fff;box-shadow:0 0 0 1px rgba(150,215,255,.30) inset,0 4px 16px rgba(61,187,255,.25)}
+[data-theme="night"] .nav a[aria-current="page"]{background:linear-gradient(90deg,rgba(61,187,255,.24),rgba(157,123,255,.12));color:#fff;box-shadow:0 0 0 1px rgba(150,215,255,.18) inset}
+[data-theme="night"] .nav a[aria-current="page"] svg{color:#7FD3FF}
+[data-theme="night"] .free{background:rgba(61,187,255,.14);color:#BFE6FF;box-shadow:0 0 0 1px rgba(150,215,255,.25) inset}
+[data-theme="night"] ::selection{background:rgba(61,187,255,.45);color:#fff}
+@media (prefers-reduced-motion:reduce){.nightbg video{display:none}}
 /* ---------- tablet / phone ---------- */
 @media (max-width:1180px) and (min-width:861px){.quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:1000px){
@@ -756,6 +805,7 @@ details.more[open] summary{margin-bottom:14px}
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></symbol>
+  <symbol id="i-night" viewBox="0 0 24 24"><path d="M17.5 14.8A6.6 6.6 0 0 1 9.2 6.5a6.6 6.6 0 1 0 8.3 8.3z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M17 3.6l.7 1.6 1.6.7-1.6.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7zM20.6 9.4l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4z" fill="currentColor"/></symbol>
   <symbol id="i-auto" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></symbol>
   <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
@@ -773,6 +823,7 @@ details.more[open] summary{margin-bottom:14px}
   <symbol id="i-e" viewBox="0 0 24 24"><path d="M17.5 12.2H6.8M17.6 12.2c0-3.3-2.4-5.7-5.5-5.7-3.2 0-5.6 2.5-5.6 5.6s2.4 5.6 5.7 5.6c2 0 3.6-.8 4.7-2.3" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round"/><circle cx="19" cy="17.6" r="1.4" fill="#E0B25A"/></symbol>
 </svg>
 
+<div class="nightbg" id="nightbg" aria-hidden="true"><video id="nightvid" muted loop playsinline preload="none" disablepictureinpicture></video><div class="veil"></div></div>
 <div class="app">
   <aside class="side" aria-label="SAT AIS">
     <div class="brand">
@@ -794,7 +845,7 @@ details.more[open] summary{margin-bottom:14px}
       <div class="prefs">
         <span class="pl">Appearance</span>
         <div class="segmented sm" id="theme-seg" role="group" aria-label="Appearance">
-          <button data-v="system" aria-pressed="true">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button>
+          <button data-v="night" aria-pressed="true">Night</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button>
         </div>
         <label class="prefrow" for="snd">Sounds<span class="switch sm"><input type="checkbox" id="snd" checked><span></span></span></label>
       </div>
@@ -1127,13 +1178,27 @@ let S=null, timerId=null, tab="today", gid=0, booted=false;
 /* ---------- preferences: theme + sound ---------- */
 const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
-let themePref=lsGet("ais-theme")||"system", soundOn=lsGet("ais-sound")!=="off";
-const THEME_ICON={system:"auto",light:"sun",dark:"moon"}, THEME_NAME={system:"Auto",light:"Light",dark:"Dark"};
+let themePref=lsGet("ais-theme")||"night", soundOn=lsGet("ais-sound")!=="off";
+const THEME_ICON={night:"night",system:"auto",light:"sun",dark:"moon"}, THEME_NAME={night:"Night",system:"Auto",light:"Light",dark:"Dark"};
+/* Night Walk background video: loads only in the Night theme, never with reduced motion or Save-Data. */
+function nightVideo(on){
+  const v=document.getElementById("nightvid"); if(!v)return;
+  const still=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.connection&&navigator.connection.saveData);
+  if(!on||still){try{v.pause();}catch(e){} return;}
+  if(!v.dataset.src){
+    v.dataset.src=matchMedia("(min-width: 861px)").matches||devicePixelRatio>2.5?"assets/night-1080.mp4":"assets/night-720.mp4";
+    v.addEventListener("playing",()=>v.classList.add("on"),{once:true});
+    v.src=v.dataset.src;
+  }
+  const pr=v.play(); if(pr&&pr.catch)pr.catch(()=>{});
+}
+document.addEventListener("visibilitychange",()=>nightVideo(!document.hidden&&themePref==="night"));
 function applyTheme(t,announce){
   themePref=t; lsSet("ais-theme",t);
   if(t==="system")document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",t);
   document.querySelectorAll("#theme-seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===t));
   const mb=$("m-theme"); mb.innerHTML=icon(THEME_ICON[t]); mb.setAttribute("aria-label","Appearance: "+THEME_NAME[t]);
+  nightVideo(t==="night");
   if(announce)toast("Appearance: "+THEME_NAME[t]);
 }
 function applySound(on,announce){
@@ -2141,7 +2206,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
 
 /* ---------- prefs events ---------- */
 $("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;applyTheme(b.dataset.v);play("select");});
-$("m-theme").addEventListener("click",()=>{const order=["system","light","dark"];applyTheme(order[(order.indexOf(themePref)+1)%3],true);play("select");});
+$("m-theme").addEventListener("click",()=>{const order=["night","system","light","dark"];applyTheme(order[(order.indexOf(themePref)+1)%4],true);play("select");});
 $("snd").addEventListener("change",e=>{applySound(e.target.checked);if(soundOn)play("select");});
 $("m-snd").addEventListener("click",()=>{applySound(!soundOn,true);if(soundOn)play("select");});
 applyTheme(themePref); applySound(soundOn);
