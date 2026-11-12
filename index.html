@@ -1515,7 +1515,7 @@ function renderVideo(){
     '<span class="vplay"><i></i><i></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg></span>'+
     '<span class="vbadge">'+(logo?'<img src="'+logo.getAttribute("src")+'" alt="">':'')+'SAT AIS</span></button>';
   $("vposter").addEventListener("click",()=>{play("open");
-    box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO.id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="'+esc(VIDEO.title)+' video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';});
+    box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO.id+'?autoplay=1&start=25&rel=0&modestbranding=1&playsinline=1" title="'+esc(VIDEO.title)+' video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';});
 }
 
 /* ---------- Desmos Practice: 27 techniques, original problems ---------- */
