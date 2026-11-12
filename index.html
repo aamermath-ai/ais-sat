@@ -670,6 +670,80 @@ details.more[open] summary{margin-bottom:14px}
 }
 
 
+
+/* ---------- dream universities ---------- */
+.dream{position:relative;overflow:hidden;padding:0;background:
+  radial-gradient(120% 140% at 0% 0%,rgba(94,92,230,.55),transparent 55%),
+  radial-gradient(110% 120% at 100% 100%,rgba(10,132,255,.55),transparent 55%),
+  linear-gradient(135deg,#0B1030,#14104A 55%,#06223F);color:#fff}
+.dream-sky{position:absolute;inset:0;pointer-events:none}
+.dream-sky i{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(160,210,255,.8);opacity:.7}
+.dream-sky i:nth-child(1){left:8%;top:18%}.dream-sky i:nth-child(2){left:22%;top:72%}.dream-sky i:nth-child(3){left:35%;top:30%}
+.dream-sky i:nth-child(4){left:48%;top:12%}.dream-sky i:nth-child(5){left:61%;top:64%}.dream-sky i:nth-child(6){left:74%;top:26%}
+.dream-sky i:nth-child(7){left:86%;top:80%}.dream-sky i:nth-child(8){left:93%;top:14%}.dream-sky i:nth-child(9){left:15%;top:44%}
+.dream-sky i:nth-child(10){left:55%;top:88%}.dream-sky i:nth-child(11){left:80%;top:52%}.dream-sky i:nth-child(12){left:4%;top:90%}
+.dream-sky::after{content:"";position:absolute;width:140px;height:2px;top:22%;left:-160px;background:linear-gradient(90deg,transparent,#fff);border-radius:2px;opacity:0;transform:rotate(-18deg)}
+@media (prefers-reduced-motion:no-preference){
+  .dream-sky i{animation:twinkle 3.2s ease-in-out infinite}
+  .dream-sky i:nth-child(3n){animation-delay:1.1s}.dream-sky i:nth-child(3n+1){animation-delay:2.2s}
+  .dream-sky::after{animation:shoot 7s ease-in 2s infinite}
+  .dream .btn svg{transition:transform .2s}.dream .btn:hover svg{transform:translateX(3px)}
+}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes shoot{0%{left:-160px;opacity:0}6%{opacity:1}22%{left:110%;opacity:0}100%{left:110%;opacity:0}}
+.dream-in{position:relative;padding:28px;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.dream-k{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9FD8FF}
+.dream-q{margin:0;font-family:var(--f-display);font-size:clamp(1.25rem,2.6vw,1.75rem);font-weight:700;line-height:1.25;letter-spacing:-.02em;max-width:34ch;
+  background:linear-gradient(100deg,#fff 0%,#D7ECFF 45%,#9FD8FF 75%,#C9B8FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.dream-q cite{display:block;margin-top:8px;font-family:var(--f-ui);font-size:.8rem;font-style:normal;font-weight:600;letter-spacing:.02em;-webkit-text-fill-color:#B9CBEA;color:#B9CBEA}
+.dream-msg{color:#DCE6FA;font-size:.95rem;max-width:64ch}
+.dream-msg b{color:#fff}
+.dream-chips{display:flex;flex-wrap:wrap;gap:8px}
+.dchip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);color:#fff;font-size:.82rem;font-weight:600;text-decoration:none!important}
+.dchip:hover{background:rgba(255,255,255,.2)}.dchip.more{color:#9FD8FF}
+.dream .btn{background:#fff;color:#0B1030;box-shadow:0 8px 26px rgba(0,0,0,.3)}
+.uhero{position:relative;overflow:hidden;padding:0;color:#fff;background:
+  radial-gradient(100% 140% at 100% 0%,rgba(10,132,255,.5),transparent 55%),radial-gradient(90% 120% at 0% 100%,rgba(125,122,255,.5),transparent 55%),linear-gradient(135deg,#0B1030,#101845)}
+.uh-in{position:relative;padding:28px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.uslide{background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.uslide label{font-weight:700;font-size:.9rem}.uslide label small{font-weight:500;color:#B9CBEA}
+.uslide-row{display:flex;align-items:center;gap:14px}
+.uslide output{font-family:var(--f-display);font-size:2rem;font-weight:700;letter-spacing:-.03em;min-width:3.4em;text-align:right}
+#u-score{flex:1;min-width:0;-webkit-appearance:none;appearance:none;height:8px;border-radius:99px;background:linear-gradient(90deg,#5FD0FF,#7B6BFF) 0/var(--pct,50%) 100% no-repeat,rgba(255,255,255,.18);outline-offset:6px}
+#u-score::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(95,208,255,.35),0 4px 12px rgba(0,0,0,.35);cursor:grab}
+#u-score::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(95,208,255,.35),0 4px 12px rgba(0,0,0,.35);cursor:grab}
+.u-sum{font-size:.9rem;color:#DCE6FA}.u-sum b{color:#fff}
+.ubar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.ubar .segmented{flex:0 1 460px}
+.usearch{font:inherit;font-size:.95rem;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);flex:0 1 280px;min-width:0}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.ucard{background:var(--surface);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0;position:relative}
+.ucard::before{content:"";position:absolute;left:18px;right:18px;top:0;height:3px;border-radius:0 0 3px 3px;background:var(--line)}
+.ucard.st-in::before,.ucard.st-top::before{background:linear-gradient(90deg,var(--good-ring),#5FD0FF)}
+.ucard.st-free::before{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.ucard.st-go::before{background:linear-gradient(90deg,var(--streak),transparent)}
+.uc-h{display:flex;gap:12px;align-items:center}
+.uflag{font-size:1.6rem;line-height:1}
+.uc-h h3{font-size:1.1rem;letter-spacing:-.02em}
+.ufull{font-size:.78rem;color:var(--muted)}
+.usat{display:flex;flex-direction:column}
+.ulbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.usat b{font-family:var(--f-display);font-size:1.55rem;font-weight:700;letter-spacing:-.03em}
+.urange{position:relative;height:10px;border-radius:99px;background:var(--track)}
+.uband{position:absolute;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.uband.open{border-radius:99px 0 0 99px;background:linear-gradient(90deg,var(--accent),transparent)}
+.ume{position:absolute;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#fff;border:3px solid var(--streak);box-shadow:0 2px 8px rgba(0,0,0,.25);transition:left .25s cubic-bezier(.2,.8,.2,1)}
+.uaxis{display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);margin-top:-4px}
+.ust{align-self:flex-start;font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--fill);color:var(--ink-2)}
+.st-in .ust,.st-top .ust{background:var(--good-fill);color:var(--good)}
+.st-go .ust{background:var(--warn-fill);color:var(--warn)}
+.st-free .ust{background:var(--accent-soft);color:var(--accent)}
+.ubasis{font-size:.8rem;color:var(--muted)}
+.upol{font-size:.82rem;color:var(--ink-2)}
+.ulink{margin-top:auto;display:inline-flex;align-items:center;gap:4px;font-weight:700;font-size:.88rem}
+[data-theme="night"] .ucard{backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border:1px solid var(--line)}
+[data-theme="night"] .dream,[data-theme="night"] .uhero{border:1px solid rgba(150,215,255,.22);box-shadow:0 0 40px rgba(61,187,255,.18)}
+@media (max-width:860px){.uh-in{grid-template-columns:minmax(0,1fr);padding:22px}.dream-in{padding:22px}.ubar .segmented,.usearch{flex:1 1 100%}}
 /* ---------- NIGHT WALK theme: live bioluminescent-beach video behind frosted glass ---------- */
 :root[data-theme="night"]{
   --bg:#060914; --surface:rgba(14,20,40,.50); --fill:rgba(120,170,255,.10); --fill-2:rgba(120,170,255,.16);
@@ -791,6 +865,7 @@ details.more[open] summary{margin-bottom:14px}
   <symbol id="i-today" viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="i-practice" viewBox="0 0 24 24"><path d="M15.5 4.5l4 4L9 19l-5 1 1-5z M13.5 6.5l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="i-progress" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-uni" viewBox="0 0 24 24"><path d="M2.5 9.2 12 4.5l9.5 4.7-9.5 4.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.5 11.3v4.3c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-4.3M21.5 9.2v5.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-bank" viewBox="0 0 24 24"><path d="M5 4.5h4v15H5z M10 4.5h4v15h-4z M15.2 5.3l3.8-1 3.6 14.4-3.8 1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
@@ -839,6 +914,7 @@ details.more[open] summary{margin-bottom:14px}
       <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
       <a href="#formulas" data-tab="formulas"><svg><use href="#i-formula"/></svg>Formulas</a>
       <a href="#desmos" data-tab="desmos"><svg><use href="#i-desmos"/></svg>Desmos Practice</a>
+      <a href="#unis" data-tab="unis"><svg><use href="#i-uni"/></svg>Universities</a>
       <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Question Bank</a>
     </nav>
     <div class="side-foot">
@@ -883,6 +959,16 @@ details.more[open] summary{margin-bottom:14px}
         <article class="tile wide" aria-labelledby="h-score">
           <div class="tile-h"><h3 id="h-score">Estimated score</h3><span class="muted-note">Practice estimate</span></div>
           <div class="scorebox"><div id="score-l"></div><div id="score-r"></div></div>
+        </article>
+        <article class="tile full dream" aria-labelledby="h-dream">
+          <div class="dream-sky" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="dream-in">
+            <span class="dream-k">Dream big · Start today</span>
+            <blockquote class="dream-q" id="h-dream">“Success is the sum of small efforts, repeated day in and day out.”<cite>Robert Collier</cite></blockquote>
+            <p class="dream-msg" id="dream-msg"></p>
+            <div class="dream-chips" id="dream-chips"></div>
+            <a class="btn dream-go" href="#unis">Explore 40 dream universities <svg width="16" height="16" aria-hidden="true"><use href="#i-chev"/></svg></a>
+          </div>
         </article>
         <article class="tile full" aria-labelledby="h-ch">
           <div class="ch-bar">
@@ -1021,6 +1107,27 @@ details.more[open] summary{margin-bottom:14px}
       <div id="dx-calc" hidden></div>
     </section>
 
+    <section class="page fade" id="v-unis" hidden>
+      <div class="ptitle"><span class="eyebrow">Where your SAT can take you</span><h1>Dream Universities</h1>
+        <p>SAT scores at 20 top US and 20 top UK universities, with links to each official admissions page. Slide your score and see which doors it opens.</p></div>
+      <div class="card uhero">
+        <div class="dream-sky" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="uh-in">
+          <blockquote class="dream-q">“It always seems impossible until it’s done.”<cite>Often attributed to Nelson Mandela</cite></blockquote>
+          <div class="uslide">
+            <label for="u-score">My SAT score <small id="u-src"></small></label>
+            <div class="uslide-row"><input type="range" id="u-score" min="900" max="1600" step="10" value="1400"><output id="u-out" class="num">1400</output></div>
+            <p class="u-sum" id="u-sum"></p>
+          </div>
+        </div>
+      </div>
+      <div class="ubar">
+        <div class="segmented" id="u-c" role="group" aria-label="Country"><button data-v="all" aria-pressed="true">All 40</button><button data-v="US" aria-pressed="false">🇺🇸 US · 20</button><button data-v="UK" aria-pressed="false">🇬🇧 UK · 20</button></div>
+        <input class="usearch" id="u-q" type="search" placeholder="Search universities" aria-label="Search universities">
+      </div>
+      <div class="ugrid" id="u-grid"></div>
+      <p class="disclaim">US figures are the middle 50% of SAT scores (25th–75th percentile) from each university's latest published class profile or Common Data Set; “≈” marks an approximate figure. UK figures are the SAT benchmarks each university publishes for applicants with US-style qualifications, which almost always combine the SAT with AP exams. Checked November 2026. Requirements change every year, so always confirm on the official website before applying. A score is one part of your application: grades, essays and activities matter too.</p>
+    </section>
     <section class="page fade" id="v-bank" hidden>
       <div class="ptitle"><h1>Question Bank</h1><p id="bank-sub">Every question is tagged by section, domain, skill and difficulty, and comes with a step-by-step solution.</p></div>
       <div class="bankgrid" id="bank-cards"></div>
@@ -1289,7 +1396,7 @@ function save(){
 function setConn(kind,text){$("conn").innerHTML='<span class="dot '+kind+'"></span>'+esc(text);}
 
 /* ---------- routing ---------- */
-const TABS=["today","practice","formulas","desmos","progress","bank"];
+const TABS=["today","practice","formulas","desmos","progress","unis","bank"];
 function route(){
   const h=(location.hash||"").replace("#","");
   tab=TABS.includes(h)?h:"today";
@@ -1309,6 +1416,7 @@ function render(){
   if(tab==="bank")renderBank();
   if(tab==="formulas")renderFormulas();
   if(tab==="desmos")renderDesmos();
+  if(tab==="unis")renderUnis();
 }
 const dayKey=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
 function prof(){const p=progress.profile||{};return {name:p.name||"",target:p.target||1300,testDate:p.testDate||"",qGoal:p.qGoal||20,mGoal:p.mGoal||30};}
@@ -1810,6 +1918,46 @@ function medal(a,on,uid){
     '<use href="#i-'+a.icon+'" x="30" y="30" width="36" height="36" style="color:#fff"/>'+
     (on?'':'<circle cx="48" cy="48" r="44" fill="var(--surface)" fill-opacity=".1"/>')+'</svg>';
 }
+
+/* ---------- dream universities ---------- */
+const UNIS=[{"c": "US", "n": "Princeton University", "s": "Princeton", "u": "https://admission.princeton.edu/", "lo": 1490, "hi": 1560, "d": "1490–1560", "b": "Enrolled first-years, fall 2025 (Common Data Set 2025–26)", "p": "Test-optional now; testing required again from the 2027–28 cycle", "ax": 0}, {"c": "US", "n": "Massachusetts Institute of Technology", "s": "MIT", "u": "https://mitadmissions.org/", "lo": 1520, "hi": 1580, "d": "≈1520–1580", "b": "Admitted Class of 2029 section ranges: R&W 740–780, Math 780–800", "p": "SAT or ACT required", "ax": 1}, {"c": "US", "n": "Harvard University", "s": "Harvard", "u": "https://college.harvard.edu/admissions", "lo": 1500, "hi": 1580, "d": "≈1500–1580", "b": "Approximate; Harvard publishes exact figures in its Common Data Set", "p": "SAT or ACT required", "ax": 1}, {"c": "US", "n": "Stanford University", "s": "Stanford", "u": "https://admission.stanford.edu/", "lo": 1520, "hi": 1570, "d": "1520–1570", "b": "Class of 2029 score submitters", "p": "SAT or ACT required from the Class of 2030", "ax": 0}, {"c": "US", "n": "Yale University", "s": "Yale", "u": "https://admissions.yale.edu/", "lo": 1470, "hi": 1570, "d": "≈1470–1570", "b": "Section ranges, fall 2024: R&W 730–780, Math 740–790", "p": "SAT or ACT required (from the 2026–27 cycle)", "ax": 1}, {"c": "US", "n": "California Institute of Technology", "s": "Caltech", "u": "https://www.admissions.caltech.edu/", "lo": 1520, "hi": 1570, "d": "≈1520–1570", "b": "Most recent published class profile", "p": "SAT or ACT required", "ax": 1}, {"c": "US", "n": "Duke University", "s": "Duke", "u": "https://admissions.duke.edu/", "lo": 1520, "hi": 1570, "d": "1520–1570", "b": "Admitted Class of 2029 class profile", "p": "Test-optional for 2026–27", "ax": 0}, {"c": "US", "n": "Johns Hopkins University", "s": "Johns Hopkins", "u": "https://apply.jhu.edu/", "lo": 1510, "hi": 1560, "d": "1510–1560", "b": "Fast Facts, latest entering class", "p": "SAT or ACT required", "ax": 0}, {"c": "US", "n": "Northwestern University", "s": "Northwestern", "u": "https://admissions.northwestern.edu/", "lo": 1510, "hi": 1560, "d": "1510–1560", "b": "Enrolled first-years, fall 2024 (Common Data Set)", "p": "Test-optional", "ax": 0}, {"c": "US", "n": "University of Pennsylvania", "s": "Penn", "u": "https://admissions.upenn.edu/", "lo": 1440, "hi": 1550, "d": "1440–1550", "b": "Enrolled Class of 2030", "p": "SAT or ACT required", "ax": 0}, {"c": "US", "n": "Cornell University", "s": "Cornell", "u": "https://admissions.cornell.edu/", "lo": 1490, "hi": 1550, "d": "≈1490–1550", "b": "Enrolled first-years, fall 2025 (Common Data Set 2025–26)", "p": "SAT or ACT required from fall 2026 entry", "ax": 1}, {"c": "US", "n": "University of Chicago", "s": "UChicago", "u": "https://collegeadmissions.uchicago.edu/", "lo": 1510, "hi": 1560, "d": "≈1510–1560", "b": "Estimate; UChicago publishes a full admitted range of 1280–1600", "p": "Test-optional", "ax": 1}, {"c": "US", "n": "Brown University", "s": "Brown", "u": "https://admission.brown.edu/", "lo": 1470, "hi": 1550, "d": "1470–1550", "b": "Latest admitted class", "p": "SAT or ACT required", "ax": 0}, {"c": "US", "n": "Columbia University", "s": "Columbia", "u": "https://undergrad.admissions.columbia.edu/", "lo": 1510, "hi": 1560, "d": "1510–1560", "b": "Enrolled Class of 2030 score submitters", "p": "Test-optional (Class of 2031 too)", "ax": 0}, {"c": "US", "n": "Dartmouth College", "s": "Dartmouth", "u": "https://admissions.dartmouth.edu/", "lo": 1440, "hi": 1550, "d": "1440–1550", "b": "Enrolled first-years, fall 2025 (Common Data Set 2025–26)", "p": "SAT or ACT required for applicants from US high schools", "ax": 0}, {"c": "US", "n": "Rice University", "s": "Rice", "u": "https://admission.rice.edu/", "lo": 1510, "hi": 1560, "d": "1510–1560", "b": "Enrolled first-years, fall 2024 (Common Data Set)", "p": "Test-optional", "ax": 0}, {"c": "US", "n": "Vanderbilt University", "s": "Vanderbilt", "u": "https://admissions.vanderbilt.edu/", "lo": 1530, "hi": 1600, "d": "≈1530–1600", "b": "Admitted Class of 2028 (RD) section ranges: R&W 750–800, Math 780–800", "p": "Test-optional; check for future changes", "ax": 1}, {"c": "US", "n": "University of Notre Dame", "s": "Notre Dame", "u": "https://admissions.nd.edu/", "lo": 1460, "hi": 1540, "d": "1460–1540", "b": "Enrolled Class of 2030", "p": "Test-optional through 2026–27; required from the 2027–28 cycle", "ax": 0}, {"c": "US", "n": "University of California, Los Angeles", "s": "UCLA", "u": "https://admission.ucla.edu/", "lo": null, "hi": null, "d": "Test-free", "b": "The University of California does not consider SAT or ACT scores in admission", "p": "SAT not used for admission; scores can count for course placement", "ax": 0}, {"c": "US", "n": "University of California, Berkeley", "s": "UC Berkeley", "u": "https://admissions.berkeley.edu/", "lo": null, "hi": null, "d": "Test-free", "b": "The University of California does not consider SAT or ACT scores in admission", "p": "SAT not used for admission; scores can count for course placement", "ax": 0}, {"c": "UK", "n": "University of Oxford", "s": "Oxford", "u": "https://www.ox.ac.uk/admissions/undergraduate", "lo": 1470, "hi": null, "d": "1470+", "b": "With 3 APs at grade 5. Maths and Computer Science: 1480+ (Math 770+). One sitting, no superscore", "p": "SAT + APs (or 4 APs at 5)", "ax": 0}, {"c": "UK", "n": "University of Cambridge", "s": "Cambridge", "u": "https://www.undergraduate.study.cam.ac.uk/", "lo": 1460, "hi": null, "d": "1460–1500+", "b": "1500+ (Math 750+) for sciences, engineering, computing, medicine and economics; 1460+ (R&W 730+) for other courses", "p": "SAT or ACT plus at least 5 APs at grade 5", "ax": 0}, {"c": "UK", "n": "Imperial College London", "s": "Imperial", "u": "https://www.imperial.ac.uk/study/", "lo": 1460, "hi": null, "d": "1460+", "b": "With 3 APs (5,5,4). Some courses ask 1480+ (e.g. Computing, Civil Engineering)", "p": "SAT + APs, or 5 APs (5,5,5,4,4)", "ax": 0}, {"c": "UK", "n": "University College London", "s": "UCL", "u": "https://www.ucl.ac.uk/prospective-students/undergraduate/", "lo": 1400, "hi": null, "d": "1400+", "b": "With 2 APs (e.g. 5,4) for an ABB-level offer; higher for top programmes", "p": "2 APs + SAT/ACT, or 3–5 APs", "ax": 0}, {"c": "UK", "n": "London School of Economics", "s": "LSE", "u": "https://www.lse.ac.uk/study-at-lse/international-students/united-states-of-america", "lo": 1450, "hi": null, "d": "1400–1450+", "b": "1450+ with a 3.7 GPA for A*AA/AAA offers; 1400+ for AAB offers. Calculus BC 5 where maths is required", "p": "SAT/ACT + GPA, or 5 APs at grade 5", "ax": 0}, {"c": "UK", "n": "University of Edinburgh", "s": "Edinburgh", "u": "https://www.ed.ac.uk/studying/international/country/americas/united-states-of-america", "lo": 1290, "hi": null, "d": "1290+", "b": "R&W 650+, Math 620+, plus 2 APs at grade 4+. SAT superscores considered", "p": "SAT + 2 APs, or 3 APs", "ax": 0}, {"c": "UK", "n": "King's College London", "s": "King's", "u": "https://www.kcl.ac.uk/study/international/region/usa", "lo": 1440, "hi": null, "d": "Up to 1440", "b": "1440 (with section minimums) for the top tier with APs at 5; lower tiers accept lower scores. No superscores", "p": "APs combined with SAT/ACT", "ax": 0}, {"c": "UK", "n": "University of Manchester", "s": "Manchester", "u": "https://www.manchester.ac.uk/study/international/country-specific-information/usa/entry-requirements/", "lo": 1290, "hi": null, "d": "1290+", "b": "SAT 1290 / ACT 27 with a 3.0 GPA diploma. Many science and engineering courses ask for 3 APs at 5", "p": "Diploma + SAT/ACT or APs", "ax": 0}, {"c": "UK", "n": "University of Bristol", "s": "Bristol", "u": "https://www.bristol.ac.uk/international/countries/usa.html", "lo": null, "hi": null, "d": "R&W 650+", "b": "SAT Reading & Writing 650+ counts as one of three qualifications, with a 3.2+ GPA (3.4 for competitive courses)", "p": "GPA + three qualifications (SAT, ACT, APs…)", "ax": 0}, {"c": "UK", "n": "University of Warwick", "s": "Warwick", "u": "https://warwick.ac.uk/study/undergraduate/courses/ug-international-qualifications/", "lo": null, "hi": null, "d": "AP-based", "b": "Usually 4–5 AP tests at 4–5. SAT 1340+ listed only for English-language purposes", "p": "APs; requirements under review for 2027–28", "ax": 0}, {"c": "UK", "n": "Durham University", "s": "Durham", "u": "https://www.durham.ac.uk/study/international/regional-pages/north-america/", "lo": 1290, "hi": null, "d": "1290–1390", "b": "With 2 APs: 1290 (R&W 650, Math 620) for AAB up to 1390 for A*A*A", "p": "2–3 APs, with SAT/ACT allowed in place of one", "ax": 0}, {"c": "UK", "n": "University of St Andrews", "s": "St Andrews", "u": "https://www.st-andrews.ac.uk/subjects/entry/usa/", "lo": 1320, "hi": null, "d": "1320+", "b": "Benchmark with 3 APs at 4+. Tests are optional for the 2026–27 and 2027–28 cycles", "p": "Test-optional + APs", "ax": 0}, {"c": "UK", "n": "University of Glasgow", "s": "Glasgow", "u": "https://www.gla.ac.uk/international/country/usa/", "lo": 1280, "hi": null, "d": "1280+", "b": "With a 3.0 GPA and 2 APs at 4+ (Arts route). Medicine and Dentistry differ", "p": "SAT/ACT + 2 APs, or 3 APs", "ax": 0}, {"c": "UK", "n": "University of Bath", "s": "Bath", "u": "https://www.bath.ac.uk/corporate-information/entry-requirements-for-international-students/", "lo": null, "hi": null, "d": "AP-based", "b": "Offers from APs 5,4,4 to 5,5,5,5. SAT section scores (R&W 720; Math 700–720) can meet English and maths requirements", "p": "APs", "ax": 0}, {"c": "UK", "n": "University of Southampton", "s": "Southampton", "u": "https://www.southampton.ac.uk/international/entry-qualification-equivalencies/united-states", "lo": 1300, "hi": null, "d": "1300–1350", "b": "With 2 APs at 5: 1350 for AAA, 1300–1350 for AAB/ABB. Subject needs must be met with APs", "p": "APs, with SAT/ACT in place of one AP", "ax": 0}, {"c": "UK", "n": "University of Birmingham", "s": "Birmingham", "u": "https://www.birmingham.ac.uk/international/students/country/usa", "lo": 1350, "hi": null, "d": "1350–1380", "b": "SAT 1350–1380+ can replace one of three AP tests, with a 3.2 GPA. No superscores", "p": "3.2 GPA + 3 APs (SAT can replace one)", "ax": 0}, {"c": "UK", "n": "University of Leeds", "s": "Leeds", "u": "https://www.leeds.ac.uk/admissions-qualifications/21950/united-states-of-america", "lo": null, "hi": null, "d": "AP-based", "b": "Diploma (3.0 GPA) with Honors classes plus at least one AP at 4–5", "p": "Diploma + Honors + APs", "ax": 0}, {"c": "UK", "n": "University of Exeter", "s": "Exeter", "u": "https://www.exeter.ac.uk/international-students/usa/", "lo": 1310, "hi": null, "d": "1310–1430", "b": "Diploma with SAT 1310 (BBB) up to 1430 (A*AA). Subject requirements met with APs", "p": "Diploma + SAT/ACT", "ax": 0}, {"c": "UK", "n": "University of Nottingham", "s": "Nottingham", "u": "https://www.nottingham.ac.uk/studywithus/international-applicants/country-info/countryinformation/usa.aspx", "lo": null, "hi": null, "d": "AP-based", "b": "Three APs from 5,5,5 down to 4,4,4. Standardised tests generally not required", "p": "APs / Honors / dual enrolment", "ax": 0}, {"c": "UK", "n": "University of Sheffield", "s": "Sheffield", "u": "https://sheffield.ac.uk/international/entry-requirements/usa", "lo": null, "hi": null, "d": "AP-based", "b": "Diploma (3.0 GPA) with 3 APs in relevant subjects (5/4/3 = A/B/C)", "p": "Diploma + APs", "ax": 0}];
+let uC="all", uQ="", uScore=null;
+function myScore(){const p=progress;if(p.answered.rw>=5&&p.answered.math>=5)return {v:scaled(p.theta.rw)+scaled(p.theta.math),src:"your practice estimate"};return {v:prof().target||1400,src:"your target"};}
+function uStatus(u,sc){
+  if(u.lo==null)return {k:"free",t:u.d==="Test-free"?"No SAT needed: grades & essays decide":"No SAT minimum: APs & grades decide"};
+  if(u.c==="US"){if(sc>=u.hi)return {k:"top",t:"Above the middle 50%"};if(sc>=u.lo)return {k:"in",t:"In the middle 50%"};return {k:"go",t:(u.lo-sc)+" points to the range"};}
+  if(sc>=u.lo)return {k:"in",t:"Meets the SAT benchmark"};return {k:"go",t:(u.lo-sc)+" points to the benchmark"};
+}
+function uOpen(sc){return UNIS.filter(u=>{const k=uStatus(u,sc).k;return k!=="go";}).length;}
+function renderDream(){
+  const m=myScore(), n=uOpen(m.v), ukMin=Math.min(...UNIS.filter(u=>u.c==="UK"&&u.lo).map(u=>u.lo));
+  $("dream-msg").innerHTML='At <b class="num">'+m.v+'</b> ('+esc(m.src)+'), <b>'+n+' of 40</b> top universities already fit that score. UK benchmarks start at <b class="num">'+ukMin+'</b>, and many places weigh grades and APs as much as scores. Every set you finish moves the line.';
+  const pick=UNIS.filter(u=>uStatus(u,m.v).k!=="go").slice(0,8);
+  $("dream-chips").innerHTML=pick.map(u=>'<a href="#unis" class="dchip"><span>'+(u.c==="US"?"🇺🇸":"🇬🇧")+'</span>'+esc(u.s)+'</a>').join("")+(n>8?'<a href="#unis" class="dchip more">+'+(n-8)+' more</a>':'');
+}
+function renderUnis(){
+  if(uScore==null){const m=myScore();uScore=Math.max(900,Math.min(1600,Math.round(m.v/10)*10));$("u-src").textContent="· starts at "+m.src;}
+  $("u-score").value=uScore; $("u-out").textContent=uScore;
+  $("u-score").style.setProperty("--pct",((uScore-900)/7)+"%");
+  const n=uOpen(uScore), nx=UNIS.filter(u=>u.lo!=null&&uScore<u.lo).sort((a,b)=>a.lo-b.lo)[0];
+  $("u-sum").innerHTML='<b>'+n+' of 40</b> fit a score of '+uScore+(nx?'. Next up: <b>'+esc(nx.s)+'</b>, '+(nx.lo-uScore)+' points away.':'. You are in range everywhere. Keep it there!');
+  document.querySelectorAll("#u-c button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===uC));
+  const q=uQ.trim().toLowerCase();
+  const list=UNIS.filter(u=>(uC==="all"||u.c===uC)&&(!q||(u.n+" "+u.s).toLowerCase().includes(q)));
+  const X=v=>Math.max(0,Math.min(100,(v-1200)/4));
+  $("u-grid").innerHTML=list.length?list.map(u=>{
+    const st=uStatus(u,uScore);
+    let bar="";
+    if(u.lo!=null){
+      const a=X(u.lo), b=u.hi!=null?X(u.hi):100;
+      bar='<div class="urange" aria-hidden="true"><span class="uband'+(u.hi==null?' open':'')+'" style="left:'+a+'%;width:'+Math.max(2,b-a)+'%"></span><span class="ume" style="left:'+X(uScore)+'%"></span></div><div class="uaxis" aria-hidden="true"><span>1200</span><span>1400</span><span>1600</span></div>';
+    }
+    return '<article class="ucard st-'+st.k+'"><div class="uc-h"><span class="uflag" aria-hidden="true">'+(u.c==="US"?"🇺🇸":"🇬🇧")+'</span><div><h3>'+esc(u.s)+'</h3><span class="ufull">'+esc(u.n)+'</span></div></div>'+
+      '<div class="usat"><span class="ulbl">'+(u.c==="US"?(u.lo==null?"SAT policy":"Middle 50% SAT"):"SAT benchmark")+'</span><b class="num">'+esc(u.d)+'</b></div>'+bar+
+      '<span class="ust">'+esc(st.t)+'</span><p class="ubasis">'+esc(u.b)+'</p><p class="upol"><b>Testing:</b> '+esc(u.p)+'</p>'+
+      '<a class="ulink" href="'+u.u+'" target="_blank" rel="noopener">Official admissions site <svg width="13" height="13" aria-hidden="true"><use href="#i-chev"/></svg></a></article>';
+  }).join(""):'<p class="muted">No universities match “'+esc(uQ)+'”.</p>';
+}
 function renderToday(){
   const p=progress, pf=prof(), h=new Date().getHours(), now=Date.now(), tk=dayKey(now);
   $("today-date").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
@@ -1854,6 +2002,7 @@ function renderToday(){
   // awards
   const got=AWARDS.filter(a=>a.ok(p)), latest=got[got.length-1];
   const show=latest||AWARDS[0];
+  renderDream();
   $("t-aw").innerHTML='<div class="medalwrap">'+medal(show,!!latest,"t")+'<b>'+esc(show.name)+'</b><span>'+(latest?esc(show.desc)+' · '+got.length+' of '+AWARDS.length+' earned':'Next: '+esc(show.desc))+'</span></div>';
   // quick start
   document.querySelectorAll("[data-quick]").forEach(b=>b.disabled=bankState!=="ready");
@@ -2185,6 +2334,12 @@ $("t-ref").addEventListener("click",openReference);
   h.addEventListener("pointerup",()=>{drag=false;document.body.style.userSelect="";$("calc-body").style.pointerEvents="";try{localStorage.setItem("ais-calc-w",calcW);}catch(e){}});})();
 window.addEventListener("resize",()=>{if(!$("calcpane").hidden)sizeCalc();});
 
+
+/* ---------- universities events ---------- */
+$("u-score").addEventListener("input",e=>{uScore=+e.target.value;renderUnis();});
+$("u-score").addEventListener("change",()=>play("select"));
+$("u-c").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;uC=b.dataset.v;play("select");renderUnis();});
+$("u-q").addEventListener("input",e=>{uQ=e.target.value;renderUnis();});
 /* ---------- summary events ---------- */
 $("rings").addEventListener("click",e=>{const svg=e.target.closest("svg");if(!svg)return;const r=svg.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width*170-85,dy=(e.clientY-r.top)/r.height*170-85,d=Math.hypot(dx,dy);
   const i=d>62&&d<84?0:d>42&&d<62?1:d>22&&d<42?2:null;selectRing(i);});
