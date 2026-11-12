@@ -742,7 +742,7 @@ details.more[open] summary{margin-bottom:14px}
           <div class="ch-stats" id="ch-stats"></div>
         </article>
         <article class="tile full vtile" aria-labelledby="h-vid">
-          <div class="tile-h"><h3 id="h-vid">SAT practice video</h3><span class="chip vchip">Video lesson</span></div>
+          <div class="tile-h"><h3 id="h-vid">Full SAT Desmos guide</h3><span class="chip vchip">Video lesson</span></div>
           <div class="vplayer" id="vplayer"></div>
         </article>
         <article class="tile" aria-labelledby="h-q"><div class="tile-h"><h3 id="h-q">Questions</h3></div><span class="sub">Today</span><div id="t-q"></div></article>
@@ -1354,7 +1354,7 @@ function mapPick(e){
 }
 
 /* ---------- SAT practice video (official YouTube embed, loads on tap) ---------- */
-const VIDEO={id:"k2UZX09zwSQ",title:"SAT Practice",sub:"Watch, then try a hard set"};
+const VIDEO={id:"k2UZX09zwSQ",title:"Full SAT Desmos guide",sub:"Master the built-in graphing calculator"};
 function renderVideo(){
   const box=$("vplayer"); if(!box||box.dataset.ready)return; box.dataset.ready="1";
   if(window.claude){ // the claude.ai preview cannot load outside players
