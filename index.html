@@ -418,6 +418,27 @@ button.tile:hover{transform:translateY(-2px)}
 @media (max-width:1180px){.fgrid.geo{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:480px){.qfig .dg{max-width:250px}.frow.has-dg{grid-template-columns:minmax(0,1fr)}.dgw{width:min(220px,100%);justify-self:center}}
 
+/* in-app video player */
+.vtile{gap:12px}
+.vchip{background:var(--accent-soft);color:var(--accent)}
+.vplayer{position:relative;width:100%;aspect-ratio:16/9;max-width:100%;border-radius:18px;overflow:hidden;background:#000;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.vposter{position:absolute;inset:0;border:0;padding:0;cursor:pointer;background:#0b0b0d center/cover no-repeat;display:block;width:100%;height:100%}
+.vposter::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.72) 100%)}
+.vplay{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;display:grid;place-items:center;z-index:1;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 10px 30px rgba(0,0,0,.35);transition:transform .25s cubic-bezier(.3,1.4,.4,1),background .2s}
+.vplay svg{width:30px;height:30px;margin-left:5px;fill:#fff}
+.vposter:hover .vplay,.vposter:focus-visible .vplay{transform:scale(1.08);background:rgba(255,255,255,.26)}
+.vmeta{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;color:#fff;text-align:left}
+.vmeta b{font-family:var(--f-display);font-size:1.15rem;letter-spacing:-.02em;display:block}
+.vmeta span{font-size:.8rem;opacity:.85}
+.vlogo{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;padding:6px 10px;border-radius:999px;background:rgba(0,0,0,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.vlogo img{width:20px;height:20px;border-radius:5px;background:#fff}
+.vplayer iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vnote{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff;padding:20px;font-size:.92rem;background:linear-gradient(145deg,#1b2a5a,#0a1f44)}
+@media (prefers-reduced-motion:no-preference){.vplayer iframe{animation:vin .35s ease}@keyframes vin{from{opacity:0}}}
+@media (max-width:480px){.vplay{width:62px;height:62px;margin:-31px 0 0 -31px}.vmeta b{font-size:1rem}}
+
 /* modal sheet */
 .modal{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
@@ -719,6 +740,10 @@ details.more[open] summary{margin-bottom:14px}
           </div>
           <div class="chart" id="chart"><div class="ch-tip" id="ch-tip" style="opacity:0"></div></div>
           <div class="ch-stats" id="ch-stats"></div>
+        </article>
+        <article class="tile full vtile" aria-labelledby="h-vid">
+          <div class="tile-h"><h3 id="h-vid">SAT practice video</h3><span class="chip vchip">Video lesson</span></div>
+          <div class="vplayer" id="vplayer"></div>
         </article>
         <article class="tile" aria-labelledby="h-q"><div class="tile-h"><h3 id="h-q">Questions</h3></div><span class="sub">Today</span><div id="t-q"></div></article>
         <article class="tile" aria-labelledby="h-t"><div class="tile-h"><h3 id="h-t">Practice time</h3></div><span class="sub">Today</span><div id="t-t"></div></article>
@@ -1328,6 +1353,20 @@ function mapPick(e){
   mmSel=mmSel===di?null:di; fDom=mmSel===null?null:d; play("select"); renderFormulas();
 }
 
+/* ---------- SAT practice video (official YouTube embed, loads on tap) ---------- */
+const VIDEO={id:"k2UZX09zwSQ",title:"SAT Practice",sub:"Watch, then try a hard set"};
+function renderVideo(){
+  const box=$("vplayer"); if(!box||box.dataset.ready)return; box.dataset.ready="1";
+  if(window.claude){ // the claude.ai preview cannot load outside players
+    box.innerHTML='<div class="vnote"><div><b style="font-size:1.1rem">'+esc(VIDEO.title)+'</b><br>This video plays on the student website.</div></div>';return;}
+  const logo=document.querySelector(".side .mark");
+  box.innerHTML='<button class="vposter" id="vposter" aria-label="Play video: '+esc(VIDEO.title)+'" style="background-image:url(https://i.ytimg.com/vi/'+VIDEO.id+'/hqdefault.jpg)">'+
+    '<span class="vplay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg></span>'+
+    '<span class="vmeta"><span><b>'+esc(VIDEO.title)+'</b><span>'+esc(VIDEO.sub)+'</span></span><span class="vlogo">'+(logo?'<img src="'+logo.getAttribute("src")+'" alt="">':'')+'SAT AIS</span></span></button>';
+  $("vposter").addEventListener("click",()=>{play("open");
+    box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO.id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="'+esc(VIDEO.title)+' video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';});
+}
+
 /* ---------- progress graph ---------- */
 let chMetric="q", chRange=7, chAnimate=true;
 function dayData(n){
@@ -1448,7 +1487,7 @@ function renderToday(){
   const nQ=today.length, nC=today.reduce((a,e)=>a+e[1],0), mins=Math.round(today.reduce((a,e)=>a+e[2],0)/60), cGoal=Math.max(1,Math.round(pf.qGoal*0.7));
   const css=getComputedStyle(document.documentElement), col=n=>css.getPropertyValue(n).trim()||"#888";
   const R=[{k:"Questions",v:nQ,g:pf.qGoal,u:"",color:col("--ring-q")},{k:"Correct",v:nC,g:cGoal,u:"",color:col("--ring-c")},{k:"Minutes",v:mins,g:pf.mGoal,u:"MIN",color:col("--ring-m")}];
-  ringData=R.map(x=>({...x,pct:x.v/x.g})); drawRings(); renderChart();
+  ringData=R.map(x=>({...x,pct:x.v/x.g})); drawRings(); renderChart(); renderVideo();
   const closed=R.filter(x=>x.v>=x.g).length;
   $("rings-note").textContent=closed===3?"All goals reached":closed?closed+" of 3 goals reached":"Goals reset at midnight";
   // score
