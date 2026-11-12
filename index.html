@@ -420,6 +420,8 @@ button.tile:hover{transform:translateY(-2px)}
 
 /* in-app video player */
 .vtile{gap:12px}
+.dxvideo{display:flex;flex-direction:column}
+.dxvideo .card-h{margin-bottom:0}
 .vchip{background:var(--accent-soft);color:var(--accent)}
 .vplayer{position:relative;width:100%;aspect-ratio:16/9;max-width:100%;border-radius:18px;overflow:hidden;background:#000;box-shadow:0 10px 30px rgba(0,0,0,.25)}
 .vposter{position:absolute;inset:0;border:0;padding:0;cursor:pointer;background:#0b0b0d center/cover no-repeat;display:block;width:100%;height:100%}
@@ -646,10 +648,10 @@ details.more[open] summary{margin-bottom:14px}
     transition:flex-grow .38s cubic-bezier(.3,1.25,.4,1),background-color .25s,color .25s;-webkit-tap-highlight-color:transparent}
   .tabbar a svg{width:25px;height:25px;flex:none;transition:transform .3s cubic-bezier(.3,1.4,.4,1)}
   .tabbar a .tl{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;transition:max-width .38s cubic-bezier(.3,1.1,.4,1),opacity .2s}
-  .tabbar a[aria-current="page"]{flex-grow:1.9;color:var(--bar-on);background:var(--bar-pill);box-shadow:inset 0 1px 0 var(--bar-edge)}
-  .tabbar a[aria-current="page"] .tl{max-width:90px;opacity:1}
+  .tabbar a[aria-current="page"]{flex:0 0 auto;padding:0 14px;color:var(--bar-on);background:var(--bar-pill);box-shadow:inset 0 1px 0 var(--bar-edge)}
+  .tabbar a[aria-current="page"] .tl{max-width:150px;opacity:1}
   .tabbar{max-width:560px}
-  @media (max-width:400px){.tabbar a{font-size:.8rem;gap:6px}.tabbar a svg{width:23px;height:23px}.tabbar a[aria-current="page"]{flex-grow:2.2}}
+  @media (max-width:400px){.tabbar a{font-size:.8rem;gap:6px}.tabbar a svg{width:23px;height:23px}.tabbar a[aria-current="page"]{padding:0 11px}}
   .tabbar a:active svg{transform:scale(.88)}
   .tabbar a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;box-shadow:none}
   .content{padding-block:22px calc(108px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -734,7 +736,6 @@ details.more[open] summary{margin-bottom:14px}
       <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
       <a href="#formulas" data-tab="formulas"><svg><use href="#i-formula"/></svg>Formulas</a>
       <a href="#desmos" data-tab="desmos"><svg><use href="#i-desmos"/></svg>Desmos Practice</a>
-      <a href="#progress" data-tab="progress"><svg><use href="#i-progress"/></svg>Progress</a>
       <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Question Bank</a>
     </nav>
     <div class="side-foot">
@@ -791,18 +792,6 @@ details.more[open] summary{margin-bottom:14px}
           <div class="chart" id="chart"><div class="ch-tip" id="ch-tip" style="opacity:0"></div></div>
           <div class="ch-stats" id="ch-stats"></div>
         </article>
-        <article class="tile full vtile" aria-labelledby="h-vid">
-          <div class="tile-h"><h3 id="h-vid">Full SAT Desmos guide</h3><span class="chip vchip">Video lesson</span></div>
-          <div class="vplayer" id="vplayer"></div>
-        </article>
-        <a class="tile full dxhero" href="#desmos" aria-labelledby="h-dx">
-          <div class="dxhero-in">
-            <span class="dxlogo"><svg aria-hidden="true"><use href="#i-desmos"/></svg></span>
-            <div style="min-width:0"><h3 id="h-dx">Desmos Practice</h3><p>Most SAT Math questions can be solved faster with the built-in Desmos calculator. Learn 27 techniques, drill with the Speed Trainer, and try every step yourself.</p></div>
-            <span class="btn small">Start</span>
-          </div>
-          <div class="dxchips"><span>Regression</span><span>Intersections</span><span>Sliders</span><span>Lists</span><span>Circles</span><span>Speed Trainer</span></div>
-        </a>
         <article class="tile" aria-labelledby="h-q"><div class="tile-h"><h3 id="h-q">Questions</h3></div><span class="sub">Today</span><div id="t-q"></div></article>
         <article class="tile" aria-labelledby="h-t"><div class="tile-h"><h3 id="h-t">Practice time</h3></div><span class="sub">Today</span><div id="t-t"></div></article>
         <article class="tile" aria-labelledby="h-s"><div class="tile-h"><h3 id="h-s">Streak</h3></div><span class="sub">Days in a row</span><div id="t-s"></div></article>
@@ -915,7 +904,12 @@ details.more[open] summary{margin-bottom:14px}
     </section>
 
     <section class="page fade" id="v-desmos" hidden>
-      <div class="ptitle"><a href="#today" class="backlink">‹ Summary</a><span class="eyebrow">Built-in graphing calculator</span><h1>Desmos Practice</h1><p>The Digital SAT includes the Desmos graphing calculator on every Math question. These techniques turn long algebra into a few keystrokes.</p></div>
+      <div class="ptitle"><span class="eyebrow">Built-in graphing calculator</span><h1>Desmos Practice</h1><p>The Digital SAT includes the Desmos graphing calculator on every Math question, and most Math questions can be solved faster with it. Watch the guide, learn 27 techniques, drill with the Speed Trainer, and try every step yourself.</p></div>
+      <article class="card vtile dxvideo" aria-labelledby="h-vid">
+          <div class="card-h"><h2 id="h-vid">Full SAT Desmos guide</h2><span class="chip vchip">Video lesson</span></div>
+          <div class="vplayer" id="vplayer"></div>
+        </article>
+
       <div class="list seg-pad dxseg"><div class="segmented" id="dx-tab">
         <button data-v="learn" aria-pressed="true">Techniques</button><button data-v="trainer" aria-pressed="false">Speed Trainer</button><button data-v="calc" aria-pressed="false">Calculator</button>
       </div></div>
@@ -940,7 +934,7 @@ details.more[open] summary{margin-bottom:14px}
     <a href="#today" data-tab="today" aria-label="Summary"><svg aria-hidden="true"><use href="#i-summary"/></svg><span class="tl">Summary</span></a>
     <a href="#practice" data-tab="practice" aria-label="Practice"><svg aria-hidden="true"><use href="#i-practice"/></svg><span class="tl">Practice</span></a>
     <a href="#formulas" data-tab="formulas" aria-label="Formulas"><svg aria-hidden="true"><use href="#i-formula"/></svg><span class="tl">Formulas</span></a>
-    <a href="#progress" data-tab="progress" aria-label="Progress"><svg aria-hidden="true"><use href="#i-progress"/></svg><span class="tl">Progress</span></a>
+    <a href="#desmos" data-tab="desmos" aria-label="Desmos Practice"><svg aria-hidden="true"><use href="#i-desmos"/></svg><span class="tl">Desmos Practice</span></a>
     <a href="#bank" data-tab="bank" aria-label="Bank"><svg aria-hidden="true"><use href="#i-bank"/></svg><span class="tl">Bank</span></a>
   </nav>
 </div>
@@ -1499,6 +1493,7 @@ const DXCALC="https://www.desmos.com/calculator", DXTRAINER="https://sceptrell.g
 const embedOK=()=>!window.claude;
 function dxNorm(v){v=String(v).trim().replace(/−/g,"-").replace(/\s+/g,"");const m=v.match(/^(-?\d+)\/(\d+)$/);return m?(+m[1])/(+m[2]):parseFloat(v);}
 function renderDesmos(){
+  renderVideo();
   document.querySelectorAll("#dx-tab button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===dxTab));
   ["learn","trainer","calc"].forEach(t=>$("dx-"+t).hidden=t!==dxTab);
   if(dxTab==="learn"&&!$("dx-learn").dataset.ready){$("dx-learn").dataset.ready=1;
@@ -1639,7 +1634,7 @@ function renderToday(){
   const nQ=today.length, nC=today.reduce((a,e)=>a+e[1],0), mins=Math.round(today.reduce((a,e)=>a+e[2],0)/60), cGoal=Math.max(1,Math.round(pf.qGoal*0.7));
   const css=getComputedStyle(document.documentElement), col=n=>css.getPropertyValue(n).trim()||"#888";
   const R=[{k:"Questions",v:nQ,g:pf.qGoal,u:"",color:col("--ring-q")},{k:"Correct",v:nC,g:cGoal,u:"",color:col("--ring-c")},{k:"Minutes",v:mins,g:pf.mGoal,u:"MIN",color:col("--ring-m")}];
-  ringData=R.map(x=>({...x,pct:x.v/x.g})); drawRings(); renderChart(); renderVideo();
+  ringData=R.map(x=>({...x,pct:x.v/x.g})); drawRings(); renderChart();
   const closed=R.filter(x=>x.v>=x.g).length;
   $("rings-note").textContent=closed===3?"All goals reached":closed?closed+" of 3 goals reached":"Goals reset at midnight";
   // score
