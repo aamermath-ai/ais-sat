@@ -489,6 +489,31 @@ button.tile:hover{transform:translateY(-2px)}
 @media (max-width:600px){.dxhero-in{grid-template-columns:auto minmax(0,1fr)}.dxhero-in .btn{grid-column:1/-1}
   .dxside{left:0;right:0;bottom:0;width:100%;height:78vh;border-radius:22px 22px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}}
 
+/* test-day calculator + reference */
+.calcpane{position:fixed;z-index:6;left:0;top:var(--sheet-top,92px);bottom:var(--sheet-bar,72px);width:var(--calc-w,440px);background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;box-shadow:8px 0 30px rgba(0,0,0,.12)}
+.calc-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px 8px 14px;background:#2EB85C;color:#fff;font-weight:700;font-size:.86rem}
+.calc-h span{display:inline-flex;align-items:center;gap:8px}
+.calc-h .ico{width:18px;height:18px}
+.calc-btns button{border:0;background:rgba(255,255,255,.22);color:#fff;border-radius:999px;width:30px;height:30px;font-size:.95rem;margin-left:4px}
+.calc-body{flex:1;min-height:0;position:relative;background:#fff}
+.calc-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.calc-note{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:#333;font-size:.92rem}
+.calc-drag{position:absolute;top:0;right:-5px;width:10px;height:100%;cursor:ew-resize}
+.calc-drag::after{content:"";position:absolute;top:50%;left:3px;width:4px;height:44px;margin-top:-22px;border-radius:2px;background:rgba(0,0,0,.25)}
+#sheet.calc-on .sheet-body{margin-left:calc(var(--calc-w,440px) + 8px);max-width:none;width:auto}
+.refsheet{max-width:760px}
+.refgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;--fc:var(--accent)}
+.refitem{background:var(--surface);border-radius:14px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.refitem .dg{max-width:150px}
+.refitem .m{font-size:.98rem;white-space:normal}
+.reffacts{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:.9rem;color:var(--ink-2)}
+@media (max-width:900px){
+  .calcpane{left:0;right:0;width:auto;top:auto;bottom:var(--sheet-bar,72px);height:50vh;border-right:0;border-top:1px solid var(--line);border-radius:20px 20px 0 0;overflow:hidden;box-shadow:0 -12px 40px rgba(0,0,0,.25)}
+  .calc-drag,#calc-wide{display:none}
+  #sheet.calc-on .sheet-body{margin-left:auto;padding-bottom:50vh}
+  .refgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 /* modal sheet */
 .modal{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
@@ -523,6 +548,11 @@ button.tile:hover{transform:translateY(-2px)}
 .sheet-top{position:sticky;top:0;z-index:5;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);
   padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .sheet-top-in{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px}
+.qtools{display:flex;align-items:center;gap:8px}
+.toolbtn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;padding:7px 12px;background:var(--fill);color:var(--ink-2);font-weight:600;font-size:.84rem}
+.toolbtn .ico{width:17px;height:17px}
+.toolbtn[aria-pressed="true"]{background:#2EB85C;color:#fff}
+@media (max-width:600px){.toolbtn span{display:none}.toolbtn{padding:8px}.sheet-top-in{gap:8px}.qcount{font-size:.85rem}}
 .iconbtn{width:36px;height:36px;border-radius:50%;border:0;background:var(--fill);display:grid;place-items:center;color:var(--ink-2)}
 .iconbtn svg{width:16px;height:16px}
 .qcount{text-align:center;font-weight:600;font-size:.95rem}
@@ -955,6 +985,13 @@ details.more[open] summary{margin-bottom:14px}
   </form>
 </div>
 
+<div class="modal" id="m-ref" hidden role="dialog" aria-modal="true" aria-labelledby="mr-h">
+  <div class="msheet refsheet">
+    <div class="msheet-h"><h2 id="mr-h">Reference</h2><button type="button" class="iconbtn" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button></div>
+    <div id="ref-body"></div>
+  </div>
+</div>
+
 <div class="modal" id="m-aw" hidden role="dialog" aria-modal="true" aria-labelledby="ma-h">
   <div class="msheet">
     <div class="msheet-h"><h2 id="ma-h">Awards</h2><button type="button" class="iconbtn" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button></div>
@@ -967,10 +1004,15 @@ details.more[open] summary{margin-bottom:14px}
     <div class="sheet-top-in">
       <button class="iconbtn" id="quit" aria-label="End set"><svg><use href="#i-x"/></svg></button>
       <div class="qcount num" id="q-count">Question 1 of 10</div>
-      <span class="timer" id="q-timer">0:00</span>
+      <div class="qtools"><button class="toolbtn" id="t-calc" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-desmos"/></svg><span>Calculator</span></button><button class="toolbtn" id="t-ref" hidden><svg class="ico" aria-hidden="true"><use href="#i-formula"/></svg><span>Reference</span></button><span class="timer" id="q-timer">0:00</span></div>
     </div>
     <div class="segs" id="q-segs"></div>
   </div>
+  <aside class="calcpane" id="calcpane" hidden aria-label="Desmos graphing calculator">
+    <div class="calc-h"><span><svg class="ico" aria-hidden="true"><use href="#i-desmos"/></svg> Desmos Graphing Calculator</span><span class="calc-btns"><button id="calc-wide" aria-label="Expand calculator">⤢</button><button id="calc-x" aria-label="Close calculator">✕</button></span></div>
+    <div class="calc-body" id="calc-body"></div>
+    <div class="calc-drag" id="calc-drag" aria-hidden="true"></div>
+  </aside>
   <div class="sheet-body">
     <div class="qmeta"><span class="chip" id="q-sec">Math</span><span class="chip" id="q-level">Medium</span><span class="dom" id="q-dom"></span></div>
     <div class="split" id="q-split">
@@ -1514,6 +1556,38 @@ function dxOpenCalc(i){let p=$("dxside");if(!p){p=document.createElement("div");
     $("dxside-x").addEventListener("click",()=>{p.hidden=true;play("close");});}
   p.hidden=false;$("dxside-t").textContent="Desmos · Technique "+(i+1);play("open");}
 
+/* ---------- test-day tools: Desmos calculator + reference sheet ---------- */
+let calcOn=false, calcW=440;
+try{calcW=+localStorage.getItem("ais-calc-w")||440;}catch(e){}
+function sizeCalc(){const sh=$("sheet"),top=sh.querySelector(".sheet-top").getBoundingClientRect().height,bar=sh.querySelector(".sheet-bar").getBoundingClientRect().height;
+  sh.style.setProperty("--sheet-top",top+"px");sh.style.setProperty("--sheet-bar",bar+"px");sh.style.setProperty("--calc-w",Math.max(300,Math.min(calcW,innerWidth-420))+"px");}
+function showCalc(on){
+  const isMath=S&&S.cur&&S.cur.q.section==="math"; calcOn=on;
+  const vis=on&&isMath; $("calcpane").hidden=!vis; $("sheet").classList.toggle("calc-on",vis); $("t-calc").setAttribute("aria-pressed",vis);
+  if(vis){const body=$("calc-body");if(!body.dataset.ready){body.dataset.ready=1;
+      body.innerHTML=window.claude?'<div class="calc-note">The Desmos calculator opens on the student website.</div>':'<iframe src="https://www.desmos.com/calculator" title="Desmos graphing calculator" allow="clipboard-write"></iframe>';}
+    sizeCalc();}
+}
+function toolsFor(q){const m=q.section==="math";$("t-calc").hidden=!m;$("t-ref").hidden=!m;showCalc(calcOn);}
+function openReference(){
+  if(!$("ref-body").dataset.ready){$("ref-body").dataset.ready=1;
+    const it=(key,o,f)=>'<div class="refitem">'+DG.draw(key,o||{})+'<div class="m">'+f+'</div></div>';
+    $("ref-body").innerHTML='<div class="refgrid">'+
+      it("circle",{},v("A")+" = π"+v("r")+"<sup>2</sup><br>"+v("C")+" = 2π"+v("r"))+
+      it("rect",{},v("A")+" = "+v("lw"))+
+      it("tribh",{},v("A")+" = "+fr("1","2")+v("bh"))+
+      it("rtri",{},v("c")+"<sup>2</sup> = "+v("a")+"<sup>2</sup> + "+v("b")+"<sup>2</sup>")+
+      it("s30",{},"30°-60°-90°: "+v("x")+", "+v("x")+"√3, 2"+v("x"))+
+      it("s45",{},"45°-45°-90°: "+v("s")+", "+v("s")+", "+v("s")+"√2")+
+      it("box",{},v("V")+" = "+v("lwh"))+
+      it("cyl",{},v("V")+" = π"+v("r")+"<sup>2</sup>"+v("h"))+
+      it("sphere",{},v("V")+" = "+fr("4","3")+"π"+v("r")+"<sup>3</sup>")+
+      it("cone",{},v("V")+" = "+fr("1","3")+"π"+v("r")+"<sup>2</sup>"+v("h"))+
+      it("pyramid",{},v("V")+" = "+fr("1","3")+v("lwh"))+
+      '</div><div class="reffacts"><div>The number of degrees of arc in a circle is 360.</div><div>The number of radians of arc in a circle is 2π.</div><div>The sum of the measures in degrees of the angles of a triangle is 180.</div></div>';}
+  openModal("m-ref");
+}
+
 /* ---------- progress graph ---------- */
 let chMetric="q", chRange=7, chAnimate=true;
 function dayData(n){
@@ -1794,6 +1868,7 @@ function renderSegs(){
 }
 function renderQuestion(){
   const {q,order}=S.cur, i=S.items.length;
+  toolsFor(q);
   $("q-count").textContent="Question "+(i+1)+" of "+S.len;
   $("q-sec").textContent=SEC_NAME[q.section];
   const lv=$("q-level"); lv.className="chip l"+q.difficulty; lv.textContent=LEVEL[q.difficulty].name;
@@ -1901,7 +1976,7 @@ function renderPath(el,items,len){
 }
 
 function finish(msg){
-  clearInterval(timerId);
+  clearInterval(timerId); $("calcpane").hidden=true; $("sheet").classList.remove("calc-on");
   $("sheet").hidden=true;
   if(!S||!S.items.length){S=null;document.body.style.overflow="";return;}
   const n=S.items.length,c=S.items.filter(i=>i.correct).length;
@@ -1988,6 +2063,16 @@ $("dx-learn").addEventListener("click",e=>{
     $("dxf"+i).className="dxfb "+(ok?"ok":"no");$("dxf"+i).textContent=ok?"Correct ✓":"Not yet. Try the Desmos solution";play(ok?"correct":"wrong");}
 });
 $("dx-learn").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id&&e.target.id.startsWith("dxa"))e.target.parentNode.querySelector("[data-chk]").click();});
+
+$("t-calc").addEventListener("click",()=>{showCalc(!calcOn);play(calcOn?"open":"close");});
+$("calc-x").addEventListener("click",()=>{showCalc(false);play("close");});
+$("calc-wide").addEventListener("click",()=>{calcW=calcW<600?Math.round(innerWidth*0.55):440;try{localStorage.setItem("ais-calc-w",calcW);}catch(e){}sizeCalc();});
+$("t-ref").addEventListener("click",openReference);
+(()=>{let drag=false;const h=$("calc-drag");
+  h.addEventListener("pointerdown",e=>{drag=true;h.setPointerCapture(e.pointerId);document.body.style.userSelect="none";$("calc-body").style.pointerEvents="none";});
+  h.addEventListener("pointermove",e=>{if(!drag)return;calcW=Math.max(300,Math.min(e.clientX,innerWidth-420));sizeCalc();});
+  h.addEventListener("pointerup",()=>{drag=false;document.body.style.userSelect="";$("calc-body").style.pointerEvents="";try{localStorage.setItem("ais-calc-w",calcW);}catch(e){}});})();
+window.addEventListener("resize",()=>{if(!$("calcpane").hidden)sizeCalc();});
 
 /* ---------- summary events ---------- */
 $("rings").addEventListener("click",e=>{const svg=e.target.closest("svg");if(!svg)return;const r=svg.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width*170-85,dy=(e.clientY-r.top)/r.height*170-85,d=Math.hypot(dx,dy);
