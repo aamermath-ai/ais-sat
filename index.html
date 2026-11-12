@@ -439,6 +439,54 @@ button.tile:hover{transform:translateY(-2px)}
 @media (prefers-reduced-motion:no-preference){.vplayer iframe{animation:vin .35s ease}@keyframes vin{from{opacity:0}}}
 @media (max-width:480px){.vplay{width:62px;height:62px;margin:-31px 0 0 -31px}.vmeta b{font-size:1rem}}
 
+/* Desmos practice */
+.dxhero{text-decoration:none;color:var(--ink);gap:12px;background:radial-gradient(120% 140% at 0% 0%,rgba(46,184,92,.20),transparent 55%),radial-gradient(90% 120% at 100% 100%,rgba(43,120,227,.18),transparent 55%),var(--surface)}
+.dxhero-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center}
+.dxhero h3{font-size:1.25rem;font-weight:700;letter-spacing:-.02em}
+.dxhero p{font-size:.88rem;color:var(--ink-2);margin-top:4px;max-width:70ch}
+.dxlogo{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#2EB85C,#1F7A3D);box-shadow:0 6px 18px rgba(46,184,92,.35)}
+.dxlogo svg{width:34px;height:34px}
+.dxchips{display:flex;flex-wrap:wrap;gap:6px}
+.dxchips span{font-size:.74rem;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--fill);color:var(--ink-2)}
+.backlink{font-size:.88rem;font-weight:600;color:var(--accent);margin-bottom:4px}
+.dxseg{max-width:520px}
+.dxgrid{display:flex;flex-direction:column;gap:14px}
+.dxcard{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px;border-left:4px solid var(--fc)}
+.dxcard-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dxnum{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:.85rem;background:color-mix(in srgb,var(--fc) 18%,transparent);color:var(--fc);flex:none}
+.dxcard-h h3{font-size:1rem;font-weight:700;flex:1;min-width:0}
+.dxq{font-size:1rem;line-height:1.6}
+.dxq .fr{font-size:.92em}
+.dxans{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.dxans input{font:inherit;font-size:1rem;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);width:150px}
+.dxmc{display:flex;flex-direction:column;gap:8px}
+.dxmc button{text-align:left;border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 14px;font-size:.95rem}
+.dxmc button.right{border-color:var(--good-ring);background:var(--good-fill)}
+.dxmc button.wrong{border-color:var(--bad-ring);background:var(--bad-fill)}
+.dxfb{font-size:.88rem;font-weight:600}
+.dxfb.ok{color:var(--good)}.dxfb.no{color:var(--bad)}
+.dxsol{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#fff;color:#1d1d1f}
+.dxsol-top{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f2f2f2;border-bottom:1px solid #ddd;font-size:.78rem;font-weight:700;color:#555}
+.dxsol-top i{width:9px;height:9px;border-radius:50%;background:#2EB85C;display:inline-block}
+.dxrow{display:grid;grid-template-columns:30px 26px minmax(0,1fr);border-bottom:1px solid #e6e6e6;min-height:52px}
+.dxrow:last-child{border-bottom:0}
+.dxrow .n{background:#f5f5f5;color:#999;font-size:.7rem;padding:6px 0 0 6px}
+.dxrow .ic{display:grid;place-items:start center;padding-top:15px}
+.dxrow .ic b{width:16px;height:16px;border-radius:50%;display:block}
+.dxrow .ex{padding:12px 12px 10px 4px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.dxrow .ex .e{font-family:"Times New Roman",var(--f-read);font-size:1.12rem;overflow-wrap:anywhere}
+.dxrow .ex .o{align-self:flex-end;font-family:"Times New Roman",var(--f-read);font-size:.98rem;background:#eef3fb;border:1px solid #d6e2f5;border-radius:6px;padding:2px 9px;color:#1d1d1f}
+.dxrow .ex .w{font-size:.8rem;color:#666;font-family:var(--f-ui)}
+.dxtools{display:flex;gap:8px;flex-wrap:wrap}
+.dxframe{width:100%;border:0;border-radius:18px;background:#fff;box-shadow:var(--shadow);display:block}
+.dxcredit{font-size:.8rem;color:var(--muted);margin-top:8px}
+.dxside{position:fixed;z-index:65;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));width:min(520px,calc(100vw - 32px));height:min(560px,70vh);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35);background:#fff;display:flex;flex-direction:column}
+.dxside-h{display:flex;justify-content:space-between;align-items:center;padding:8px 10px 8px 14px;background:#2EB85C;color:#fff;font-weight:700;font-size:.9rem}
+.dxside-h button{border:0;background:rgba(255,255,255,.22);color:#fff;border-radius:999px;width:30px;height:30px;font-size:1rem}
+.dxside iframe{flex:1;border:0;width:100%}
+@media (max-width:600px){.dxhero-in{grid-template-columns:auto minmax(0,1fr)}.dxhero-in .btn{grid-column:1/-1}
+  .dxside{left:0;right:0;bottom:0;width:100%;height:78vh;border-radius:22px 22px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}}
+
 /* modal sheet */
 .modal{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
@@ -667,6 +715,7 @@ details.more[open] summary{margin-bottom:14px}
   <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-formula" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8 8h3.2M9.6 6.4v3.2M13 8.2h3M8.2 14.2l2.6 2.6M10.8 14.2l-2.6 2.6M13 14.6h3M13 16.6h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-desmos" viewBox="0 0 24 24"><path d="M3 12h18M12 3v18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".55"/><path d="M4 18c3.5-.3 5.3-11.6 8-11.6S16.6 17.7 20 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
   <symbol id="i-e" viewBox="0 0 24 24"><path d="M17.5 12.2H6.8M17.6 12.2c0-3.3-2.4-5.7-5.5-5.7-3.2 0-5.6 2.5-5.6 5.6s2.4 5.6 5.7 5.6c2 0 3.6-.8 4.7-2.3" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round"/><circle cx="19" cy="17.6" r="1.4" fill="#E0B25A"/></symbol>
 </svg>
 
@@ -684,6 +733,7 @@ details.more[open] summary{margin-bottom:14px}
       <a href="#today" data-tab="today"><svg><use href="#i-summary"/></svg>Summary</a>
       <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
       <a href="#formulas" data-tab="formulas"><svg><use href="#i-formula"/></svg>Formulas</a>
+      <a href="#desmos" data-tab="desmos"><svg><use href="#i-desmos"/></svg>Desmos Practice</a>
       <a href="#progress" data-tab="progress"><svg><use href="#i-progress"/></svg>Progress</a>
       <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Question Bank</a>
     </nav>
@@ -745,6 +795,14 @@ details.more[open] summary{margin-bottom:14px}
           <div class="tile-h"><h3 id="h-vid">Full SAT Desmos guide</h3><span class="chip vchip">Video lesson</span></div>
           <div class="vplayer" id="vplayer"></div>
         </article>
+        <a class="tile full dxhero" href="#desmos" aria-labelledby="h-dx">
+          <div class="dxhero-in">
+            <span class="dxlogo"><svg aria-hidden="true"><use href="#i-desmos"/></svg></span>
+            <div style="min-width:0"><h3 id="h-dx">Desmos Practice</h3><p>Most SAT Math questions can be solved faster with the built-in Desmos calculator. Learn 27 techniques, drill with the Speed Trainer, and try every step yourself.</p></div>
+            <span class="btn small">Start</span>
+          </div>
+          <div class="dxchips"><span>Regression</span><span>Intersections</span><span>Sliders</span><span>Lists</span><span>Circles</span><span>Speed Trainer</span></div>
+        </a>
         <article class="tile" aria-labelledby="h-q"><div class="tile-h"><h3 id="h-q">Questions</h3></div><span class="sub">Today</span><div id="t-q"></div></article>
         <article class="tile" aria-labelledby="h-t"><div class="tile-h"><h3 id="h-t">Practice time</h3></div><span class="sub">Today</span><div id="t-t"></div></article>
         <article class="tile" aria-labelledby="h-s"><div class="tile-h"><h3 id="h-s">Streak</h3></div><span class="sub">Days in a row</span><div id="t-s"></div></article>
@@ -854,6 +912,16 @@ details.more[open] summary{margin-bottom:14px}
         <div class="chips" id="f-dom"></div>
       </div>
       <div id="f-list" class="flist"></div>
+    </section>
+
+    <section class="page fade" id="v-desmos" hidden>
+      <div class="ptitle"><a href="#today" class="backlink">‹ Summary</a><span class="eyebrow">Built-in graphing calculator</span><h1>Desmos Practice</h1><p>The Digital SAT includes the Desmos graphing calculator on every Math question. These techniques turn long algebra into a few keystrokes.</p></div>
+      <div class="list seg-pad dxseg"><div class="segmented" id="dx-tab">
+        <button data-v="learn" aria-pressed="true">Techniques</button><button data-v="trainer" aria-pressed="false">Speed Trainer</button><button data-v="calc" aria-pressed="false">Calculator</button>
+      </div></div>
+      <div id="dx-learn"></div>
+      <div id="dx-trainer" hidden></div>
+      <div id="dx-calc" hidden></div>
     </section>
 
     <section class="page fade" id="v-bank" hidden>
@@ -1098,7 +1166,7 @@ function save(){
 function setConn(kind,text){$("conn").innerHTML='<span class="dot '+kind+'"></span>'+esc(text);}
 
 /* ---------- routing ---------- */
-const TABS=["today","practice","formulas","progress","bank"];
+const TABS=["today","practice","formulas","desmos","progress","bank"];
 function route(){
   const h=(location.hash||"").replace("#","");
   tab=TABS.includes(h)?h:"today";
@@ -1117,6 +1185,7 @@ function render(){
   if(tab==="progress")renderProgress();
   if(tab==="bank")renderBank();
   if(tab==="formulas")renderFormulas();
+  if(tab==="desmos")renderDesmos();
 }
 const dayKey=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
 function prof(){const p=progress.profile||{};return {name:p.name||"",target:p.target||1300,testDate:p.testDate||"",qGoal:p.qGoal||20,mGoal:p.mGoal||30};}
@@ -1366,6 +1435,89 @@ function renderVideo(){
   $("vposter").addEventListener("click",()=>{play("open");
     box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO.id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="'+esc(VIDEO.title)+' video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';});
 }
+
+/* ---------- Desmos Practice: 27 techniques, original problems ---------- */
+const DX=[
+ {k:"Regression for a hidden linear function",d:"Algebra",q:"The function h is defined by h(x) = "+fr("f(x) − 3","x + 5")+", where f is a linear function. If h(1) = 2 and h(3) = 4, what is the y-coordinate of the y-intercept of the graph of y = f(x)?",a:"5",
+  s:[["table",'x<sub>1</sub>: 1, 3 · y<sub>1</sub>: 2, 4',"Enter the two known points of h in a table."],["y<sub>1</sub> ~ "+fr("m x<sub>1</sub> + b − 3","x<sub>1</sub> + 5"),"m = 10 · b = 5","Replace f(x) with mx + b and regress; Desmos finds m and b."],["b","= 5","The y-intercept of f is b."]]},
+ {k:"Absolute value: graph both sides",d:"Advanced Math",q:"What is the sum of the solutions to |x + 3| = −|x + 3| + 12 ?",a:"-6",
+  s:[["y = |x + 3|","","Graph the left side."],["y = −|x + 3| + 12","","Graph the right side."],["Tap the intersections","(−9, 6) and (3, 6)","Read the x-values."],["−9 + 3","= −6","Add the solutions."]]},
+ {k:"Table + slider to find a constant",d:"Algebra",q:"The points (k, 20) and (k + 4, 8) lie on a line in the xy-plane. The y-intercept of the line is (k − 3, b). What is the value of b?",a:"29",
+  s:[["k = 3","","A y-intercept has x = 0, so k − 3 = 0 and k = 3."],["table",'x<sub>1</sub>: k, k + 4 · y<sub>1</sub>: 20, 8',"Desmos fills in the points (3, 20) and (7, 8)."],["y<sub>1</sub> ~ m x<sub>1</sub> + b","m = −3 · b = 29","Linear regression gives the intercept."]]},
+ {k:"Quadratic formula as a system",d:"Advanced Math",q:"The solutions of x² + bx + c = 0 are "+fr("−b + √(b² − 4c)","2")+" = 9 and "+fr("−b − √(b² − 4c)","2")+" = −4. What is the value of c?",a:"-36",
+  s:[[fr("−x + √(x² − 4y)","2")+" = 9","","Use x for b and y for c so Desmos can graph it."],[fr("−x − √(x² − 4y)","2")+" = −4","",""],["Tap the intersection","(−5, −36)","So b = −5 and c = −36."]]},
+ {k:"Vertex symmetry for x-intercepts",d:"Advanced Math",q:"A parabola has its vertex at (−2, 5). One x-intercept is (−31/4, 0). What is the x-coordinate of the other x-intercept?",a:"15/4",
+  s:[["2(−2) − (−31/4)","= 3.75","The x-intercepts are mirror images about the vertex line x = −2."],["Answer","15/4 (or 3.75)","Enter 15/4 or 3.75 in the grid."]]},
+ {k:"Square-root equations: graph to spot false roots",d:"Advanced Math",q:"What is the solution to √(2x + 11) = x − 2 ?",a:"7",
+  s:[["y = √(2x + 11)","",""],["y = x − 2","",""],["Tap the intersection","(7, 5)","Only one point appears; the algebraic root x = −1 is false."]]},
+ {k:"Factors from x-intercepts",d:"Advanced Math",q:"One factor of 3x³ + 39x² + 120x is x + b, where b is a positive constant. What is the smallest possible value of b?",a:"5",
+  s:[["y = 3x³ + 39x² + 120x","",""],["Tap the x-intercepts","(−8, 0), (−5, 0), (0, 0)","A zero at x = r means a factor x − r."],["Factors x + 8 and x + 5","b = 5 is smallest","b must be positive, so x itself (b = 0) doesn't count."]]},
+ {k:"Tangents + Pythagorean regression",d:"Geometry and Trigonometry",q:"A circle has center O and radius 20 cm. Segments PA and PB are tangent to the circle at A and B. The perimeter of quadrilateral OAPB is 82 cm. What is the distance OP, in centimeters?",a:"29",
+  s:[["82 / 2","= 41","Perimeter = 2 radii + 2 tangent lengths, so one radius + one tangent = 41."],["41 − 20","= 21","Each tangent segment is 21."],["a² ~ 20² + 21²","a = 29","Radius ⟂ tangent, so OP is a hypotenuse."]]},
+ {k:"Circle regression for constants",d:"Geometry and Trigonometry",q:"A circle in the xy-plane has center (3, −4) and radius 6. Its equation can be written x² + y² + ax + by + c = 0. What is the value of c?",a:"-11",
+  s:[["table",'x<sub>1</sub>: 9, −3, 3, 3 · y<sub>1</sub>: −4, −4, 2, −10',"List four points 6 units from the center."],["x<sub>1</sub>² + y<sub>1</sub>² + a x<sub>1</sub> + b y<sub>1</sub> + c ~ 0","a = −6 · b = 8 · c = −11","Regression finds all three constants."]]},
+ {k:"Complementary angles in degrees",d:"Geometry and Trigonometry",q:"For an acute angle x°, cos(x°) = 0.28. What is the value of sin(90° − x°) + cos(90° − x°)?",a:"1.24",
+  s:[["⚙ Settings → Degrees","","Switch Desmos to degree mode first."],["x = arccos(0.28)","≈ 73.74",""],["sin(90 − x) + cos(90 − x)","= 1.24","Check: sin(90 − x) = cos x = 0.28 and cos(90 − x) = sin x = 0.96."]]},
+ {k:"Regression for equivalent-expression constants",d:"Advanced Math",q:"(ax + 3)(2x − b) = 10x² − 4x − 6 for all values of x, where a and b are constants. What is a + b?",a:"7",
+  s:[["x<sub>1</sub> = [1...5]","",""],["y<sub>1</sub> = 10x<sub>1</sub>² − 4x<sub>1</sub> − 6","","Values of the known side."],["y<sub>1</sub> ~ (a x<sub>1</sub> + 3)(2x<sub>1</sub> − b)","a = 5 · b = 2",""],["a + b","= 7",""]]},
+ {k:"Growth factor over an interval",d:"Advanced Math",q:"The function f is defined by f(x) = 5(2)<sup>x/3</sup>. For each increase of x by c, the value of f(x) is multiplied by 16. What is c?",a:"12",
+  s:[["f(x) = 5(2)<sup>x/3</sup>","",""],[fr("f(1 + c)","f(1)")+" ~ 16","c = 12","Regression solves for c."]]},
+ {k:"List regression to factor a quartic",d:"Advanced Math",q:"6x⁴ + 29x² + 35 = (ax² + b)(cx² + d), where a, b, c and d are positive integers. What is ab + cd?",a:"31",
+  s:[["x<sub>1</sub> = [1...10]","",""],["y<sub>1</sub> = 6x<sub>1</sub>⁴ + 29x<sub>1</sub>² + 35","",""],["y<sub>1</sub> ~ (a x<sub>1</sub>² + b)(c x<sub>1</sub>² + d)","a = 2 · b = 5 · c = 3 · d = 7","Set starting values to positive numbers if Desmos returns decimals."],["ab + cd","= 31",""]]},
+ {k:"Equivalent exponential forms",d:"Advanced Math",q:"The function g is defined by g(x) = 7(4)<sup>x/2</sup>. Which equivalent form shows the factor by which g(x) is multiplied for each increase of 1 in x?",mc:["g(x) = 7(2)<sup>x</sup>","g(x) = 7(16)<sup>x</sup>","g(x) = 14(4)<sup>x</sup>","g(x) = 7(8)<sup>x/2</sup>"],
+  s:[["y = 7(4)<sup>x/2</sup>","",""],["y = 7(2)<sup>x</sup>","overlaps exactly","Graph each choice: the matching one lies on top of g."],["Check","4<sup>x/2</sup> = (4<sup>1/2</sup>)<sup>x</sup> = 2<sup>x</sup>",""]]},
+ {k:"Sequences with exponential regression",d:"Advanced Math",q:"The first term of a sequence is 5, and each term after the first is 3 times the preceding term. Which equation gives the nth term, w?",mc:["w = 5(3<sup>n−1</sup>)","w = 5(3<sup>n</sup>)","w = 3(5<sup>n−1</sup>)","w = 3(5<sup>n</sup>)"],
+  s:[["table",'x<sub>1</sub>: 1, 2, 3 · y<sub>1</sub>: 5, 15, 45',"Write out the first few terms."],["y<sub>1</sub> ~ a · b<sup>(x<sub>1</sub> − 1)</sup>","a = 5 · b = 3","So w = 5(3<sup>n−1</sup>)."]]},
+ {k:"Solve for an unknown percent",d:"Problem-Solving and Data Analysis",q:"A price is increased by p%, and then the new price is decreased by 20%. The final price is 96% of the original price. What is p?",a:"20",
+  s:[["(1 + p/100)(0.8) ~ 0.96","p = 20","Regression solves one-variable equations instantly."]]},
+ {k:"Word problem as a one-variable regression",d:"Algebra",q:"A phone plan costs $18 per month plus $0.05 per text message. Ana's bill for one month was $25.75. How many text messages did she send?",a:"155",
+  s:[["18 + 0.05t ~ 25.75","t = 155","Type the equation with ~ and read the parameter."]]},
+ {k:"Percent of an unknown",d:"Problem-Solving and Data Analysis",q:"The number 84 is 35% of what number?",a:"240",
+  s:[["0.35n ~ 84","n = 240",""]]},
+ {k:"Line–parabola intersection",d:"Advanced Math",q:"The graphs of y = x² − 4x + 1 and y = 2x − 8 intersect at exactly one point (a, b). What is a + b?",a:"1",
+  s:[["y = x² − 4x + 1","",""],["y = 2x − 8","","The line just touches the parabola."],["Tap the point","(3, −2)",""],["3 + (−2)","= 1",""]]},
+ {k:"Discriminant equal to zero",d:"Advanced Math",q:"In the equation 2x² + bx + 18 = 0, b is a positive constant. The equation has exactly one real solution. What is b?",a:"12",
+  s:[["b² − 4(2)(18) ~ 0","b = 12","If Desmos shows b = −12, give b a positive starting value (b = 5) and regress again."]]},
+ {k:"Spot the equation with no real solutions",d:"Advanced Math",q:"Which equation has no real solutions?",mc:["x² − 6x + 10 = 0","x² − 6x + 9 = 0","x² − 6x + 5 = 0","x² + 6x − 10 = 0"],
+  s:[["y = x² − 6x + 10","never touches the x-axis","Graph each left side; no x-intercept means no real solution."],["Other choices","cross or touch the x-axis",""]]},
+ {k:"Vertex + intercepts: test the options",d:"Advanced Math",q:"A parabola has vertex (4, −9) and crosses the x-axis at two points. Its equation is y = ax² + bx + c. Which of the following could be the value of a + b + c?",mc:["−6","−9.5","−10","−12"],
+  s:[["f(x) = a(x − 4)² − 9","","Two x-intercepts with a minimum at −9 means a > 0."],["a = 1 (slider, a > 0)","",""],["f(1)","= 9a − 9","a + b + c is just f(1). With a > 0, f(1) > −9."],["Only −6 is greater than −9","",""]]},
+ {k:"Quadratic regression from a story",d:"Advanced Math",q:"A ball is kicked from ground level. It reaches a maximum height of 900 feet 7.5 seconds after it is kicked, and it lands 15 seconds after it is kicked. According to a quadratic model, what is the ball's height, in feet, 12 seconds after it is kicked?",a:"576",
+  s:[["table",'x<sub>1</sub>: 0, 7.5, 15 · y<sub>1</sub>: 0, 900, 0',""],["y<sub>1</sub> ~ a x<sub>1</sub>² + b x<sub>1</sub> + c","a = −16 · b = 240 · c = 0",""],["f(x) = −16x² + 240x","",""],["f(12)","= 576",""]]},
+ {k:"Radius of a non-standard circle equation",d:"Geometry and Trigonometry",q:"In the xy-plane, the graph of 4x² + 24x + 4y² − 16y = 92 is a circle. What is the radius of the circle?",a:"6",
+  s:[["4x² + 24x + 4y² − 16y = 92","circle centered at (−3, 2)","Graph it exactly as written."],["distance((−3, 2), (3, 2))","= 6","Measure from the center to any point on the circle."]]},
+ {k:"Quadratic from three points",d:"Advanced Math",q:"A quadratic function f satisfies f(0) = 5, f(1) = 2 and f(2) = 3. What is f(4)?",a:"17",
+  s:[["table",'x<sub>1</sub>: 0, 1, 2 · y<sub>1</sub>: 5, 2, 3',""],["y<sub>1</sub> ~ a x<sub>1</sub>² + b x<sub>1</sub> + c","a = 2 · b = −5 · c = 5",""],["2(4)² − 5(4) + 5","= 17",""]]},
+ {k:"Sum of solutions from intersections",d:"Advanced Math",q:"What is the sum of the solutions to (x − 5)(2x + 3) = 4x − 1 ?",a:"11/2",
+  s:[["y = (x − 5)(2x + 3)","",""],["y = 4x − 1","",""],["Tap the intersections","x ≈ −1.066 and x ≈ 6.566",""],["−1.066 + 6.566","= 5.5 = 11/2","Exact check: 2x² − 11x − 14 = 0, so the sum is 11/2."]]},
+ {k:"Solve a 4-variable system with list regression",d:"Algebra",q:"2a + b = 7, a − c = −1, b + c + d = 10 and a + d = 6. What is the value of bd?",a:"12",
+  s:[["[2a + b, a − c, b + c + d, a + d] ~ [7, −1, 10, 6]","a = 2 · b = 3 · c = 3 · d = 4","One list regression solves the whole system."],["bd","= 12",""]]}
+];
+
+let dxTab="learn";
+const DXCALC="https://www.desmos.com/calculator", DXTRAINER="https://sceptrell.github.io/DesmosSpeedTrainer/";
+const embedOK=()=>!window.claude;
+function dxNorm(v){v=String(v).trim().replace(/−/g,"-").replace(/\s+/g,"");const m=v.match(/^(-?\d+)\/(\d+)$/);return m?(+m[1])/(+m[2]):parseFloat(v);}
+function renderDesmos(){
+  document.querySelectorAll("#dx-tab button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===dxTab));
+  ["learn","trainer","calc"].forEach(t=>$("dx-"+t).hidden=t!==dxTab);
+  if(dxTab==="learn"&&!$("dx-learn").dataset.ready){$("dx-learn").dataset.ready=1;
+    $("dx-learn").innerHTML='<div class="dxgrid">'+DX.map((x,i)=>{const col=DCOLOR[x.d];
+      const ans=x.mc?'<div class="dxmc" data-i="'+i+'">'+shuffle(x.mc.map((c,j)=>[c,j])).map(([c,j],k)=>'<button data-j="'+j+'"><b style="margin-right:8px">'+"ABCD"[k]+'</b>'+c+'</button>').join("")+'</div>':
+        '<div class="dxans"><input id="dxa'+i+'" placeholder="Your answer" inputmode="decimal" autocomplete="off"><button class="btn small" data-chk="'+i+'">Check</button><span class="dxfb" id="dxf'+i+'"></span></div>';
+      return '<article class="dxcard" style="--fc:'+col+'"><div class="dxcard-h"><span class="dxnum">'+(i+1)+'</span><h3>'+esc(x.k)+'</h3><span class="chip" style="font-size:.7rem">'+esc(DSHORT[x.d]||x.d)+'</span></div>'+
+        '<div class="dxq">'+x.q+'</div>'+ans+(x.mc?'<span class="dxfb" id="dxf'+i+'"></span>':'')+
+        '<div class="dxtools"><button class="btn small plain" data-sol="'+i+'">Show Desmos solution</button>'+(embedOK()?'<button class="btn small plain" data-try="'+i+'">Try it in Desmos</button>':'')+'</div><div id="dxs'+i+'" hidden></div></article>';}).join("")+'</div>';}
+  if(dxTab==="trainer"&&!$("dx-trainer").dataset.ready){$("dx-trainer").dataset.ready=1;
+    $("dx-trainer").innerHTML=embedOK()?'<iframe class="dxframe" style="height:min(78vh,820px)" src="'+DXTRAINER+'" title="Desmos Speed Trainer" loading="lazy" allow="clipboard-write; fullscreen"></iframe><p class="dxcredit">Desmos Speed Trainer, a free community tool by sceptrell, embedded for practice.</p>':'<div class="card empty">The Speed Trainer opens on the student website.</div>';}
+  if(dxTab==="calc"&&!$("dx-calc").dataset.ready){$("dx-calc").dataset.ready=1;
+    $("dx-calc").innerHTML=embedOK()?'<iframe class="dxframe" style="height:min(78vh,760px)" src="'+DXCALC+'" title="Desmos graphing calculator" loading="lazy" allow="clipboard-write; fullscreen"></iframe><p class="dxcredit">The same Desmos graphing calculator that is built into the SAT.</p>':'<div class="card empty">The calculator opens on the student website.</div>';}
+}
+function dxSolution(i){const x=DX[i],cols=["#2D70B3","#C74440","#388C46","#6042A6","#FA7E19","#000000"];
+  return '<div class="dxsol"><div class="dxsol-top"><i></i>Desmos solution</div>'+x.s.map((r,j)=>'<div class="dxrow"><span class="n">'+(j+1)+'</span><span class="ic">'+(r[0]==="table"||/^Tap|^Answer|^Check|^Only|^Other|^Factors|^⚙/.test(r[0])?'':'<b style="background:'+cols[j%cols.length]+'"></b>')+'</span><span class="ex"><span class="e">'+(r[0]==="table"?'<b style="font-family:var(--f-ui);font-size:.8rem;color:#666">TABLE</b> '+r[1]:r[0])+'</span>'+(r[0]!=="table"&&r[1]?'<span class="o">'+r[1]+'</span>':'')+(r[2]?'<span class="w">'+r[2]+'</span>':'')+'</span></div>').join("")+'</div>';}
+function dxOpenCalc(i){let p=$("dxside");if(!p){p=document.createElement("div");p.id="dxside";p.className="dxside";p.innerHTML='<div class="dxside-h"><span id="dxside-t">Desmos</span><button aria-label="Close calculator" id="dxside-x">✕</button></div><iframe src="'+DXCALC+'" title="Desmos graphing calculator" allow="clipboard-write"></iframe>';document.body.appendChild(p);
+    $("dxside-x").addEventListener("click",()=>{p.hidden=true;play("close");});}
+  p.hidden=false;$("dxside-t").textContent="Desmos · Technique "+(i+1);play("open");}
 
 /* ---------- progress graph ---------- */
 let chMetric="q", chRange=7, chAnimate=true;
@@ -1830,6 +1982,17 @@ $("mindmap").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.p
 $("f-q").addEventListener("input",()=>renderFormulas());
 $("f-dom").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fDom=b.dataset.v||null;mmSel=fDom?DOMAINS.math.indexOf(fDom):null;play("select");renderFormulas();});
 $("f-list").addEventListener("click",e=>{const b=e.target.closest("[data-prac]");if(!b)return;opts.mode="math";opts.domain=b.dataset.dom;opts.skill=b.dataset.prac;opts.level="adaptive";location.hash="#practice";});
+
+$("dx-tab").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;dxTab=b.dataset.v;play("select");renderDesmos();});
+$("dx-learn").addEventListener("click",e=>{
+  const sol=e.target.closest("[data-sol]"),tr=e.target.closest("[data-try]"),chk=e.target.closest("[data-chk]"),mc=e.target.closest(".dxmc button");
+  if(sol){const i=+sol.dataset.sol,box=$("dxs"+i);if(box.hidden){box.innerHTML=dxSolution(i);box.hidden=false;sol.textContent="Hide Desmos solution";}else{box.hidden=true;sol.textContent="Show Desmos solution";}play("select");}
+  if(tr)dxOpenCalc(+tr.dataset.try);
+  if(chk){const i=+chk.dataset.chk,v=dxNorm($("dxa"+i).value),ok=Math.abs(v-dxNorm(DX[i].a))<0.006;$("dxf"+i).className="dxfb "+(ok?"ok":"no");$("dxf"+i).textContent=isNaN(v)?"Enter a number":ok?"Correct ✓":"Not yet. Try the Desmos solution";play(ok?"correct":"wrong");}
+  if(mc){const box=mc.closest(".dxmc"),i=+box.dataset.i,ok=mc.dataset.j==="0";box.querySelectorAll("button").forEach(b=>b.classList.remove("right","wrong"));mc.classList.add(ok?"right":"wrong");
+    $("dxf"+i).className="dxfb "+(ok?"ok":"no");$("dxf"+i).textContent=ok?"Correct ✓":"Not yet. Try the Desmos solution";play(ok?"correct":"wrong");}
+});
+$("dx-learn").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id&&e.target.id.startsWith("dxa"))e.target.parentNode.querySelector("[data-chk]").click();});
 
 /* ---------- summary events ---------- */
 $("rings").addEventListener("click",e=>{const svg=e.target.closest("svg");if(!svg)return;const r=svg.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width*170-85,dy=(e.clientY-r.top)/r.height*170-85,d=Math.hypot(dx,dy);
