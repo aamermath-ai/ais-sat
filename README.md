@@ -3,7 +3,9 @@
 Free adaptive Digital SAT practice for AIS students.
 Mathematics Department, American International School.
 
-**Open the app:** see the GitHub Pages link in this repository's About section.
+**Open the app:** https://aamermath-ai.github.io/ais-sat/
+
+**Handing over or editing the site? Start with [HANDOVER.md](HANDOVER.md).** The editable source and the full question bank are in `source/`.
 
 ## What it does
 - Practice the whole syllabus, Reading & Writing, or Math, optionally focused on one of the eight Digital SAT content domains.
