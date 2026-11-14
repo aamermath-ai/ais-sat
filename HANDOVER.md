@@ -13,9 +13,9 @@ A free Digital SAT practice website for students of the American International S
 | Section | What students get |
 |---|---|
 | **Summary** | Animated daily rings (questions, correct answers, minutes), an estimated SAT score, a progress graph, streaks, awards, a test-day countdown and a "Dream big" card with a motivating quote |
-| **Practice** | Timed adaptive sets (whole syllabus, Math or Reading & Writing; by domain or skill). All served questions are SAT Hard level, with the hardest first. Built-in Desmos calculator and reference sheet, as on test day. Step-by-step solutions after every wrong answer |
+| **Practice** | Timed adaptive sets (whole syllabus, Math or Reading & Writing; by domain or skill). Each set opens in its own **test window** (full screen on computers) that warns students if they leave it and records each time in the results. All served questions are SAT Hard level, with the hardest first. Built-in Desmos calculator and reference sheet, as on test day. Step-by-step solutions after every wrong answer |
 | **Formulas** | The SAT Math formula sheet with geometry diagrams, plus a mind map of every Math subtopic |
-| **Desmos Practice** | The *Full SAT Desmos Guide* video, 27 Desmos techniques with worked solutions, the Desmos Speed Trainer and a full Desmos calculator |
+| **Desmos Practice** | The *Full SAT Desmos Guide* video, plus three tools that each open in their own window: 27 Desmos techniques with worked solutions (each with a "Try it in Desmos" calculator window beside it), the Desmos Speed Trainer and the Desmos calculator |
 | **Universities** | SAT ranges and scholarships at 50 universities (20 US, 20 UK, 10 UAE), with a score slider, a nationality filter for 10 countries and links to every official website |
 | **Question Bank** | Browse every question by skill |
 
@@ -32,17 +32,20 @@ Themes: Night (animated beach video), Auto, Light, Dark. Sounds can be switched 
 ```
 index.html               the website (generated from source/emir.html; do not edit by hand)
 admin.html               private usage dashboard (needs your admin key; see section 7)
-questions.json           questions served to students (Hard level only, 403)
-data/questions-all.json  the full bank: 1,229 questions (1,069 Math, 160 R&W; easy, medium, hard)
+questions.json           questions served to students (Hard level only: 2,956; 2,845 Math, 111 R&W)
+data/questions-all.json  the full bank: 3,782 questions (3,562 Math, 220 R&W; easy, medium, hard)
 assets/                  background video (720p and 1080p) and its poster image
 logo.png, apple-touch-icon.png
 tools/                   copies of the Math question generator and the figure builder
 source/                  EVERYTHING NEEDED TO EDIT AND REBUILD THE SITE
   emir.html              the master source of the app (edit this one)
   build.py               rebuilds the website from source/
-  bank/                  274 hand-written questions, one JSON file each
-  generated_math.json    955 generated Math questions
+  bank/                  334 hand-written questions, one JSON file each
+  rw_batch3a.py, rw_batch3b.py   the latest 60 SAT-Hard Reading & Writing questions (they write into bank/)
+  generated_math.json    955 generated Math questions (easy, medium, hard)
+  generated_math_hard2.json  2,493 more SAT-Hard Math questions (made by gen_more_math.py)
   gen_math.py            the Math question generator (exact answers, worked steps)
+  gen_more_math.py       makes extra Hard Math questions without repeating existing ones
   figures.py             attaches geometry diagrams to questions
   admin.html             source of the usage dashboard
   analytics/Code.gs      the statistics backend (Google Apps Script)
@@ -64,7 +67,9 @@ You need Python 3 (free) on any computer.
 
 **Adding a question:** add a JSON file to `source/bank/` (format in `README.md`), then rebuild. Only questions with `"difficulty": 3` are served to students, because of the student feedback asking for Hard-only practice. To serve all levels, remove the line marked `the website serves Hard-level questions only` in `source/build.py`.
 
-**More Math questions:** `python3 source/gen_math.py` (see the comments at the top of the file).
+**More Math questions:** `python3 source/gen_more_math.py` makes another set of Hard questions with no repeats (change `TARGET` and `seed` inside it), or use `source/gen_math.py` for all levels.
+
+**About the test window:** a website cannot physically stop students switching apps, so the test window works by *detecting and warning*. Leaving the window, switching tabs or apps, or exiting full screen shows a warning and is counted in the results. For real exams, a locked-down browser on school-managed devices (for example Safe Exam Browser, or Bluebook for official SAT practice) is the only true lockdown.
 
 **University and scholarship data:** it is the `const UNIS=[...]` list in `source/emir.html`. It was checked in November 2026 and **should be reviewed every year** (for example each September), because score ranges, testing policies, scholarships and deadlines change.
 

@@ -9,6 +9,8 @@ for f in sorted(os.listdir(S+'/bank')):
     q['source']=q.get('source','').replace('Emir original item','SAT AIS original item'); qs.append(q)
 gen=os.path.join(S,'generated_math.json')
 if os.path.exists(gen): qs+=json.load(open(gen))
+gen2=os.path.join(S,'generated_math_hard2.json')   # extra SAT-Hard Math (source/gen_more_math.py)
+if os.path.exists(gen2): qs+=json.load(open(gen2))
 sys.path.insert(0,S); from figures import figure_for
 for q in qs:
     f=figure_for(q)

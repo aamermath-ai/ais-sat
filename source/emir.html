@@ -756,6 +756,39 @@ details.more[open] summary{margin-bottom:14px}
 .etag{font-style:normal;font-size:.74rem;font-weight:700;color:var(--muted)}
 .el-yes .etag{color:var(--good)}.el-no .etag{color:var(--bad)}.el-maybe .etag{color:var(--warn)}
 .sfit{font-size:.76rem;font-weight:700;color:var(--warn)}.sfit.ok{color:var(--good)}
+
+/* ---------- Desmos launch tiles ---------- */
+.dxlaunch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.dxlaunch button{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:18px;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);color:var(--ink);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.dxlaunch button:hover{transform:translateY(-2px)}
+.dxlaunch .dl-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#2EB85C,#1E8E4A);color:#fff;font-size:1.2rem;font-weight:800}
+.dxlaunch .dl-ic .ico{width:22px;height:22px}
+.dxlaunch b{font-family:var(--f-display);font-size:1.1rem;letter-spacing:-.02em}
+.dxlaunch .dl-d{font-size:.84rem;color:var(--muted)}
+.dxlaunch .dl-o{font-style:normal;font-size:.8rem;font-weight:700;color:var(--accent);margin-top:auto}
+[data-theme="night"] .dxlaunch button{backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%)}
+@media (max-width:860px){.dxlaunch{grid-template-columns:minmax(0,1fr)}}
+/* techniques window (?view=dx): only the technique cards */
+html.solo-dx .side,html.solo-dx .tabbar,html.solo-dx .mhead,html.solo-dx #dx-tab,html.solo-dx #v-desmos .vcard,html.solo-dx #v-desmos .vplayer{display:none!important}
+html.solo-dx #v-desmos article:has(#vplayer){display:none!important}
+html.solo-dx .app{grid-template-columns:minmax(0,1fr)}
+html.solo-dx .content{padding-bottom:40px}
+/* ---------- test window ---------- */
+html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
+.lockgate,.lockwarn,.lockaway{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(4,7,16,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.lockwarn{z-index:95;background:rgba(40,4,10,.62)}
+.lock-card{width:min(560px,100%);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+[data-theme="night"] .lock-card{background:rgba(10,15,30,.94)}
+.lock-k{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.lock-card h2{font-family:var(--f-display);font-size:1.6rem;letter-spacing:-.03em}
+.lock-sum{font-weight:700;color:var(--ink-2)}
+.lock-rules{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink-2);font-size:.92rem}
+.lock-note{font-size:.84rem;color:var(--muted)}
+.lock-btns{display:flex;gap:10px;flex-wrap:wrap}
+.lock-card.warn{border-color:color-mix(in srgb,var(--bad) 55%,transparent);align-items:center;text-align:center}
+.lw-ico{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--bad);color:#fff;font-size:1.8rem;font-weight:900}
+@media (prefers-reduced-motion:no-preference){.lockwarn .lock-card{animation:lwshake .45s cubic-bezier(.36,.07,.19,.97)}}
+@keyframes lwshake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
 /* ---------- NIGHT WALK theme: live bioluminescent-beach video behind frosted glass ---------- */
 :root[data-theme="night"]{
   --bg:#060914; --surface:rgba(14,20,40,.50); --fill:rgba(120,170,255,.10); --fill-2:rgba(120,170,255,.16);
@@ -1109,9 +1142,11 @@ details.more[open] summary{margin-bottom:14px}
           <div class="vplayer" id="vplayer"></div>
         </article>
 
-      <div class="list seg-pad dxseg"><div class="segmented" id="dx-tab">
-        <button data-v="learn" aria-pressed="true">Techniques</button><button data-v="trainer" aria-pressed="false">Speed Trainer</button><button data-v="calc" aria-pressed="false">Calculator</button>
-      </div></div>
+      <div class="dxlaunch" id="dx-tab" role="group" aria-label="Desmos tools">
+        <button data-v="learn" aria-pressed="false"><span class="dl-ic" aria-hidden="true"><svg class="ico"><use href="#i-desmos"/></svg></span><b>Techniques</b><span class="dl-d">27 Desmos techniques with worked solutions and a calculator beside you</span><i class="dl-o">Opens in a new window ↗</i></button>
+        <button data-v="trainer" aria-pressed="false"><span class="dl-ic" aria-hidden="true">⚡</span><b>Speed Trainer</b><span class="dl-d">Timed drills to make your Desmos moves fast and automatic</span><i class="dl-o">Opens in a new window ↗</i></button>
+        <button data-v="calc" aria-pressed="false"><span class="dl-ic" aria-hidden="true">ƒ</span><b>Try in Desmos</b><span class="dl-d">The same Desmos graphing calculator that is built into the SAT</span><i class="dl-o">Opens in a new window ↗</i></button>
+      </div>
       <div id="dx-learn"></div>
       <div id="dx-trainer" hidden></div>
       <div id="dx-calc" hidden></div>
@@ -1232,6 +1267,36 @@ details.more[open] summary{margin-bottom:14px}
 </div>
 
 <!-- RESULTS SHEET -->
+<div class="lockgate" id="lockgate" hidden role="dialog" aria-modal="true" aria-labelledby="lg-t">
+  <div class="lock-card">
+    <span class="lock-k">SAT AIS · Test window</span>
+    <h2 id="lg-t">Ready to begin?</h2>
+    <p class="lock-sum" id="lg-sum"></p>
+    <ul class="lock-rules">
+      <li>Stay in this window until you finish. On a computer the test fills the whole screen.</li>
+      <li>Switching tabs, windows or apps, or leaving full screen, shows a warning. Every time is recorded in your results.</li>
+      <li>The Desmos calculator and the reference sheet are built in, so you won't need anything else.</li>
+    </ul>
+    <button class="btn" id="lg-go">Begin test</button>
+    <p class="lock-note" id="lg-note">Loading questions…</p>
+  </div>
+</div>
+<div class="lockwarn" id="lockwarn" hidden role="alertdialog" aria-modal="true" aria-labelledby="lw-t" aria-describedby="lw-msg">
+  <div class="lock-card warn">
+    <div class="lw-ico" aria-hidden="true">!</div>
+    <h2 id="lw-t">You left the test window</h2>
+    <p id="lw-msg"></p>
+    <button class="btn" id="lw-back">Return to the test</button>
+  </div>
+</div>
+<div class="lockaway" id="lockaway" hidden role="dialog" aria-modal="true" aria-labelledby="la-t">
+  <div class="lock-card">
+    <span class="lock-k">Test in progress</span>
+    <h2 id="la-t">Your test is open in its own window</h2>
+    <p>Finish it there. When you close the test window, your results and progress appear here.</p>
+    <div class="lock-btns"><button class="btn" id="la-focus">Go to the test window</button><button class="btn plain" id="la-end">End the test</button></div>
+  </div>
+</div>
 <div class="sheet" id="results" hidden role="dialog" aria-modal="true" aria-label="Set results">
   <div class="sheet-top"><div class="sheet-top-in">
     <span></span><div class="qcount">Set complete</div><button class="btn small" id="done">Done</button>
@@ -1291,6 +1356,7 @@ const PACE={rw:71,math:95};
 const LS_KEY="emir-progress-v1";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rich=s=>esc(s).replace(/&lt;u&gt;/g,"<u>").replace(/&lt;\/u&gt;/g,"</u>");   // passages may underline a sentence with <u>…</u>
 const icon=(id,cls)=>'<svg class="ico'+(cls?' '+cls:'')+'"><use href="#i-'+id+'"/></svg>';
 
 let bank=[], bankState="loading";
@@ -1302,6 +1368,11 @@ let S=null, timerId=null, tab="today", gid=0, booted=false;
 /* ---------- preferences: theme + sound ---------- */
 const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+/* test window (?exam=…) and Desmos techniques window (?view=dx) */
+const EXAM=(()=>{try{const v=new URLSearchParams(location.search).get("exam");return v?JSON.parse(v):null;}catch(e){return null;}})();
+const VIEW=(()=>{try{return new URLSearchParams(location.search).get("view")||"";}catch(e){return "";}})();
+if(EXAM)document.documentElement.classList.add("exam");
+if(VIEW==="dx")document.documentElement.classList.add("solo-dx");
 let themePref=lsGet("ais-theme")||"night", soundOn=lsGet("ais-sound")!=="off";
 const THEME_ICON={night:"night",system:"auto",light:"sun",dark:"moon"}, THEME_NAME={night:"Night",system:"Auto",light:"Light",dark:"Dark"};
 /* Night Walk background video: loads only in the Night theme, never with reduced motion or Save-Data. */
@@ -1430,7 +1501,7 @@ function statOnce(t,key,data){if(!statsOn())return;const k="ais-st-"+key,d=local
 function route(){
   const h=(location.hash||"").replace("#","");
   tab=TABS.includes(h)?h:"today";
-  statOnce("visit","visit"); statOnce("tab","tab-"+tab,{tab});
+  if(!EXAM&&!VIEW){statOnce("visit","visit"); statOnce("tab","tab-"+tab,{tab});}
   TABS.forEach(t=>$("v-"+t).hidden=t!==tab);
   document.querySelectorAll("[data-tab]").forEach(a=>{if(a.dataset.tab===tab)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   render(); window.scrollTo({top:0});
@@ -1780,7 +1851,7 @@ const DX=[
   s:[["[2a + b, a − c, b + c + d, a + d] ~ [7, −1, 10, 6]","a = 2 · b = 3 · c = 3 · d = 4","One list regression solves the whole system."],["bd","= 12",""]]}
 ];
 
-let dxTab="learn";
+let dxTab=VIEW==="dx"?"learn":"";
 const DXCALC="https://www.desmos.com/calculator", DXTRAINER="https://sceptrell.github.io/DesmosSpeedTrainer/";
 const embedOK=()=>!window.claude;
 function dxNorm(v){v=String(v).trim().replace(/−/g,"-").replace(/\s+/g,"");const m=v.match(/^(-?\d+)\/(\d+)$/);return m?(+m[1])/(+m[2]):parseFloat(v);}
@@ -1794,7 +1865,7 @@ function renderDesmos(){
         '<div class="dxans"><input id="dxa'+i+'" placeholder="Your answer" inputmode="decimal" autocomplete="off"><button class="btn small" data-chk="'+i+'">Check</button><span class="dxfb" id="dxf'+i+'"></span></div>';
       return '<article class="dxcard" style="--fc:'+col+'"><div class="dxcard-h"><span class="dxnum">'+(i+1)+'</span><h3>'+esc(x.k)+'</h3><span class="chip" style="font-size:.7rem">'+esc(DSHORT[x.d]||x.d)+'</span></div>'+
         '<div class="dxq">'+x.q+'</div>'+ans+(x.mc?'<span class="dxfb" id="dxf'+i+'"></span>':'')+
-        '<div class="dxtools"><button class="btn small plain" data-sol="'+i+'">Show Desmos solution</button>'+(embedOK()?'<button class="btn small plain" data-try="'+i+'">Try it in Desmos</button>':'')+'</div><div id="dxs'+i+'" hidden></div></article>';}).join("")+'</div>';}
+        '<div class="dxtools"><button class="btn small plain" data-sol="'+i+'">Show Desmos solution</button>'+(embedOK()?'<button class="btn small plain" data-try="'+i+'">Try it in Desmos ↗</button>':'')+'</div><div id="dxs'+i+'" hidden></div></article>';}).join("")+'</div>';}
   if(dxTab==="trainer"&&!$("dx-trainer").dataset.ready){$("dx-trainer").dataset.ready=1;
     $("dx-trainer").innerHTML=embedOK()?'<iframe class="dxframe" style="height:min(78vh,820px)" src="'+DXTRAINER+'" title="Desmos Speed Trainer" loading="lazy" allow="clipboard-write; fullscreen"></iframe><p class="dxcredit">Desmos Speed Trainer, a free community tool by sceptrell, embedded for practice.</p>':'<div class="card empty">The Speed Trainer opens on the student website.</div>';}
   if(dxTab==="calc"&&!$("dx-calc").dataset.ready){$("dx-calc").dataset.ready=1;
@@ -2145,7 +2216,7 @@ function poolFor(mode,domain,skill,level,unsolved){
 }
 
 /* ---------- session ---------- */
-function startSession(mode,domain,len,extra){
+function startSessionHere(mode,domain,len,extra){
   extra=extra||{};
   S={mode,domain,len,pace:opts.pace,theta:{...progress.theta},nSec:{rw:0,math:0},items:[],cur:null,used:new Set(),
     skill:extra.skill||null,level:extra.level||"adaptive",unsolved:!!extra.unsolved,only:extra.only?new Set(extra.only):null};
@@ -2176,6 +2247,42 @@ function pickQuestion(){
   return null;
 }
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+/* ---------- test window: practice opens in its own locked window ----------
+   A web page cannot block other apps, so this is "detect and warn": leaving the window, switching tabs/apps
+   or exiting full screen shows a warning, and each time is recorded in the results. */
+let lock={on:false,count:0,log:[],warn:false,fs:false}, testWin=null, testPoll=null;
+const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function fsReq(){const e=document.documentElement,f=e.requestFullscreen||e.webkitRequestFullscreen;if(!f)return;try{const r=f.call(e);if(r&&r.then)r.then(()=>{lock.fs=true;}).catch(()=>{});else lock.fs=true;}catch(x){}}
+function fsExit(){const f=document.exitFullscreen||document.webkitExitFullscreen;if(f&&fsEl()){try{const r=f.call(document);if(r&&r.catch)r.catch(()=>{});}catch(x){}}}
+function startSession(mode,domain,len,extra){
+  if(EXAM||window.claude)return beginLocked(mode,domain,len,extra);
+  const cfg={mode,domain,len,extra:extra||{},pace:opts.pace};
+  let w=null;
+  try{w=window.open(location.pathname+"?exam="+encodeURIComponent(JSON.stringify(cfg)),"ais-test","popup=yes,left=0,top=0,width="+screen.availWidth+",height="+screen.availHeight);}catch(e){}
+  if(!w){toast("Pop-ups are blocked, so the test opens here");return beginLocked(mode,domain,len,extra);}
+  testWin=w; $("lockaway").hidden=false; document.body.style.overflow="hidden"; play("open");
+  clearInterval(testPoll); testPoll=setInterval(()=>{if(testWin&&testWin.closed){clearInterval(testPoll);testWin=null;awayDone();}},700);
+}
+function awayDone(){$("lockaway").hidden=true;document.body.style.overflow="";const l=loadLocal();if(l)progress=l;render();toast("Test window closed · progress updated");}
+function beginLocked(mode,domain,len,extra){
+  fsReq(); lock={on:true,count:0,log:[],warn:false,fs:lock.fs}; startSessionHere(mode,domain,len,extra);
+}
+function lockStop(){lock.on=false;lock.warn=false;$("lockwarn").hidden=true;fsExit();}
+const LEFT={tab:"You switched to another tab, window or app.",window:"You clicked outside the test window.",fullscreen:"You left full screen."};
+function violation(kind){
+  if(!lock.on||!S||lock.warn)return;
+  lock.count++; lock.log.push({t:Date.now(),kind}); S.violations=lock.count; lock.warn=true;
+  $("lw-msg").textContent=LEFT[kind]+" Leaving the test window is not allowed during practice. This is warning "+lock.count+", and every time is recorded in your results.";
+  $("lockwarn").hidden=false; play("wrong"); setTimeout(()=>$("lw-back").focus(),50);
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)violation("tab");});
+window.addEventListener("blur",()=>setTimeout(()=>{if(document.hidden||document.hasFocus())return;const a=document.activeElement;if(a&&a.tagName==="IFRAME")return;violation("window");},150));
+["fullscreenchange","webkitfullscreenchange"].forEach(ev=>document.addEventListener(ev,()=>{if(fsEl()){lock.fs=true;return;}if(lock.on&&lock.fs)violation("fullscreen");}));
+document.addEventListener("contextmenu",e=>{if(lock.on)e.preventDefault();});
+["copy","cut"].forEach(ev=>document.addEventListener(ev,e=>{if(lock.on&&!(e.target.closest&&e.target.closest("input,textarea")))e.preventDefault();}));
+window.addEventListener("beforeunload",e=>{if(lock.on&&S&&S.items.length){e.preventDefault();e.returnValue="";}});
+window.addEventListener("storage",e=>{if(e.key===LS_KEY&&!S&&!EXAM){const l=loadLocal();if(l){progress=l;render();}}});
+function exitExam(){fsExit();try{window.close();}catch(e){}setTimeout(()=>{location.href=location.pathname;},400);}
 function nextQuestion(){
   if(S.items.length>=S.len)return finish();
   const q=pickQuestion(); if(!q)return finish("The bank ran out of new questions for this set.");
@@ -2196,7 +2303,7 @@ function renderQuestion(){
   $("q-dom").textContent=q.domain+(q.skill?" · "+q.skill:"");
   const hasLeft=!!(q.passage||q.table||q.figure);
   $("q-left").hidden=!hasLeft; $("q-split").classList.toggle("solo",!hasLeft);
-  let ph=(q.figure?'<figure class="qfig">'+DG.draw(q.figure.t,q.figure)+'<figcaption>Note: Figure not drawn to scale.</figcaption></figure>':'')+esc(q.passage||"");
+  let ph=(q.figure?'<figure class="qfig">'+DG.draw(q.figure.t,q.figure)+'<figcaption>Note: Figure not drawn to scale.</figcaption></figure>':'')+rich(q.passage||"");
   if(q.table)ph+='<table><caption>'+esc(q.table.caption||"")+'</caption><thead><tr>'+q.table.head.map(x=>'<th>'+esc(x)+'</th>').join("")+'</tr></thead><tbody>'+q.table.rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';
   $("q-passage").innerHTML=ph;
   $("q-stem").textContent=q.stem;
@@ -2297,15 +2404,16 @@ function renderPath(el,items,len){
 }
 
 function finish(msg){
-  clearInterval(timerId); $("calcpane").hidden=true; $("sheet").classList.remove("calc-on");
+  lockStop(); clearInterval(timerId); $("calcpane").hidden=true; $("sheet").classList.remove("calc-on");
   $("sheet").hidden=true;
-  if(!S||!S.items.length){S=null;document.body.style.overflow="";return;}
+  if(!S||!S.items.length){S=null;document.body.style.overflow="";if(EXAM)exitExam();return;}
   const n=S.items.length,c=S.items.filter(i=>i.correct).length;
   const secs=SEC_ORDER.filter(x=>S.items.some(i=>i.section===x));
   const est=secs.map(s=>(s==="rw"?"R&W ":"Math ")+scaled(S.theta[s])).join(" · ");
   const label=S.mode==="mistakes"?"Retry mistakes":(S.mode==="full"?"Whole syllabus":SEC_NAME[S.mode]+(S.skill?" · "+S.skill:S.domain?" · "+S.domain:""))+(S.level!=="adaptive"?" ("+LEVEL[S.level].name+")":"");
   const hard=S.items.filter(i=>i.level===3).length;
-  progress.sessions.push({at:Date.now(),label,n,correct:c,est,hard});
+  const left=S.violations||0;
+  progress.sessions.push({at:Date.now(),label,n,correct:c,est,hard,left});
   stat("set",{mode:label,n,c,h:hard,m:Math.round(S.items.reduce((a,i)=>a+(i.ms||0),0)/60000),math:S.items.filter(i=>i.section==="math").length,rw:S.items.filter(i=>i.section==="rw").length});
   progress.scoreHist=progress.scoreHist||[]; progress.scoreHist.push({t:Date.now(),rw:progress.answered.rw>=5?scaled(progress.theta.rw):null,math:progress.answered.math>=5?scaled(progress.theta.math):null}); save();
 
@@ -2316,10 +2424,10 @@ function finish(msg){
   const tiles=secs.map(s=>[SEC_NAME[s],scaled(S.theta[s]),"est. ± "+band(progress.answered[s])]);
   tiles.push(["Avg. time",avg+" s","per question"]); tiles.push(["Hard reached",hard,"questions"]);
   $("r-tiles").innerHTML=tiles.slice(0,4).map(t=>'<div class="stat" style="box-shadow:none;background:var(--fill)"><span class="k">'+esc(t[0])+'</span><span class="v num">'+esc(t[1])+'</span><span class="k" style="font-weight:500">'+esc(t[2])+'</span></div>').join("");
-  $("r-msg").textContent=(msg?msg+" ":"")+"Score estimates are practice estimates on the 200–800 section scale.";
+  $("r-msg").textContent=(msg?msg+" ":"")+(left?"You left the test window "+left+(left===1?" time":" times")+" during this set. ":"")+"Score estimates are practice estimates on the 200–800 section scale.";
   renderPath($("r-path"),S.items,S.len);
   $("r-review").innerHTML=S.items.map((it,k)=>'<details'+(it.correct?'':' open')+'><summary><span class="mk '+(it.correct?'ok':'no')+'">'+icon(it.correct?"check":"x")+'</span><strong>Question '+(k+1)+'</strong><span class="chip l'+it.level+'">'+LEVEL[it.level].name+'</span><span class="muted" style="font-size:.84rem">'+esc(it.domain)+'</span></summary><div class="body">'+
-    (it.q.figure?'<figure class="qfig" style="max-width:300px">'+DG.draw(it.q.figure.t,it.q.figure)+'</figure>':'')+(it.q.passage?'<p class="passage" style="font-size:1rem">'+esc(it.q.passage)+'</p>':'')+'<p class="stem" style="margin:0">'+esc(it.q.stem)+'</p>'+
+    (it.q.figure?'<figure class="qfig" style="max-width:300px">'+DG.draw(it.q.figure.t,it.q.figure)+'</figure>':'')+(it.q.passage?'<p class="passage" style="font-size:1rem">'+rich(it.q.passage)+'</p>':'')+'<p class="stem" style="margin:0">'+esc(it.q.stem)+'</p>'+
     '<div class="compare">'+(it.correct?'':'<div class="yours"><small>Your answer</small>'+esc(it.response)+'</div>')+'<div class="corr"><small>Correct answer</small>'+esc(correctText(it.q,it.order))+'</div></div>'+
     solutionHTML(it.q,true).replace('class="card solution"','class="solution"')+'</div></details>').join("");
   S=null; $("results").hidden=false; $("results").scrollTo({top:0}); play("done");
@@ -2339,7 +2447,7 @@ $("go").addEventListener("click",()=>startSession(opts.mode,opts.domain,opts.len
 document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>startSession(b.dataset.quick,null,10)));
 $("q-submit").addEventListener("click",submit);
 $("quit").addEventListener("click",()=>finish("You ended this set early."));
-$("done").addEventListener("click",()=>{$("results").hidden=true;document.body.style.overflow="";play("close");render();});
+$("done").addEventListener("click",()=>{if(EXAM){exitExam();return;}$("results").hidden=true;document.body.style.overflow="";play("close");render();});
 $("q-answer").addEventListener("click",e=>{
   const b=e.target.closest(".choice"); if(!b||!S||S.cur.done)return;
   S.cur.sel=+b.dataset.ci; play("select");
@@ -2395,11 +2503,38 @@ $("f-q").addEventListener("input",()=>renderFormulas());
 $("f-dom").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fDom=b.dataset.v||null;mmSel=fDom?DOMAINS.math.indexOf(fDom):null;play("select");renderFormulas();});
 $("f-list").addEventListener("click",e=>{const b=e.target.closest("[data-prac]");if(!b)return;opts.mode="math";opts.domain=b.dataset.dom;opts.skill=b.dataset.prac;opts.level="adaptive";location.hash="#practice";});
 
-$("dx-tab").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;dxTab=b.dataset.v;play("select");renderDesmos();});
+/* ---------- test-window events ---------- */
+$("lw-back").addEventListener("click",()=>{lock.warn=false;$("lockwarn").hidden=true;if(lock.fs&&!fsEl())fsReq();play("select");});
+$("la-focus").addEventListener("click",()=>{try{testWin&&testWin.focus();}catch(e){}});
+$("la-end").addEventListener("click",()=>{try{testWin&&testWin.close();}catch(e){}clearInterval(testPoll);testWin=null;awayDone();});
+if(EXAM){
+  const c=EXAM, what=c.mode==="mistakes"?"Retry your mistakes":c.mode==="full"?"Whole syllabus":(SEC_NAME[c.mode]||"Practice")+(c.extra&&c.extra.skill?" · "+c.extra.skill:c.domain?" · "+c.domain:"");
+  $("lg-sum").textContent=what+" · "+c.len+" questions"+(c.pace?" · timed":"");
+  $("lockgate").hidden=false;
+  const ready=setInterval(()=>{if(bankState==="ready"){clearInterval(ready);$("lg-note").textContent="Questions loaded. Good luck!";}
+    else if(bankState==="error"||bankState==="empty"||bankState==="unavailable"){clearInterval(ready);$("lg-note").textContent="The questions could not be loaded. Close this window and try again.";}},150);
+  $("lg-go").addEventListener("click",()=>{
+    fsReq(); $("lg-go").disabled=true;
+    const go=()=>{if(bankState!=="ready")return setTimeout(go,150);$("lockgate").hidden=true;opts.pace=!!c.pace;
+      lock={on:true,count:0,log:[],warn:false,fs:lock.fs};startSessionHere(c.mode,c.domain,c.len,c.extra||{});};
+    go();
+  });
+}
+/* ---------- Desmos: each tool opens in its own window ---------- */
+function openWin(url,name,side){
+  const W=screen.availWidth,H=screen.availHeight,w=side?Math.round(W*0.5):Math.round(W*0.92),h=side?H:Math.round(H*0.92);
+  let win=null;try{win=window.open(url,name,"popup=yes,width="+w+",height="+h+",left="+(side?W-w:Math.round((W-w)/2))+",top="+(side?0:Math.round((H-h)/2)));}catch(e){}
+  if(win){try{win.focus();}catch(e){}play("open");}
+  return win;
+}
+$("dx-tab").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const v=b.dataset.v;
+  const w=VIEW==="dx"?null:v==="learn"?openWin(location.pathname+"?view=dx#desmos","ais-dx-learn"):v==="trainer"?openWin(DXTRAINER,"ais-dx-trainer"):openWin(DXCALC,"ais-dx-calc");
+  if(!w){dxTab=v;play("select");renderDesmos();}   // pop-ups blocked: show it on this page instead
+});
 $("dx-learn").addEventListener("click",e=>{
   const sol=e.target.closest("[data-sol]"),tr=e.target.closest("[data-try]"),chk=e.target.closest("[data-chk]"),mc=e.target.closest(".dxmc button");
   if(sol){const i=+sol.dataset.sol,box=$("dxs"+i);if(box.hidden){box.innerHTML=dxSolution(i);box.hidden=false;sol.textContent="Hide Desmos solution";}else{box.hidden=true;sol.textContent="Show Desmos solution";}play("select");}
-  if(tr)dxOpenCalc(+tr.dataset.try);
+  if(tr){if(!openWin(DXCALC,"ais-desmos",true))dxOpenCalc(+tr.dataset.try);}
   if(chk){const i=+chk.dataset.chk,v=dxNorm($("dxa"+i).value),ok=Math.abs(v-dxNorm(DX[i].a))<0.006;$("dxf"+i).className="dxfb "+(ok?"ok":"no");$("dxf"+i).textContent=isNaN(v)?"Enter a number":ok?"Correct ✓":"Not yet. Try the Desmos solution";play(ok?"correct":"wrong");}
   if(mc){const box=mc.closest(".dxmc"),i=+box.dataset.i,ok=mc.dataset.j==="0";box.querySelectorAll("button").forEach(b=>b.classList.remove("right","wrong"));mc.classList.add(ok?"right":"wrong");
     $("dxf"+i).className="dxfb "+(ok?"ok":"no");$("dxf"+i).textContent=ok?"Correct ✓":"Not yet. Try the Desmos solution";play(ok?"correct":"wrong");}
