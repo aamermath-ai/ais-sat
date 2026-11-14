@@ -1425,7 +1425,7 @@ const TABS=["today","practice","formulas","desmos","progress","unis","bank"];
 /* ---------- anonymous usage statistics (optional; setup in HANDOVER.md) ----------
    Sends no names or personal details: only a random device ID, the date, which section was opened,
    and the size/score of each finished practice set. Leave STATS_URL empty to switch statistics off. */
-const STATS_URL="";
+const STATS_URL="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec";
 const statsOn=()=>!!STATS_URL&&!window.claude&&lsGet("ais-nostats")!=="1";
 function devId(){let d=lsGet("ais-dev");if(!d){d=(Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4));lsSet("ais-dev",d);}return d;}
 function localDate(){const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0");}

@@ -102,7 +102,7 @@ const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+Stri
 const fmt=n=>Number(n||0).toLocaleString();
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-$("url").value=ls.get("ais-admin-url")||""; $("key").value=ls.get("ais-admin-key")||"";
+$("url").value=ls.get("ais-admin-url")||"https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec"; $("key").value=ls.get("ais-admin-key")||"";
 async function load(){
   const url=$("url").value.trim(), key=$("key").value.trim();
   if(!url||!key){showErr("Enter both the script address and the admin key.");return;}
