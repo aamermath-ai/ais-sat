@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>SAT AIS Admin</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@600;700&display=swap">
+<style>
+:root{--bg:#F4F6FB;--surface:#FFFFFF;--fill:#EEF1F7;--ink:#0E1424;--ink-2:#3B4459;--muted:#6B7488;--line:rgba(20,30,60,.10);
+  --bar:#2F7BF5;--bar-hi:#1559C9;--good:#1E8E4A;--bad:#C62E3A;--shadow:0 1px 2px rgba(10,20,50,.05),0 8px 28px rgba(10,20,50,.07);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070A14;--surface:#111729;--fill:#1A2236;--ink:#EEF3FF;--ink-2:#C2CDE6;--muted:#8B97B5;
+  --line:rgba(160,190,255,.14);--bar:#4C97FF;--bar-hi:#86B8FF;--good:#3DDC84;--bad:#FF6B78;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070A14;--surface:#111729;--fill:#1A2236;--ink:#EEF3FF;--ink-2:#C2CDE6;--muted:#8B97B5;
+  --line:rgba(160,190,255,.14);--bar:#4C97FF;--bar-hi:#86B8FF;--good:#3DDC84;--bad:#FF6B78;--shadow:none;color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Plus Jakarta Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 60px;display:flex;flex-direction:column;gap:20px}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header img{width:44px;height:44px;border-radius:12px;background:#fff}
+h1{font-family:Unbounded,sans-serif;font-size:1.5rem;letter-spacing:-.03em;margin:0}
+h2{font-size:1rem;margin:0}
+.sub{color:var(--muted);font-size:.85rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:20px;min-width:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input{font:inherit;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--fill);color:var(--ink);min-width:0;flex:1 1 260px}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 18px;background:var(--bar);color:#fff;cursor:pointer}
+button.ghost{background:var(--fill);color:var(--ink)}
+.seg{display:inline-flex;background:var(--fill);border-radius:999px;padding:4px;gap:2px}
+.seg button{background:transparent;color:var(--ink-2);padding:7px 14px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+.tile .k{font-size:.78rem;color:var(--muted);font-weight:600}
+.tile .v{font-family:Unbounded,sans-serif;font-size:1.7rem;letter-spacing:-.04em;line-height:1.2;font-variant-numeric:tabular-nums}
+.tile .s{font-size:.76rem;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px}
+.chart{position:relative;margin-top:12px}
+.chart svg{display:block;width:100%;height:220px;overflow:visible}
+.chart .grid line{stroke:var(--line)}
+.chart .axis text{fill:var(--muted);font-size:11px}
+.chart .b{fill:var(--bar)}
+.chart .hit{fill:transparent;cursor:crosshair}
+.chart .hit:hover+.b,.chart g.on .b{fill:var(--bar-hi)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--surface);font-size:.8rem;font-weight:600;padding:6px 10px;border-radius:10px;white-space:nowrap;transform:translate(-50%,-110%);opacity:0;transition:opacity .1s}
+.list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;font-size:.88rem}
+.li .bar{grid-column:1/-1;height:8px;border-radius:99px;background:var(--fill);overflow:hidden}
+.li .bar i{display:block;height:100%;border-radius:99px;background:var(--bar)}
+.li b{font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-size:.86rem;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600}
+.tablewrap{overflow-x:auto;max-height:420px;margin-top:10px}
+.msg{padding:12px 14px;border-radius:12px;background:var(--fill);font-size:.9rem}
+.msg.err{color:var(--bad)}
+.note{font-size:.8rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo.png" alt="AIS logo">
+    <div><h1>SAT AIS Admin</h1><div class="sub">Usage statistics · anonymous, no student names</div></div>
+  </header>
+
+  <section class="card" id="login">
+    <h2>Connect</h2>
+    <p class="note">Paste the web-app address of your statistics script (it ends in <code>/exec</code>) and your admin key. They are saved only in this browser.</p>
+    <div class="row"><input id="url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off"><input id="key" type="password" placeholder="Admin key" autocomplete="off"><button id="go">Show statistics</button></div>
+    <p class="msg err" id="err" hidden></p>
+  </section>
+
+  <section id="dash" hidden>
+    <div class="row" style="justify-content:space-between;margin-bottom:14px">
+      <div class="seg" id="range" role="group" aria-label="Date range"><button data-d="7" aria-pressed="false">7 days</button><button data-d="30" aria-pressed="true">30 days</button><button data-d="90" aria-pressed="false">90 days</button><button data-d="365" aria-pressed="false">1 year</button></div>
+      <div class="row"><button class="ghost" id="reload">Refresh</button><button class="ghost" id="csv">Download CSV</button><button class="ghost" id="out">Sign out</button></div>
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="card"><h2>Daily visitors</h2><div class="note">Unique devices that opened the site each day</div><div class="chart" id="c-vis"></div></div>
+      <div class="card"><h2>Questions practised per day</h2><div class="note">Questions answered in finished or exited practice sets</div><div class="chart" id="c-q"></div></div>
+    </div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="card"><h2>Most-used sections</h2><div class="note">Device-days that opened each section</div><div class="list" id="l-tabs"></div></div>
+      <div class="card"><h2>Practice by subject</h2><div class="note">Questions answered and practice sets started from each mode</div><div class="list" id="l-sec"></div><div class="list" id="l-modes" style="margin-top:18px"></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h2>Day by day</h2><div class="tablewrap"><table id="tbl"></table></div></div>
+    <p class="note" id="foot" style="margin-top:12px"></p>
+  </section>
+</div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+const TAB={today:"Summary",practice:"Practice",formulas:"Formulas",desmos:"Desmos Practice",unis:"Universities",bank:"Question Bank",progress:"Progress"};
+let range=30, data=null;
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const fmt=n=>Number(n||0).toLocaleString();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+$("url").value=ls.get("ais-admin-url")||""; $("key").value=ls.get("ais-admin-key")||"";
+async function load(){
+  const url=$("url").value.trim(), key=$("key").value.trim();
+  if(!url||!key){showErr("Enter both the script address and the admin key.");return;}
+  const since=new Date(); since.setDate(since.getDate()-(range-1));
+  $("go").textContent="Loading…";
+  try{
+    const r=await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since));
+    const j=await r.json();
+    if(!j.ok)throw new Error(j.error||"The script refused the request.");
+    ls.set("ais-admin-url",url); ls.set("ais-admin-key",key);
+    data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render();
+  }catch(e){showErr(e.message&&e.message!=="Failed to fetch"?e.message:"Could not reach the script. Check the address and that it is deployed with access “Anyone”.");}
+  $("go").textContent="Show statistics";
+}
+function showErr(m){$("err").textContent=m;$("err").hidden=false;$("login").hidden=false;$("dash").hidden=true;}
+
+function series(){ // fill missing days with zeros
+  const map={}; (data.days||[]).forEach(d=>map[d.date]=d);
+  const out=[]; const d=new Date(); d.setDate(d.getDate()-(range-1));
+  for(let i=0;i<range;i++){const k=iso(d);out.push(map[k]||{date:k,visitors:0,questions:0,correct:0,sets:0,minutes:0});d.setDate(d.getDate()+1);}
+  return out;
+}
+function render(){
+  document.querySelectorAll("#range button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.d===range));
+  const s=series(), t=data.totals, today=s[s.length-1];
+  const acc=t.questions?Math.round(100*t.correct/t.questions)+"%":"—";
+  const tiles=[["Unique visitors",fmt(data.uniqueVisitors),"in the last "+range+" days"],["Visitors today",fmt(today.visitors),today.date],
+    ["Questions practised",fmt(t.questions),fmt(today.questions)+" today"],["Accuracy",acc,fmt(t.correct)+" correct"],
+    ["Practice sets",fmt(t.sets),fmt(Math.round(t.minutes))+" minutes in total"],["Questions per visitor",data.uniqueVisitors?fmt(Math.round(t.questions/data.uniqueVisitors)):"—","average in this period"]];
+  $("tiles").innerHTML=tiles.map(x=>'<div class="tile"><div class="k">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="s">'+esc(x[2])+'</div></div>').join("");
+  bars("c-vis",s,"visitors","visitors"); bars("c-q",s,"questions","questions");
+  list("l-tabs",Object.entries(data.tabs||{}).map(([k,v])=>[TAB[k]||k,v]));
+  list("l-sec",[["Math questions",t.math],["Reading & Writing questions",t.rw]]);
+  list("l-modes",Object.entries(data.modes||{}).map(([k,v])=>[k+" sets",v]).slice(0,8));
+  $("tbl").innerHTML='<thead><tr><th>Date</th><th>Visitors</th><th>Questions</th><th>Correct</th><th>Accuracy</th><th>Sets</th><th>Minutes</th></tr></thead><tbody>'+
+    s.slice().reverse().map(d=>'<tr><td>'+d.date+'</td><td>'+fmt(d.visitors)+'</td><td>'+fmt(d.questions)+'</td><td>'+fmt(d.correct)+'</td><td>'+(d.questions?Math.round(100*d.correct/d.questions)+"%":"—")+'</td><td>'+fmt(d.sets)+'</td><td>'+fmt(d.minutes)+'</td></tr>').join("")+'</tbody>';
+  $("foot").textContent="All-time unique devices: "+fmt(data.allTimeVisitors)+" · events recorded: "+fmt(data.events)+(data.firstDate?" · since "+data.firstDate:"")+". A device is one browser on one phone or computer, so one student using two devices counts twice.";
+}
+function bars(id,s,key,unit){
+  const W=640,H=220,L=36,B=24,T=10,iw=W-L-8,ih=H-T-B, max=Math.max(4,...s.map(d=>d[key]));
+  const raw=max/4, p10=Math.pow(10,Math.floor(Math.log10(raw))), m=raw/p10, step=Math.max(1,(m<=1?1:m<=2?2:m<=5?5:10)*p10);
+  const top=Math.ceil(max/step)*step, y=v=>T+ih-ih*v/top, bw=iw/s.length, gap=Math.min(2,bw*.2);
+  let g='<g class="grid">'; for(let v=0;v<=top;v+=step)g+='<line x1="'+L+'" x2="'+(W-8)+'" y1="'+y(v)+'" y2="'+y(v)+'"/>'; g+='</g><g class="axis">';
+  for(let v=0;v<=top;v+=step)g+='<text x="'+(L-6)+'" y="'+(y(v)+4)+'" text-anchor="end">'+fmt(v)+'</text>';
+  const every=Math.ceil(s.length/7); s.forEach((d,i)=>{if(i%every===0||i===s.length-1)g+='<text x="'+(L+bw*i+bw/2)+'" y="'+(H-6)+'" text-anchor="middle">'+d.date.slice(5).replace("-","/")+'</text>';}); g+='</g>';
+  s.forEach((d,i)=>{const x=L+bw*i+gap/2,w=Math.max(1,bw-gap),h=Math.max(0,T+ih-y(d[key])),r=Math.min(4,w/2,h);
+    g+='<g data-i="'+i+'"><rect class="hit" x="'+(L+bw*i)+'" y="'+T+'" width="'+bw+'" height="'+ih+'"/>'+
+      (h>0?'<path class="b" d="M'+x+' '+(T+ih)+'V'+(T+ih-h+r)+'q0 -'+r+' '+r+' -'+r+'H'+(x+w-r)+'q'+r+' 0 '+r+' '+r+'V'+(T+ih)+'Z"/>':'')+'</g>';});
+  const el=$(id); el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="'+unit+' per day">'+g+'</svg><div class="tip"></div>';
+  const svg=el.querySelector("svg"), tip=el.querySelector(".tip");
+  svg.addEventListener("pointermove",e=>{const gEl=e.target.closest("g[data-i]");svg.querySelectorAll("g.on").forEach(n=>n.classList.remove("on"));
+    if(!gEl){tip.style.opacity=0;return;} gEl.classList.add("on"); const d=s[+gEl.dataset.i], rb=el.getBoundingClientRect();
+    tip.textContent=d.date+": "+fmt(d[key])+" "+unit; tip.style.left=(e.clientX-rb.left)+"px"; tip.style.top=(e.clientY-rb.top)+"px"; tip.style.opacity=1;});
+  svg.addEventListener("pointerleave",()=>{tip.style.opacity=0;svg.querySelectorAll("g.on").forEach(n=>n.classList.remove("on"));});
+}
+function list(id,rows){
+  rows=rows.filter(r=>r[1]>0).sort((a,b)=>b[1]-a[1]); const max=Math.max(1,...rows.map(r=>r[1]));
+  $(id).innerHTML=rows.length?rows.map(r=>'<div class="li"><span>'+esc(r[0])+'</span><b>'+fmt(r[1])+'</b><div class="bar"><i style="width:'+(100*r[1]/max).toFixed(1)+'%"></i></div></div>').join(""):'<p class="note">No data yet.</p>';
+}
+$("go").addEventListener("click",load);
+$("key").addEventListener("keydown",e=>{if(e.key==="Enter")load();});
+$("reload").addEventListener("click",load);
+$("range").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;range=+b.dataset.d;load();});
+$("out").addEventListener("click",()=>{ls.del("ais-admin-key");$("key").value="";$("dash").hidden=true;$("login").hidden=false;});
+$("csv").addEventListener("click",()=>{const rows=[["date","visitors","questions","correct","sets","minutes"]].concat(series().map(d=>[d.date,d.visitors,d.questions,d.correct,d.sets,d.minutes]));
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(",")).join("\n")],{type:"text/csv"}));a.download="sat-ais-usage-"+iso(new Date())+".csv";a.click();});
+if($("url").value&&$("key").value)load();
+})();
+</script>
+</body>
+</html>

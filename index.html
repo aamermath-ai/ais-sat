@@ -1422,9 +1422,23 @@ function setConn(kind,text){$("conn").innerHTML='<span class="dot '+kind+'"></sp
 
 /* ---------- routing ---------- */
 const TABS=["today","practice","formulas","desmos","progress","unis","bank"];
+/* ---------- anonymous usage statistics (optional; setup in HANDOVER.md) ----------
+   Sends no names or personal details: only a random device ID, the date, which section was opened,
+   and the size/score of each finished practice set. Leave STATS_URL empty to switch statistics off. */
+const STATS_URL="";
+const statsOn=()=>!!STATS_URL&&!window.claude&&lsGet("ais-nostats")!=="1";
+function devId(){let d=lsGet("ais-dev");if(!d){d=(Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4));lsSet("ais-dev",d);}return d;}
+function localDate(){const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0");}
+function stat(t,data){if(!statsOn())return;try{
+  const body=JSON.stringify(Object.assign({t,d:devId(),date:localDate()},data||{}));
+  if(navigator.sendBeacon&&navigator.sendBeacon(STATS_URL,new Blob([body],{type:"text/plain"})))return;
+  fetch(STATS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body,keepalive:true}).catch(()=>{});
+}catch(e){}}
+function statOnce(t,key,data){if(!statsOn())return;const k="ais-st-"+key,d=localDate();if(lsGet(k)===d)return;lsSet(k,d);stat(t,data);}
 function route(){
   const h=(location.hash||"").replace("#","");
   tab=TABS.includes(h)?h:"today";
+  statOnce("visit","visit"); statOnce("tab","tab-"+tab,{tab});
   TABS.forEach(t=>$("v-"+t).hidden=t!==tab);
   document.querySelectorAll("[data-tab]").forEach(a=>{if(a.dataset.tab===tab)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   render(); window.scrollTo({top:0});
@@ -2300,6 +2314,7 @@ function finish(msg){
   const label=S.mode==="mistakes"?"Retry mistakes":(S.mode==="full"?"Whole syllabus":SEC_NAME[S.mode]+(S.skill?" · "+S.skill:S.domain?" · "+S.domain:""))+(S.level!=="adaptive"?" ("+LEVEL[S.level].name+")":"");
   const hard=S.items.filter(i=>i.level===3).length;
   progress.sessions.push({at:Date.now(),label,n,correct:c,est,hard});
+  stat("set",{mode:label,n,c,h:hard,m:Math.round(S.items.reduce((a,i)=>a+(i.ms||0),0)/60000),math:S.items.filter(i=>i.section==="math").length,rw:S.items.filter(i=>i.section==="rw").length});
   progress.scoreHist=progress.scoreHist||[]; progress.scoreHist.push({t:Date.now(),rw:progress.answered.rw>=5?scaled(progress.theta.rw):null,math:progress.answered.math>=5?scaled(progress.theta.math):null}); save();
 
   const pct=c/n;

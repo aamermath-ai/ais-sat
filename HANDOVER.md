@@ -24,13 +24,14 @@ Themes: Night (animated beach video), Auto, Light, Dark. Sounds can be switched 
 ## 2. How it works (technical summary)
 
 - **A static website**: plain HTML, CSS and JavaScript in one file (`index.html`), with no server, database or build framework. It can be hosted anywhere that serves files (GitHub Pages, the school's web server, Netlify, Cloudflare Pages, Azure Static Web Apps…).
-- **No accounts, no personal data collected.** Each student's progress, profile name and goals are stored only in their own browser (`localStorage`). Progress does not follow a student to another device or browser, and clearing browser data deletes it.
+- **No accounts, no personal data collected.** Optional anonymous usage counts can be switched on (section 7). Each student's progress, profile name and goals are stored only in their own browser (`localStorage`). Progress does not follow a student to another device or browser, and clearing browser data deletes it.
 - **Cost:** free. GitHub Pages hosting is free for a public repository.
 
 ## 3. What is in this repository
 
 ```
 index.html               the website (generated from source/emir.html; do not edit by hand)
+admin.html               private usage dashboard (needs your admin key; see section 7)
 questions.json           questions served to students (Hard level only, 403)
 data/questions-all.json  the full bank: 1,229 questions (1,069 Math, 160 R&W; easy, medium, hard)
 assets/                  background video (720p and 1080p) and its poster image
@@ -43,6 +44,8 @@ source/                  EVERYTHING NEEDED TO EDIT AND REBUILD THE SITE
   generated_math.json    955 generated Math questions
   gen_math.py            the Math question generator (exact answers, worked steps)
   figures.py             attaches geometry diagrams to questions
+  admin.html             source of the usage dashboard
+  analytics/Code.gs      the statistics backend (Google Apps Script)
   logo-512.png, logo-180.png
   media/night_walk_original.mp4   the original background clip
 ```
@@ -83,9 +86,30 @@ You need Python 3 (free) on any computer.
 - **Background video:** confirm the school has the right to use the *Night Walk* clip publicly.
 - **Questions:** all questions are original practice items written to College Board's published Digital SAT specifications. They are not official SAT questions. "SAT" is a registered trademark of College Board, which is not affiliated with this website. The README explains that the questions are original. Before launch, add a one-line notice to the site saying the SAT is a College Board trademark and that College Board is not affiliated with the site.
 - **University and scholarship information** is a guide for students. Every card links to the official website, and the page tells students to confirm details there.
-- **Student data:** nothing is collected or sent anywhere, which keeps it simple for privacy. If the school later wants teachers to see student progress, that needs logins and a database (a larger project).
+- **Student data:** nothing personal is collected. The optional usage statistics (section 7) are anonymous; students should be told about them. If the school later wants teachers to see student progress, that needs logins and a database (a larger project).
 - **Accessibility:** the site works on phones, tablets and computers. It supports keyboard use, light/dark modes and reduced motion.
 
-## 7. Contact
+## 7. Usage statistics (your private backend)
+
+The site can count anonymous usage: **daily visitors, questions practised, accuracy, practice sets, minutes, and which sections are used**. The data goes into a Google Sheet that you own, and you read it on a private dashboard at **`admin.html`** (for example https://aamermath-ai.github.io/ais-sat/admin.html), which needs your admin key.
+
+**What is sent:** a random device ID (to count unique visitors), the date, which sections were opened (once per day), and for each practice set the number of questions, correct answers and minutes. **No names, emails, profile details or IP addresses are stored.** Tell students and parents this before switching it on, in line with the school's privacy policy.
+
+### One-time setup (about 10 minutes, free)
+1. Signed in to Google, open **sheets.new** and name the sheet *SAT AIS statistics*.
+2. In the sheet: **Extensions → Apps Script**. Delete the sample code, paste the whole of `source/analytics/Code.gs`, and click **Save**.
+3. Click the gear icon (**Project Settings**) → **Script properties** → **Add script property**: name `ADMIN_KEY`, value a long password only you know. Save.
+4. Click **Deploy → New deployment** → gear icon → **Web app**. Set *Execute as:* **Me**, *Who has access:* **Anyone**. Click **Deploy**, allow the permissions, and copy the **Web app URL** (it ends in `/exec`).
+5. Put that URL in `source/emir.html` at `const STATS_URL="";` (between the quotes), run `python3 source/build.py`, and publish. Statistics start from that moment.
+6. Open `admin.html`, paste the same URL and your admin key, and click **Show statistics**. Use **Download CSV** for reports, or open the Google Sheet for every raw event.
+
+### Notes
+- "Anyone" access is needed so students' browsers can send counts without signing in. Anyone can send data, but only someone with the admin key can read the totals.
+- A *visitor* is one browser on one device, so a student who uses a phone and a laptop counts twice.
+- After editing `Code.gs`, choose **Deploy → Manage deployments → Edit → New version** so the same URL keeps working.
+- To pause collection, set `STATS_URL` back to `""` and rebuild.
+- Free Google limits are far above what a school needs (each student sends only a few events a day).
+
+## 8. Contact
 
 Mathematics Department, American International School.

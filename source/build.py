@@ -26,6 +26,7 @@ os.makedirs(OUT+'/assets',exist_ok=True)
 for f in ('night-720.mp4','night-1080.mp4','night-poster.jpg'):
     p=os.path.join(S,'nightwalk',f)
     if os.path.exists(p): shutil.copy(p,OUT+'/assets/'+f)
+shutil.copy(S+'/admin.html',OUT+'/admin.html')   # private usage dashboard (needs the admin key)
 src=open(S+'/emir.html').read()
 a=src.index('/* ---------- boot ---------- */'); b=src.index('})();\n</script>')
 src=src[:a]+'''/* ---------- boot (standalone: questions.json + progress in this browser) ---------- */
