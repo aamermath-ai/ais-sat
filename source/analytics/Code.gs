@@ -1,17 +1,17 @@
-/**
- * SAT AIS – usage statistics backend (Google Apps Script + Google Sheet).
- * Receives anonymous events from the website and serves daily totals to admin.html.
- * Setup steps: see HANDOVER.md, section "Usage statistics".
- *
- * What is stored per event (no names, emails or IP addresses):
- *   received  – server time
- *   date      – the student's local date (YYYY-MM-DD)
- *   type      – visit | tab | set
- *   device    – a random ID created by the browser (counts unique visitors; it is not linked to a person)
- *   mode      – practice set label (e.g. "Math · Algebra")
- *   questions, correct, hard, minutes, math, rw – numbers for a finished practice set
- *   tab       – which section was opened (today, practice, formulas, desmos, unis, bank)
- */
+//
+// SAT AIS – usage statistics backend (Google Apps Script + Google Sheet).
+// Receives anonymous events from the website and serves daily totals to admin.html.
+// Setup steps: see HANDOVER.md, section "Usage statistics".
+//
+// What is stored per event (no names, emails or IP addresses):
+// received  – server time
+// date      – the student's local date (YYYY-MM-DD)
+// type      – visit | tab | set
+// device    – a random ID created by the browser (counts unique visitors; it is not linked to a person)
+// mode      – practice set label (e.g. "Math · Algebra")
+// questions, correct, hard, minutes, math, rw – numbers for a finished practice set
+// tab       – which section was opened (today, practice, formulas, desmos, unis, bank)
+//
 var SHEET_NAME = 'Events';
 var HEAD = ['received', 'date', 'type', 'device', 'mode', 'questions', 'correct', 'hard', 'minutes', 'math', 'rw', 'tab'];
 var TYPES = ['visit', 'tab', 'set'];
@@ -26,7 +26,7 @@ function text_(v, max) { return String(v == null ? '' : v).replace(/[^\w\-\/ .:&
 function num_(v, max) { v = Number(v); return isFinite(v) && v >= 0 ? Math.min(Math.round(v), max) : 0; }
 function out_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
-/** The website sends events here (POST, plain-text JSON body). */
+// The website sends events here (POST, plain-text JSON body).
 function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
@@ -44,7 +44,7 @@ function doPost(e) {
   }
 }
 
-/** admin.html reads daily totals here: ?key=ADMIN_KEY&since=YYYY-MM-DD */
+// admin.html reads daily totals here: ?key=ADMIN_KEY&since=YYYY-MM-DD
 function doGet(e) {
   var p = (e && e.parameter) || {};
   var key = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
