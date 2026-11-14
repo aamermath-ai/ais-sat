@@ -81,6 +81,8 @@ You need Python 3 (free) on any computer.
 2. **Use a school web address** (for example `sat.ais.sch.ae`): the school's IT team adds a DNS `CNAME` record pointing to `<account>.github.io` and enters the domain under *Settings → Pages → Custom domain*.
 3. **Host it on the school's own server:** copy the files in the repository root (everything except `source/` and `tools/`, which are only needed for editing) to any web folder. No server software is needed.
 
+**Security:** see [SECURITY.md](SECURITY.md) for what has been checked, the protections built in, and the account steps the owner must take.
+
 ## 6. Things the school should review before making it official
 
 - **Third-party content shown inside the site:**

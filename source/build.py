@@ -28,7 +28,6 @@ os.makedirs(OUT+'/assets',exist_ok=True)
 for f in ('night-720.mp4','night-1080.mp4','night-poster.jpg'):
     p=os.path.join(S,'nightwalk',f)
     if os.path.exists(p): shutil.copy(p,OUT+'/assets/'+f)
-shutil.copy(S+'/admin.html',OUT+'/admin.html')   # private usage dashboard (needs the admin key)
 src=open(S+'/emir.html').read()
 a=src.index('/* ---------- boot ---------- */'); b=src.index('})();\n</script>')
 src=src[:a]+'''/* ---------- boot (standalone: questions.json + progress in this browser) ---------- */
@@ -69,7 +68,21 @@ head='''<!doctype html>
 <script>try{var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 '''
 src=head+src.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+# ---- security: strict Content Security Policy (only our own scripts run; only listed services are contacted)
+import re, hashlib, base64
+def csp(html, connect, frames, referrer):
+    hashes=" ".join("'sha256-"+base64.b64encode(hashlib.sha256(m.encode()).digest()).decode()+"'"
+                    for m in re.findall(r"<script>(.*?)</script>", html, re.S))
+    pol=("default-src 'self'; script-src "+hashes+"; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+         "font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' "+connect+"; "
+         "frame-src "+(frames or "'none'")+"; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests")
+    meta='<meta http-equiv="Content-Security-Policy" content="'+pol+'">\n<meta name="referrer" content="'+referrer+'">\n'
+    return html.replace('<meta charset="utf-8">\n','<meta charset="utf-8">\n'+meta,1)
+GS="https://script.google.com https://script.googleusercontent.com"
+src=csp(src, GS, "https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io", "strict-origin-when-cross-origin")
 open(OUT+'/index.html','w').write(src)
+adm=open(S+'/admin.html').read()
+open(OUT+'/admin.html','w').write(csp(adm, GS, None, "no-referrer"))   # private usage dashboard (needs the admin key)
 r=open(OUT+'/README.md').read().replace('# Emir\n','# SAT AIS\n')
 open(OUT+'/README.md','w').write(r)
 print('built',len(qs))

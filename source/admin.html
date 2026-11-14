@@ -71,6 +71,7 @@ th{color:var(--muted);font-weight:600}
     <h2>Connect</h2>
     <p class="note">Paste the web-app address of your statistics script (it ends in <code>/exec</code>) and your admin key. They are saved only in this browser.</p>
     <div class="row"><input id="url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off"><input id="key" type="password" placeholder="Admin key" autocomplete="off"><button id="go">Show statistics</button></div>
+    <div class="row" style="margin-top:10px"><label class="note" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="remember" style="flex:none;width:auto"> Remember the key on this device (leave unticked on shared computers)</label></div>
     <p class="msg err" id="err" hidden></p>
   </section>
 
@@ -94,15 +95,24 @@ th{color:var(--muted);font-weight:600}
 </div>
 <script>
 (function(){
+if(window.top!==window.self){document.body.innerHTML="<p style='padding:24px'>For your security, this page cannot be shown inside another website.</p>";return;}   // anti-clickjacking
 const $=id=>document.getElementById(id);
 const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+// the admin key is kept only for this browser session unless "Remember" is ticked
+const ss={get:k=>{try{return sessionStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch(e){}},del:k=>{try{sessionStorage.removeItem(k)}catch(e){}}};
+const keyGet=()=>ls.get("ais-admin-key")||ss.get("ais-admin-key")||"";
+const keySet=(k,remember)=>{ss.set("ais-admin-key",k);if(remember)ls.set("ais-admin-key",k);else ls.del("ais-admin-key");};
+const keyDel=()=>{ls.del("ais-admin-key");ss.del("ais-admin-key");};
+let idleT=null; const IDLE=30*60*1000;   // sign out after 30 minutes without activity (unless remembered)
+function idle(){clearTimeout(idleT);if(ls.get("ais-admin-key"))return;idleT=setTimeout(()=>{keyDel();$("key").value="";data=null;$("dash").hidden=true;$("login").hidden=false;showErr("Signed out after 30 minutes without activity.");},IDLE);}
+["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,idle));
 const TAB={today:"Summary",practice:"Practice",formulas:"Formulas",desmos:"Desmos Practice",unis:"Universities",bank:"Question Bank",progress:"Progress"};
 let range=30, data=null;
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const fmt=n=>Number(n||0).toLocaleString();
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-$("url").value=ls.get("ais-admin-url")||"https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec"; $("key").value=ls.get("ais-admin-key")||"";
+$("url").value=ls.get("ais-admin-url")||"https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec"; $("key").value=keyGet(); $("remember").checked=!!ls.get("ais-admin-key");
 async function load(){
   const url=$("url").value.trim(), key=$("key").value.trim();
   if(!url||!key){showErr("Enter both the script address and the admin key.");return;}
@@ -112,7 +122,7 @@ async function load(){
     const r=await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since));
     const j=await r.json();
     if(!j.ok)throw new Error(j.error||"The script refused the request.");
-    ls.set("ais-admin-url",url); ls.set("ais-admin-key",key);
+    ls.set("ais-admin-url",url); keySet(key,$("remember").checked); idle();
     data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render();
   }catch(e){showErr(e.message&&e.message!=="Failed to fetch"?e.message:"Could not reach the script. Check the address and that it is deployed with access “Anyone”.");}
   $("go").textContent="Show statistics";
@@ -138,7 +148,7 @@ function render(){
   list("l-sec",[["Math questions",t.math],["Reading & Writing questions",t.rw]]);
   list("l-modes",Object.entries(data.modes||{}).map(([k,v])=>[k+" sets",v]).slice(0,8));
   $("tbl").innerHTML='<thead><tr><th>Date</th><th>Visitors</th><th>Questions</th><th>Correct</th><th>Accuracy</th><th>Sets</th><th>Minutes</th></tr></thead><tbody>'+
-    s.slice().reverse().map(d=>'<tr><td>'+d.date+'</td><td>'+fmt(d.visitors)+'</td><td>'+fmt(d.questions)+'</td><td>'+fmt(d.correct)+'</td><td>'+(d.questions?Math.round(100*d.correct/d.questions)+"%":"—")+'</td><td>'+fmt(d.sets)+'</td><td>'+fmt(d.minutes)+'</td></tr>').join("")+'</tbody>';
+    s.slice().reverse().map(d=>'<tr><td>'+esc(d.date)+'</td><td>'+fmt(d.visitors)+'</td><td>'+fmt(d.questions)+'</td><td>'+fmt(d.correct)+'</td><td>'+(d.questions?Math.round(100*d.correct/d.questions)+"%":"—")+'</td><td>'+fmt(d.sets)+'</td><td>'+fmt(d.minutes)+'</td></tr>').join("")+'</tbody>';
   $("foot").textContent="All-time unique devices: "+fmt(data.allTimeVisitors)+" · events recorded: "+fmt(data.events)+(data.firstDate?" · since "+data.firstDate:"")+". A device is one browser on one phone or computer, so one student using two devices counts twice.";
 }
 function bars(id,s,key,unit){
@@ -166,7 +176,7 @@ $("go").addEventListener("click",load);
 $("key").addEventListener("keydown",e=>{if(e.key==="Enter")load();});
 $("reload").addEventListener("click",load);
 $("range").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;range=+b.dataset.d;load();});
-$("out").addEventListener("click",()=>{ls.del("ais-admin-key");$("key").value="";$("dash").hidden=true;$("login").hidden=false;});
+$("out").addEventListener("click",()=>{keyDel();data=null;$("key").value="";$("dash").hidden=true;$("login").hidden=false;});
 $("csv").addEventListener("click",()=>{const rows=[["date","visitors","questions","correct","sets","minutes"]].concat(series().map(d=>[d.date,d.visitors,d.questions,d.correct,d.sets,d.minutes]));
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(",")).join("\n")],{type:"text/csv"}));a.download="sat-ais-usage-"+iso(new Date())+".csv";a.click();});
 if($("url").value&&$("key").value)load();

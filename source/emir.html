@@ -1368,8 +1368,17 @@ let S=null, timerId=null, tab="today", gid=0, booted=false;
 /* ---------- preferences: theme + sound ---------- */
 const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+/* security: if another website loads SAT AIS inside a hidden frame (clickjacking), show only a link */
+if(!window.claude&&window.top!==window.self){try{document.documentElement.innerHTML='<body style="font:16px system-ui;padding:24px"><p>For your security, SAT AIS cannot be shown inside another website.</p><p><a href="'+location.href.replace(/"/g,"")+'" target="_blank" rel="noopener noreferrer">Open SAT AIS in its own tab</a></p></body>';}catch(e){}throw new Error("framed");}
 /* test window (?exam=…) and Desmos techniques window (?view=dx) */
-const EXAM=(()=>{try{const v=new URLSearchParams(location.search).get("exam");return v?JSON.parse(v):null;}catch(e){return null;}})();
+const EXAM=(()=>{try{const v=new URLSearchParams(location.search).get("exam");if(!v||v.length>4000)return null;const c=JSON.parse(v);
+  if(!c||typeof c!=="object")return null;
+  const MODES=["full","math","rw","mistakes"],DOMS=["Information and Ideas","Craft and Structure","Expression of Ideas","Standard English Conventions","Algebra","Advanced Math","Problem-Solving and Data Analysis","Geometry and Trigonometry"];
+  const x=c.extra&&typeof c.extra==="object"?c.extra:{}, str=v=>typeof v==="string"&&v.length<=80?v:null;
+  return {mode:MODES.includes(c.mode)?c.mode:"full",domain:DOMS.includes(c.domain)?c.domain:null,len:Math.max(1,Math.min(60,parseInt(c.len,10)||10)),pace:c.pace===true,
+    extra:{skill:str(x.skill),level:[1,2,3].includes(x.level)?x.level:"adaptive",unsolved:x.unsolved===true,
+      only:Array.isArray(x.only)?x.only.filter(i=>typeof i==="string"&&/^[\w-]{1,40}$/.test(i)).slice(0,60):undefined}};
+}catch(e){return null;}})();
 const VIEW=(()=>{try{return new URLSearchParams(location.search).get("view")||"";}catch(e){return "";}})();
 if(EXAM)document.documentElement.classList.add("exam");
 if(VIEW==="dx")document.documentElement.classList.add("solo-dx");
@@ -1490,7 +1499,7 @@ const TABS=["today","practice","formulas","desmos","progress","unis","bank"];
    and the size/score of each finished practice set. Leave STATS_URL empty to switch statistics off. */
 const STATS_URL="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec";
 const statsOn=()=>!!STATS_URL&&!window.claude&&lsGet("ais-nostats")!=="1";
-function devId(){let d=lsGet("ais-dev");if(!d){d=(Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4));lsSet("ais-dev",d);}return d;}
+function devId(){let d=lsGet("ais-dev");if(!d||!/^[a-z0-9]{6,16}$/.test(d)){const A="abcdefghijklmnopqrstuvwxyz0123456789";try{d=Array.from(crypto.getRandomValues(new Uint8Array(12)),x=>A[x%36]).join("");}catch(e){d=(Math.random().toString(36).slice(2)+"000000000000").slice(0,12);}lsSet("ais-dev",d);}return d;}
 function localDate(){const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0");}
 function stat(t,data){if(!statsOn())return;try{
   const body=JSON.stringify(Object.assign({t,d:devId(),date:localDate()},data||{}));
@@ -1867,7 +1876,7 @@ function renderDesmos(){
         '<div class="dxq">'+x.q+'</div>'+ans+(x.mc?'<span class="dxfb" id="dxf'+i+'"></span>':'')+
         '<div class="dxtools"><button class="btn small plain" data-sol="'+i+'">Show Desmos solution</button>'+(embedOK()?'<button class="btn small plain" data-try="'+i+'">Try it in Desmos ↗</button>':'')+'</div><div id="dxs'+i+'" hidden></div></article>';}).join("")+'</div>';}
   if(dxTab==="trainer"&&!$("dx-trainer").dataset.ready){$("dx-trainer").dataset.ready=1;
-    $("dx-trainer").innerHTML=embedOK()?'<iframe class="dxframe" style="height:min(78vh,820px)" src="'+DXTRAINER+'" title="Desmos Speed Trainer" loading="lazy" allow="clipboard-write; fullscreen"></iframe><p class="dxcredit">Desmos Speed Trainer, a free community tool by sceptrell, embedded for practice.</p>':'<div class="card empty">The Speed Trainer opens on the student website.</div>';}
+    $("dx-trainer").innerHTML=embedOK()?'<iframe class="dxframe" style="height:min(78vh,820px)" src="'+DXTRAINER+'" title="Desmos Speed Trainer" loading="lazy" allow="clipboard-write; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" referrerpolicy="no-referrer"></iframe><p class="dxcredit">Desmos Speed Trainer, a free community tool by sceptrell, embedded for practice.</p>':'<div class="card empty">The Speed Trainer opens on the student website.</div>';}
   if(dxTab==="calc"&&!$("dx-calc").dataset.ready){$("dx-calc").dataset.ready=1;
     $("dx-calc").innerHTML=embedOK()?'<iframe class="dxframe" style="height:min(78vh,760px)" src="'+DXCALC+'" title="Desmos graphing calculator" loading="lazy" allow="clipboard-write; fullscreen"></iframe><p class="dxcredit">The same Desmos graphing calculator that is built into the SAT.</p>':'<div class="card empty">The calculator opens on the student website.</div>';}
 }
@@ -2524,7 +2533,7 @@ if(EXAM){
 function openWin(url,name,side){
   const W=screen.availWidth,H=screen.availHeight,w=side?Math.round(W*0.5):Math.round(W*0.92),h=side?H:Math.round(H*0.92);
   let win=null;try{win=window.open(url,name,"popup=yes,width="+w+",height="+h+",left="+(side?W-w:Math.round((W-w)/2))+",top="+(side?0:Math.round((H-h)/2)));}catch(e){}
-  if(win){try{win.focus();}catch(e){}play("open");}
+  if(win){if(!url.startsWith(location.pathname)){try{win.opener=null;}catch(e){}}try{win.focus();}catch(e){}play("open");}
   return win;
 }
 $("dx-tab").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const v=b.dataset.v;
