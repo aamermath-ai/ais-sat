@@ -1,5 +1,7 @@
 # SAT AIS: handover guide
 
+**Created and developed by [Aamer Bashir](https://www.linkedin.com/in/aamer-b-9b3575126/)**, Mathematics Department, American International School.
+
 A free Digital SAT practice website for students of the American International School (AIS), built by the Mathematics Department.
 
 - **Live site:** https://aamermath-ai.github.io/ais-sat/

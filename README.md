@@ -1,5 +1,7 @@
 # SAT AIS
 
+**Created and developed by [Aamer Bashir](https://www.linkedin.com/in/aamer-b-9b3575126/)**, Mathematics Department, American International School.
+
 Free adaptive Digital SAT practice for AIS students.
 Mathematics Department, American International School.
 

@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
+<meta name="author" content="Aamer Bashir">
 <title>SAT AIS Admin</title>
 <link rel="icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,6 +92,7 @@ th{color:var(--muted);font-weight:600}
     </div>
     <div class="card" style="margin-top:16px"><h2>Day by day</h2><div class="tablewrap"><table id="tbl"></table></div></div>
     <p class="note" id="foot" style="margin-top:12px"></p>
+    <p class="note" style="margin-top:4px">SAT AIS · created and developed by Aamer Bashir, Mathematics Department, American International School</p>
   </section>
 </div>
 <script>
@@ -106,7 +108,7 @@ const keyDel=()=>{ls.del("ais-admin-key");ss.del("ais-admin-key");};
 let idleT=null; const IDLE=30*60*1000;   // sign out after 30 minutes without activity (unless remembered)
 function idle(){clearTimeout(idleT);if(ls.get("ais-admin-key"))return;idleT=setTimeout(()=>{keyDel();$("key").value="";data=null;$("dash").hidden=true;$("login").hidden=false;showErr("Signed out after 30 minutes without activity.");},IDLE);}
 ["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,idle));
-const TAB={today:"Summary",practice:"Practice",formulas:"Formulas",desmos:"Desmos Practice",unis:"Universities",bank:"Question Bank",progress:"Progress"};
+const TAB={creator:"About the creator",today:"Summary",practice:"Practice",formulas:"Formulas",desmos:"Desmos Practice",unis:"Universities",bank:"Question Bank",progress:"Progress"};
 let range=30, data=null;
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const fmt=n=>Number(n||0).toLocaleString();
