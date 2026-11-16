@@ -759,6 +759,8 @@ details.more[open] summary{margin-bottom:14px}
 
 
 /* ---------- creator credit + profile ---------- */
+html.no-creator .credit,html.no-creator .sitefoot a,html.no-creator #v-creator{display:none!important}
+html.no-creator .sitefoot{justify-content:center}
 .credit{display:flex;align-items:center;gap:10px;padding:8px;margin:2px -8px 0;border-radius:12px;color:var(--ink-2);text-decoration:none!important}
 .credit:hover{background:var(--fill)}
 .credit img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center;background:#fff;box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--accent)}
@@ -1481,6 +1483,9 @@ const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 /* security: if another website loads SAT AIS inside a hidden frame (clickjacking), show only a link */
 if(!window.claude&&window.top!==window.self){try{document.documentElement.innerHTML='<body style="font:16px system-ui;padding:24px"><p>For your security, SAT AIS cannot be shown inside another website.</p><p><a href="'+location.href.replace(/"/g,"")+'" target="_blank" rel="noopener noreferrer">Open SAT AIS in its own tab</a></p></body>';}catch(e){}throw new Error("framed");}
+/* "Created and developed by" credit and creator page: set to true to show them again */
+const SHOW_CREATOR=false;
+if(!SHOW_CREATOR)document.documentElement.classList.add("no-creator");
 /* test window (?exam=…) and Desmos techniques window (?view=dx) */
 const EXAM=(()=>{try{const v=new URLSearchParams(location.search).get("exam");if(!v||v.length>4000)return null;const c=JSON.parse(v);
   if(!c||typeof c!=="object")return null;
@@ -1620,7 +1625,7 @@ function stat(t,data){if(!statsOn())return;try{
 function statOnce(t,key,data){if(!statsOn())return;const k="ais-st-"+key,d=localDate();if(lsGet(k)===d)return;lsSet(k,d);stat(t,data);}
 function route(){
   const h=(location.hash||"").replace("#","");
-  tab=TABS.includes(h)?h:"today";
+  tab=TABS.includes(h)&&(h!=="creator"||SHOW_CREATOR)?h:"today";
   if(!EXAM&&!VIEW){statOnce("visit","visit"); statOnce("tab","tab-"+tab,{tab});}
   TABS.forEach(t=>$("v-"+t).hidden=t!==tab);
   document.querySelectorAll("[data-tab]").forEach(a=>{if(a.dataset.tab===tab)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
