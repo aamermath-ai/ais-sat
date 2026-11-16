@@ -814,6 +814,19 @@ html.exam .sitefoot,html.solo-dx .sitefoot{display:none}
 @media (max-width:1000px){.cr-grid{grid-template-columns:minmax(0,1fr)}.cr-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:860px){.cr-hero{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;padding:24px}.cr-photo{width:140px;border-radius:22px}
   .cr-id{align-items:center}.cr-badges,.cr-cta{justify-content:center}.tl-h{flex-direction:column}.tl-meta{text-align:left;white-space:normal}.sitefoot{justify-content:center;text-align:center}}
+
+.cr-grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.cr-thanks{position:relative;overflow:hidden;padding:30px 32px;display:flex;flex-direction:column;gap:6px;
+  background:radial-gradient(90% 140% at 100% 0%,rgba(255,197,110,.20),transparent 60%),radial-gradient(80% 120% at 0% 100%,rgba(125,122,255,.16),transparent 60%),var(--surface)}
+.cr-thanks-q{position:absolute;right:22px;top:-18px;font-family:Georgia,serif;font-size:9rem;line-height:1;color:var(--gold);opacity:.35}
+.cr-thanks .eyebrow{color:var(--gold);font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.cr-thanks h2{font-size:1.6rem;letter-spacing:-.03em}
+.cr-thanks-role{color:var(--muted);font-size:.9rem}
+.cr-thanks p{margin-top:10px;max-width:62ch;color:var(--ink-2);font-size:1.02rem;line-height:1.65;font-style:italic}
+.cr-sign{margin-top:8px;font-weight:700;color:var(--ink)}
+.cr-sign::before{content:"— "}
+[data-theme="night"] .cr-thanks{backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border:1px solid rgba(255,197,110,.28)}
+@media (max-width:860px){.cr-grid2{grid-template-columns:minmax(0,1fr)}.cr-thanks{padding:24px}}
 /* ---------- Desmos launch tiles ---------- */
 .dxlaunch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .dxlaunch button{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:18px;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);color:var(--ink);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
@@ -1239,9 +1252,9 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
         <div class="cr-id">
           <span class="eyebrow">Created and developed by</span>
           <h1>Aamer Bashir</h1>
-          <p class="cr-role">High School Mathematics Teacher</p>
-          <p class="cr-org">American International School · Mathematics Department</p>
-          <div class="cr-badges"><span>UAE Teaching Licence · Cycle 3</span><span>M.Sc. Mathematics</span><span>6+ years teaching</span></div>
+          <p class="cr-role">Secondary Mathematics Teacher</p>
+          <p class="cr-org">American International School</p>
+          <div class="cr-badges"><span>M.Sc. Mathematics</span><span>UAE Teaching Licence</span></div>
           <div class="cr-cta">
             <a class="btn cr-li" href="https://www.linkedin.com/in/aamer-b-9b3575126/" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.1c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21h-4z"/></svg>View LinkedIn profile</a>
             <button class="btn plain cr-mail" id="cr-mail" type="button"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M3 6h18v12H3z M3 7l9 6 9-6"/></svg><span id="cr-mail-t">Email</span></button>
@@ -1249,37 +1262,32 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
         </div>
       </article>
 
-      <div class="cr-stats">
-        <div class="stat"><span class="k">Experience</span><span class="v num">6+ <small>years</small></span><span class="k">UAE and India</span></div>
-        <div class="stat"><span class="k">Board-exam results</span><span class="v num">60→95<small>%</small></span><span class="k">CBSE &amp; ICSE improvement</span></div>
-        <div class="stat"><span class="k">Institutional results</span><span class="v num">70→98<small>%</small></span><span class="k">within two academic years</span></div>
-        <div class="stat"><span class="k">Student satisfaction</span><span class="v num">4.9<small>/5</small></span><span class="k">blended classes at BYJU'S</span></div>
+      <div class="cr-grid2">
+        <article class="card"><h2 class="cr-h">About</h2>
+          <p class="cr-p">Mathematics teacher with 6+ years of experience across the UAE and India, focused on data-driven teaching and technology-rich lessons. Creator of <b>SAT AIS</b>, free adaptive SAT preparation for every AIS student.</p>
+        </article>
+        <article class="card"><h2 class="cr-h">Current role</h2>
+          <div class="cr-item"><b>Secondary Mathematics Teacher</b><span>American International School · Sep 2025 – Present</span></div>
+        </article>
+        <article class="card"><h2 class="cr-h">Education</h2>
+          <div class="cr-item"><b>M.Sc. Mathematics</b><span>University of Kashmir</span></div>
+          <div class="cr-item"><b>Bachelor of Education (B.Ed.)</b><span>University of Kashmir</span></div>
+        </article>
+        <article class="card"><h2 class="cr-h">Licences &amp; certifications</h2>
+          <div class="cr-item"><b>UAE Teaching Licence · Cycle 3 (Grades 9–12)</b><span>UAE Ministry of Education</span></div>
+          <div class="cr-item"><b>Technology Integration in Assessment Creation</b><span>Professional development</span></div>
+          <div class="cr-item"><b>LaTeX for Education</b><span>Professional development</span></div>
+        </article>
       </div>
 
-      <div class="cr-grid">
-        <div class="cr-main">
-          <article class="card"><h2 class="cr-h">About</h2>
-            <p class="cr-p">Results-driven Mathematics teacher with over six years of progressive experience across the UAE and India, specialising in the American, CBSE, ICSE and IIT-JEE curricula. Known for raising student performance through data-driven instruction, customised assessment and technology-integrated teaching with GeoGebra, MATLAB, Nearpod, Kahoot and LaTeX. Holds a UAE Transitional Teaching Licence (Cycle 3, Grades 9–12) and currently teaches Statistics, Algebra and Geometry at the American International School in Dubai.</p>
-            <p class="cr-p"><b>SAT AIS</b> was conceived, created and developed by Aamer Bashir to give every AIS student free, adaptive, test-day-realistic SAT preparation, from the question library and Desmos techniques to university guidance.</p>
-          </article>
-          <article class="card"><h2 class="cr-h">Experience</h2><ol class="timeline"><li><span class="tl-dot" aria-hidden="true"></span><div class="tl-h"><div><h3>High School Mathematics Teacher</h3><span class="tl-org">American International School</span></div><span class="tl-meta">Sep 2025 – Present<br>Dubai, UAE</span></div><ul><li>Teaches Statistics, Algebra and Geometry to Grades 9–12 within an American-curriculum framework.</li><li>Designs differentiated lesson plans and formative assessments for diverse learner profiles.</li><li>Produces professional exam papers and worksheets typeset in LaTeX.</li></ul></li><li><span class="tl-dot" aria-hidden="true"></span><div class="tl-h"><div><h3>Mathematics Faculty</h3><span class="tl-org">Physics Wallah Gulf</span></div><span class="tl-meta">Jan 2024 – Sep 2025<br>Dubai, UAE</span></div><ul><li>Built and taught Calculus modules for IIT-JEE aspirants, from limits to differential equations.</li><li>Taught CBSE board, Olympiad and IIT-JEE Mathematics; boot camps rated 96% for student satisfaction.</li><li>Raised average student scores by 20% with bespoke assessments and MATLAB, GeoGebra, Nearpod and Kahoot.</li></ul></li><li><span class="tl-dot" aria-hidden="true"></span><div class="tl-h"><div><h3>Mathematics Faculty</h3><span class="tl-org">Think &amp; Learn Pvt. Ltd (BYJU'S)</span></div><span class="tl-meta">Apr 2023 – Dec 2023<br>Bangalore, India</span></div><ul><li>Delivered blended online and offline classes rated 4.9/5 by students.</li><li>Lifted CBSE and ICSE board-exam results from 60% to 95% through targeted Calculus intervention.</li><li>Led NMTC preparation, increasing institutional success by 30%.</li></ul></li><li><span class="tl-dot" aria-hidden="true"></span><div class="tl-h"><div><h3>Senior Mathematics Teacher</h3><span class="tl-org">United Study Circle</span></div><span class="tl-meta">Jul 2020 – Mar 2023<br>Hyderabad, India</span></div><ul><li>Raised the institutional result rate from 70% to 98% within two academic years.</li><li>Introduced a structured Calculus course for Grades 11–12 and new modules that grew centre revenue by 20%.</li><li>Mentored junior faculty and standardised assessment practice across the department.</li></ul></li><li><span class="tl-dot" aria-hidden="true"></span><div class="tl-h"><div><h3>Subject Matter Expert</h3><span class="tl-org">MyCBSEguide.com</span></div><span class="tl-meta">Jan 2020 – Jun 2020<br>Delhi, India</span></div><ul><li>Led a cross-functional team creating, editing and publishing Grades 6–12 Mathematics materials, including a Calculus content suite.</li></ul></li><li><span class="tl-dot" aria-hidden="true"></span><div class="tl-h"><div><h3>Mathematics Teacher</h3><span class="tl-org">United Study Circle</span></div><span class="tl-meta">Jan 2019 – Dec 2019<br>Hyderabad, India</span></div><ul><li>Taught Grades 8–10 Algebra, Geometry and Trigonometry, and introduced pre-Calculus foundations.</li></ul></li></ol></article>
-        </div>
-        <div class="cr-side">
-          <article class="card"><h2 class="cr-h">Education</h2>
-            <div class="cr-item"><b>Master of Science in Mathematics</b><span>University of Kashmir · 2015 – 2018</span><em>Algebra, Calculus, Statistics, Functional Analysis, PDEs, Complex Analysis</em></div>
-            <div class="cr-item"><b>Bachelor of Education (B.Ed.)</b><span>University of Kashmir · 2018 – 2020</span></div>
-          </article>
-          <article class="card"><h2 class="cr-h">Licences &amp; certifications</h2>
-            <div class="cr-item"><b>UAE Teaching Licence, Transitional · Cycle 3 (Grades 9–12)</b><span>UAE Ministry of Education</span></div>
-            <div class="cr-item"><b>Technology Integration in Assessment Creation</b><span>Professional development · Nearpod, Google Forms, interactive quizzes</span></div>
-            <div class="cr-item"><b>LaTeX for Education: Mathematical Typesetting</b><span>Professional development</span></div>
-          </article>
-          <article class="card"><h2 class="cr-h">Skills</h2><div class="sk-g"><span class="cr-lbl">Curricula</span><div class="chips"><span>American curriculum</span><span>CBSE</span><span>ICSE</span><span>IIT-JEE</span><span>Olympiad preparation</span></div></div><div class="sk-g"><span class="cr-lbl">Teaching</span><div class="chips"><span>Differentiated instruction</span><span>Curriculum development &amp; mapping</span><span>Formative &amp; summative assessment</span><span>Student performance analytics</span><span>Blended &amp; online learning</span><span>Mentoring &amp; leadership</span></div></div><div class="sk-g"><span class="cr-lbl">Tools</span><div class="chips"><span>GeoGebra</span><span>MATLAB</span><span>Nearpod</span><span>Kahoot</span><span>LaTeX</span><span>Google Workspace</span><span>Tableau</span></div></div></article>
-          <article class="card"><h2 class="cr-h">Languages</h2>
-            <div class="cr-lang"><span><b>English</b>Professional</span><span><b>Hindi</b>Fluent</span><span><b>Urdu</b>Fluent</span><span><b>Kashmiri</b>Native</span></div>
-          </article>
-        </div>
-      </div>
+      <article class="card cr-thanks">
+        <span class="cr-thanks-q" aria-hidden="true">“</span>
+        <span class="eyebrow">Special thanks</span>
+        <h2>Ms. Shahnaz Nawaz</h2>
+        <span class="cr-thanks-role">Head of Department, Mathematics · American International School</span>
+        <p>Heartfelt thanks for always inspiring and motivating me, and for the encouragement and guidance that helped bring SAT AIS to life for our students.</p>
+        <span class="cr-sign">Aamer Bashir</span>
+      </article>
     </section>
     <section class="page fade" id="v-bank" hidden>
       <div class="ptitle"><h1>Question Bank</h1><p id="bank-sub">Every question is tagged by section, domain, skill and difficulty, and comes with a step-by-step solution.</p></div>
