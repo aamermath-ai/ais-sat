@@ -98,6 +98,25 @@ You need Python 3 (free) on any computer.
 - **Student data:** nothing personal is collected. The optional usage statistics (section 7) are anonymous; students should be told about them. If the school later wants teachers to see student progress, that needs logins and a database (a larger project).
 - **Accessibility:** the site works on phones, tablets and computers. It supports keyboard use, light/dark modes and reduced motion.
 
+## ACT preparation (act.html)
+
+Opening the site shows a welcome screen once per visit, where students choose **SAT** or **ACT**; each side links to the other.
+
+- **What it is:** a separate ACT page with the same design, theme and statistics. Practice runs in the same kind of test window as the SAT, with the same leave-the-window warnings.
+- **Real test conditions:**
+  - fixed sections in ACT order: English 50 Q / 35 min, Math 45 Q / 50 min, the 10-minute break, Reading 36 Q / 40 min, and optional Science 40 Q / 40 min;
+  - a countdown with a five-minute warning, and automatic submission when time runs out;
+  - passages beside the questions, with numbered underlined portions in English;
+  - A–D / F–J answer letters, an answer eliminator, flag for review and a question navigator;
+  - Desmos in Math, and no formula sheet (as on the ACT);
+  - answers and explanations only after the test.
+- **Scores:** estimated 1–36 per section from typical ACT conversion curves. Composite = average of English, Math and Reading; STEM = average of Math and Science.
+- **Content** (all original, written to the enhanced ACT specifications):
+  - Practice Form 1: English 5 passages / 50 Q, Reading 4 passages / 36 Q, Science 6 passages / 40 Q;
+  - Math: a pool of 1,105 questions (SAT-bank multiple-choice items plus 330 ACT-only items: matrices, logarithms, complex numbers, sequences, exact trig values, counting and probability, circle equations, composition). A fresh 45-question set is drawn for each test, ordered easier to harder.
+- **Source files:** `source/act.html` (the page), and in `source/act/`: `english_form1.py`, `reading_form1.py`, `science_form1.py`, `gen_act_math.py` and `build_act.py`. `python3 source/build.py` builds `act.html` and `act-questions.json` together with the SAT site.
+- **Adding another full ACT form:** write `english_form2.py`, `reading_form2.py` and `science_form2.py` in the same format, and add them to `forms` in `build_act.py`.
+
 ## 7. Usage statistics (your private backend)
 
 The site can count anonymous usage: **daily visitors, questions practised, accuracy, practice sets, minutes, and which sections are used**. The data goes into a Google Sheet that you own, and you read it on a private dashboard at **`admin.html`** (for example https://aamermath-ai.github.io/ais-sat/admin.html), which needs your admin key.

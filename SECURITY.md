@@ -25,6 +25,8 @@ Last reviewed: November 2026.
 - **The Speed Trainer frame is sandboxed:** it cannot redirect or take over the page.
 - `object-src`, `base-uri` and `form-action` are disabled.
 
+**ACT page (`act.html`)**: the same Content Security Policy (script fingerprints; only Google Fonts, the statistics script and Desmos allowed), anti-clickjacking, validated test links and the same test-window rules.
+
 **Admin dashboard (`admin.html`)**
 - The same Content Security Policy and anti-clickjacking protection; `no-referrer`; not indexed by search engines.
 - The admin key is kept **only for the browser session** unless "Remember" is ticked, and it signs out after **30 minutes** without activity.

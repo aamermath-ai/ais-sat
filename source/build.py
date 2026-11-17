@@ -82,6 +82,16 @@ def csp(html, connect, frames, referrer):
 GS="https://script.google.com https://script.googleusercontent.com"
 src=csp(src, GS, "https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io", "strict-origin-when-cross-origin")
 open(OUT+'/index.html','w').write(src)
+# ---- ACT practice site (act.html + act-questions.json), sharing the SAT page's design
+sys.path.insert(0,os.path.join(S,'act')); import build_act
+print('ACT:',build_act.build(OUT))
+act=open(S+'/act.html').read()
+css=src[src.index('<style>')+7:src.index('</style>')]
+sprite=re.search(r'<svg width="0" height="0" style="position:absolute" aria-hidden="true">.*?</svg>',src,re.S).group(0)
+logo=re.search(r'<img class="mark" src="(data:image/[^"]+)"',src).group(1)
+act=act.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
+act=head.replace('content="SAT AIS: free adaptive Digital SAT practice','content="ACT AIS: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="ACT AIS">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+open(OUT+'/act.html','w').write(csp(act, GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
 adm=open(S+'/admin.html').read()
 open(OUT+'/admin.html','w').write(csp(adm, GS, None, "no-referrer"))   # private usage dashboard (needs the admin key)
 r=open(OUT+'/README.md').read().replace('# Emir\n','# SAT AIS\n')
