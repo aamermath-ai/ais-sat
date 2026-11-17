@@ -25,7 +25,7 @@
 .acard b{font-family:var(--f-display);font-size:1.08rem;letter-spacing:-.02em}
 .acard span{font-size:.84rem;color:var(--muted)}
 .acard i{font-style:normal;font-size:.8rem;font-weight:700;color:var(--accent);margin-top:auto}
-.ic.E{background:linear-gradient(135deg,#5E5CE6,#3D3BB8)}.ic.M{background:linear-gradient(135deg,#0A84FF,#0062CC)}.ic.R{background:linear-gradient(135deg,#FF7A45,#D9480F)}.ic.S{background:linear-gradient(135deg,#30B35C,#1E8E4A)}.ic.F{background:linear-gradient(135deg,#FFB443,#E07B00)}
+.ic.A{background:linear-gradient(135deg,#AF52DE,#7B2FBF)}.ic.E{background:linear-gradient(135deg,#5E5CE6,#3D3BB8)}.ic.M{background:linear-gradient(135deg,#0A84FF,#0062CC)}.ic.R{background:linear-gradient(135deg,#FF7A45,#D9480F)}.ic.S{background:linear-gradient(135deg,#30B35C,#1E8E4A)}.ic.F{background:linear-gradient(135deg,#FFB443,#E07B00)}
 [data-theme="night"] .acard,[data-theme="night"] .ahero{backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%)}
 .drills{display:flex;flex-wrap:wrap;gap:8px}
 .drills button{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:8px 14px;font-weight:600;font-size:.85rem}
@@ -110,6 +110,9 @@
 .at-fig text{fill:var(--ink-2);font-size:11px}
 .res-secs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
 .rv{display:flex;flex-direction:column;gap:10px}
+.qfigure{max-width:340px;margin:4px 0 14px;color:var(--ink)}.qfigure svg{width:100%;height:auto}
+.lsol{margin-top:14px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--fill);font-size:.94rem;line-height:1.55}
+.lsol.ok{border-color:var(--good)}.lsol.no{border-color:var(--bad)}.lsol ol{margin:8px 0 0;padding-left:20px}
 .rv details{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface)}
 .rv summary{cursor:pointer;display:flex;gap:10px;align-items:center;font-weight:700}
 .rv .mk{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:.8rem;flex:none}
@@ -170,6 +173,7 @@
         <button class="acard" data-start="sec:M"><span class="ic M">M</span><b>Math section</b><span>45 questions · 50 minutes · Desmos available</span><i>Opens in the test window ↗</i></button>
         <button class="acard" data-start="sec:R"><span class="ic R">R</span><b>Reading section</b><span>36 questions · 40 minutes</span><i>Opens in the test window ↗</i></button>
         <button class="acard" data-start="sec:S"><span class="ic S">S</span><b>Science section</b><span>40 questions · 40 minutes · optional on the ACT</span><i>Opens in the test window ↗</i></button>
+        <button class="acard" data-start="aist"><span class="ic A">M1</span><b>AIST Math 1</b><span>ACT International Subject Test format: 50 questions · 60 minutes · algebra and geometry</span><i>Opens in the test window ↗</i></button>
       </div>
       <article class="card"><div class="card-h"><h2>Recent tests</h2></div><div class="hist" id="h-hist"></div></article>
     </section>
@@ -184,7 +188,12 @@
       <article class="card"><div class="card-h"><h2>Single sections</h2><span class="aside">Full length and timing</span></div>
         <div class="drills"><button data-start="sec:E">English · 50 Q · 35 min</button><button data-start="sec:M">Math · 45 Q · 50 min</button><button data-start="sec:R">Reading · 36 Q · 40 min</button><button data-start="sec:S">Science · 40 Q · 40 min</button></div>
       </article>
+      <article class="card"><div class="card-h"><h2>ACT International Subject Test · Math 1</h2><span class="aside">50 Q · 60 min</span></div>
+        <p class="muted" style="margin-bottom:12px">The AIST Math 1 test used by many universities in the region focuses on algebra and geometry: triangles and similarity, circles, solids, coordinate geometry, transformations, logic, functions, sequences and multi-step word problems. A calculator is allowed.</p>
+        <button class="btn" data-start="aist">Start AIST Math 1 practice test</button>
+      </article>
       <article class="card"><div class="card-h"><h2>Short timed drills</h2><span class="aside">One passage, or a short Math set, at test pace</span></div>
+        <label class="optrow" style="margin-bottom:12px"><span class="switch sm"><input type="checkbox" id="opt-learn"><span></span></span>Learning mode: show the step-by-step solution right after each answer</label>
         <div class="group-l" style="padding:0;margin:4px 0 8px">English passages (10 Q · 7 min)</div><div class="drills" id="d-E"></div>
         <div class="group-l" style="padding:0;margin:14px 0 8px">Reading passages (9 Q · 10 min)</div><div class="drills" id="d-R"></div>
         <div class="group-l" style="padding:0;margin:14px 0 8px">Science passages (6–7 Q · 7 min)</div><div class="drills" id="d-S"></div>
@@ -200,6 +209,7 @@
           <tr><td><b>Math</b></td><td>45</td><td>50 min</td><td>Number and quantity, algebra, functions, geometry, statistics and probability, plus essential skills and modeling. 4 answer choices; calculator allowed (Desmos is built into the online test)</td></tr>
           <tr><td><b>Reading</b></td><td>36</td><td>40 min</td><td>Key ideas and details, craft and structure, integration of knowledge and ideas, across 4 passages (literary narrative, social science, humanities, natural science)</td></tr>
           <tr><td><b>Science</b> (optional)</td><td>40</td><td>40 min</td><td>Interpreting data, scientific investigation, and evaluating models and conflicting viewpoints</td></tr>
+          <tr><td><b>AIST Math 1</b> (separate test)</td><td>50</td><td>60 min</td><td>ACT International Subject Test: algebra and geometry (equations, functions, data, areas and volumes, proofs and logic). Calculator allowed.</td></tr>
           <tr><td><b>Writing</b> (optional)</td><td>1 essay</td><td>40 min</td><td>An argumentative essay, scored separately</td></tr>
         </tbody></table></div>
         <p class="disclaim" style="margin-top:12px">Scores: each section 1–36. Composite = average of English, Math and Reading. Taking Science also gives a Science score and a STEM score (average of Math and Science). There is no penalty for wrong answers, so answer every question.</p>
@@ -225,6 +235,8 @@
           <a href="https://www.act.org/content/act/en/products-and-services/the-act/test-preparation.html" target="_blank" rel="noopener noreferrer">ACT official test prep (free official practice tests)<span>act.org ↗</span></a>
           <a href="https://www.act.org/content/act/en/products-and-services/the-act/test-changes/enhancements.html" target="_blank" rel="noopener noreferrer">What's new in the enhanced ACT<span>act.org ↗</span></a>
           <a href="https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT-e.pdf" target="_blank" rel="noopener noreferrer">Preparing for the ACT (official booklet with a practice test)<span>act.org PDF ↗</span></a>
+          <a href="https://global.act.org/content/global/en/products-and-services/the-act-non-us/act-international-subject-test-students.html" target="_blank" rel="noopener noreferrer">ACT International Subject Tests (AIST), including Math 1<span>act.org ↗</span></a>
+          <a href="https://www.act.org/content/dam/act/unsecured/documents/AIST-Math-Practice-Test.pdf" target="_blank" rel="noopener noreferrer">Official AIST Math practice test<span>act.org PDF ↗</span></a>
           <a href="https://www.act.org/content/act/en/products-and-services/the-act/test-day/calculator-policy.html" target="_blank" rel="noopener noreferrer">ACT calculator policy<span>act.org ↗</span></a>
           <a href="https://www.desmos.com/practice" target="_blank" rel="noopener noreferrer">Desmos test practice (choose the ACT calculator)<span>desmos.com ↗</span></a>
           <a href="https://blog.prepscholar.com/complete-official-act-practice-tests-free-links" target="_blank" rel="noopener noreferrer">Free official ACT practice tests, collected<span>PrepScholar ↗</span></a>
@@ -273,8 +285,8 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 if(window.top!==window.self){document.documentElement.innerHTML='<body style="font:16px system-ui;padding:24px"><p>For your security, ACT AIS cannot be shown inside another website. <a href="'+location.href.replace(/"/g,"")+'" target="_blank" rel="noopener noreferrer">Open it in its own tab</a></p></body>';return;}
 const TEST=(()=>{try{const v=new URLSearchParams(location.search).get("test");if(!v||v.length>2000)return null;const c=JSON.parse(v);
-  const kinds=["full","sec","drill"],secs=["E","M","R","S"];if(!c||!kinds.includes(c.kind))return null;
-  return {kind:c.kind,sec:secs.includes(c.sec)?c.sec:null,sci:c.sci===true,p:Number.isInteger(c.p)&&c.p>=0&&c.p<10?c.p:0,cat:typeof c.cat==="string"&&c.cat.length<40?c.cat:""};}catch(e){return null;}})();
+  const kinds=["full","sec","drill","aist"],secs=["E","M","R","S","A"];if(!c||!kinds.includes(c.kind))return null;
+  return {kind:c.kind,sec:secs.includes(c.sec)?c.sec:null,sci:c.sci===true,learn:c.learn===true,p:Number.isInteger(c.p)&&c.p>=0&&c.p<10?c.p:0,cat:typeof c.cat==="string"&&c.cat.length<40?c.cat:""};}catch(e){return null;}})();
 if(TEST)document.documentElement.classList.add("exam");
 
 /* ---------- theme (shared with SAT) ---------- */
@@ -300,7 +312,7 @@ function stat(t,data){if(!statsOn())return;try{const body=JSON.stringify(Object.
 function statOnce(t,key,data){if(!statsOn())return;const k="ais-st-"+key,d=localDate();if(lsGet(k)===d)return;lsSet(k,d);stat(t,data);}
 
 /* ---------- data & progress ---------- */
-const SEC={E:{name:"English",min:35,n:50},M:{name:"Math",min:50,n:45},R:{name:"Reading",min:40,n:36},S:{name:"Science",min:40,n:40}};
+const SEC={E:{name:"English",min:35,n:50},M:{name:"Math",min:50,n:45},R:{name:"Reading",min:40,n:36},S:{name:"Science",min:40,n:40},A:{name:"AIST Math 1",min:60,n:50}};
 const PKEY="act-progress-v1";
 function fresh(){return {v:1,tests:[],seenM:[]};}
 function loadP(){try{const p=JSON.parse(localStorage.getItem(PKEY));if(p&&p.v===1)return Object.assign(fresh(),p);}catch(e){}return fresh();}
@@ -333,7 +345,8 @@ function render(){
 
 /* ---------- starting a test: own window, like the SAT ---------- */
 let testWin=null,testPoll=null;
-function cfgFrom(s){const [k,a,b,c]=s.split(":");if(k==="full")return {kind:"full",sci:$("opt-sci").checked};if(k==="sec")return {kind:"sec",sec:a};return {kind:"drill",sec:a,p:+b||0,cat:c&&c!=="Mixed"?c:""};}
+function cfgFrom(s){const [k,a,b,c]=s.split(":");if(k==="full")return {kind:"full",sci:$("opt-sci").checked};if(k==="sec")return {kind:"sec",sec:a};if(k==="aist")return {kind:"aist",sec:"A"};
+  return {kind:"drill",sec:a,p:+b||0,cat:c&&c!=="Mixed"?c:"",learn:$("opt-learn").checked};}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-start]");if(!b||TEST)return;const cfg=cfgFrom(b.dataset.start);
   let w=null;try{w=window.open(location.pathname+"?test="+encodeURIComponent(JSON.stringify(cfg)),"act-test","popup=yes,left=0,top=0,width="+Math.max(screen.availWidth||0,1024)+",height="+Math.max(screen.availHeight||0,700));}catch(x){}
   if(!w){toast("Pop-ups are blocked, so the test opens here");beginTest(cfg);return;}
@@ -360,19 +373,26 @@ $("lw-back").addEventListener("click",()=>{lock.warn=false;$("lockwarn").hidden=
 
 /* ---------- building a test ---------- */
 function shuffle(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor((r?r():Math.random())*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function passQs(list,sec){const items=[];list.forEach((P,pi)=>P.qs.forEach(q=>items.push({sec,pi,P,n:q.n,q:q.q,c:q.c,a:q.a,cat:q.cat,x:q.x})));return items;}
-function mathSet(n,cat){const pool=BANK.math.filter(q=>!cat||q.cat===cat),seen=new Set(prog.seenM||[]);
-  const fresh=q=>!seen.has(q.id);
-  const pick=(d,k)=>{let c=pool.filter(q=>q.difficulty===d);const f=shuffle(c.filter(fresh)),o=shuffle(c.filter(q=>!fresh(q)));return f.concat(o).slice(0,k);};
-  let out;
-  if(cat){out=[...pick(1,Math.round(n/3)),...pick(2,Math.round(n/3)),...pick(3,n)].slice(0,n);}
-  else{const per=Math.floor(n/3);out=[...pick(1,per),...pick(2,per),...pick(3,n-2*per)];
-    const act=shuffle(pool.filter(q=>q.act&&fresh(q))).slice(0,Math.max(4,Math.round(n*0.18)));   // ACT-only topics appear in every set
-    for(let i=0;i<act.length;i++){const lvl=act[i].difficulty;const idx=out.findIndex(q=>q.difficulty===lvl&&!q.act);if(idx>=0&&!out.includes(act[i]))out[idx]=act[i];}}
-  out.sort((a,b)=>a.difficulty-b.difficulty);   // ACT Math gets harder as it goes
-  return out.map((q,i)=>({sec:"M",n:i+1,q:q.stem,c:q.choices,a:q.answer,cat:q.cat,steps:q.steps,key:q.key,table:q.table,id:q.id}));}
+function passQs(list,sec){const items=[];list.forEach((P,pi)=>P.qs.forEach(q=>items.push({sec,pi,P,n:q.n,q:q.q,c:q.c,a:q.a,cat:q.cat,x:q.x,steps:q.steps})));return items;}
+/* ACT Math reporting categories (approximate official mix for 45 questions) and AIST Math 1 mix (50 questions, algebra and geometry heavy) */
+const MIX_ACT={"Number and Quantity":4,"Algebra":7,"Functions":7,"Geometry":7,"Statistics and Probability":5,"Integrating Essential Skills":15};
+const MIX_AIST={"Geometry":22,"Algebra":7,"Functions":6,"Number and Quantity":5,"Integrating Essential Skills":6,"Statistics and Probability":4};
+function mathSet(n,cat,aist){const seen=new Set(prog.seenM||[]),fresh=q=>!seen.has(q.id);
+  const take=(list,k)=>{const f=shuffle(list.filter(fresh)),o=shuffle(list.filter(q=>!fresh(q)));return f.concat(o).slice(0,k);};
+  const levels=(list,k)=>{const per=[Math.round(k*.3),Math.round(k*.4)];per.push(k-per[0]-per[1]);   // about 30% easier, 40% medium, 30% harder
+    let out=[];[1,2,3].forEach((d,i)=>out=out.concat(take(list.filter(q=>q.difficulty===d),per[i])));
+    if(out.length<k)out=out.concat(take(list.filter(q=>!out.includes(q)),k-out.length));return out;};
+  let out=[];
+  if(cat){out=levels(BANK.math.filter(q=>q.cat===cat),n);}
+  else{const mix=aist?MIX_AIST:MIX_ACT;
+    Object.entries(mix).forEach(([c,k])=>{const pref=BANK.math.filter(q=>q.cat===c&&(aist?q.aist:true));let got=levels(pref,k);
+      if(got.length<k)got=got.concat(take(BANK.math.filter(q=>q.cat===c&&!got.includes(q)),k-got.length));out=out.concat(got);});
+    if(out.length<n)out=out.concat(take(BANK.math.filter(q=>!out.includes(q)),n-out.length));out=out.slice(0,n);}
+  out.sort((a,b)=>a.difficulty-b.difficulty||Math.random()-.5);   // ACT Math gets harder as it goes
+  return out.map((q,i)=>({sec:aist?"A":"M",n:i+1,q:q.stem,c:q.choices,a:q.answer,cat:q.cat,steps:q.steps,key:q.key,table:q.table,svg:q.svg,id:q.id}));}
 function buildSection(sec,cfg){const f=BANK.forms[0];
-  if(sec==="M"){const n=cfg.kind==="drill"?15:45;return {sec,items:mathSet(n,cfg.cat),secs:cfg.kind==="drill"?17*60:50*60,full:cfg.kind!=="drill"};}
+  if(sec==="A")return {sec,items:mathSet(50,"",true),secs:60*60,full:true};
+  if(sec==="M"){const n=cfg.kind==="drill"?15:45;return {sec,items:mathSet(n,cfg.cat,false),secs:cfg.kind==="drill"?17*60:50*60,full:cfg.kind!=="drill"};}
   const list=sec==="E"?f.english:sec==="R"?f.reading:f.science;
   if(cfg.kind==="drill"){const P=list[cfg.p]||list[0];const items=passQs([P],sec).map((it,i)=>Object.assign(it,{pi:0,disp:i+1}));
     return {sec,items,passages:[P],secs:(sec==="E"?7:sec==="R"?10:7)*60,full:false};}
@@ -380,12 +400,12 @@ function buildSection(sec,cfg){const f=BANK.forms[0];
 let T=null;   // current test state
 function beginTest(cfg){
   const order=cfg.kind==="full"?["E","M","R"].concat(cfg.sci?["S"]:[]):[cfg.sec];
-  T={cfg,order,si:0,secs:[],done:false,started:Date.now(),label:cfg.kind==="full"?"Full practice test":cfg.kind==="sec"?SEC[cfg.sec].name+" section":SEC[cfg.sec].name+" drill"};
+  T={cfg,order,si:0,secs:[],done:false,started:Date.now(),label:cfg.kind==="full"?"Full practice test":cfg.kind==="aist"?"AIST Math 1 practice test":cfg.kind==="sec"?SEC[cfg.sec].name+" section":SEC[cfg.sec].name+" drill"+(cfg.learn?" (learning mode)":"")};
   fsReq(); lock={on:true,count:0,warn:false,fs:lock.fs};
   $("atest").hidden=false;document.body.style.overflow="hidden";openSection();}
 function openSection(){const sec=T.order[T.si];const S=buildSection(sec,T.cfg);S.ans={};S.flag={};S.elim={};S.cur=0;S.left=S.secs;S.warned=false;T.secs.push(S);
-  $("at-sec").firstChild.textContent=SEC[sec].name+" ";$("at-sub").textContent=(T.order.length>1?"Section "+(T.si+1)+" of "+T.order.length+" · ":"")+S.items.length+" questions";
-  $("at-calc").hidden=sec!=="M";$("at-calc").setAttribute("aria-pressed","false");$("at-calcpane").hidden=true;
+  $("at-sec").firstChild.textContent=SEC[sec].name+" ";if(T.cfg.learn)$("at-sec").firstChild.textContent+="· learning mode ";$("at-sub").textContent=(T.order.length>1?"Section "+(T.si+1)+" of "+T.order.length+" · ":"")+S.items.length+" questions";
+  $("at-calc").hidden=sec!=="M"&&sec!=="A";$("at-calc").setAttribute("aria-pressed","false");$("at-calcpane").hidden=true;
   $("at-screen").hidden=true;$("at-body").hidden=false;$("at-foot").hidden=false;$("at-tools-hide");
   showQ(0);startClock();}
 let clock=null,hideTimer=false;
@@ -420,20 +440,23 @@ function passageHtml(S,it){const P=S.passages[it.pi];let h='';
   return h;}
 let lastPassKey=null;
 function showQ(i){const S=cur();S.cur=Math.max(0,Math.min(S.items.length-1,i));const it=S.items[S.cur],num=it.n;
-  const hasP=S.sec!=="M";$("at-body").className="at-body"+(hasP?"":" solo")+($("at-calcpane").hidden?"":" calc");
+  const hasP=S.sec!=="M"&&S.sec!=="A";$("at-body").className="at-body"+(hasP?"":" solo")+($("at-calcpane").hidden?"":" calc");
   $("at-pass").hidden=!hasP;
   if(hasP){const key=S.sec+":"+it.pi;if(key!==lastPassKey||S.sec==="E"){const st=$("at-pass").scrollTop;$("at-pass").innerHTML=passageHtml(S,it);if(key===lastPassKey)$("at-pass").scrollTop=st;else $("at-pass").scrollTop=0;lastPassKey=key;}
     const u=$("at-pass").querySelector('[data-go="'+num+'"]');if(u&&S.sec==="E")u.scrollIntoView({block:"center",behavior:"smooth"});}
   const sel=S.ans[S.cur],el=S.elim[S.cur]||{};
   let stem=it.q||"";if(S.sec==="E"&&!stem)stem="";
   $("at-q").innerHTML='<div class="qhead"><span class="qnum">'+num+'</span><span class="muted" style="font-size:.85rem">'+(S.sec==="E"&&!it.q?"Choose the best version of the underlined portion.":"")+'</span></div>'+
-    (stem?'<div class="qstem">'+esc(stem)+'</div>':'')+(it.table?tblHtml(it.table):'')+
-    '<div class="at-choices">'+it.c.map((c,k)=>'<div class="at-ch'+(sel===k?' sel':'')+(el[k]?' x':'')+'"><button class="pick" data-k="'+k+'"><span class="lt">'+LET(num,k)+'</span><span>'+esc(c)+'</span></button><button class="elim" data-e="'+k+'" aria-label="Eliminate choice '+LET(num,k)+'" title="Eliminate">⊘</button></div>').join("")+'</div>';
+    (stem?'<div class="qstem">'+esc(stem)+'</div>':'')+(it.svg?'<div class="qfigure">'+it.svg+'</div>':'')+(it.table?tblHtml(it.table):'')+
+    '<div class="at-choices">'+it.c.map((c,k)=>'<div class="at-ch'+(sel===k?' sel':'')+(el[k]?' x':'')+(learnShown(S)?(k===it.a?' ok':sel===k?' no':''):'')+'"><button class="pick" data-k="'+k+'"><span class="lt">'+LET(num,k)+'</span><span>'+esc(c)+'</span></button><button class="elim" data-e="'+k+'" aria-label="Eliminate choice '+LET(num,k)+'" title="Eliminate">⊘</button></div>').join("")+'</div>';
+  if(learnShown(S))$("at-q").insertAdjacentHTML("beforeend",solHtml(it,S.ans[S.cur]));
   $("at-flag").setAttribute("aria-pressed",!!S.flag[S.cur]);
   $("at-navbtn").textContent="Question "+(S.cur+1)+" of "+S.items.length+" ▴";
   $("at-prev").disabled=S.cur===0;$("at-next").textContent=S.cur===S.items.length-1?"Review →":"Next →";
   $("at-q").scrollTop=0;}
-$("at-q").addEventListener("click",e=>{const S=cur();if(!S)return;const p=e.target.closest(".pick"),x=e.target.closest(".elim");
+const learnShown=S=>T&&T.cfg.learn&&S.ans[S.cur]!=null;
+function solHtml(it,a){const ok=a===it.a;return '<div class="lsol '+(ok?'ok':'no')+'"><b>'+(ok?'Correct ✓':'Not quite. The answer is '+LET(it.n,it.a)+'.')+'</b><ol>'+(it.steps||[]).map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol>'+(it.key?'<p><b>Key idea:</b> '+esc(it.key)+'</p>':'')+'</div>';}
+$("at-q").addEventListener("click",e=>{const S=cur();if(!S)return;if(learnShown(S)&&e.target.closest(".pick,.elim"))return;const p=e.target.closest(".pick"),x=e.target.closest(".elim");
   if(p){const k=+p.dataset.k;S.ans[S.cur]=S.ans[S.cur]===k?undefined:k;if(S.elim[S.cur])delete S.elim[S.cur][k];showQ(S.cur);}
   if(x){const k=+x.dataset.e;S.elim[S.cur]=S.elim[S.cur]||{};S.elim[S.cur][k]=!S.elim[S.cur][k];if(S.ans[S.cur]===k)S.ans[S.cur]=undefined;showQ(S.cur);}});
 $("at-pass").addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;const S=cur();const idx=S.items.findIndex(it=>it.n===+g.dataset.go);if(idx>=0)showQ(idx);});
@@ -461,7 +484,7 @@ function submitSection(timeUp){clearInterval(clock);const S=cur();$("at-calcpane
     return;}
   finishTest(timeUp);}
 function finishTest(timeUp){T.done=true;lock.on=false;fsExit();
-  const secs={};T.secs.forEach(S=>{secs[S.sec]={raw:S.raw,n:S.items.length,scale:S.full?scale(S.raw,S.items.length):null,full:S.full,used:S.used};});
+  const secs={};T.secs.forEach(S=>{secs[S.sec]={raw:S.raw,n:S.items.length,scale:S.full&&S.sec!=="A"?scale(S.raw,S.items.length):null,full:S.full&&S.sec!=="A",used:S.used};});
   const has=k=>secs[k]&&secs[k].full;const composite=has("E")&&has("M")&&has("R")?Math.round((secs.E.scale+secs.M.scale+secs.R.scale)/3):null;
   const stem=has("M")&&has("S")?Math.round((secs.M.scale+secs.S.scale)/2):null;
   const rec={at:Date.now(),label:T.label,secs,composite,stem,left:lock.count};prog.tests.push(rec);prog.tests=prog.tests.slice(-60);saveP();
@@ -469,25 +492,28 @@ function finishTest(timeUp){T.done=true;lock.on=false;fsExit();
   const cats={};T.secs.forEach(S=>S.items.forEach((it,i)=>{const k=SEC[S.sec].name+" · "+it.cat;cats[k]=cats[k]||[0,0];cats[k][1]++;if(S.ans[i]===it.a)cats[k][0]++;}));
   const CATN={POW:"Production of Writing",KLA:"Knowledge of Language",CSE:"Conventions of Standard English",KID:"Key Ideas and Details",CS:"Craft and Structure",IKI:"Integration of Knowledge and Ideas",IOD:"Interpretation of Data",SIN:"Scientific Investigation",EMI:"Evaluation of Models, Inferences, and Results"};
   let h='<span class="lock-k">'+esc(T.label)+'</span><h2>'+(composite?'Composite '+composite+'<span class="muted" style="font-size:1rem"> / 36</span>':'Your results')+'</h2>'+(timeUp?'<p class="muted">Time ran out on the last section, as it would on test day.</p>':'')+
-    '<div class="res-secs">'+T.secs.map(S=>'<div class="stat"><span class="k">'+SEC[S.sec].name+'</span><span class="v num">'+(S.full?scale(S.raw,S.items.length):S.raw+"/"+S.items.length)+'<small>'+(S.full?"/36":"")+'</small></span><span class="k">'+S.raw+' of '+S.items.length+' correct · '+fmt(S.used)+' used</span></div>').join("")+(stem?'<div class="stat"><span class="k">STEM</span><span class="v num">'+stem+'<small>/36</small></span><span class="k">Math + Science</span></div>':'')+'</div>'+
+    '<div class="res-secs">'+T.secs.map(S=>'<div class="stat"><span class="k">'+SEC[S.sec].name+'</span><span class="v num">'+(S.sec==="A"?Math.round(100*S.raw/S.items.length)+'<small>%</small>':S.full?scale(S.raw,S.items.length)+'<small>/36</small>':S.raw+"/"+S.items.length+'<small></small>')+'</span><span class="k">'+S.raw+' of '+S.items.length+' correct · '+fmt(S.used)+' used</span></div>').join("")+(stem?'<div class="stat"><span class="k">STEM</span><span class="v num">'+stem+'<small>/36</small></span><span class="k">Math + Science</span></div>':'')+'</div>'+
     (lock.count?'<p class="muted">You left the test window '+lock.count+(lock.count===1?' time':' times')+' during this test.</p>':'')+
-    '<p class="disclaim">Scale scores are estimates from typical ACT conversion curves, not official scores.</p>'+
+    '<p class="disclaim">'+(T.order[0]==="A"?'AIST results are shown as a percentage; ACT does not publish a 1–36 conversion for the subject tests.':'Scale scores are estimates from typical ACT conversion curves, not official scores.')+'</p>'+
     '<h3 style="margin-top:6px">By category</h3><div class="hist">'+Object.entries(cats).map(([k,v])=>{const [sec,c]=k.split(" · ");return '<div><span>'+esc(sec)+' · '+esc(CATN[c]||c)+'</span><b>'+v[0]+'/'+v[1]+'</b></div>';}).join("")+'</div>'+
     '<h3 style="margin-top:6px">Review answers</h3><div class="rv">'+T.secs.map(S=>S.items.map((it,i)=>{const a=S.ans[i],ok=a===it.a;
-      const ex=it.x?'<p>'+esc(it.x)+'</p>':((it.steps||[]).length?'<ol>'+it.steps.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol>'+(it.key?'<p><b>Key idea:</b> '+esc(it.key)+'</p>':''):'');
-      return '<details'+(ok?'':' ')+'><summary><span class="mk '+(a==null?'na':ok?'ok':'no')+'">'+(a==null?'–':ok?'✓':'✕')+'</span>'+SEC[S.sec].name+' '+it.n+'</summary><div class="rx">'+(it.q?'<p>'+esc(it.q)+'</p>':'')+
+      const ex=(it.svg?'<div class="qfigure">'+it.svg+'</div>':'')+((it.steps||[]).length?'<b>Step-by-step solution</b><ol>'+it.steps.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol>'+(it.key?'<p><b>Key idea:</b> '+esc(it.key)+'</p>':''):(it.x?'<p>'+esc(it.x)+'</p>':''));
+      return '<details><summary><span class="mk '+(a==null?'na':ok?'ok':'no')+'">'+(a==null?'–':ok?'✓':'✕')+'</span>'+SEC[S.sec].name+' '+it.n+'</summary><div class="rx">'+(it.q?'<p>'+esc(it.q)+'</p>':'')+
         '<p>Your answer: <b>'+(a==null?'none':LET(it.n,a)+'. '+esc(it.c[a]))+'</b><br>Correct: <b>'+LET(it.n,it.a)+'. '+esc(it.c[it.a])+'</b></p>'+ex+'</div></details>';}).join("")).join("")+'</div>'+
     '<button class="btn" id="fx-done">Done</button>';
   screen(h);$("at-timer").textContent="Done";
   $("fx-done").onclick=()=>{if(TEST){try{window.close();}catch(e){}setTimeout(()=>{location.href=location.pathname;},300);}else{$("atest").hidden=true;document.body.style.overflow="";T=null;render();}};}
 
+
+/* guide tables: label each cell so rows can stack on phones */
+document.querySelectorAll(".gtable").forEach(t=>{const h=[...t.querySelectorAll("thead th")].map(x=>x.textContent.trim());t.querySelectorAll("tbody tr").forEach(r=>[...r.children].forEach((td,i)=>{if(h[i])td.setAttribute("data-l",h[i]);}));});
 /* ---------- boot ---------- */
 route();
 (async function(){
   try{const r=await fetch("act-questions.json",{cache:"no-cache"});if(!r.ok)throw 0;BANK=await r.json();
     $("conn").innerHTML='<span class="dot ok"></span>'+(BANK.forms[0].english.length*10+BANK.forms[0].reading.reduce((a,p)=>a+p.qs.length,0)+BANK.forms[0].science.reduce((a,p)=>a+p.qs.length,0)+BANK.math.length).toLocaleString()+' ACT questions loaded';render();}
   catch(e){$("conn").innerHTML='<span class="dot err"></span>Questions could not be loaded';}
-  if(TEST){const c=TEST;const what=c.kind==="full"?"Full practice test · English, Math, Reading"+(c.sci?", Science":""):c.kind==="sec"?SEC[c.sec].name+" · "+SEC[c.sec].n+" questions · "+SEC[c.sec].min+" minutes":SEC[c.sec].name+" drill";
+  if(TEST){const c=TEST;const what=c.kind==="full"?"Full practice test · English, Math, Reading"+(c.sci?", Science":""):c.kind==="aist"?"AIST Math 1 · 50 questions · 60 minutes":c.kind==="sec"?SEC[c.sec].name+" · "+SEC[c.sec].n+" questions · "+SEC[c.sec].min+" minutes":SEC[c.sec].name+" drill";
     $("lg-sum").textContent=what;$("lockgate").hidden=false;$("lg-note").textContent=BANK?"Questions loaded. Good luck!":"The questions could not be loaded. Close this window and try again.";$("lg-go").disabled=!BANK;
     $("lg-go").addEventListener("click",()=>{$("lockgate").hidden=true;beginTest(c);});}
 })();

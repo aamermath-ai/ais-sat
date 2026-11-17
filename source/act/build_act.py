@@ -5,10 +5,27 @@ import json, os, re, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import english_form1, reading_form1, science_form1
 
+CATN = {"POW": "Production of Writing", "KLA": "Knowledge of Language", "CSE": "Conventions of Standard English",
+        "KID": "Key Ideas and Details", "CS": "Craft and Structure", "IKI": "Integration of Knowledge and Ideas",
+        "IOD": "Interpretation of Data", "SIN": "Scientific Investigation", "EMI": "Evaluation of Models, Inferences, and Experimental Results"}
+FIRST = {"CSE": "Read the whole sentence and identify the grammar or punctuation rule being tested.",
+         "KLA": "Check each choice for precise, concise, consistent wording.",
+         "POW": "Ask what the sentence or passage is trying to do (its purpose and focus).",
+         "KID": "Find the part of the passage the question points to and reread it.",
+         "CS": "Think about why the author wrote this part and how it works in the passage.",
+         "IKI": "Connect ideas across the passage (or across both passages) before choosing.",
+         "IOD": "Go to the table or figure named in the question and read its axes, labels and units.",
+         "SIN": "Identify what was changed, what was measured, and what was kept the same.",
+         "EMI": "Compare the claim or model with the data or viewpoint, one statement at a time."}
+def steps_for(q, correct):
+    """Turn an explanation into numbered steps: approach, reasoning, answer."""
+    parts = [p.strip() for p in re.split(r'(?<=[.!?]["\u201d])\s+(?=[A-Z0-9"\u201c(])|(?<=[.!?])\s+(?=[A-Z0-9"\u201c(])', q["x"]) if p.strip()]
+    return [FIRST.get(q["cat"], "Read the question carefully.")] + parts + ["Answer: " + correct]
+
 LETTER_REF = re.compile(r"(^|[\s,;(])[B-D](?=[\s,]|'s|$)")
 def scrub(x):
     """Drop explanation sentences that mention choice letters (letters change once choices are shuffled)."""
-    parts = re.split(r"(?<=[.!?\"])\s+", x)
+    parts = re.split(r'(?<=[.!?]["\u201d])\s+(?=[A-Z0-9"\u201c(])|(?<=[.!?])\s+(?=[A-Z0-9"\u201c(])', x)
     keep = [p for p in parts if not LETTER_REF.search(p)]
     return " ".join(keep) if keep else x
 
@@ -41,7 +58,8 @@ def english(passages, rng, nc_target=0.24):
                 else:
                     order = list(range(4)); rng.shuffle(order)
                 c = [c[i] for i in order]; a = order.index(a)
-            qs.append({"n": num, "q": q.get("q", ""), "c": c, "a": a, "cat": q["cat"], "x": scrub(q["x"])})
+            x = scrub(q["x"]); qq = {"n": num, "q": q.get("q", ""), "c": c, "a": a, "cat": q["cat"], "x": x}
+            qq["steps"] = steps_for({"x": x, "cat": q["cat"]}, "“" + c[a] + "”"); qs.append(qq)
         out.append({"title": P["title"], "paras": paras, "qs": qs})
     return out
 
@@ -51,7 +69,8 @@ def shuffled(passages, rng, start=1):
         qs = []
         for q in P["qs"]:
             order = list(range(4)); rng.shuffle(order)
-            qs.append({"n": num, "q": q["q"], "c": [q["c"][i] for i in order], "a": order.index(0), "cat": q["cat"], "x": scrub(q["x"])}); num += 1
+            x = scrub(q["x"]); c = [q["c"][i] for i in order]
+            qs.append({"n": num, "q": q["q"], "c": c, "a": order.index(0), "cat": q["cat"], "x": x, "steps": steps_for({"x": x, "cat": q["cat"]}, c[order.index(0)])}); num += 1
         d = {k: v for k, v in P.items() if k != "qs"}; d["qs"] = qs; out.append(d)
     return out
 
@@ -65,8 +84,10 @@ def math_pool(root, rng):
         for q in lvl[:320]:
             sk = q.get("skill", "")
             cat = CAT.get(q.get("domain"), "Statistics and Probability" if sk in ("Probability", "One-variable data", "Two-variable data", "Sample statistics and margin of error", "Observational studies and experiments") else "Integrating Essential Skills")
+            st = q.get("steps") or [p for p in re.split(r"(?<=[.!?])\s+", q.get("explanation", "")) if p]
+            if not st: continue   # every ACT item must have a worked solution
             item = {"id": "s-" + q["id"], "stem": q["stem"], "choices": q["choices"], "answer": q["answer"], "difficulty": d, "cat": cat,
-                    "steps": q.get("steps") or [], "key": q.get("key", "")}
+                    "steps": st, "key": q.get("key", "")}
             if q.get("table"): item["table"] = q["table"]
             pool.append(item)
     extra = json.load(open(os.path.join(HERE, "act_math_extra.json")))
@@ -74,6 +95,13 @@ def math_pool(root, rng):
         order = list(range(4)); rng.shuffle(order)
         pool.append({"id": q["id"], "stem": q["stem"], "choices": [q["choices"][i] for i in order], "answer": order.index(0),
                      "difficulty": q["difficulty"], "cat": q["cat"], "steps": q["steps"], "key": q["key"], "act": True})
+    for q in json.load(open(os.path.join(HERE, "aist_math.json"))):
+        order = list(range(4)); rng.shuffle(order)
+        item = {"id": q["id"], "stem": q["stem"], "choices": [q["choices"][i] for i in order], "answer": order.index(0),
+                "difficulty": q["difficulty"], "cat": q["cat"], "steps": q["steps"], "key": q["key"], "aist": True}
+        if q.get("svg"): item["svg"] = q["svg"]
+        pool.append(item)
+    assert all(it["steps"] for it in pool)
     return pool
 
 def build(root):

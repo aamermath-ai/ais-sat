@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-/L5LlWyM1WY83Q0WGkPnF0qmZyw+8p37DEYrzpdwjm8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-BdybeAiISk3sr7tbmFygpIydiZwIL/4/Llc+93z/xXo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="SAT AIS: free adaptive Digital SAT practice for AIS students, from the Mathematics Department, American International School.">
@@ -774,6 +774,20 @@ details.more[open] summary{margin-bottom:14px}
 
 
 
+
+/* ---------- guide pages ---------- */
+.gtable{width:100%;border-collapse:collapse;font-size:.92rem}
+.gtable th,.gtable td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.gtable th{color:var(--muted);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+.tips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.tips ul{margin:8px 0 0;padding-left:18px;color:var(--ink-2);display:flex;flex-direction:column;gap:6px;font-size:.92rem}
+.links{display:flex;flex-direction:column;gap:10px}
+.links a{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:12px;background:var(--fill);color:var(--ink);text-decoration:none!important}
+.links a span{color:var(--muted);font-size:.84rem;white-space:nowrap}
+@media (max-width:860px){.tips{grid-template-columns:minmax(0,1fr)}.links a{flex-direction:column}}
+@media (max-width:640px){.gtable thead{display:none}.gtable tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
+  .gtable td{display:block;border:0;padding:3px 0}.gtable td:first-child{font-weight:800;font-size:1rem;color:var(--ink)}
+  .gtable td:not(:first-child)[data-l]::before{content:attr(data-l) ": ";font-weight:700;color:var(--muted)}.gtable td:empty{display:none}}
 /* ---------- welcome gate: choose SAT or ACT ---------- */
 .switchx{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;border:1px dashed var(--line);color:var(--ink-2);text-decoration:none!important;font-size:.88rem;font-weight:600}
 .switchx:hover{background:var(--fill)}
@@ -1045,6 +1059,7 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
   <symbol id="i-practice" viewBox="0 0 24 24"><path d="M15.5 4.5l4 4L9 19l-5 1 1-5z M13.5 6.5l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="i-progress" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
   <symbol id="i-uni" viewBox="0 0 24 24"><path d="M2.5 9.2 12 4.5l9.5 4.7-9.5 4.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.5 11.3v4.3c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-4.3M21.5 9.2v5.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-guide" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5 14.5 4 17.5 4 20 5.5V19c-2.5-1.5-5.5-1.5-8 0-2.5-1.5-5.5-1.5-8 0z M12 5.5V19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="i-bank" viewBox="0 0 24 24"><path d="M5 4.5h4v15H5z M10 4.5h4v15h-4z M15.2 5.3l3.8-1 3.6 14.4-3.8 1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
@@ -1093,6 +1108,7 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
       <a href="#practice" data-tab="practice"><svg><use href="#i-practice"/></svg>Practice</a>
       <a href="#formulas" data-tab="formulas"><svg><use href="#i-formula"/></svg>Formulas</a>
       <a href="#desmos" data-tab="desmos"><svg><use href="#i-desmos"/></svg>Desmos Practice</a>
+      <a href="#guide" data-tab="guide"><svg><use href="#i-guide"/></svg>SAT guide</a>
       <a href="#unis" data-tab="unis"><svg><use href="#i-uni"/></svg>Universities</a>
       <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Question Bank</a>
     </nav>
@@ -1290,6 +1306,59 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
       <div id="dx-calc" hidden></div>
     </section>
 
+    <section class="page fade" id="v-guide" hidden>
+      <div class="ptitle"><span class="eyebrow">Know the test</span><h1>SAT guide</h1><p>The digital SAT: shorter, adaptive, with Desmos and a reference sheet built in. Here is exactly what to expect and how to prepare.</p></div>
+      <article class="card"><div class="card-h"><h2>Test format</h2></div>
+        <div style="overflow-x:auto"><table class="gtable"><thead><tr><th>Section</th><th>Questions</th><th>Time</th><th>Structure</th></tr></thead><tbody>
+          <tr><td><b>Reading and Writing</b></td><td>54</td><td>64 min</td><td>2 modules of 27 questions, 32 minutes each. Short passages, one question each</td></tr>
+          <tr><td><b>Break</b></td><td></td><td>10 min</td><td>Between the two sections</td></tr>
+          <tr><td><b>Math</b></td><td>44</td><td>70 min</td><td>2 modules of 22 questions, 35 minutes each. Multiple choice and student-produced responses (about 25%)</td></tr>
+          <tr><td><b>Total</b></td><td>98</td><td>2 h 14 min</td><td>Taken on the Bluebook app. 4 questions in each section are unscored pretest questions</td></tr>
+        </tbody></table></div>
+        <p class="disclaim" style="margin-top:12px"><b>Adaptive:</b> your performance in the first module of each section decides whether the second module is harder or easier. A strong first module opens the path to the highest scores. <b>Scores:</b> each section 200–800, total 400–1600. There is no penalty for wrong answers.</p>
+      </article>
+      <div class="tips">
+        <article class="card"><h2 class="cr-h">Reading and Writing content</h2><ul>
+          <li><b>Craft and Structure</b> (about 28%): words in context, text structure and purpose, cross-text connections.</li>
+          <li><b>Information and Ideas</b> (about 26%): central ideas, command of evidence (textual and quantitative), inferences.</li>
+          <li><b>Standard English Conventions</b> (about 26%): boundaries (punctuation) and form, structure and sense (grammar).</li>
+          <li><b>Expression of Ideas</b> (about 20%): rhetorical synthesis (notes) and transitions.</li></ul></article>
+        <article class="card"><h2 class="cr-h">Math content</h2><ul>
+          <li><b>Algebra</b> (about 35%): linear equations, inequalities, functions and systems.</li>
+          <li><b>Advanced Math</b> (about 35%): quadratics, exponentials, polynomials, equivalent expressions, nonlinear functions.</li>
+          <li><b>Problem-Solving and Data Analysis</b> (about 15%): ratios, rates, percentages, statistics, probability.</li>
+          <li><b>Geometry and Trigonometry</b> (about 15%): area, volume, angles, triangles, right-triangle trig, circles.</li></ul></article>
+        <article class="card"><h2 class="cr-h">Reading and Writing strategies</h2><ul>
+          <li>Each passage has one question: read the question first, then the passage with a purpose.</li>
+          <li>For "most logical completion", the answer must follow from the text, so cut choices that go further.</li>
+          <li>For notes questions, match the goal in the question word for word.</li>
+          <li>Punctuation: decide whether each side is a complete sentence before choosing.</li></ul></article>
+        <article class="card"><h2 class="cr-h">Math strategies</h2><ul>
+          <li>Desmos is built in: graph equations, solve systems and check answers fast (see Desmos Practice).</li>
+          <li>The reference sheet gives area, volume and triangle formulas, but learn them anyway to save time.</li>
+          <li>Student-produced responses: enter fractions or decimals; there are no answer choices to check against.</li>
+          <li>Module 1 matters most: work carefully to unlock the harder second module.</li></ul></article>
+      </div>
+      <article class="card"><div class="card-h"><h2>SAT or ACT?</h2><a class="aside" href="act.html">Try ACT practice →</a></div>
+        <div style="overflow-x:auto"><table class="gtable"><thead><tr><th></th><th>SAT</th><th>ACT</th></tr></thead><tbody>
+          <tr><td>Format</td><td>Adaptive by module</td><td>Fixed: same questions for everyone</td></tr>
+          <tr><td>Length</td><td>2 h 14 min, 98 questions</td><td>About 2 h (3 h with Science), 131–171 questions</td></tr>
+          <tr><td>Math</td><td>Desmos and formula sheet on every question</td><td>Calculator allowed; no formula sheet; matrices, logs, complex numbers</td></tr>
+          <tr><td>Science</td><td>None</td><td>Optional section</td></tr>
+          <tr><td>Scores</td><td>400–1600</td><td>1–36</td></tr>
+        </tbody></table></div>
+      </article>
+      <article class="card"><div class="card-h"><h2>Trusted SAT resources</h2></div>
+        <div class="links">
+          <a href="https://satsuite.collegeboard.org/practice/practice-tests" target="_blank" rel="noopener noreferrer">Free official full-length practice tests (in the Bluebook app)<span>College Board ↗</span></a>
+          <a href="https://satsuite.collegeboard.org/sat/whats-on-the-test/structure" target="_blank" rel="noopener noreferrer">How the SAT is structured<span>College Board ↗</span></a>
+          <a href="https://satsuitequestionbank.collegeboard.org/" target="_blank" rel="noopener noreferrer">SAT Suite Question Bank (official questions by skill)<span>College Board ↗</span></a>
+          <a href="https://blog.collegeboard.org/college-board-khan-academy-for-better-sat-prep" target="_blank" rel="noopener noreferrer">Official Digital SAT Prep on Khan Academy<span>College Board ↗</span></a>
+          <a href="https://satsuite.collegeboard.org/media/pdf/digital-sat-test-spec-overview.pdf" target="_blank" rel="noopener noreferrer">Digital SAT test specifications<span>College Board PDF ↗</span></a>
+        </div>
+        <p class="disclaim" style="margin-top:12px">The questions on this site are original practice items written to the College Board's published specifications. They are not official SAT questions; SAT is a trademark of the College Board, which is not affiliated with this site.</p>
+      </article>
+    </section>
     <section class="page fade" id="v-unis" hidden>
       <div class="ptitle"><span class="eyebrow">Where your SAT can take you</span><h1>Dream Universities</h1>
         <p>SAT scores and scholarships at 20 top US, 20 top UK and 10 top UAE universities, with links to each official website. Slide your score, pick your nationality and see which doors open.</p></div>
@@ -1353,6 +1422,7 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
     <a href="#today" data-tab="today" aria-label="Summary"><svg aria-hidden="true"><use href="#i-summary"/></svg><span class="tl">Summary</span></a>
     <a href="#practice" data-tab="practice" aria-label="Practice"><svg aria-hidden="true"><use href="#i-practice"/></svg><span class="tl">Practice</span></a>
     <a href="#formulas" data-tab="formulas" aria-label="Formulas"><svg aria-hidden="true"><use href="#i-formula"/></svg><span class="tl">Formulas</span></a>
+    <a href="#guide" data-tab="guide" aria-label="SAT guide"><svg aria-hidden="true"><use href="#i-guide"/></svg><span class="tl">Guide</span></a>
     <a href="#desmos" data-tab="desmos" aria-label="Desmos Practice"><svg aria-hidden="true"><use href="#i-desmos"/></svg><span class="tl">Desmos Practice</span></a>
     <a href="#bank" data-tab="bank" aria-label="Bank"><svg aria-hidden="true"><use href="#i-bank"/></svg><span class="tl">Bank</span></a>
   </nav>
@@ -1668,7 +1738,7 @@ function save(){
 function setConn(kind,text){$("conn").innerHTML='<span class="dot '+kind+'"></span>'+esc(text);}
 
 /* ---------- routing ---------- */
-const TABS=["today","practice","formulas","desmos","progress","unis","bank","creator"];
+const TABS=["today","practice","formulas","desmos","progress","guide","unis","bank","creator"];
 /* ---------- anonymous usage statistics (optional; setup in HANDOVER.md) ----------
    Sends no names or personal details: only a random device ID, the date, which section was opened,
    and the size/score of each finished practice set. Leave STATS_URL empty to switch statistics off. */
@@ -2667,6 +2737,8 @@ $("f-q").addEventListener("input",()=>renderFormulas());
 $("f-dom").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fDom=b.dataset.v||null;mmSel=fDom?DOMAINS.math.indexOf(fDom):null;play("select");renderFormulas();});
 $("f-list").addEventListener("click",e=>{const b=e.target.closest("[data-prac]");if(!b)return;opts.mode="math";opts.domain=b.dataset.dom;opts.skill=b.dataset.prac;opts.level="adaptive";location.hash="#practice";});
 
+/* guide tables: label each cell so rows can stack on phones */
+document.querySelectorAll(".gtable").forEach(t=>{const h=[...t.querySelectorAll("thead th")].map(x=>x.textContent.trim());t.querySelectorAll("tbody tr").forEach(r=>[...r.children].forEach((td,i)=>{if(h[i])td.setAttribute("data-l",h[i]);}));});
 /* ---------- welcome gate (SAT or ACT) ---------- */
 (function(){let seen=null;try{seen=sessionStorage.getItem("ais-gate");}catch(e){}
   if(EXAM||VIEW||seen||(location.hash&&location.hash!=="#"))return;

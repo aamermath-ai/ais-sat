@@ -108,7 +108,7 @@ const keyDel=()=>{ls.del("ais-admin-key");ss.del("ais-admin-key");};
 let idleT=null; const IDLE=30*60*1000;   // sign out after 30 minutes without activity (unless remembered)
 function idle(){clearTimeout(idleT);if(ls.get("ais-admin-key"))return;idleT=setTimeout(()=>{keyDel();$("key").value="";data=null;$("dash").hidden=true;$("login").hidden=false;showErr("Signed out after 30 minutes without activity.");},IDLE);}
 ["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,idle));
-const TAB={"act-home":"ACT · Home","act-practice":"ACT · Practice tests","act-guide":"ACT · Guide",creator:"About the creator",today:"Summary",practice:"Practice",formulas:"Formulas",desmos:"Desmos Practice",unis:"Universities",bank:"Question Bank",progress:"Progress"};
+const TAB={"guide":"SAT guide","act-home":"ACT · Home","act-practice":"ACT · Practice tests","act-guide":"ACT · Guide",creator:"About the creator",today:"Summary",practice:"Practice",formulas:"Formulas",desmos:"Desmos Practice",unis:"Universities",bank:"Question Bank",progress:"Progress"};
 let range=30, data=null;
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const fmt=n=>Number(n||0).toLocaleString();

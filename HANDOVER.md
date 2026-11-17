@@ -18,6 +18,7 @@ A free Digital SAT practice website for students of the American International S
 | **Practice** | Timed adaptive sets (whole syllabus, Math or Reading & Writing; by domain or skill). Each set opens in its own **test window** (full screen on computers) that warns students if they leave it and records each time in the results. All served questions are SAT Hard level, with the hardest first. Built-in Desmos calculator and reference sheet, as on test day. Step-by-step solutions after every wrong answer |
 | **Formulas** | The SAT Math formula sheet with geometry diagrams, plus a mind map of every Math subtopic |
 | **Desmos Practice** | The *Full SAT Desmos Guide* video, plus three tools that each open in their own window: 27 Desmos techniques with worked solutions (each with a "Try it in Desmos" calculator window beside it), the Desmos Speed Trainer and the Desmos calculator |
+| **SAT guide** | Test format, timing, adaptive modules, scoring, content domains with percentages, strategies, SAT vs ACT, and official College Board resources |
 | **Universities** | SAT ranges and scholarships at 50 universities (20 US, 20 UK, 10 UAE), with a score slider, a nationality filter for 10 countries and links to every official website |
 | **Question Bank** | Browse every question by skill |
 
@@ -115,6 +116,11 @@ Opening the site shows a welcome screen once per visit, where students choose **
   - Practice Form 1: English 5 passages / 50 Q, Reading 4 passages / 36 Q, Science 6 passages / 40 Q;
   - Math: a pool of 1,105 questions (SAT-bank multiple-choice items plus 330 ACT-only items: matrices, logarithms, complex numbers, sequences, exact trig values, counting and probability, circle equations, composition). A fresh 45-question set is drawn for each test, ordered easier to harder.
 - **Source files:** `source/act.html` (the page), and in `source/act/`: `english_form1.py`, `reading_form1.py`, `science_form1.py`, `gen_act_math.py` and `build_act.py`. `python3 source/build.py` builds `act.html` and `act-questions.json` together with the SAT site.
+- **AIST Math 1 practice (ACT International Subject Test):** 50 questions in 60 minutes, algebra and geometry heavy, with a calculator. Results are shown as a percentage, because ACT publishes no 1–36 conversion for subject tests. The questions come from `source/act/gen_aist.py`: 534 original items modelled on the topics and difficulty of the department's AIST notes and question banks, which are not copied. Each has worked steps, and many geometry questions have drawn figures.
+- **ACT Math sets** follow the approximate official reporting-category mix (number and quantity, algebra, functions, geometry, statistics and probability, essential skills) and are ordered easier to harder.
+- **Step-by-step solutions:**
+  - every ACT question (English, Reading, Science and Math) has numbered solution steps, shown in the review after a test;
+  - in **learning mode** (a drill option), the solution appears right after each answer.
 - **Adding another full ACT form:** write `english_form2.py`, `reading_form2.py` and `science_form2.py` in the same format, and add them to `forms` in `build_act.py`.
 
 ## 7. Usage statistics (your private backend)
