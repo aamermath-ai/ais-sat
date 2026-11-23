@@ -1602,7 +1602,7 @@ const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 /* security: if another website loads SAT AIS inside a hidden frame (clickjacking), show only a link */
 if(!window.claude&&window.top!==window.self){try{document.documentElement.innerHTML='<body style="font:16px system-ui;padding:24px"><p>For your security, SAT AIS cannot be shown inside another website.</p><p><a href="'+location.href.replace(/"/g,"")+'" target="_blank" rel="noopener noreferrer">Open SAT AIS in its own tab</a></p></body>';}catch(e){}throw new Error("framed");}
 /* "Created and developed by" credit and creator page: set to true to show them again */
-const SHOW_CREATOR=false;
+const SHOW_CREATOR=true;
 if(!SHOW_CREATOR)document.documentElement.classList.add("no-creator");
 /* test window (?exam=…) and Desmos techniques window (?view=dx) */
 const EXAM=(()=>{try{const v=new URLSearchParams(location.search).get("exam");if(!v||v.length>4000)return null;const c=JSON.parse(v);

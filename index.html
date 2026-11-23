@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-BdybeAiISk3sr7tbmFygpIydiZwIL/4/Llc+93z/xXo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-5zzlinFKhsokOy5WpJV/bRt9EbJsWEcn+HEhlg+khXs='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="SAT AIS: free adaptive Digital SAT practice for AIS students, from the Mathematics Department, American International School.">
@@ -1613,7 +1613,7 @@ const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 /* security: if another website loads SAT AIS inside a hidden frame (clickjacking), show only a link */
 if(!window.claude&&window.top!==window.self){try{document.documentElement.innerHTML='<body style="font:16px system-ui;padding:24px"><p>For your security, SAT AIS cannot be shown inside another website.</p><p><a href="'+location.href.replace(/"/g,"")+'" target="_blank" rel="noopener noreferrer">Open SAT AIS in its own tab</a></p></body>';}catch(e){}throw new Error("framed");}
 /* "Created and developed by" credit and creator page: set to true to show them again */
-const SHOW_CREATOR=false;
+const SHOW_CREATOR=true;
 if(!SHOW_CREATOR)document.documentElement.classList.add("no-creator");
 /* test window (?exam=…) and Desmos techniques window (?view=dx) */
 const EXAM=(()=>{try{const v=new URLSearchParams(location.search).get("exam");if(!v||v.length>4000)return null;const c=JSON.parse(v);
