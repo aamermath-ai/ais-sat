@@ -102,9 +102,19 @@ ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).
 ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-10').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), "", None, "strict-origin-when-cross-origin"))
 os.makedirs(OUT+'/worksheets',exist_ok=True)
+SITE_URL='https://aamermath-ai.github.io/ais-sat/'   # public address of the site, used in the worksheet QR codes
+kit=open(S+'/worksheet-kit.html').read()             # City Missions game + QR code, added to every worksheet
+os.makedirs(OUT+'/worksheets/qr',exist_ok=True)
+try: import segno                                    # pip install segno  (only needed to make new QR codes)
+except ImportError: segno=None
 for f in sorted(os.listdir(S+'/worksheets')):
     if f.endswith('.html'):
+        url=SITE_URL+'worksheets/'+f; qr=OUT+'/worksheets/qr/'+f[:-5]+'.svg'
+        if segno: segno.make(url,error='h').save(qr,kind='svg',dark='#062b1c',light='#ffffff',border=2,scale=10,xmldecl=False)
+        elif not os.path.exists(qr): print('WARNING: no QR code for',f,'- run: pip install segno')
         w=open(S+'/worksheets/'+f).read()
+        i=w.rfind('</body>'); assert i>0
+        w=w[:i]+kit.replace('@@QR@@','qr/'+f[:-5]+'.svg').replace('@@URL@@',url)+w[i:]
         w=add_calc(w,'../')
         open(OUT+'/worksheets/'+f,'w').write(csp(w, "", None, "strict-origin-when-cross-origin"))
 print('worksheets:',len([f for f in os.listdir(S+'/worksheets') if f.endswith('.html')]))

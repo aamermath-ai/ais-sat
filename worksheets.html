@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-77f9GSQrbliNn4PQi4Q7kZ3O5/VuNcJ7ACTTWTjn8AU=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-9j1IYHWvENDyyFYQ/8DVt3AtU3Y76WL5/ibx65sS4Tc=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Worksheets AIS: interactive maths class worksheets for Grades 6-10, from the Mathematics Department, American International School.">
@@ -1070,6 +1070,26 @@ a.row{color:var(--ink);text-decoration:none!important}
 a.row:hover{background:var(--fill)}
 .wsitem .chip{min-width:54px;justify-content:center}
 .wsitem .ico{color:var(--muted)}
+.wsitem{padding:8px 10px 8px 16px}
+.wslink{flex:1;min-width:0;display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none!important;min-height:48px}
+.wslink:hover .t{color:var(--accent)}
+.wsqr{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:5px;cursor:pointer}
+.wsqr img{width:52px;height:52px;display:block;image-rendering:pixelated}
+.wsqr span{font:700 10px/1 var(--f-ui);color:#15191c;letter-spacing:.06em}
+.wsqr:hover{box-shadow:0 0 0 3px var(--accent-soft)}
+.qrm{position:fixed;inset:0;z-index:96;display:grid;place-items:center;padding:16px;background:rgba(4,7,16,.78)}
+.qrm[hidden]{display:none}
+.qrm-card{width:min(520px,100%);background:#fff;color:#15191c;border-radius:26px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.qrm-card h2{margin:0;font-size:22px;color:#15191c}
+.qrm-card p{margin:0;color:#56616a}
+.qrm-box{position:relative;width:min(380px,78vw);aspect-ratio:1;border-radius:20px;padding:10px;background:#fff;box-shadow:inset 0 0 0 4px #00843D}
+.qrm-box img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.qrm-badge{position:absolute;left:50%;top:50%;width:19%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:12px;background:#fff;padding:7%;display:grid}
+.qrm-badge i{display:block;border-radius:4px;background:linear-gradient(90deg,#C8102E 0 25%,transparent 25%),linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%);box-shadow:inset 0 0 0 1px #d0d6da}
+.qrm-url{font:600 13px/1.3 ui-monospace,Menlo,monospace;overflow-wrap:anywhere;background:#f1f5f3;border-radius:10px;padding:8px 10px;width:100%}
+.qrm-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.qrm-row button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #00843D;background:#00843D;color:#fff;font-weight:600;font-size:15px;cursor:pointer}
+.qrm-row button.ghost{background:#fff;color:#00843D}
 .gradeseg button{white-space:nowrap}
 .wscalc-in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:center}
 .wscalc video{width:100%;border-radius:16px;background:#000;display:block}
@@ -1171,6 +1191,12 @@ a.row:hover{background:var(--fill)}
         </div>
       </article>
     </section>
+    <div class="qrm" id="qrm" hidden role="dialog" aria-modal="true" aria-labelledby="qrm-t"><div class="qrm-card">
+      <h2 id="qrm-t"></h2><p>Scan with your phone camera to start</p>
+      <div class="qrm-box"><img id="qrm-img" alt="QR code"><span class="qrm-badge" aria-hidden="true"><i></i></span></div>
+      <div class="qrm-url" id="qrm-url"></div>
+      <div class="qrm-row"><button type="button" id="qrm-copy">Copy link</button><button type="button" class="ghost" id="qrm-x">Close</button></div>
+    </div></div>
     <footer class="sitefoot"><a href="./#creator"><span>Created and developed by <b>Aamer Bashir</b></span></a><span class="sf-org">Mathematics Department · American International School</span></footer>
   </div>
   <nav class="tabbar" id="nav-tab" aria-label="Sections">
@@ -1225,13 +1251,21 @@ function render(){
     h+='<div class="group"><span class="group-l">'+esc(t.name)+'</span>';
     t.modules.forEach(m=>{
       h+='<div class="list"><div class="row wsmod"><span class="grow"><span class="t">'+esc(m.name)+'</span><br><span class="d">'+esc(m.topic)+'</span></span></div>'+
-        m.items.map(it=>'<a class="row wsitem" href="'+esc(it.file)+'"><span class="chip l2">'+esc(it.code)+'</span><span class="grow"><span class="t">'+esc(it.title)+'</span><br><span class="d">'+esc(it.sub)+'</span></span><svg class="ico" aria-hidden="true"><use href="#i-chev"/></svg></a>').join("")+'</div>';
+        m.items.map(it=>'<div class="row wsitem"><a class="wslink" href="'+esc(it.file)+'"><span class="chip l2">'+esc(it.code)+'</span><span class="grow"><span class="t">'+esc(it.title)+'</span><br><span class="d">'+esc(it.sub)+'</span></span><svg class="ico" aria-hidden="true"><use href="#i-chev"/></svg></a>'+
+          '<button type="button" class="wsqr" data-file="'+esc(it.file)+'" data-title="'+esc(it.code+' '+it.title)+'" aria-label="Show QR code for '+esc(it.code+' '+it.title)+'"><img src="'+esc(it.file.replace(/^worksheets\//,"worksheets/qr/").replace(/\.html$/,".svg"))+'" alt=""><span>QR</span></button></div>').join("")+'</div>';
     });
     h+='</div>';
   });
   $("ws-body").innerHTML=h;
 }
 $("ws-grade").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;grade=b.dataset.v;lsSet("ais-ws-grade",grade);history.replaceState(null,"","#grade-"+grade);render();});
+$("ws-body").addEventListener("click",e=>{const b=e.target.closest(".wsqr");if(!b)return;
+  $("qrm-t").textContent=b.dataset.title;$("qrm-img").src=b.querySelector("img").getAttribute("src");$("qrm-url").textContent=new URL(b.dataset.file,location.href).href;
+  $("qrm").hidden=false;$("qrm-x").focus();});
+$("qrm-x").addEventListener("click",()=>{$("qrm").hidden=true;});
+$("qrm").addEventListener("click",e=>{if(e.target.id==="qrm")$("qrm").hidden=true;});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("qrm").hidden=true;});
+$("qrm-copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("qrm-url").textContent);$("qrm-copy").textContent="Copied!";}catch(e){$("qrm-copy").textContent="Copy did not work";}setTimeout(()=>$("qrm-copy").textContent="Copy link",1800);});
 window.addEventListener("hashchange",()=>{const h=fromHash();if(h){grade=h;render();}});
 render();
 })();

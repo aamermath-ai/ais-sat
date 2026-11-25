@@ -273,7 +273,7 @@ $('nm').value=S.nm||'';$('cl').value=S.cl||'';
 ['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
 $('copy').addEventListener('click',async()=>{
   const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
-  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 3.1 Linear Equations in Standard Form (Eid Al Etihad quiz) – Score ${got}/${Q.length} – ${new Date().toLocaleDateString('en-GB')}`;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 3.1 Linear Equations in Standard Form (Eid Al Etihad quiz) – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
   try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
   catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
 });

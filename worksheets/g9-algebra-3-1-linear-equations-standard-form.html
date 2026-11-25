@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-/SLLSra0iQH5XRrqgeDX+/wUcH1WEBUfOBCIzRL2VCQ=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-r6HwerCwdKPOOpVu+KZlAx2j8e+WSFTBF6hdiKpF74I=' 'sha256-0IrFL8/mlg6ZL1uKH2QZ9gvQ69Gz7dDe6ztzFHGspyw=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>3.1 Linear Equations in Standard Form – Eid Al Etihad Quiz</title>
@@ -275,7 +275,7 @@ $('nm').value=S.nm||'';$('cl').value=S.cl||'';
 ['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
 $('copy').addEventListener('click',async()=>{
   const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
-  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 3.1 Linear Equations in Standard Form (Eid Al Etihad quiz) – Score ${got}/${Q.length} – ${new Date().toLocaleDateString('en-GB')}`;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 3.1 Linear Equations in Standard Form (Eid Al Etihad quiz) – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
   try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
   catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
 });
@@ -285,6 +285,277 @@ $('reset').addEventListener('click',()=>{
   S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
 });
 score();
+}
+</script>
+<!-- ===== AIS worksheet kit: City Missions game + QR code. source/build.py adds it to every worksheet.
+     qr/g9-algebra-3-1-linear-equations-standard-form.svg = this worksheet's QR image, https://aamermath-ai.github.io/ais-sat/worksheets/g9-algebra-3-1-linear-equations-standard-form.html = its public address.
+     Content rules: original artwork only (no game brands), no violence, weapons, crime, gambling or chance-based rewards,
+     respectful use of the UAE flag and landmarks, nothing personal sent anywhere (progress stays in this browser). ===== -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+<style>
+.gm-hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
+.gm-chip{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:4px 12px;border-radius:999px;background:#17112b;color:#fff;font:600 14px/1 Lexend,system-ui,sans-serif;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.gm-chip b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:17px;letter-spacing:.03em}
+.gm-rank b{background:linear-gradient(90deg,#ffd166,#ff8a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gm-xpbar{width:58px;height:7px;border-radius:9px;background:rgba(255,255,255,.18);overflow:hidden}
+.gm-xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd166,#ff5fa2);transition:width .5s}
+.gm-combo{background:#3a1030}.gm-combo b{color:#ff8fc8}
+.gm-combo.hot{animation:gmPulse .6s ease}
+.gm-ib{width:36px;height:36px;min-height:36px;padding:0;border-radius:50%;border:0;background:#17112b;color:#fff;display:inline-grid;place-items:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.gm-ib svg{width:18px;height:18px}
+.gm-ib:focus-visible,.gm-btn:focus-visible,.gm-node:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
+/* city map */
+.gm-map{position:relative;margin-top:26px;border-radius:22px;overflow:hidden;color:#fff;
+  background:linear-gradient(180deg,#1b1240 0%,#5a1f5c 46%,#e0644a 82%,#ffb15a 100%);box-shadow:0 18px 40px rgba(40,10,60,.25)}
+.gm-map svg.sky{position:absolute;inset:auto 0 0 0;width:100%;height:62%;opacity:.55}
+.gm-map-h{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;padding:18px 20px 0}
+.gm-map-h small{display:block;font:700 12px/1.2 Lexend,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ffd166}
+.gm-map-h h2{margin:2px 0 0;font:400 30px/1 Anton,Impact,sans-serif;letter-spacing:.02em;color:#fff}
+.gm-map-h span{font:600 14px Lexend,sans-serif;color:#ffe3c2}
+.gm-nodes{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(118px,1fr);gap:6px;padding:46px 16px 18px;overflow-x:auto;scrollbar-width:thin}
+.gm-nodes::before{content:"";position:absolute;left:70px;right:70px;top:84px;height:6px;border-radius:6px;background:repeating-linear-gradient(90deg,#ffe9b0 0 18px,transparent 18px 30px),rgba(0,0,0,.35)}
+.gm-node{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;border:0;background:none;color:#fff;cursor:pointer;padding:0 4px;min-height:0;font:inherit}
+.gm-dot{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#2a1d4d;border:3px solid rgba(255,255,255,.55);font:400 22px Anton,Impact,sans-serif;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.gm-node.now .gm-dot{background:#ff5fa2;border-color:#fff;animation:gmPulse 1.6s ease-in-out infinite}
+.gm-node.won .gm-dot{background:#00a651;border-color:#d8ffe8}
+.gm-node .nm{font:700 14px/1.2 Lexend,sans-serif}
+.gm-node .ms{font:500 12px/1.25 Lexend,sans-serif;color:#ffe3c2;max-width:130px}
+.gm-node .st{font-size:15px;letter-spacing:2px;color:#ffd166;min-height:18px}
+.gm-car{position:absolute;top:-34px;left:50%;width:46px;height:26px;transform:translateX(-50%)}
+.gm-mbadge{display:inline-flex;align-items:center;gap:8px;margin-bottom:6px;padding:5px 12px;border-radius:999px;background:#17112b;color:#ffd166;font:400 15px/1 Anton,Impact,sans-serif;letter-spacing:.06em}
+.gm-mbadge.won{background:#00843D;color:#fff}
+/* floating rewards */
+.gm-pop{position:absolute;z-index:40;pointer-events:none;font:400 30px/1 Anton,Impact,sans-serif;letter-spacing:.03em;color:#ffb000;-webkit-text-stroke:1.5px #3a1030;text-shadow:0 3px 0 #3a1030;animation:gmUp 1.3s ease-out forwards;white-space:nowrap}
+.gm-pop small{display:block;font-size:17px;color:#ff5fa2;-webkit-text-stroke:1px #3a1030;margin-top:4px}
+.gm-shake{animation:gmShake .35s ease}
+/* stingers */
+.gm-stinger{position:fixed;inset:0;z-index:85;display:grid;place-items:center;pointer-events:auto;background:radial-gradient(60% 50% at 50% 50%,rgba(20,8,40,.55),rgba(20,8,40,.2) 70%,transparent);cursor:pointer}
+.gm-stinger div{text-align:center;transform:skew(-8deg);animation:gmIn .5s cubic-bezier(.2,1.4,.4,1)}
+.gm-stinger h2{margin:0;font:400 clamp(46px,11vw,110px)/.95 Anton,Impact,sans-serif;letter-spacing:.02em;
+  background:linear-gradient(180deg,#fff6c9 0%,#ffd166 45%,#ff8a3d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 5px 0 #3a1030) drop-shadow(0 12px 24px rgba(0,0,0,.45))}
+.gm-stinger p{margin:10px 0 0;font:700 clamp(17px,3.4vw,26px)/1.3 Lexend,sans-serif;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.gm-stinger .stars{font-size:clamp(30px,6vw,52px);letter-spacing:8px;color:#ffd166;text-shadow:0 3px 0 #3a1030}
+.gm-stinger .stars i{font-style:normal;color:rgba(255,255,255,.35)}
+.gm-toast{position:fixed;left:50%;top:76px;z-index:80;transform:translateX(-50%);padding:10px 20px;border-radius:999px;background:#17112b;color:#fff;font:400 20px/1 Anton,Impact,sans-serif;letter-spacing:.05em;box-shadow:0 12px 30px rgba(0,0,0,.3);animation:gmToast 1.8s ease forwards;pointer-events:none;white-space:nowrap}
+.gm-toast b{color:#ffd166;font-weight:400}
+#gm-confetti{position:fixed;inset:0;z-index:84;pointer-events:none}
+/* start screen */
+.gm-start{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:24px 16px;overflow-y:auto;color:#fff;text-align:center;
+  background:linear-gradient(180deg,#140c33 0%,#4a1a5a 45%,#d35a47 80%,#ffad55 100%)}
+.gm-start svg.sky{position:absolute;inset:auto 0 0 0;width:100%;height:46%;opacity:.6}
+.gm-start-in{position:relative;max-width:720px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.gm-start small{font:700 13px/1.3 Lexend,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#ffd166}
+.gm-start h1{margin:0;font:400 clamp(54px,12vw,112px)/.92 Anton,Impact,sans-serif;letter-spacing:.01em;transform:skew(-6deg);
+  background:linear-gradient(180deg,#fff 0%,#ffe0a3 50%,#ff9a52 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 0 #2a0f3a)}
+.gm-start h2{margin:0;font:700 clamp(20px,4vw,28px)/1.25 Lexend,sans-serif;color:#fff;text-wrap:balance}
+.gm-start ul{margin:4px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left;width:100%}
+.gm-start li{background:rgba(20,8,40,.55);border-radius:14px;padding:10px 12px;font:500 15px/1.35 Lexend,sans-serif}
+.gm-start li b{color:#ffd166}
+.gm-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.gm-btn{min-height:56px;padding:0 30px;border:0;border-radius:999px;cursor:pointer;font:400 26px/1 Anton,Impact,sans-serif;letter-spacing:.06em;color:#2a0f3a;background:linear-gradient(180deg,#fff2b8,#ffc04d);box-shadow:0 6px 0 #a3511c,0 14px 30px rgba(0,0,0,.35)}
+.gm-btn.alt{font:700 16px/1 Lexend,sans-serif;letter-spacing:0;color:#fff;background:rgba(20,8,40,.6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.gm-btn:active{transform:translateY(3px)}
+.gm-back{color:#ffe3c2;font:600 15px/1 Lexend,sans-serif;min-height:44px;display:inline-flex;align-items:center}.gm-back[hidden]{display:none}
+/* QR modal */
+.gm-qr{position:fixed;inset:0;z-index:96;display:grid;place-items:center;padding:16px;background:rgba(10,6,24,.78)}
+.gm-qr-card{width:min(520px,100%);background:#fff;color:#15191c;border-radius:26px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.gm-qr-card h2{margin:0;font:700 22px/1.25 Lexend,sans-serif}
+.gm-qr-card p{margin:0;font:500 15px/1.4 Lexend,sans-serif;color:#56616a}
+.gm-qr-box{position:relative;width:min(380px,78vw);aspect-ratio:1;border-radius:20px;padding:10px;background:#fff;box-shadow:inset 0 0 0 4px #00843D}
+.gm-qr-box img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.gm-qr-badge{position:absolute;left:50%;top:50%;width:19%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:12px;background:#fff;padding:7%;display:grid}
+.gm-qr-badge i{display:block;border-radius:4px;background:linear-gradient(90deg,#C8102E 0 25%,transparent 25%),linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%);box-shadow:inset 0 0 0 1px #d0d6da}
+.gm-qr-url{font:600 13px/1.3 ui-monospace,Menlo,monospace;color:#15191c;overflow-wrap:anywhere;background:#f1f5f3;border-radius:10px;padding:8px 10px;width:100%}
+.gm-qr-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.gm-qr-row button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #00843D;background:#00843D;color:#fff;font:600 15px/1 Lexend,sans-serif;cursor:pointer}
+.gm-qr-row button.ghost{background:#fff;color:#00843D}
+[hidden].gm-start,[hidden].gm-qr,[hidden].gm-stinger{display:none!important}
+@keyframes gmPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes gmUp{0%{opacity:0;transform:translateY(10px) scale(.7)}15%{opacity:1;transform:translateY(0) scale(1.08)}75%{opacity:1}100%{opacity:0;transform:translateY(-46px) scale(1)}}
+@keyframes gmShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
+@keyframes gmIn{from{opacity:0;transform:skew(-8deg) scale(.6)}}
+@keyframes gmToast{0%{opacity:0;transform:translate(-50%,-10px)}12%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-10px)}}
+@media(max-width:600px){.gm-start ul{grid-template-columns:minmax(0,1fr)}.gm-map-h h2{font-size:24px}.gm-chip{min-height:32px;font-size:13px;padding:3px 10px}.gm-chip b{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.gm-node.now .gm-dot,.gm-combo.hot,.gm-shake{animation:none}.gm-pop{animation-duration:.01s}.gm-stinger div{animation:none}}
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="gm-sky" viewBox="0 0 1000 200" preserveAspectRatio="none"><path fill="#1a0b2e" d="M0 200V150h40v-30h30v30h25V95h35v55h20v-40h28v40h30V70h22v-25l6-20 6 20v25h22v80h40V120h30v30h26V40h12l8-38 8 38h12v110h30v-60h40v60h22v-35h30v35h40V80h28v70h30v-48h36v48h26V60h10l6-25 6 25h10v90h34v-30h30v30h40v-56h32v56h26v-40h30v40h40V200z"/></symbol>
+  <symbol id="gm-carsym" viewBox="0 0 46 26"><path d="M6 14l6-8h18l8 8h4a3 3 0 0 1 3 3v3H1v-3a3 3 0 0 1 3-3z" fill="#ffd166" stroke="#2a0f3a" stroke-width="2"/><path d="M14 8h7v6h-11zM24 8h5l5 6h-10z" fill="#bfe7ff"/><circle cx="12" cy="21" r="4" fill="#2a0f3a"/><circle cx="34" cy="21" r="4" fill="#2a0f3a"/></symbol>
+  <symbol id="gm-i-snd" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="gm-i-mute" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="gm-qrsym" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM16 16h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2zM6.5 6.5h1v1h-1zM16.5 6.5h1v1h-1zM6.5 16.5h1v1h-1z" fill="currentColor"/></symbol>
+</svg>
+<div class="gm-start" id="gm-start" hidden role="dialog" aria-modal="true" aria-labelledby="gm-start-t">
+  <svg class="sky" aria-hidden="true"><use href="#gm-sky"/></svg>
+  <div class="gm-start-in">
+    <small>AIS Worksheets · Eid Al Etihad edition</small>
+    <h1 id="gm-start-t">City Missions</h1>
+    <h2 id="gm-start-topic"></h2>
+    <ul>
+      <li><b>Missions:</b> each part is a mission in a Dubai district. Finish it to unlock the next one.</li>
+      <li><b>XP:</b> +100 for a correct answer, <b>+50</b> if it is your first try.</li>
+      <li><b>Combo:</b> right answers in a row give bonus XP. A wrong answer resets it.</li>
+      <li><b>Ranks:</b> Rookie → Explorer → Navigator → Pro → City Legend.</li>
+    </ul>
+    <div class="gm-btns"><button class="gm-btn" id="gm-go" type="button">▶ START</button><button class="gm-btn alt" type="button" data-gm-qr>Show QR code</button></div>
+    <a class="gm-back" id="gm-back" hidden>← All worksheets</a>
+  </div>
+</div>
+<div class="gm-qr" id="gm-qr" hidden role="dialog" aria-modal="true" aria-labelledby="gm-qr-t">
+  <div class="gm-qr-card">
+    <h2 id="gm-qr-t"></h2>
+    <p>Scan with your phone camera to start</p>
+    <div class="gm-qr-box"><img src="qr/g9-algebra-3-1-linear-equations-standard-form.svg" alt="QR code for this worksheet"><span class="gm-qr-badge" aria-hidden="true"><i></i></span></div>
+    <div class="gm-qr-url" id="gm-qr-url">https://aamermath-ai.github.io/ais-sat/worksheets/g9-algebra-3-1-linear-equations-standard-form.html</div>
+    <div class="gm-qr-row"><button type="button" id="gm-qr-copy">Copy link</button><button type="button" class="ghost" id="gm-qr-x">Close</button></div>
+  </div>
+</div>
+<div class="gm-stinger" id="gm-stinger" hidden aria-live="polite"><div id="gm-stinger-in"></div></div>
+<script>
+{
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const parts=[...document.querySelectorAll("section.part")].filter(p=>p.querySelector(".q"));
+const qs=[...document.querySelectorAll("article.q")];
+if(parts.length&&qs.length){
+const DISTRICTS=["Al Fahidi","Dubai Creek","Downtown","Dubai Marina","Burj Khalifa","Global Village","Hatta","Jebel Jais"];
+const RANKS=["Rookie","Explorer","Navigator","Pro","City Legend"];
+const KEY="ais-game:"+location.pathname;
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const title=((document.querySelector("h1")||{}).textContent||"Worksheet").trim();
+let G={xp:0,combo:0,best:0,q:{},won:{},sound:true};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==="object")G=Object.assign(G,s);}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}};
+const isDone=q=>q.classList.contains("done");
+// the worksheet's "Start again" clears its answers: clear the game too
+if(!qs.some(isDone)&&Object.keys(G.q).length){G={xp:0,combo:0,best:0,q:{},won:{},sound:G.sound};save();}
+// answers restored by the worksheet but unknown to the game (e.g. older progress): count them at base XP
+qs.forEach(q=>{if(isDone(q)&&!(G.q[q.id]&&G.q[q.id].award)){G.q[q.id]={tries:0,award:100};G.xp+=100;}});
+const maxXP=qs.length*150;
+const rankOf=xp=>Math.min(RANKS.length-1,Math.floor(xp/maxXP*RANKS.length+1e-9));
+const partQs=p=>[...p.querySelectorAll("article.q")];
+const partName=p=>{const h=p.querySelector("h2");const t=h?h.textContent:"";return (t.split("·")[1]||t).trim();};
+const starsFor=p=>{const l=partQs(p);const f=l.filter(q=>G.q[q.id]&&G.q[q.id].tries===0).length/l.length;return f===1?3:f>=.5?2:1;};
+parts.forEach((p,i)=>{if(partQs(p).every(isDone))G.won[i]=G.won[i]||starsFor(p);});
+save();
+
+/* ---- sound (Web Audio, can be muted) ---- */
+let ac=null;
+function tone(seq){if(!G.sound)return;try{if(!ac){const A=window.AudioContext||window.webkitAudioContext;if(!A)return;ac=new A();}if(ac.state==="suspended")ac.resume();
+  const t0=ac.currentTime+.01;seq.forEach(([f,d,len,v,type])=>{const o=ac.createOscillator(),g=ac.createGain();o.type=type||"triangle";o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,t0+d);g.gain.exponentialRampToValueAtTime(v||.08,t0+d+.015);g.gain.exponentialRampToValueAtTime(.0001,t0+d+len);o.connect(g);g.connect(ac.destination);o.start(t0+d);o.stop(t0+d+len+.05);});}catch(e){}}
+const SFX={ok:[[784,0,.12],[1175,.08,.22]],combo:[[880,0,.1],[1175,.07,.1],[1568,.14,.22]],no:[[220,0,.18,.06,"sine"],[185,.12,.22,.05,"sine"]],
+  mission:[[523,0,.16],[659,.12,.16],[784,.24,.16],[1047,.36,.4],[1319,.5,.5]],rank:[[392,0,.14],[523,.12,.14],[659,.24,.14],[784,.36,.3],[1047,.5,.6]],start:[[659,0,.1],[988,.08,.22]]};
+
+/* ---- HUD in the score bar ---- */
+const bar=document.querySelector(".bar .wrap")||document.body;
+const hud=document.createElement("div");hud.className="gm-hud";
+hud.innerHTML='<span class="gm-chip gm-rank" title="Rank"><span aria-hidden="true">🏅</span><b id="gm-rank"></b></span>'+
+  '<span class="gm-chip" title="Experience points"><b id="gm-xp">0</b> XP<span class="gm-xpbar"><i id="gm-xpbar"></i></span></span>'+
+  '<span class="gm-chip gm-combo" id="gm-combo" title="Combo">COMBO <b id="gm-combo-n">×0</b></span>'+
+  '<button class="gm-ib" type="button" id="gm-snd" aria-label="Sound"></button>'+
+  '<button class="gm-ib" type="button" data-gm-qr aria-label="Show QR code"><svg aria-hidden="true"><use href="#gm-qrsym"/></svg></button>';
+bar.appendChild(hud);
+function hudUpdate(){
+  $("gm-rank").textContent=RANKS[rankOf(G.xp)];
+  $("gm-xp").textContent=G.xp.toLocaleString("en");
+  const r=rankOf(G.xp),lo=r*maxXP/RANKS.length,hi=(r+1)*maxXP/RANKS.length;
+  $("gm-xpbar").style.width=(r===RANKS.length-1?100:Math.max(0,Math.min(100,(G.xp-lo)/(hi-lo)*100)))+"%";
+  $("gm-combo-n").textContent="×"+G.combo;
+  const s=$("gm-snd");s.innerHTML='<svg aria-hidden="true"><use href="#gm-i-'+(G.sound?"snd":"mute")+'"/></svg>';s.setAttribute("aria-label",G.sound?"Sound on":"Sound off");
+}
+$("gm-snd").addEventListener("click",()=>{G.sound=!G.sound;save();hudUpdate();if(G.sound)tone(SFX.ok);});
+
+/* ---- city map + mission badges ---- */
+const map=document.createElement("section");map.className="gm-map";map.setAttribute("aria-label","City map of your missions");
+parts[0].parentNode.insertBefore(map,parts[0]);
+parts.forEach((p,i)=>{p.id=p.id||"gm-mission-"+(i+1);const b=document.createElement("div");b.className="gm-mbadge";b.id="gm-badge-"+i;
+  const h=p.querySelector("h2");p.insertBefore(b,h);});
+function mapUpdate(){
+  const cur=parts.findIndex((p,i)=>!G.won[i]);const done=Object.keys(G.won).length;
+  map.innerHTML='<svg class="sky" aria-hidden="true"><use href="#gm-sky"/></svg>'+
+    '<div class="gm-map-h"><div><small>City map · '+esc(title)+'</small><h2>'+(cur<0?"All districts unlocked":"Mission "+(cur+1)+": "+esc(DISTRICTS[cur%DISTRICTS.length]))+'</h2></div><span>'+done+' / '+parts.length+' missions · '+G.xp.toLocaleString("en")+' XP</span></div>'+
+    '<div class="gm-nodes">'+parts.map((p,i)=>{const won=G.won[i],now=i===cur;
+      return '<button type="button" class="gm-node'+(won?" won":"")+(now?" now":"")+'" data-i="'+i+'" aria-label="Mission '+(i+1)+': '+esc(DISTRICTS[i%DISTRICTS.length])+(won?", complete":"")+'">'+
+        (now?'<svg class="gm-car" aria-hidden="true"><use href="#gm-carsym"/></svg>':'')+
+        '<span class="gm-dot">'+(won?"✓":i+1)+'</span><span class="nm">'+esc(DISTRICTS[i%DISTRICTS.length])+'</span><span class="ms">'+esc(partName(p))+'</span>'+
+        '<span class="st">'+(won?"★".repeat(won)+"☆".repeat(3-won):"")+'</span></button>';}).join("")+'</div>';
+  parts.forEach((p,i)=>{const b=$("gm-badge-"+i);b.className="gm-mbadge"+(G.won[i]?" won":"");b.textContent="MISSION "+(i+1)+" · "+DISTRICTS[i%DISTRICTS.length].toUpperCase()+(G.won[i]?"  ✓":"");});
+}
+map.addEventListener("click",e=>{const n=e.target.closest(".gm-node");if(!n)return;const p=parts[+n.dataset.i];
+  const y=p.getBoundingClientRect().top+scrollY-90;scrollTo({top:y,behavior:REDUCED?"auto":"smooth"});});
+
+/* ---- effects ---- */
+function pop(q,text,sub){const r=q.getBoundingClientRect();const el=document.createElement("div");el.className="gm-pop";
+  el.innerHTML=esc(text)+(sub?"<small>"+esc(sub)+"</small>":"");el.style.left=(r.left+scrollX+Math.min(r.width-180,r.width*.55))+"px";el.style.top=(r.top+scrollY+18)+"px";
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1400);}
+function toast(html){const t=document.createElement("div");t.className="gm-toast";t.setAttribute("role","status");t.innerHTML=html;document.body.appendChild(t);setTimeout(()=>t.remove(),1900);}
+let stT=null;
+function stinger(html,ms){const s=$("gm-stinger");$("gm-stinger-in").innerHTML=html;s.hidden=false;clearTimeout(stT);stT=setTimeout(()=>s.hidden=true,ms||2600);}
+$("gm-stinger").addEventListener("click",()=>{$("gm-stinger").hidden=true;});
+function confetti(){if(REDUCED)return;const c=document.createElement("canvas");c.id="gm-confetti";document.body.appendChild(c);
+  const x=c.getContext("2d");const W=c.width=innerWidth,H=c.height=innerHeight;const col=["#C8102E","#00843D","#ffffff","#111111","#ffd166"];
+  const P=Array.from({length:160},()=>({x:Math.random()*W,y:-20-Math.random()*H*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,s:6+Math.random()*7,r:Math.random()*6,c:col[Math.floor(Math.random()*col.length)]}));
+  const t0=performance.now();(function f(t){x.clearRect(0,0,W,H);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.05;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.strokeStyle="rgba(0,0,0,.25)";x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);x.strokeRect(-p.s/2,-p.s/3,p.s,p.s*.66);x.restore();});
+    if(t-t0<3200)requestAnimationFrame(f);else c.remove();})(t0);}
+
+/* ---- answers: watch each question's feedback box ---- */
+function onCorrect(q){
+  const st=G.q[q.id]||(G.q[q.id]={tries:0});if(st.award)return;
+  const before=rankOf(G.xp);
+  G.combo=st.tries===0?G.combo+1:1;G.best=Math.max(G.best,G.combo);
+  const bonus=st.tries===0?50:0,cb=G.combo>1?Math.min(50,10*(G.combo-1)):0;
+  st.award=100+bonus+cb;G.xp+=st.award;save();
+  pop(q,"+"+st.award+" XP",bonus?"FIRST TRY!"+(cb?" COMBO ×"+G.combo:""):(cb?"COMBO ×"+G.combo:""));
+  if(G.combo>=3){const c=$("gm-combo");c.classList.remove("hot");void c.offsetWidth;c.classList.add("hot");tone(SFX.combo);}else tone(SFX.ok);
+  const pi=parts.findIndex(p=>p.contains(q));
+  if(pi>=0&&!G.won[pi]&&partQs(parts[pi]).every(isDone)){
+    G.won[pi]=starsFor(parts[pi]);save();
+    const all=parts.every((p,i)=>G.won[i]);
+    setTimeout(()=>{
+      if(all){tone(SFX.rank);confetti();
+        stinger('<h2>All missions<br>complete</h2><p>Rank: '+esc(RANKS[rankOf(G.xp)])+' · '+G.xp.toLocaleString("en")+' XP · best combo ×'+G.best+'</p>',4200);}
+      else{tone(SFX.mission);
+        stinger('<h2>Mission complete</h2><div class="stars">'+"★".repeat(G.won[pi])+'<i>'+"★".repeat(3-G.won[pi])+'</i></div><p>'+esc(DISTRICTS[pi%DISTRICTS.length])+' done · next stop: '+esc(DISTRICTS[(pi+1)%DISTRICTS.length])+'</p>');}
+      mapUpdate();
+    },650);
+  }
+  const after=rankOf(G.xp);
+  if(after>before)setTimeout(()=>{toast('RANK UP · <b>'+esc(RANKS[after])+'</b>');tone(SFX.rank);},1500);
+  hudUpdate();mapUpdate();resultUpdate();
+}
+function onWrong(q){const st=G.q[q.id]||(G.q[q.id]={tries:0});if(st.award)return;st.tries++;G.combo=0;save();
+  q.classList.remove("gm-shake");void q.offsetWidth;q.classList.add("gm-shake");tone(SFX.no);hudUpdate();}
+qs.forEach(q=>{const fb=q.querySelector(".fb");if(!fb)return;
+  new MutationObserver(()=>{if(isDone(q))onCorrect(q);else if(fb.classList.contains("no")&&/^Not yet/.test(fb.textContent))onWrong(q);})
+    .observe(fb,{attributes:true,attributeFilter:["class"],childList:true});});
+
+/* ---- result card ---- */
+const res=$("res");let rs=null;
+if(res){rs=document.createElement("div");rs.className="sides";rs.style.marginTop="10px";const row=res.querySelector(".row");res.insertBefore(rs,row);}
+function resultUpdate(){if(!rs)return;const stars=Object.values(G.won).reduce((a,b)=>a+b,0);
+  rs.innerHTML='<div><b>🏅 '+esc(RANKS[rankOf(G.xp)])+'</b><br>City Missions rank</div><div><b>'+G.xp.toLocaleString("en")+' XP</b><br>Best combo ×'+G.best+'</div><div><b>★ '+stars+' / '+parts.length*3+'</b><br>Mission stars</div>';}
+window.AIS_GAME={summary:()=>"City Missions: "+RANKS[rankOf(G.xp)]+", "+G.xp+" XP"};
+
+/* ---- start screen and QR ---- */
+const startEl=$("gm-start");
+const backA=document.querySelector("a.back");if(backA){$("gm-back").href=backA.getAttribute("href");$("gm-back").hidden=false;}
+$("gm-start-topic").textContent=title+" · "+parts.length+" missions · "+qs.length+" questions";
+let seen=false;try{seen=sessionStorage.getItem(KEY+":start")==="1";}catch(e){}
+if(!qs.some(isDone)&&!seen){startEl.hidden=false;document.documentElement.style.overflow="hidden";setTimeout(()=>{try{$("gm-go").focus();}catch(e){}},50);}
+$("gm-go").addEventListener("click",()=>{startEl.hidden=true;document.documentElement.style.overflow="";try{sessionStorage.setItem(KEY+":start","1");}catch(e){}
+  tone(SFX.start);toast('MISSION 1 · <b>'+esc(DISTRICTS[0].toUpperCase())+'</b>');const f=parts[0].querySelector("button,input");if(f)try{f.focus({preventScroll:true});}catch(e){}});
+const qrEl=$("gm-qr");$("gm-qr-t").textContent=title;
+function openQR(){qrEl.hidden=false;try{$("gm-qr-x").focus();}catch(e){}}
+function closeQR(){qrEl.hidden=true;}
+document.querySelectorAll("[data-gm-qr]").forEach(b=>b.addEventListener("click",openQR));
+$("gm-qr-x").addEventListener("click",closeQR);qrEl.addEventListener("click",e=>{if(e.target===qrEl)closeQR();});
+$("gm-qr-copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("gm-qr-url").textContent.trim());$("gm-qr-copy").textContent="Copied!";}catch(e){$("gm-qr-copy").textContent="Copy did not work";}setTimeout(()=>$("gm-qr-copy").textContent="Copy link",1800);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!qrEl.hidden)closeQR();$("gm-stinger").hidden=true;}});
+
+hudUpdate();mapUpdate();resultUpdate();
+}
 }
 </script>
 <!-- ===== AIS scientific calculator: shared by every page (source/build.py adds it before </body>; ../ = path to the site root) ===== -->
