@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-v4/MTE48rEVYmdgX0c3vsRfJ6YKUyY4tCAxj/JC8mvM=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ=' https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com/gsi/style; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-5+n+F8LHIs7Lk+COQP5+Yy+G1TipGdEMebl2MycA67M=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Worksheets AIS teachers: sign in to see worksheet results, from the Mathematics Department, American International School.">
@@ -1132,6 +1132,21 @@ body:not(.signed-out) .lp{display:none}
 .lp-pend h2{margin:0;font:800 22px/1.2 Nunito,sans-serif}
 .lp-pend p{margin:0;color:var(--lp-mut);font-weight:700;line-height:1.5}
 .lp-pend .row2{display:flex;gap:10px;flex-wrap:wrap}
+.lp-form{width:min(440px,100%);display:flex;flex-direction:column;gap:12px;text-align:left}
+.lp-form h2{margin:0;font:800 24px/1.2 Nunito,sans-serif;text-align:center}
+.lp-form label{font-weight:800;font-size:15px;color:var(--lp-mut)}
+.lp-in{width:100%;font:700 19px/1.2 Nunito,system-ui,sans-serif;padding:14px 16px;border-radius:12px;border:3px solid var(--lp-line);background:var(--lp-card);color:var(--lp-ink);box-shadow:0 4px 0 var(--lp-line)}
+.lp-in:focus{outline:none;border-color:var(--lp-brand);box-shadow:0 4px 0 var(--lp-brand-d)}
+.lp-in.otp{font:900 34px/1 ui-monospace,Menlo,monospace;letter-spacing:.35em;text-align:center;padding-left:calc(16px + .35em)}
+.lp-links{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.lp-link{appearance:none;border:0;background:none;padding:4px 0;font:800 15px Nunito,sans-serif;color:var(--lp-brand-d);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+:root[data-theme="night"] .lp-link,:root[data-theme="dark"] .lp-link{color:#7cf2c0}
+.lp-form .lp-b.main{width:100%}
+.lp-ms{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:13px;font-weight:800;color:var(--lp-mut)}
+.lp-ms span{padding:4px 10px;border-radius:999px;background:var(--lp-soft)}
+.addt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto;gap:10px;align-items:end;margin-bottom:14px}
+.addt .field input{padding:10px 12px}
+@media (max-width:640px){.addt{grid-template-columns:minmax(0,1fr)}}
 .lp-small{font-size:14px;color:var(--lp-mut);font-weight:700;text-align:center;max-width:440px}
 .lp-small a{color:var(--lp-brand-d)}
 /* assign + share */
@@ -1339,14 +1354,40 @@ body:not(.signed-out) .lp{display:none}
 
     <div class="lp-mid">
       <h1>Fun, free maths worksheets for every AIS class!</h1>
-      <div id="lp-signup-box" style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%">
+      <div id="lp-start" style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%">
         <button class="lp-b main" type="button" id="lp-signup">Sign up</button>
-        <p class="lp-small">For AIS teachers. Sign up with your Google (Gmail) account in one step – no new password.</p>
+        <p class="lp-small">For AIS teachers. Use your school, Outlook (Microsoft) or Gmail address – we email you a code, no password.</p>
       </div>
+      <form class="lp-form" id="lp-login-form" hidden novalidate>
+        <h2 id="lf-h">Teacher log in</h2>
+        <div id="lf-step1" style="display:flex;flex-direction:column;gap:12px">
+          <label for="lf-email">Your email</label>
+          <input class="lp-in" id="lf-email" type="email" autocomplete="email" inputmode="email" placeholder="name@school.ae">
+          <button class="lp-b main" type="submit" id="lf-send">Email me a code</button>
+          <div class="lp-ms" aria-label="Works with"><span>School email</span><span>Outlook / Microsoft</span><span>Gmail</span></div>
+        </div>
+        <div id="lf-step2" hidden style="display:flex;flex-direction:column;gap:12px">
+          <label for="lf-code" id="lf-code-l">Type the 6-digit code we emailed you</label>
+          <input class="lp-in otp" id="lf-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••">
+          <button class="lp-b main" type="submit" id="lf-go">Log in</button>
+          <div class="lp-links"><button class="lp-link" type="button" id="lf-resend">Send a new code</button><button class="lp-link" type="button" id="lf-other">Use another email</button></div>
+        </div>
+        <div class="lp-links" style="justify-content:center"><button class="lp-link" type="button" id="lf-tosignup">New teacher? Sign up</button></div>
+      </form>
+      <form class="lp-form" id="lp-signup-form" hidden novalidate>
+        <h2>Sign up as a teacher</h2>
+        <label for="sf-name">Your name</label>
+        <input class="lp-in" id="sf-name" autocomplete="name" placeholder="e.g. Sana Malik">
+        <label for="sf-email">Your email</label>
+        <input class="lp-in" id="sf-email" type="email" autocomplete="email" inputmode="email" placeholder="name@school.ae">
+        <button class="lp-b main" type="submit" id="sf-go">Sign up</button>
+        <p class="lp-small" style="margin:0 auto">The Mathematics Department approves new teachers, then you log in with this email. Any email works: school, Outlook (Microsoft) or Gmail.</p>
+        <div class="lp-links" style="justify-content:center"><button class="lp-link" type="button" id="sf-tologin">Already have a login? Log in</button></div>
+      </form>
       <div class="lp-pend" id="t-pend" hidden>
-        <h2>Request sent ✉️</h2>
+        <h2 id="t-pend-h">Request sent ✉️</h2>
         <p id="t-pend-txt"></p>
-        <div class="row2"><button class="lp-b" type="button" id="t-recheck">Check again</button><button class="lp-b" type="button" id="t-other">Use another account</button></div>
+        <div class="row2"><button class="lp-b" type="button" id="t-recheck">Log in</button><button class="lp-b" type="button" id="t-other">Back</button></div>
       </div>
       <div class="lp-msg" id="t-msg" role="status" hidden></div>
     </div>
@@ -1382,7 +1423,7 @@ body:not(.signed-out) .lp{display:none}
 
   </main>
   <section class="lp-steps" aria-label="How it works">
-    <div class="lp-step"><i>1</i><div><b>Sign up with Gmail</b><span>Your email is your username. The Maths Department approves new teachers.</span></div></div>
+    <div class="lp-step"><i>1</i><div><b>Sign up with your email</b><span>School, Outlook or Gmail. Your email is your username, and you log in with a code we email you.</span></div></div>
     <div class="lp-step"><i>2</i><div><b>Pick a worksheet and class</b><span>You get a class code and a QR code in one click.</span></div></div>
     <div class="lp-step"><i>3</i><div><b>Share it in Teams or on the board</b><span>Students scan and join. Their scores arrive live in your dashboard.</span></div></div>
   </section>
@@ -1443,6 +1484,12 @@ body:not(.signed-out) .lp{display:none}
 
         <article class="card" id="t-teachers" hidden>
           <div class="card-h"><h2>Teachers</h2><span class="aside" id="t-tcount"></span></div>
+          <div class="addt">
+            <div class="field"><label for="ad-name">Teacher’s name</label><input id="ad-name" placeholder="e.g. Sana Malik" autocomplete="off"></div>
+            <div class="field"><label for="ad-email">Email (their username)</label><input id="ad-email" type="email" placeholder="name@school.ae" autocomplete="off"></div>
+            <button class="btn" id="ad-go" type="button">Add teacher</button>
+          </div>
+          <div class="tmsg" id="ad-msg" hidden style="margin-bottom:12px"></div>
           <div class="list" id="t-tlist"></div>
         </article>
 
@@ -3833,55 +3880,90 @@ const SESS="ais-teacher";
 let me=null;   // {s,email,name,owner}
 try{me=JSON.parse(lsGet(SESS)||"null");}catch(e){me=null;}
 
-function show(which){
+function show(which,panel){
   document.body.classList.toggle("signed-out",which!=="in");
   $("t-in").hidden=which!=="in";
   $("t-h1").textContent="Worksheet results";$("t-lead").hidden=true;
-  $("t-pend").hidden=which!=="pend";$("lp-signup-box").hidden=which==="pend";
+  panel=which==="pend"?"pend":(panel||"start");
+  $("lp-start").hidden=panel!=="start";$("lp-login-form").hidden=panel!=="login";$("lp-signup-form").hidden=panel!=="signup";$("t-pend").hidden=panel!=="pend";
   if(which==="in")window.scrollTo(0,0);}
 function msg(t,c){const m=$("t-msg");m.hidden=!t;m.textContent=t||"";m.className="lp-msg"+(c?" "+c:"");}
 
-/* ---------- Sign up / Log in with Google (the site's own buttons open Google's account window) ---------- */
-let gReady=false, clientId="", tokenClient=null, gWant="";
-function loadGoogle(){
-  return fetch(API+"?a=config").then(r=>r.json()).then(c=>{
-    clientId=c&&c.clientId||"";
-    if(!clientId){gWant="";msg("Teacher sign-in is being set up by the Mathematics Department. Please try again later.");return;}
-    const s=document.createElement("script");s.src="https://accounts.google.com/gsi/client";s.async=true;
-    s.onload=()=>{tokenClient=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:"openid email profile",callback:onToken,
-      error_callback:e=>{busy(false);msg(e&&e.type==="popup_closed"?"The Google window was closed. Try again when you’re ready.":"Google sign-in was blocked. Allow pop-ups for this site, then try again.","err");}});
-      gReady=true;if(gWant)go(gWant);};
-    s.onerror=()=>msg("Google sign-in could not load. Check your internet connection or school network, then reload.","err");
-    document.head.appendChild(s);
-  }).catch(()=>msg("Could not reach the school server. Check your internet connection and reload.","err"));
+/* ---------- log in with an emailed code (any email: school, Outlook/Microsoft, Gmail) ---------- */
+let server=null;   // {ok,v,owners} from the school's Apps Script
+const ready=fetch(API+"?a=config").then(r=>r.json()).then(c=>{server=c;}).catch(()=>{server={ok:false,offline:true};});
+async function check(){
+  await ready;
+  if(server&&server.offline){msg("Could not reach the school server. Check your internet connection and reload the page.","err");return false;}
+  if(!server||!server.ok||!(server.v>=3)){msg("Teacher login is being set up: the school server (Apps Script) needs the latest Code.gs. See HANDOVER.md, “Teacher sign-in”.","err");return false;}
+  if(!server.owners){msg("Teacher login is being set up: add OWNER_EMAILS in the Apps Script project settings.","err");return false;}
+  return true;
 }
-function busy(b){$("lp-signup").disabled=b;$("lp-login").disabled=b;}
-function go(kind){
-  if(!gReady){gWant=kind;msg("Opening Google…");return;}
-  gWant="";busy(true);msg("");
-  tokenClient.requestAccessToken({prompt:"select_account"});
-}
-$("lp-signup").addEventListener("click",()=>go("signup"));
-$("lp-login").addEventListener("click",()=>go("login"));
-async function onToken(resp){
-  if(!resp||resp.error||!resp.access_token){busy(false);msg("Google sign-in was cancelled. Try again when you’re ready.","err");return;}
-  msg("Signing you in…");
+let loginEmail="";
+function openLogin(email){show("out","login");msg("");$("lf-step1").hidden=false;$("lf-step2").hidden=true;$("lf-h").textContent="Teacher log in";
+  if(email)$("lf-email").value=email;setTimeout(()=>$("lf-email").focus(),30);}
+function openSignup(){show("out","signup");msg("");setTimeout(()=>$("sf-name").focus(),30);}
+$("lp-signup").addEventListener("click",openSignup);
+$("lp-login").addEventListener("click",()=>openLogin(lsGet("ais-teacher-email")||""));
+$("lf-tosignup").addEventListener("click",openSignup);
+$("sf-tologin").addEventListener("click",()=>openLogin($("sf-email").value||lsGet("ais-teacher-email")||""));
+$("lf-other").addEventListener("click",()=>openLogin(""));
+async function sendCode(){
+  const email=$("lf-email").value.trim();
+  if(!/^\S+@\S+\.\S+$/.test(email)){msg("Type your full email address, for example name@school.ae.","err");$("lf-email").focus();return;}
+  if(!await check())return;
+  $("lf-send").disabled=true;$("lf-resend").disabled=true;msg("Sending your code…");
   try{
-    const r=await api({a:"login",at:resp.access_token});
-    try{google.accounts.oauth2.revoke(resp.access_token,()=>{});}catch(e){}   // the school server has checked it; it is not kept
-    if(!r.ok){msg(r.error||"Sign-in failed. Please try again.","err");return;}
-    if(r.status==="approved"){me={s:r.session,email:r.email,name:r.name,owner:!!r.owner};lsSet(SESS,JSON.stringify(me));msg("");enter();return;}
-    const first=(r.name||"").split(" ")[0]||"there";
-    $("t-pend-txt").textContent=r.status==="removed"
-      ?"Hi "+first+". Teacher access for "+r.email+" is switched off. Please contact the Mathematics Department."
-      :"Thanks, "+first+"! Your username is "+r.email+". The Mathematics Department will approve your account and you’ll get an email. Then log in here with the same Google account.";
-    msg("");show("pend");
+    const r=await api({a:"code",email});
+    if(!r.ok){msg(r.error||"Could not send the code. Please try again.","err");return;}
+    if(r.status==="none"){msg("");$("sf-email").value=email;openSignup();msg("This email doesn’t have a teacher login yet. Sign up below and the Mathematics Department will add you.","err");return;}
+    if(r.status==="pending"){pending(email,"");return;}
+    if(r.status==="removed"){msg("Teacher access for this email is switched off. Please contact the Mathematics Department.","err");return;}
+    loginEmail=r.email||email;lsSet("ais-teacher-email",loginEmail);
+    $("lf-step1").hidden=true;$("lf-step2").hidden=false;$("lf-h").textContent="Check your email";
+    $("lf-code-l").textContent="We sent a 6-digit code to "+loginEmail+". Type it here:";$("lf-code").value="";
+    msg("The email can take a minute. Check your junk folder too.","ok");setTimeout(()=>$("lf-code").focus(),30);
   }catch(e){msg("Could not reach the school server. Please try again.","err");}
-  finally{busy(false);}
+  finally{$("lf-send").disabled=false;$("lf-resend").disabled=false;}
 }
-$("t-recheck").addEventListener("click",()=>go("login"));
-$("t-other").addEventListener("click",()=>{show("out");msg("");go("signup");});
-$("t-out-btn").addEventListener("click",()=>{me=null;lsDel(SESS);data=null;show("out");msg("You are signed out.","ok");});
+async function verify(){
+  const code=$("lf-code").value.replace(/\D/g,"");
+  if(code.length!==6){msg("Type the 6-digit code from the email.","err");$("lf-code").focus();return;}
+  $("lf-go").disabled=true;msg("Logging you in…");
+  try{
+    const r=await api({a:"verify",email:loginEmail,code});
+    if(!r.ok){msg(r.error||"That code didn’t work.","err");$("lf-code").select();return;}
+    me={s:r.session,email:r.email,name:r.name,owner:!!r.owner};lsSet(SESS,JSON.stringify(me));msg("");enter();
+  }catch(e){msg("Could not reach the school server. Please try again.","err");}
+  finally{$("lf-go").disabled=false;}
+}
+$("lp-login-form").addEventListener("submit",e=>{e.preventDefault();if($("lf-step2").hidden)sendCode();else verify();});
+$("lf-code").addEventListener("input",e=>{const v=e.target.value.replace(/\D/g,"").slice(0,6);if(e.target.value!==v)e.target.value=v;if(v.length===6)verify();});
+$("lf-resend").addEventListener("click",()=>{$("lf-email").value=loginEmail;sendCode();});
+function pending(email,name){
+  const first=(name||"").split(" ")[0];
+  $("t-pend-h").textContent="Request sent ✉️";
+  $("t-pend-txt").textContent=(first?"Thanks, "+first+"! ":"")+"Your username is "+email+". The Mathematics Department will add you and you’ll get an email. Then press Log in and we’ll email you a code.";
+  lsSet("ais-teacher-email",email);msg("");show("out","pend");
+}
+$("lp-signup-form").addEventListener("submit",async e=>{e.preventDefault();
+  const name=$("sf-name").value.trim(),email=$("sf-email").value.trim();
+  if(name.length<2){msg("Type your name.","err");$("sf-name").focus();return;}
+  if(!/^\S+@\S+\.\S+$/.test(email)){msg("Type your full email address, for example name@school.ae.","err");$("sf-email").focus();return;}
+  if(!await check())return;
+  $("sf-go").disabled=true;msg("Sending…");
+  try{
+    const r=await api({a:"request",email,name});
+    if(!r.ok){msg(r.error||"Could not send. Please try again.","err");return;}
+    if(r.status==="approved"){openLogin(r.email);msg("You already have a teacher login. Press “Email me a code”.","ok");return;}
+    if(r.status==="removed"){msg("Teacher access for this email is switched off. Please contact the Mathematics Department.","err");return;}
+    pending(r.email,name);
+  }catch(x){msg("Could not reach the school server. Please try again.","err");}
+  finally{$("sf-go").disabled=false;}
+});
+$("t-recheck").addEventListener("click",()=>openLogin(lsGet("ais-teacher-email")||""));
+$("t-other").addEventListener("click",()=>{show("out");msg("");});
+$("t-out-btn").addEventListener("click",()=>{me=null;lsDel(SESS);data=null;show("out");msg("You are logged out.","ok");});
 
 /* ---------- dashboard ---------- */
 let data=null, sortBy="score", sortDir=-1, per="all";
@@ -3890,7 +3972,7 @@ async function load(){
   $("t-refresh").disabled=true;
   try{
     const r=await api({a:"data",s:me.s});
-    if(!r.ok){if(r.error==="session"){me=null;lsDel(SESS);show("out");msg("Please log in again.");}else alert(r.error||"Could not load results.");return;}
+    if(!r.ok){if(r.error==="session"){me=null;lsDel(SESS);openLogin(lsGet("ais-teacher-email")||"");msg("Please log in again.");}else alert(r.error||"Could not load results.");return;}
     data=r; me.owner=!!r.owner; lsSet(SESS,JSON.stringify(me)); render();
   }catch(e){$("t-empty").hidden=false;$("t-dash").hidden=true;$("t-empty-txt").textContent="Could not reach the school server. Check your connection and press Refresh.";}
   finally{$("t-refresh").disabled=false;}
@@ -4128,8 +4210,19 @@ function renderTeachers(){
       :'<button class="btn small plain" data-e="'+esc(t.email)+'" data-s="approved">Restore</button>';
     const chip=t.status==="pending"?'<span class="st help"><svg aria-hidden="true"><use href="#i-clock"/></svg>Waiting</span>':t.status==="approved"?'<span class="st done"><svg aria-hidden="true"><use href="#i-ok"/></svg>Approved</span>':'<span class="st prog">Removed</span>';
     return '<div class="row trow"><span class="grow"><span class="t">'+esc(t.name||t.email)+'</span><br><span class="d">'+esc(t.email)+'</span></span>'+chip+btns+'</div>';}).join("")
-    :'<div class="empty">No teachers have signed up yet. Share the link to this page with your colleagues.</div>';
+    :'<div class="empty">No teachers yet. Add a teacher above, or share this page so they can sign up.</div>';
 }
+$("ad-go").addEventListener("click",async()=>{
+  const name=$("ad-name").value.trim(),email=$("ad-email").value.trim(),m=$("ad-msg");
+  const say=(t,c)=>{m.hidden=!t;m.textContent=t;m.className="tmsg"+(c?" "+c:"");};
+  if(!/^\S+@\S+\.\S+$/.test(email)){say("Type the teacher’s email address.","err");$("ad-email").focus();return;}
+  $("ad-go").disabled=true;
+  try{const r=await api({a:"add",s:me.s,email,name});
+    if(!r.ok){say(r.error||"Could not add the teacher.","err");return;}
+    data=r;render();$("ad-name").value="";$("ad-email").value="";say("Added "+email+". They got an email explaining how to log in.","ok");}
+  catch(x){say("Could not reach the school server.","err");}
+  finally{$("ad-go").disabled=false;}
+});
 $("t-tlist").addEventListener("click",async e=>{const b=e.target.closest("button[data-e]");if(!b)return;b.disabled=true;
   try{const r=await api({a:"approve",s:me.s,email:b.dataset.e,status:b.dataset.s});if(r.ok){data=r;render();}else{alert(r.error||"Could not update.");b.disabled=false;}}
   catch(x){alert("Could not reach the school server.");b.disabled=false;}});
@@ -4143,7 +4236,6 @@ document.addEventListener("scroll",()=>tip.classList.remove("on"),{passive:true}
 /* ---------- start ---------- */
 applyTheme(lsGet("ais-theme")||"night");
 if(me&&me.s)enter();else show("out");
-loadGoogle();
 })();
 </script>
 <!-- ===== AIS scientific calculator: shared by every page (source/build.py adds it before </body>;  = path to the site root) ===== -->

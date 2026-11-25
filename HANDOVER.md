@@ -161,14 +161,17 @@ The welcome screen offers three choices, with **Worksheets** first, then SAT and
 - The look of the signed-out teacher page and `join.html` is in `source/landing.css` and `source/landing-ill.html` (original illustrations).
 - The QR codes on the teacher page are drawn in the browser by `source/vendor/qrcode.js`, Kazuhiko Arase's QR Code Generator (MIT licence; its notice is kept at the top of the file).
 
-**One-time setup (owner):**
-1. **Google Cloud Console** (console.cloud.google.com), signed in with the school/owner Google account: create a project → *APIs & Services* → *OAuth consent screen*: choose **External**, app name "Worksheets AIS", your support email, then publish it (only name and email are requested, so no Google review is needed).
-2. *APIs & Services* → *Credentials* → **Create credentials → OAuth client ID** → type **Web application**. Under **Authorized JavaScript origins** add `https://aamermath-ai.github.io` (and the school's domain if the site moves). Copy the **Client ID** (ends in `.apps.googleusercontent.com`).
-3. In the Apps Script project, replace `Code.gs` with the new `source/analytics/Code.gs`. In **Project Settings → Script properties** add:
-   - `GOOGLE_CLIENT_ID` = the Client ID from step 2
-   - `OWNER_EMAILS` = your Gmail address (comma-separated for more owners)
-   - `TEACHER_DOMAINS` = optional, e.g. a school email domain, to approve those teachers automatically
-4. **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy.** Keep the same deployment so the URL does not change. Google asks you to authorize again (the script now verifies sign-ins and sends approval emails).
+**How teachers log in (no passwords):** a teacher presses **Log in**, types their email (school, Outlook/Microsoft or Gmail), and gets a 6-digit code by email. They type the code and they are in for 7 days. Codes last 10 minutes; 5 wrong tries cancel a code; a code is only emailed to approved teachers. The emails are sent from the Google account that owns the Apps Script (Gmail allows about 100 a day, which is plenty).
+
+**Giving a teacher a login:** log in yourself, open **Teachers**, type their name and email, press **Add teacher**. They get an email telling them how to log in. Teachers can also press **Sign up** themselves; you get an email and press **Approve**.
+
+**One-time setup (owner, about 3 minutes):**
+1. In the Apps Script project, replace all of `Code.gs` with the new `source/analytics/Code.gs` and save.
+2. **Project Settings → Script properties → Add script property:** `OWNER_EMAILS` = your own email (several owners: separate with commas). Optional: `TEACHER_DOMAINS` = a school email domain whose teachers are approved without asking.
+3. **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy.** Keep the same deployment so the web-app URL does not change. Google asks you to authorize again (the script now sends login emails): choose your account → Advanced → Go to the project → Allow.
+4. Open `teacher.html`, press **Log in**, type the email from step 2, and use the code from your inbox.
+
+If the login page says "the school server needs the latest Code.gs", step 1 or 3 has not been done yet. No Google Cloud or Microsoft (Azure) setup is needed.
 
 Change the link in the approval emails with `siteUrl_()` in `Code.gs` if the site moves.
 

@@ -15,11 +15,12 @@
 // Worksheets + teacher login (added later, same script):
 // - Students press "Send to my teacher" on a worksheet: their name, class and per-question results go to the
 //   "Worksheets" tab (one row per student per worksheet, updated as they go).
-// - Teachers sign in on teacher.html with their Google account (Sign in with Google). Their email is their username.
-//   New teachers are "pending" until an owner approves them (from teacher.html), unless their email domain is
-//   listed in TEACHER_DOMAINS. Script properties used:
-//     GOOGLE_CLIENT_ID – the OAuth Web client ID (from Google Cloud Console) used by the Sign in with Google button
-//     OWNER_EMAILS     – comma-separated Google emails that are always approved and can approve other teachers
+// - Teachers log in on teacher.html with their email address (Gmail, Outlook/Microsoft or school email): they type
+//   their email, this script emails them a 6-digit code, they type the code. No passwords. Their email is their username.
+//   Owners add teachers (or approve requests) on teacher.html. Emails in TEACHER_DOMAINS are approved automatically.
+//   Script properties used:
+//     OWNER_EMAILS     – comma-separated emails of the people who manage teachers (needed: the first owner logs in with it)
+//     GOOGLE_CLIENT_ID – optional, only for the older "Sign in with Google" button
 //     TEACHER_DOMAINS  – optional, comma-separated email domains approved automatically (e.g. a school domain)
 //     SESSION_SECRET   – created automatically; do not share
 //
@@ -86,7 +87,7 @@ function doPost(e) {
 // admin.html reads daily totals here: ?key=ADMIN_KEY&since=YYYY-MM-DD
 function doGet(e) {
   var p = (e && e.parameter) || {};
-  if (p.a === 'config') return out_({ ok: true, clientId: prop_('GOOGLE_CLIENT_ID') });
+  if (p.a === 'config') return out_({ ok: true, v: 3, owners: list_('OWNER_EMAILS').length > 0, clientId: prop_('GOOGLE_CLIENT_ID') });
   if (p.a === 'join') return out_(joinInfo_(p.c));
   var key = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
   if (!key) return out_({ ok: false, error: 'ADMIN_KEY is not set in Project Settings → Script properties.' });
@@ -274,6 +275,9 @@ function teacherApi_(d) {
       return { ok: true, status: 'approved', email: g.email, name: g.name, owner: isOwner_(g.email), session: makeSession_(g.email) };
     } finally { try { lock.releaseLock(); } catch (x) {} }
   }
+  if (d.a === 'code') return sendCode_(d.email);
+  if (d.a === 'verify') return verifyCode_(d.email, d.code);
+  if (d.a === 'request') return requestAccess_(d.email, d.name);
   // everything below needs a valid session of an approved teacher
   var email = readSession_(d.s);
   if (!email) return { ok: false, error: 'session' };
@@ -297,6 +301,18 @@ function teacherApi_(d) {
     var A = findAssignment_(d.code);
     if (!A || (A.email !== email && !isOwner_(email))) return { ok: false, error: 'Class code not found.' };
     tab_(A_SHEET, A_HEAD).getRange(A.row, 11).setValue(d.a === 'close' ? 'closed' : 'open');
+    return worksheetData_(email);
+  }
+  if (d.a === 'add' && isOwner_(email)) {   // the owner gives a teacher their login
+    var ne = cleanEmail_(d.email), nn = plain_(d.name, 60);
+    if (!ne) return { ok: false, error: 'Type a valid email address.' };
+    var lk = LockService.getScriptLock(); lk.waitLock(10000);
+    try {
+      var t2 = teachers_(), k2 = findTeacher_(t2, ne);
+      if (k2 < 0) t2.sh.appendRow([ne, nn || ne, 'approved', new Date(), '']);
+      else t2.sh.getRange(k2 + 2, 2, 1, 2).setValues([[nn || unplain_(t2.rows[k2][1]) || ne, 'approved']]);
+    } finally { try { lk.releaseLock(); } catch (x) {} }
+    notifyApproved_(ne, nn);
     return worksheetData_(email);
   }
   if (d.a === 'approve' && isOwner_(email)) {
@@ -339,14 +355,75 @@ function notifyOwners_(g) {
   try {
     var to = list_('OWNER_EMAILS').join(',');
     if (to) MailApp.sendEmail(to, 'Worksheets AIS: teacher access request from ' + g.name,
-      g.name + ' (' + g.email + ') asked for teacher access on Worksheets AIS.\n\nTo approve, sign in at ' + siteUrl_() + ' and open "Teachers".');
+      g.name + ' (' + g.email + ') asked for teacher access on Worksheets AIS.\n\nTo approve, log in at ' + siteUrl_() + ' and open "Teachers".');
   } catch (e) {}
 }
 function notifyApproved_(email, name) {
   try {
-    MailApp.sendEmail(email, 'Worksheets AIS: your teacher access is ready',
-      'Hello ' + (name || '') + ',\n\nYour teacher account on Worksheets AIS has been approved. Sign in with Google at ' + siteUrl_() + ' to see your students\' worksheet results.\n\nMathematics Department, American International School');
+    MailApp.sendEmail(email, 'Worksheets AIS: your teacher login is ready',
+      'Hello ' + (name || '') + ',\n\nYou now have a teacher login on Worksheets AIS.\n\n1. Open ' + siteUrl_() + '\n2. Press "Log in" and type this email address: ' + email +
+      '\n3. We email you a 6-digit code. Type it in, and you are in.\n\nThere is no password. Share worksheets with your class by QR code or Microsoft Teams, and see your students\' results.\n\nMathematics Department, American International School');
   } catch (e) {}
+}
+
+// ---------------- email login codes (works with any email: Gmail, Outlook/Microsoft, school) ----------------
+var CODE_MINUTES = 10, CODE_TRIES = 5, CODES_PER_EMAIL_15MIN = 4, CODES_PER_HOUR = 200;
+function cleanEmail_(v) {
+  var e = String(v || '').trim().toLowerCase();
+  return /^[^\s@<>"'(),;:\\]{1,64}@[a-z0-9.\-]{1,190}\.[a-z]{2,}$/.test(e) ? e : '';
+}
+function sendCode_(raw) {
+  var email = cleanEmail_(raw);
+  if (!email) return { ok: false, error: 'Type your full email address, for example name@school.ae.' };
+  if (!list_('OWNER_EMAILS').length) return { ok: false, error: 'Teacher login is not set up yet: OWNER_EMAILS is missing in the Apps Script.' };
+  var cache = CacheService.getScriptCache();
+  if (count_(cache, 'codes:' + new Date().toISOString().slice(0, 13), 3600) > CODES_PER_HOUR) return { ok: false, error: 'Too many login emails right now. Try again in a few minutes.' };
+  var st = statusOf_(email);
+  if (st === 'none') return { ok: true, status: 'none' };
+  if (st !== 'approved') return { ok: true, status: st };
+  if (count_(cache, 'codemail:' + email, 900) > CODES_PER_EMAIL_15MIN) return { ok: false, error: 'We already sent you several codes. Check your inbox (and junk folder), or try again in 15 minutes.' };
+  var code = String(100000 + parseInt(Utilities.getUuid().replace(/-/g, '').slice(0, 12), 16) % 900000);   // getUuid uses a secure random source
+  cache.put('otp:' + email, JSON.stringify({ h: sign_('otp|' + email + '|' + code), n: 0 }), CODE_MINUTES * 60);
+  try {
+    MailApp.sendEmail(email, 'Your Worksheets AIS login code: ' + code,
+      'Your login code is ' + code + '\n\nType it on the Worksheets AIS teacher page. It works for ' + CODE_MINUTES + ' minutes.\n\nIf you did not ask for this, you can ignore this email.\n\nMathematics Department, American International School');
+  } catch (e) { return { ok: false, error: 'The login email could not be sent. Please try again later.' }; }
+  return { ok: true, status: 'sent', email: email };
+}
+function verifyCode_(raw, code) {
+  var email = cleanEmail_(raw); code = String(code || '').replace(/\D/g, '');
+  if (!email || code.length !== 6) return { ok: false, error: 'Type the 6-digit code from the email.' };
+  var cache = CacheService.getScriptCache(), key = 'otp:' + email, o = null;
+  try { o = JSON.parse(cache.get(key) || 'null'); } catch (e) { o = null; }
+  if (!o) return { ok: false, error: 'This code has expired. Press "Send a new code".' };
+  if (!sameKey_(o.h, sign_('otp|' + email + '|' + code))) {
+    o.n++;
+    if (o.n >= CODE_TRIES) { cache.remove(key); return { ok: false, error: 'Too many wrong codes. Press "Send a new code".' }; }
+    cache.put(key, JSON.stringify(o), CODE_MINUTES * 60);
+    return { ok: false, error: 'That code is not right. Check the email and try again.' };
+  }
+  cache.remove(key);
+  if (statusOf_(email) !== 'approved') return { ok: false, error: 'This email does not have teacher access.' };
+  var t = teachers_(), i = findTeacher_(t, email), name = email;
+  if (i >= 0) { name = unplain_(t.rows[i][1]) || email; t.sh.getRange(i + 2, 5).setValue(new Date()); }
+  else if (isOwner_(email)) { t.sh.appendRow([email, email.split('@')[0], 'approved', new Date(), new Date()]); name = email.split('@')[0]; }
+  return { ok: true, status: 'approved', email: email, name: name, owner: isOwner_(email), session: makeSession_(email) };
+}
+function requestAccess_(raw, nm) {
+  var email = cleanEmail_(raw), name = plain_(nm, 60);
+  if (!email) return { ok: false, error: 'Type your full email address.' };
+  if (name.length < 2) return { ok: false, error: 'Type your name.' };
+  var cache = CacheService.getScriptCache();
+  if (count_(cache, 'req:' + new Date().toISOString().slice(0, 13), 3600) > 60) return { ok: false, error: 'Too many requests right now. Try again later.' };
+  var lock = LockService.getScriptLock(); lock.waitLock(10000);
+  try {
+    var t = teachers_(), i = findTeacher_(t, email);
+    if (i >= 0) return { ok: true, status: String(t.rows[i][2]), email: email };
+    var status = autoApproved_(email) ? 'approved' : 'pending';
+    t.sh.appendRow([email, name, status, new Date(), '']);
+    if (status === 'pending') notifyOwners_({ email: email, name: name });
+    return { ok: true, status: status, email: email };
+  } finally { try { lock.releaseLock(); } catch (x) {} }
 }
 
 
