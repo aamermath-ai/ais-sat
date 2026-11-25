@@ -10,6 +10,20 @@ A free Digital SAT practice website for students of the American International S
 
 ---
 
+## Brand: Omega
+
+- **Name:** Omega. The sections are **Omega SAT**, **Omega ACT** and **Omega Worksheets**.
+- **Tagline:** *The last word in math.* (Ω is the last letter of the Greek alphabet.) Second line: *From algebra to calculus*.
+- **Logo:** source files are in `source/brand/`.
+  - `omega-tile.svg`: the full logo, a glowing Ω on a navy graph-paper tile, with a gold point and a tangent line as a calculus nod. Use it for large sizes and app icons.
+  - `omega-favicon.svg`: a simplified, bolder version for small sizes (browser tab, sidebar).
+  - `omega-logo-1024.png`: a high-resolution PNG for documents and slides.
+- **Where they are used:**
+  - `source/logo-512.png` becomes the site's `logo.png`.
+  - `source/logo-180.png` becomes `apple-touch-icon.png`.
+  - The marks inside the pages are embedded in `source/emir.html`, and the build copies them to every page.
+- **What still names the school:** the creator page keeps your job title and the thank-you note to Ms. Shahnaz Nawaz as written. The ACT "AIST Math 1" mode keeps its name.
+
 ## 1. What the website does
 
 | Section | What students get |

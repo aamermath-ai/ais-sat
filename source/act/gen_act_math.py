@@ -136,7 +136,7 @@ def main(per=24, seed=1959):
             q = fn(r, d)
             if not q or q["stem"] in seen or len(set(q["choices"])) != 4 or any("\u2009" in c for c in q["choices"]): continue   # no padded duplicates
             seen.add(q["stem"]); got += 1
-            q.update(id=f"am-{fn.__name__}-{got:03d}", difficulty=d, answer=0, source="SAT AIS original ACT-style item")
+            q.update(id=f"am-{fn.__name__}-{got:03d}", difficulty=d, answer=0, source="Omega original ACT-style item")
             out.append(q)
     json.dump(out, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "act_math_extra.json"), "w"), ensure_ascii=False)
     print(len(out), "ACT-only math items")

@@ -1,4 +1,4 @@
-<title>Teachers · Worksheets AIS</title>
+<title>Teachers · Omega</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -6,7 +6,6 @@
 <style>
 /*@@SHARED_CSS@@*/
 /* ================= Teacher sign-in + worksheet results ================= */
-.word.ws{font-size:1.3rem}
 .word.ws span{color:var(--good)}
 [data-theme="night"] .word.ws span{background:linear-gradient(100deg,#C8FFE6,#3BF0A0 60%,#3DBBFF);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .switchx b{font-family:var(--f-display);color:var(--accent)}
@@ -149,7 +148,7 @@ body:not(.signed-out) .lp{display:none}
 </svg>
 <div class="lp" id="lp">
   <header class="lp-top">
-    <a class="lp-logo" href="worksheets.html"><img src="@@LOGO@@" alt=""><span>Worksheets <i>AIS</i></span></a>
+    <a class="lp-logo" href="worksheets.html"><img src="@@LOGO@@" alt=""><span>Omega</span></a>
     <nav class="lp-nav">
       <a class="lp-b join" href="join.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>Join a worksheet</a>
       <button class="lp-b" type="button" id="lp-login">Log in</button>
@@ -158,10 +157,10 @@ body:not(.signed-out) .lp{display:none}
   <main class="lp-hero">
     <!--@@ILL_L@@-->
     <div class="lp-mid">
-      <h1>Fun, free maths worksheets for every AIS class!</h1>
+      <h1>Fun, free math for every class!</h1>
       <div id="lp-start" style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%">
         <button class="lp-b main" type="button" id="lp-signup">Sign up</button>
-        <p class="lp-small">For AIS teachers. Use your school, Outlook (Microsoft) or Gmail address – we email you a code, no password.</p>
+        <p class="lp-small">For teachers. Use your school, Outlook (Microsoft) or Gmail address – we email you a code, no password.</p>
       </div>
       <form class="lp-form" id="lp-login-form" hidden novalidate>
         <h2 id="lf-h">Teacher log in</h2>
@@ -186,7 +185,7 @@ body:not(.signed-out) .lp{display:none}
         <label for="sf-email">Your email</label>
         <input class="lp-in" id="sf-email" type="email" autocomplete="email" inputmode="email" placeholder="name@school.ae">
         <button class="lp-b main" type="submit" id="sf-go">Sign up</button>
-        <p class="lp-small" style="margin:0 auto">The Mathematics Department approves new teachers, then you log in with this email. Any email works: school, Outlook (Microsoft) or Gmail.</p>
+        <p class="lp-small" style="margin:0 auto">The site admin approves new teachers, then you log in with this email. Any email works: school, Outlook (Microsoft) or Gmail.</p>
         <div class="lp-links" style="justify-content:center"><button class="lp-link" type="button" id="sf-tologin">Already have a login? Log in</button></div>
       </form>
       <div class="lp-pend" id="t-pend" hidden>
@@ -203,15 +202,15 @@ body:not(.signed-out) .lp{display:none}
     <div class="lp-step"><i>2</i><div><b>Pick a worksheet and class</b><span>You get a class code and a QR code in one click.</span></div></div>
     <div class="lp-step"><i>3</i><div><b>Share it in Teams or on the board</b><span>Students scan and join. Their scores arrive live in your dashboard.</span></div></div>
   </section>
-  <footer class="lp-foot"><span>Mathematics Department · American International School</span>
+  <footer class="lp-foot"><span>The last word in math · From algebra to calculus</span>
     <span class="lp-theme" id="lp-theme" role="group" aria-label="Appearance"><button data-v="light" aria-pressed="false">Light</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="dark" aria-pressed="false">Dark</button></span></footer>
 </div>
 <div class="nightbg" id="nightbg" aria-hidden="true"><video id="nightvid" muted loop playsinline preload="none" disablepictureinpicture></video><div class="veil"></div></div>
 <div class="app">
-  <aside class="side" aria-label="Worksheets AIS">
+  <aside class="side" aria-label="Omega Worksheets">
     <div class="brand">
-      <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="American International School logo"><span class="word ws">Worksheets <span>AIS</span></span></div>
-      <p class="inst"><b>Mathematics Department</b>American International School</p>
+      <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="Omega logo"><span class="word ws">Omega <span>Worksheets</span></span></div>
+      <p class="inst"><b>The last word in math.</b>From algebra to calculus</p>
     </div>
     <nav class="nav" id="nav-side">
       <a href="worksheets.html"><svg><use href="#i-sheet"/></svg>Worksheets</a>
@@ -230,11 +229,11 @@ body:not(.signed-out) .lp{display:none}
     </div>
   </aside>
   <header class="mhead">
-    <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="American International School logo"><div><span class="word ws">Worksheets <span>AIS</span></span><p class="inst">Mathematics Department<br>American International School</p></div></div>
+    <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="Omega logo"><div><span class="word ws">Omega <span>Worksheets</span></span><p class="inst">The last word in math.</p></div></div>
   </header>
   <div class="content">
     <section class="page fade" id="v-t">
-      <div class="ptitle"><span class="eyebrow">For AIS teachers</span><h1 id="t-h1">Worksheet results</h1>
+      <div class="ptitle"><span class="eyebrow">For teachers</span><h1 id="t-h1">Worksheet results</h1>
         <p id="t-lead">See how your students did on each worksheet: scores, the questions they found hardest, and who needs help.</p></div>
 
       <!-- signed in -->
@@ -296,7 +295,7 @@ body:not(.signed-out) .lp{display:none}
         </div>
       </div>
     </section>
-    <footer class="sitefoot"><a href="./#creator"><span>Created and developed by <b>Aamer Bashir</b></span></a><span class="sf-org">Mathematics Department · American International School</span></footer>
+    <footer class="sitefoot"><a href="./#creator"><span>Created and developed by <b>Aamer Bashir</b></span></a><span class="sf-org">The last word in math · From algebra to calculus</span></footer>
   </div>
   <nav class="tabbar" id="nav-tab" aria-label="Sections">
     <a href="worksheets.html" aria-label="Worksheets"><svg aria-hidden="true"><use href="#i-sheet"/></svg><span class="tl">Worksheets</span></a>
@@ -376,8 +375,10 @@ async function check(){
 }
 let loginEmail="";
 function openLogin(email){show("out","login");msg("");$("lf-step1").hidden=false;$("lf-step2").hidden=true;$("lf-h").textContent="Teacher log in";
-  if(email)$("lf-email").value=email;setTimeout(()=>$("lf-email").focus(),30);}
-function openSignup(){show("out","signup");msg("");setTimeout(()=>$("sf-name").focus(),30);}
+  if(email)$("lf-email").value=email;focusIfIdle("lf-email");}
+// move the cursor into the form only if the user has not already clicked into a box
+function focusIfIdle(id){setTimeout(()=>{const a=document.activeElement;if(!a||a===document.body||a.tagName==="BUTTON")$(id).focus();},30);}
+function openSignup(){show("out","signup");msg("");focusIfIdle("sf-name");}
 $("lp-signup").addEventListener("click",openSignup);
 $("lp-login").addEventListener("click",()=>openLogin(lsGet("ais-teacher-email")||""));
 $("lf-tosignup").addEventListener("click",openSignup);
@@ -391,9 +392,9 @@ async function sendCode(){
   try{
     const r=await api({a:"code",email});
     if(!r.ok){msg(r.error||"Could not send the code. Please try again.","err");return;}
-    if(r.status==="none"){msg("");$("sf-email").value=email;openSignup();msg("This email doesn’t have a teacher login yet. Sign up below and the Mathematics Department will add you.","err");return;}
+    if(r.status==="none"){msg("");$("sf-email").value=email;openSignup();msg("This email doesn’t have a teacher login yet. Sign up below and the site admin will add you.","err");return;}
     if(r.status==="pending"){pending(email,"");return;}
-    if(r.status==="removed"){msg("Teacher access for this email is switched off. Please contact the Mathematics Department.","err");return;}
+    if(r.status==="removed"){msg("Teacher access for this email is switched off. Please contact the site admin.","err");return;}
     loginEmail=r.email||email;lsSet("ais-teacher-email",loginEmail);
     $("lf-step1").hidden=true;$("lf-step2").hidden=false;$("lf-h").textContent="Check your email";
     $("lf-code-l").textContent="We sent a 6-digit code to "+loginEmail+". Type it here:";$("lf-code").value="";
@@ -418,7 +419,7 @@ $("lf-resend").addEventListener("click",()=>{$("lf-email").value=loginEmail;send
 function pending(email,name){
   const first=(name||"").split(" ")[0];
   $("t-pend-h").textContent="Request sent ✉️";
-  $("t-pend-txt").textContent=(first?"Thanks, "+first+"! ":"")+"Your username is "+email+". The Mathematics Department will add you and you’ll get an email. Then press Log in and we’ll email you a code.";
+  $("t-pend-txt").textContent=(first?"Thanks, "+first+"! ":"")+"Your username is "+email+". The site admin will add you and you’ll get an email. Then press Log in and we’ll email you a code.";
   lsSet("ais-teacher-email",email);msg("");show("out","pend");
 }
 $("lp-signup-form").addEventListener("submit",async e=>{e.preventDefault();
@@ -431,7 +432,7 @@ $("lp-signup-form").addEventListener("submit",async e=>{e.preventDefault();
     const r=await api({a:"request",email,name});
     if(!r.ok){msg(r.error||"Could not send. Please try again.","err");return;}
     if(r.status==="approved"){openLogin(r.email);msg("You already have a teacher login. Press “Email me a code”.","ok");return;}
-    if(r.status==="removed"){msg("Teacher access for this email is switched off. Please contact the Mathematics Department.","err");return;}
+    if(r.status==="removed"){msg("Teacher access for this email is switched off. Please contact the site admin.","err");return;}
     pending(r.email,name);
   }catch(x){msg("Could not reach the school server. Please try again.","err");}
   finally{$("sf-go").disabled=false;}

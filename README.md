@@ -1,9 +1,10 @@
-# SAT AIS
+# Omega
 
-**Created and developed by [Aamer Bashir](https://www.linkedin.com/in/aamer-b-9b3575126/)**, Mathematics Department, American International School.
+*The last word in math. From algebra to calculus.*
 
-Free adaptive Digital SAT practice for AIS students.
-Mathematics Department, American International School.
+**Created and developed by [Aamer Bashir](https://www.linkedin.com/in/aamer-b-9b3575126/)**.
+
+Free math for every student: Digital SAT and ACT practice, and interactive class worksheets (Grades 6–12).
 
 **Open the app:** https://aamermath-ai.github.io/ais-sat/
 

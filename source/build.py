@@ -6,7 +6,7 @@ S=os.path.dirname(os.path.abspath(__file__)); OUT=sys.argv[1] if len(sys.argv)>1
 qs=[]
 for f in sorted(os.listdir(S+'/bank')):
     q=json.load(open(S+'/bank/'+f)); q={'id':f[:-5],**q}
-    q['source']=q.get('source','').replace('Emir original item','SAT AIS original item'); qs.append(q)
+    q['source']=q.get('source','').replace('Emir original item','Omega original item').replace('SAT AIS original','Omega original'); qs.append(q)
 gen=os.path.join(S,'generated_math.json')
 if os.path.exists(gen): qs+=json.load(open(gen))
 gen2=os.path.join(S,'generated_math_hard2.json')   # extra SAT-Hard Math (source/gen_more_math.py)
@@ -22,6 +22,7 @@ qs=[q for q in qs if q.get('difficulty')==3]   # the website serves Hard-level q
 print('served (hard only):',len(qs))
 json.dump(qs,open(OUT+'/questions.json','w'),ensure_ascii=False,separators=(',',':'))
 shutil.copy(S+'/logo-512.png',OUT+'/logo.png'); shutil.copy(S+'/logo-180.png',OUT+'/apple-touch-icon.png')
+shutil.copy(S+'/brand/omega-favicon.svg',OUT+'/favicon.svg')   # Omega logo (source/brand/)
 os.makedirs(OUT+'/assets',exist_ok=True)
 # background video files: copied only if a re-encoded set exists in source/nightwalk (see HANDOVER.md);
 # otherwise the ones already in assets/ are kept
@@ -58,12 +59,13 @@ head='''<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="SAT AIS: free adaptive Digital SAT practice for AIS students, from the Mathematics Department, American International School.">
+<meta name="description" content="Omega SAT: free adaptive Digital SAT practice. The last word in math.">
 <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="SAT AIS">
+<meta name="apple-mobile-web-app-title" content="Omega">
 <meta name="author" content="Aamer Bashir">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script>try{var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
@@ -94,7 +96,7 @@ css=src[src.index('<style>')+7:src.index('</style>')]
 sprite=re.search(r'<svg width="0" height="0" style="position:absolute" aria-hidden="true">.*?</svg>',src,re.S).group(0)
 logo=re.search(r'<img class="mark" src="(data:image/[^"]+)"',src).group(1)
 act=act.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
-act=head.replace('content="SAT AIS: free adaptive Digital SAT practice','content="ACT AIS: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="ACT AIS">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+act=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega ACT: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega ACT">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/act.html','w').write(csp(add_calc(act,''), GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
 # ---- Worksheets page (worksheets.html, Grades 6-12) + the interactive worksheets in source/worksheets/
 grades=open(S+'/worksheets-catalog.js').read()      # the worksheet list (grade → term → module → worksheet)
@@ -103,7 +105,7 @@ ill=open(S+'/landing-ill.html').read(); ill_l=ill[ill.index('<!--@@ILL_L-->')+14
 def landing(h): return h.replace('/*@@LANDING_CSS@@*/',landing_css,1).replace('<!--@@ILL_L@@-->',ill_l,1).replace('<!--@@ILL_R@@-->',ill_r,1)
 ws=open(S+'/worksheets.html').read().replace('/*@@GRADES@@*/',grades,1)
 ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
-ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-12').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+ws=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega Worksheets: interactive math class worksheets for Grades 6-12').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), "", None, "strict-origin-when-cross-origin"))
 STATS_URL=re.search(r'const STATS_URL="([^"]*)"',src).group(1)   # the school's Apps Script (source/analytics/Code.gs)
 report=open(S+'/ws-report.html').read().replace('@@STATS_URL@@',STATS_URL)   # "Send to my teacher" on every worksheet
@@ -128,15 +130,15 @@ for f in sorted(os.listdir(S+'/worksheets')):
 qrlib=open(S+'/vendor/qrcode.js').read()   # QR Code Generator by Kazuhiko Arase (MIT licence, header kept), for class-code QR codes
 tp=landing(open(S+'/teacher.html').read()).replace('@@STATS_URL@@',STATS_URL).replace('/*@@GRADES@@*/',grades,1)
 tp=tp.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
-tp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS teachers: sign in to see worksheet results').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Teachers">')+tp.replace('</style>\n','</style>\n</head>\n<body class="signed-out">\n',1).replace('<script>\n(function(){','<script>\n'+qrlib+'\n</script>\n<script>\n(function(){',1)+'</body>\n</html>\n'
+tp=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega for teachers: share worksheets and see results').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+tp.replace('</style>\n','</style>\n</head>\n<body class="signed-out">\n',1).replace('<script>\n(function(){','<script>\n'+qrlib+'\n</script>\n<script>\n(function(){',1)+'</body>\n</html>\n'
 open(OUT+'/teacher.html','w').write(csp(add_calc(tp,''), GS, None, "strict-origin-when-cross-origin"))   # login is by emailed code: no third-party scripts
 # ---- Join a worksheet (students type or scan a class code)
 jp=landing(open(S+'/join.html').read()).replace('/*@@GRADES@@*/',grades,1).replace('@@STATS_URL@@',STATS_URL).replace('@@LOGO@@',logo)
-jp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Join your class on Worksheets AIS with the code from your teacher').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Join">')+jp+'</html>\n'
+jp=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Join your class on Omega with the code from your teacher').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+jp+'</html>\n'
 open(OUT+'/join.html','w').write(csp(jp, GS, None, "strict-origin-when-cross-origin"))
 print('worksheets:',len([f for f in os.listdir(S+'/worksheets') if f.endswith('.html')]))
 adm=open(S+'/admin.html').read()
 open(OUT+'/admin.html','w').write(csp(adm, GS, None, "no-referrer"))   # private usage dashboard (needs the admin key)
-r=open(OUT+'/README.md').read().replace('# Emir\n','# SAT AIS\n')
+r=open(OUT+'/README.md').read()
 open(OUT+'/README.md','w').write(r)
 print('built',len(qs))

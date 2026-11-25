@@ -1,5 +1,5 @@
 //
-// SAT AIS – usage statistics backend (Google Apps Script + Google Sheet).
+// Omega – usage statistics backend (Google Apps Script + Google Sheet).
 // Receives anonymous events from the website and serves daily totals to admin.html.
 // Setup steps: see HANDOVER.md, section "Usage statistics".
 //
@@ -376,21 +376,21 @@ function mailError_(e) {
 // Google asks for permission to send email (click Allow), and you get a test message.
 function testEmail() {
   var me = Session.getEffectiveUser().getEmail();
-  MailApp.sendEmail(me, 'Worksheets AIS: test email', 'Email works. Teachers can now get their login codes.\n\nMathematics Department, American International School');
+  MailApp.sendEmail(me, 'Omega: test email', 'Email works. Teachers can now get their login codes.\n\nOmega · The last word in math');
   Logger.log('Sent a test email to ' + me + '. Emails left today: ' + MailApp.getRemainingDailyQuota());
 }
 function notifyOwners_(g) {
   try {
     var to = list_('OWNER_EMAILS').join(',');
-    if (to) MailApp.sendEmail(to, 'Worksheets AIS: teacher access request from ' + g.name,
-      g.name + ' (' + g.email + ') asked for teacher access on Worksheets AIS.\n\nTo approve, log in at ' + siteUrl_() + ' and open "Teachers".');
+    if (to) MailApp.sendEmail(to, 'Omega: teacher access request from ' + g.name,
+      g.name + ' (' + g.email + ') asked for teacher access on Omega.\n\nTo approve, log in at ' + siteUrl_() + ' and open "Teachers".');
   } catch (e) { mailError_(e); }
 }
 function notifyApproved_(email, name) {
   try {
-    MailApp.sendEmail(email, 'Worksheets AIS: your teacher login is ready',
-      'Hello ' + (name || '') + ',\n\nYou now have a teacher login on Worksheets AIS.\n\n1. Open ' + siteUrl_() + '\n2. Press "Log in" and type this email address: ' + email +
-      '\n3. We email you a 6-digit code. Type it in, and you are in.\n\nThere is no password. Share worksheets with your class by QR code or Microsoft Teams, and see your students\' results.\n\nMathematics Department, American International School');
+    MailApp.sendEmail(email, 'Omega: your teacher login is ready',
+      'Hello ' + (name || '') + ',\n\nYou now have a teacher login on Omega.\n\n1. Open ' + siteUrl_() + '\n2. Press "Log in" and type this email address: ' + email +
+      '\n3. We email you a 6-digit code. Type it in, and you are in.\n\nThere is no password. Share worksheets with your class by QR code or Microsoft Teams, and see your students\' results.\n\nOmega · The last word in math');
     return '';
   } catch (e) { return mailError_(e); }
 }
@@ -413,8 +413,8 @@ function sendCode_(raw) {
   var code = String(100000 + parseInt(Utilities.getUuid().replace(/-/g, '').slice(0, 12), 16) % 900000);   // getUuid uses a secure random source
   cache.put('otp:' + email, JSON.stringify({ h: sign_('otp|' + email + '|' + code), n: 0 }), CODE_MINUTES * 60);
   try {
-    MailApp.sendEmail(email, 'Your Worksheets AIS login code: ' + code,
-      'Your login code is ' + code + '\n\nType it on the Worksheets AIS teacher page. It works for ' + CODE_MINUTES + ' minutes.\n\nIf you did not ask for this, you can ignore this email.\n\nMathematics Department, American International School');
+    MailApp.sendEmail(email, 'Your Omega login code: ' + code,
+      'Your login code is ' + code + '\n\nType it on the Omega teacher page. It works for ' + CODE_MINUTES + ' minutes.\n\nIf you did not ask for this, you can ignore this email.\n\nOmega · The last word in math');
   } catch (e) { cache.remove('otp:' + email); return { ok: false, error: mailError_(e) }; }
   return { ok: true, status: 'sent', email: email };
 }

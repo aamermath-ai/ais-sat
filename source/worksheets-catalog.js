@@ -1,4 +1,4 @@
-/* Worksheets AIS catalogue: grade → term → module → worksheet.
+/* Omega Worksheets catalogue: grade → term → module → worksheet.
    Used by worksheets.html (the list students see) and teacher.html (the "Assign" picker).
    To add a worksheet: put its HTML file in source/worksheets/, add an item here, then run python3 source/build.py.
    "ws" must match the id in the worksheet's window.AISWS, so teachers can assign it to a class. */

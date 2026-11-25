@@ -1,4 +1,4 @@
-/* ===== Worksheets AIS landing look (teacher.html signed-out screen + join.html) =====
+/* ===== Omega landing look (teacher.html signed-out screen + join.html) =====
    Bright, friendly, chunky buttons with a solid bottom edge. Light by default; Night/Dark themes get a dark version. */
 .lp{--lp-bg:#ffffff;--lp-ink:#2f3640;--lp-mut:#6b7480;--lp-line:#dfe3e8;--lp-card:#ffffff;--lp-soft:#f3f7f6;
   --lp-brand:#12a37f;--lp-brand-d:#0b7a5f;--lp-brand-ink:#ffffff;--lp-red:#e0475b;--lp-gold:#ffc23d;--lp-sky:#e8f6ff;
@@ -10,9 +10,10 @@
 .lp-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px clamp(16px,5vw,64px);flex-wrap:wrap}
 .lp-logo{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:12px;background:var(--lp-brand);color:#fff;text-decoration:none;
   box-shadow:0 5px 0 var(--lp-brand-d);transform:rotate(-1.5deg)}
-.lp-logo img{width:40px;height:40px;border-radius:9px;background:#fff;padding:2px}
+.lp-logo img{width:42px;height:42px;border-radius:10px;display:block}
 .lp-logo span{font:900 clamp(20px,3vw,28px)/1 Nunito,system-ui,sans-serif;letter-spacing:-.01em}
 .lp-logo span i{font-style:normal;color:#ffe08a}
+.lp-logo{background:linear-gradient(120deg,#12a37f,#1d8fe0);box-shadow:0 5px 0 #0b5f86}
 .lp-nav{display:flex;gap:12px;flex-wrap:wrap}
 .lp-b{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 22px;border-radius:10px;cursor:pointer;
   font:800 18px/1 Nunito,system-ui,sans-serif;text-decoration:none;border:2px solid var(--lp-line);background:var(--lp-card);color:var(--lp-ink);

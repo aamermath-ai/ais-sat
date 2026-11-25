@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-a3qplvgOaSDL2RekL8Lo1hfnm3S2g+FX+VZXcbtF+0U=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-1+3z35EKp7tx+xMbTRsZxPFP/d4iQHJItMdNGKDoKyY=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo=' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-a3qplvgOaSDL2RekL8Lo1hfnm3S2g+FX+VZXcbtF+0U=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-TJlrrDvlNSl4WHEzLB4UM/vPfrIPqHit4RRXJ7eCIVU=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo=' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>10.1 Defining Convergent and Divergent Infinite Series – Calculus</title>
@@ -337,7 +337,7 @@ input.gm-missing{border-color:#C8102E!important;box-shadow:0 0 0 3px rgba(200,16
 <div class="gm-start" id="gm-start" hidden role="dialog" aria-modal="true" aria-labelledby="gm-start-t">
   <svg class="sky" aria-hidden="true"><use href="#gm-sky"/></svg>
   <div class="gm-start-in">
-    <small>AIS Worksheets · Eid Al Etihad edition</small>
+    <small>Omega Worksheets · Eid Al Etihad edition</small>
     <h1 id="gm-start-t">City Missions</h1>
     <h2 id="gm-start-topic"></h2>
     <ul>
@@ -545,7 +545,7 @@ hudUpdate();mapUpdate();resultUpdate();
 }
 }
 </script>
-<!-- ===== Worksheets AIS: "Send to my teacher" (source/build.py adds this to every worksheet in source/worksheets/) =====
+<!-- ===== Omega Worksheets: "Send to my teacher" (source/build.py adds this to every worksheet in source/worksheets/) =====
      A worksheet joins in with three small additions (see HANDOVER.md, "Adding a worksheet"):
        1. <div id="ais-report"></div> inside its result box
        2. window.AISWS={id,title,grade,parts,get} once its questions are set up
@@ -581,7 +581,7 @@ function today(){var t=new Date();return t.getFullYear()+"-"+String(t.getMonth()
 var SENT="ais-ws-sent:"+W.id, ASG="ais-ws-class:"+W.id, sending=false, again=false, timer=0, retryT=0, lastBody="";
 var asg=null; try{asg=JSON.parse(lsGet(ASG)||"null");}catch(e){asg=null;}
 box.innerHTML='<div class="ar-row"><button type="button" class="ar-send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Send to my teacher</span></button><span class="ar-live" hidden><i></i>Updates automatically</span></div>'+
-  '<p class="ar-msg" aria-live="polite"></p><p class="ar-fine">Sends your name, class and score for this worksheet to your AIS maths teachers.</p>';
+  '<p class="ar-msg" aria-live="polite"></p><p class="ar-fine">Sends your name, class and score for this worksheet to your math teacher.</p>';
 var btn=box.querySelector(".ar-send"), msg=box.querySelector(".ar-msg"), live=box.querySelector(".ar-live");
 function say(t,c){msg.textContent=t;msg.className="ar-msg"+(c?" "+c:"");}
 function payload(){
