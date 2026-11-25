@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>13.1 Tangent Ratio – Eid Al Etihad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: friendly, clear classroom task for below-level Grade 10 students, festive but calm
+   IDEA: a National Day "mission card" — each question is a real UAE celebration scene measured with tan
+   PICTURE: a flagpole + skyline scene with the right triangle drawn on it, sides named
+   COLOUR and TYPE: UAE flag green leads, red accent, black ink on white; Lexend for easy reading
+   LAYOUT: hero (title + scene), then parts A–E as stacked question cards, results card at the end */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.formula{font-size:26px;font-weight:700;color:var(--green);margin:4px 0}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:250px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line)}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:2px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+@media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><b></b></div>
+
+<header class="band"><div class="wrap hero">
+  <div>
+    <a class="back" href="../worksheets.html#grade-10">← All worksheets</a>
+    <div class="kick">Grade 10 Geometry · Eid Al Etihad edition</div>
+    <h1>13.1 Tangent Ratio</h1>
+    <div class="lo"><b>LO:</b> I can use the tangent ratio to find a missing side or a missing angle in a right triangle.<br>
+      <span class="tip">Standards: G-SRT.C.6, G-SRT.C.8</span></div>
+    <div class="formula">tan θ = opposite ÷ adjacent</div>
+    <div class="tip">Remember <b>TOA</b>. Set your calculator to <b>DEG</b> mode. To find an angle, use <b>tan⁻¹</b> (SHIFT + tan).</div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 10B6"></div>
+    </div>
+  </div>
+  <div class="scene" aria-label="A person looks up at the top of a flagpole. The pole is the opposite side, the ground is the adjacent side and the line of sight is the hypotenuse.">
+    <svg viewBox="0 0 640 400" role="img">
+      <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6fbfd"/></linearGradient></defs>
+      <rect width="640" height="400" fill="url(#sk)"/>
+      <circle cx="90" cy="70" r="34" fill="#ffd34d"/>
+      <g fill="#9fb4c2"><rect x="20" y="250" width="50" height="110"/><rect x="80" y="225" width="36" height="135"/><rect x="466" y="240" width="36" height="120"/><rect x="508" y="210" width="30" height="150"/></g>
+      <path d="M560 360 L572 150 L577 60 L579 18 L581 60 L586 150 L598 360Z" fill="#7d93a3"/>
+      <rect x="0" y="352" width="640" height="48" fill="#e9dcbc"/>
+      <path d="M100 352 L330 352 L330 96Z" fill="#00843D" fill-opacity=".14" stroke="#00843D" stroke-width="3" stroke-dasharray="9 7"/>
+      <rect x="326" y="80" width="8" height="274" fill="#59636b"/>
+      <g transform="translate(334 84)"><rect width="30" height="66" fill="#C8102E"/><rect x="30" width="90" height="22" fill="#00843D"/><rect x="30" y="22" width="90" height="22" fill="#fff"/><rect x="30" y="44" width="90" height="22" fill="#111"/></g>
+      <path d="M314 352 v-16 h16" fill="none" stroke="#15191c" stroke-width="2.5"/>
+      <path d="M152 352 A52 52 0 0 0 139 317" fill="none" stroke="#C8102E" stroke-width="4"/>
+      <text x="162" y="337" font-size="24" font-weight="700" fill="#C8102E">θ</text>
+      <g fill="#15191c"><circle cx="96" cy="318" r="10"/><rect x="90" y="329" width="12" height="24" rx="5"/></g>
+      <g font-family="Lexend,sans-serif" font-size="19" font-weight="600">
+        <text x="345" y="240" fill="#15191c">opposite</text>
+        <text x="215" y="384" text-anchor="middle" fill="#15191c">adjacent</text>
+        <text x="196" y="208" text-anchor="end" fill="#00843D">hypotenuse</text>
+      </g>
+    </svg>
+  </div>
+</div></header>
+
+<div class="bar"><div class="wrap"><b id="sc">Score 0 / 14</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <section class="part"><h2>Part A · Name the sides</h2><p class="mut">Warm-up. Look at angle θ. Tap the correct name for each side.</p><div id="A"></div></section>
+  <section class="part"><h2>Part B · Find tan θ</h2><p class="mut">Write your answer as a fraction (like 3/4) or a decimal.</p><div id="B"></div></section>
+  <section class="part"><h2>Part C · Find a missing side</h2><p class="mut">Use tan to find the side. Round to the nearest tenth.</p><div id="C"></div></section>
+  <section class="part"><h2>Part D · Find a missing angle</h2><p class="mut">Use tan⁻¹. Round to the nearest degree.</p><div id="D"></div></section>
+  <section class="part"><h2>Part E · Critical thinking</h2><p class="mut">A two-step problem. Take your time.</p><div id="E"></div></section>
+
+  <section class="result" id="res">
+    <h2>My result</h2>
+    <p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0 / 14</div>
+    <div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p>
+  </section>
+  <footer><p>Diagrams are not drawn to scale.</p></footer>
+</div></main>
+
+<script>
+{
+const G='#00843D',R='#C8102E',INK='currentColor';
+const Q=[
+ {p:'A',id:'a1',kind:'pick',t:'A rope goes from the ground to the top of the school flagpole. What is <b>the flagpole</b>?',ans:'Opposite',d:{deco:'flag',r:.7,opp:'flagpole',adj:'ground',hyp:'rope'},hint:'The opposite side is across from θ. It does not touch θ.'},
+ {p:'A',id:'a2',kind:'pick',t:'Same picture. What is <b>the ground</b>?',ans:'Adjacent',d:{deco:'flag',r:.7,opp:'flagpole',adj:'ground',hyp:'rope'},hint:'The adjacent side touches θ and is not the longest side.'},
+ {p:'A',id:'a3',kind:'pick',t:'Same picture. What is <b>the rope</b>?',ans:'Hypotenuse',d:{deco:'flag',r:.7,opp:'flagpole',adj:'ground',hyp:'rope'},hint:'The hypotenuse is the longest side. It is across from the right angle.'},
+ {p:'B',id:'b1',t:'A triangle of National Day bunting has opposite = 8 cm, adjacent = 15 cm and hypotenuse = 17 cm. Find tan θ.',ans:8/15,tol:.01,d:{deco:'bunting',r:.53,opp:'8 cm',adj:'15 cm',hyp:'17 cm'},hint:'tan θ = opposite ÷ adjacent. Do not use 17: it is the hypotenuse.',steps:['tan θ = opposite ÷ adjacent','tan θ = 8 ÷ 15','tan θ = 8/15 ≈ 0.53']},
+ {p:'B',id:'b2',t:'A flag banner on a wall makes a right triangle: opposite = 20 cm, adjacent = 21 cm, hypotenuse = 29 cm. Find tan θ.',ans:20/21,tol:.01,d:{deco:'bunting',r:.95,opp:'20 cm',adj:'21 cm',hyp:'29 cm'},hint:'Opposite on top, adjacent on the bottom.',steps:['tan θ = 20 ÷ 21','tan θ = 20/21 ≈ 0.95']},
+ {p:'B',id:'b3',t:'Use the bunting from Question 4 again. Now find tan of the <b>other</b> acute angle, β.',ans:15/8,tol:.01,d:{deco:'bunting',r:.53,opp:'8 cm',adj:'15 cm',hyp:'17 cm',at:'top',ang:'β'},hint:'For β the sides swap: opposite = 15, adjacent = 8.',steps:['From β, the opposite side is 15 cm and the adjacent side is 8 cm','tan β = 15 ÷ 8','tan β = 15/8 = 1.875']},
+ {p:'C',id:'c1',t:'You stand 12 m from the school flagpole. The angle of elevation to the top is 50°. How tall is the flagpole?',unit:'m',ans:14.3,tol:.15,d:{deco:'flag',r:.8,opp:'h = ?',adj:'12 m',hyp:'',ang:'50°'},hint:'tan 50° = h ÷ 12. Multiply both sides by 12.',steps:['tan 50° = h ÷ 12','h = 12 × tan 50°','h = 12 × 1.1918 ≈ 14.3 m']},
+ {p:'C',id:'c2',t:'You watch the National Day fireworks 200 m from the launch point. The angle of elevation to a firework is 35°. How high is the firework?',unit:'m',ans:140,tol:.5,d:{deco:'fire',r:.7,opp:'h = ?',adj:'200 m',hyp:'',ang:'35°'},hint:'The height is opposite 35°. The 200 m is adjacent.',steps:['tan 35° = h ÷ 200','h = 200 × tan 35°','h = 200 × 0.7002 ≈ 140.0 m']},
+ {p:'C',id:'c3',t:'A ramp for the parade float rises 1.5 m. It makes an angle of 8° with the ground. How long is the ramp along the ground, x?',unit:'m',ans:10.673,tol:.15,d:{deco:'ramp',r:.25,opp:'1.5 m',adj:'x = ?',hyp:'',ang:'8°'},hint:'x is on the bottom of the fraction, so you divide: x = 1.5 ÷ tan 8°.',steps:['tan 8° = 1.5 ÷ x','x = 1.5 ÷ tan 8°','x = 1.5 ÷ 0.1405 ≈ 10.7 m']},
+ {p:'C',id:'c4',t:'The Burj Khalifa is 828 m tall. From where you stand, the angle of elevation to the top is 60°. How far are you from the base, d?',unit:'m',ans:478.0,tol:1,d:{deco:'burj',r:.7,opp:'828 m',adj:'d = ?',hyp:'',ang:'60°'},hint:'d is the adjacent side: d = 828 ÷ tan 60°.',steps:['tan 60° = 828 ÷ d','d = 828 ÷ tan 60°','d = 828 ÷ 1.7321 ≈ 478.0 m']},
+ {p:'D',id:'d1',t:'A spotlight is 30 m from a building. Its beam lights a point 45 m high on the building. Find the angle θ of the beam.',unit:'°',ans:56.31,tol:.7,d:{deco:'beam',r:.75,opp:'45 m',adj:'30 m',hyp:'',ang:'θ'},hint:'tan θ = 45 ÷ 30 = 1.5. Then press SHIFT + tan.',steps:['tan θ = 45 ÷ 30 = 1.5','θ = tan⁻¹(1.5)','θ ≈ 56.3° ≈ 56°']},
+ {p:'D',id:'d2',t:'A dhow’s sail is a right triangle. The edge on the mast is 7 m and the bottom edge is 4 m. Find the angle θ at the bottom corner.',unit:'°',ans:60.26,tol:.7,d:{deco:'sail',r:.95,opp:'7 m',adj:'4 m',hyp:'',ang:'θ'},hint:'The mast edge is opposite θ. The bottom edge is adjacent.',steps:['tan θ = 7 ÷ 4 = 1.75','θ = tan⁻¹(1.75)','θ ≈ 60.3° ≈ 60°']},
+ {p:'D',id:'d3',t:'You stand 1000 m from the Burj Khalifa (828 m tall). Find the angle of elevation θ to the top.',unit:'°',ans:39.62,tol:.7,d:{deco:'burj',r:.6,opp:'828 m',adj:'1000 m',hyp:'',ang:'θ'},hint:'tan θ = 828 ÷ 1000 = 0.828. Then use tan⁻¹.',steps:['tan θ = 828 ÷ 1000 = 0.828','θ = tan⁻¹(0.828)','θ ≈ 39.6° ≈ 40°']},
+ {p:'E',id:'e1',t:'You stand 40 m from a building with a flagpole on its roof. The angle of elevation to the top of the building is 30°. The angle of elevation to the top of the flagpole is 35°. How tall is the flagpole?',unit:'m',ans:4.914,tol:.15,d:{deco:'two'},hint:'Find two heights with tan: the building (30°) and the top of the flag (35°). Then subtract.',steps:['Building: 40 × tan 30° ≈ 23.09 m','Top of flagpole: 40 × tan 35° ≈ 28.01 m','Flagpole = 28.01 − 23.09 ≈ 4.9 m']}
+];
+
+const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
+
+function tri(o){
+  if(o.deco==='two') return two();
+  const ax=50,by=196,cx=270,w=cx-ax,h=Math.max(46,Math.min(160,w*o.r)),ty=by-h;
+  let deco='',fill=G,fo=.1;
+  if(o.deco==='flag') deco=`<rect x="${cx-2}" y="${ty-10}" width="5" height="${h+10}" fill="#6b747b"/>`+flagIcon(cx+3,ty-8,.9);
+  if(o.deco==='burj') deco=`<path d="M${cx-14} ${by} L${cx-5} ${ty+40} L${cx-1} ${ty-6} L${cx+1} ${ty-6} L${cx+5} ${ty+40} L${cx+14} ${by}Z" fill="#8aa0ae" opacity=".55"/>`;
+  if(o.deco==='fire'){for(let i=0;i<12;i++){const a=i*Math.PI/6,c=i%2?R:G;deco+=`<line x1="${cx+8*Math.cos(a)}" y1="${ty+8*Math.sin(a)}" x2="${cx+20*Math.cos(a)}" y2="${ty+20*Math.sin(a)}" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`}}
+  if(o.deco==='ramp'){fill='#c9a86a';fo=.45}
+  if(o.deco==='sail'){deco=`<path d="M${ax-28} ${by+6} L${cx+40} ${by+6} L${cx+22} ${by+26} L${ax-10} ${by+26}Z" fill="#8a5a2b"/><rect x="${cx-2}" y="${ty-16}" width="5" height="${h+22}" fill="#6b4a2a"/>`;fill='#ffffff';fo=.9}
+  if(o.deco==='beam'){deco=`<rect x="${cx}" y="${ty-26}" width="58" height="${h+26}" fill="#8aa0ae" opacity=".35"/><circle cx="${ax}" cy="${by-4}" r="7" fill="#ffd34d" stroke="#8a6d00"/>`;fill='#ffd34d';fo=.25}
+  if(o.deco==='bunting') fill=R,fo=.12;
+  const hl=Math.hypot(w,h),r=34;
+  let arc,lab;
+  if(o.at==='top'){const ux=-w/hl,uy=h/hl;arc=`M${cx} ${ty+r} A${r} ${r} 0 0 1 ${cx+r*ux} ${ty+r*uy}`;lab=`<text x="${cx-16}" y="${ty+r+20}" class="ang">${o.ang}</text>`}
+  else{const ux=w/hl,uy=-h/hl;arc=`M${ax+r} ${by} A${r} ${r} 0 0 0 ${ax+r*ux} ${by+r*uy}`;const m=Math.atan2(h,w)/2;lab=o.r<.35?`<text x="${ax-8}" y="${by-6}" text-anchor="end" class="ang">${o.ang||'θ'}</text>`:`<text x="${ax+(r+10)*Math.cos(m)}" y="${by-(r+10)*Math.sin(m)+6}" class="ang">${o.ang||'θ'}</text>`}
+  return `<svg viewBox="0 0 380 236" role="img" aria-label="Right triangle diagram"><style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.ang{font:700 17px Lexend,sans-serif;fill:${R}}</style>
+  ${o.deco==='sail'||o.deco==='beam'?deco:''}
+  <path d="M${ax} ${by} L${cx} ${by} L${cx} ${ty}Z" fill="${fill}" fill-opacity="${fo}" stroke="${INK}" stroke-width="2.5" stroke-linejoin="round"/>
+  ${o.deco==='sail'||o.deco==='beam'?'':deco}
+  <path d="M${cx-13} ${by} v-13 h13" fill="none" stroke="${INK}" stroke-width="2"/>
+  <path d="${arc}" fill="none" stroke="${R}" stroke-width="3"/>${lab}
+  <text x="${cx+12}" y="${ty+h/2+5}" class="l">${o.opp}</text>
+  <text x="${ax+w/2+(o.deco==='sail'?30:0)}" y="${o.deco==='sail'?by-10:by+24}" text-anchor="middle" class="l">${o.adj}</text>
+  ${o.hyp?`<text x="${ax+w/2-14}" y="${by-h/2-10}" text-anchor="end" class="l">${o.hyp}</text>`:''}
+  </svg>`;
+}
+function two(){
+  return `<svg viewBox="0 0 380 236" role="img" aria-label="Building with a flagpole, two angles of elevation"><style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.ang{font:700 15px Lexend,sans-serif;fill:${R}}</style>
+  <rect x="270" y="98" width="70" height="98" fill="#8aa0ae" opacity=".45" stroke="${INK}" stroke-width="2"/>
+  <rect x="268" y="38" width="5" height="60" fill="#6b747b"/>${flagIcon(273,40,.8)}
+  <line x1="40" y1="196" x2="370" y2="196" stroke="${INK}" stroke-width="2.5"/>
+  <line x1="40" y1="196" x2="270" y2="98" stroke="${G}" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <line x1="40" y1="196" x2="270" y2="38" stroke="${R}" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <path d="M96 196 A56 56 0 0 0 91.5 174" fill="none" stroke="${G}" stroke-width="3"/><text x="104" y="190" class="ang" style="fill:${G}">30°</text>
+  <path d="M76 196 A36 36 0 0 0 69.7 175.6" fill="none" stroke="${R}" stroke-width="3"/><text x="50" y="150" class="ang">35°</text>
+  <text x="155" y="220" text-anchor="middle" class="l">40 m</text>
+  <text x="300" y="152" text-anchor="middle" class="l">building</text>
+  <text x="262" y="26" text-anchor="end" class="l">flagpole = ?</text></svg>`;
+}
+
+const KEY='tan131-uae';let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const parse=s=>{s=String(s).trim().replace(/,/g,'.').replace(/[^0-9.\/\-]/g,'');if(!s)return NaN;if(s.includes('/')){const[a,b]=s.split('/').map(Number);return b?a/b:NaN}return Number(s)};
+
+let n=0;
+for(const q of Q){
+  n++;const box=document.createElement('article');box.className='q';box.id='q-'+q.id;
+  const ctl=q.kind==='pick'
+    ?`<div class="pick">${['Opposite','Adjacent','Hypotenuse'].map(o=>`<button type="button" data-o="${o}">${o}</button>`).join('')}</div>`
+    :`<div class="row"><input inputmode="decimal" aria-label="Answer for question ${n}" placeholder="Your answer${q.unit?' ('+q.unit+')':''}"><button type="button" class="chk">Check</button></div>`;
+  box.innerHTML=`<div><h3><span class="num">${n}</span>${q.p==='A'?'Name the side':'Question '+n}</h3><p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div><div>${tri(q.d)}</div>`;
+  $(q.p).appendChild(box);
+  const fb=box.querySelector('.fb'),st=S.q[q.id]||(S.q[q.id]={done:false,tries:0,v:''});
+  const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg};
+  const stepsHtml=(part)=>{if(!q.steps)return '';const L=part?q.steps.slice(0,-1).concat(['Now finish this last step yourself.']):q.steps;return `<ol class="steps">${L.map(s=>`<li>${s}</li>`).join('')}</ol>`};
+  const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+  const judge=ok=>{
+    if(ok){st.done=true;win()}
+    else{st.tries++;show(false,st.tries<2||!q.steps?`<b>Not yet.</b> Hint: ${q.hint}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(true)}`)}
+    save();score();
+  };
+  if(q.kind==='pick'){
+    box.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
+      if(st.done)return;const ok=b.dataset.o===q.ans;b.classList.add(ok?'ok':'no');judge(ok);
+      if(ok)box.querySelectorAll('.pick button').forEach(x=>x.disabled=true)}));
+    if(st.done){box.querySelectorAll('.pick button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.ans)x.classList.add('ok')});win()}
+  }else{
+    const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+    const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+      if(isNaN(v)){show(false,'Type a number first, like 14.3 or 3/4.');return}
+      const ok=Math.abs(v-q.ans)<=q.tol;judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+    btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+    if(st.done){inp.disabled=true;btn.disabled=true;win()}
+  }
+}
+
+const parts={A:'Name the sides',B:'Find tan θ',C:'Missing side',D:'Missing angle',E:'Critical thinking'};
+function score(){
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length,tot=Q.length;
+  $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+  $('lv').textContent=got===tot?'All done – amazing!':got>=10?'Nearly there!':got>=5?'Good progress!':'Let’s start!';
+  $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
+  const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+  $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 13.1 Tangent Ratio · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+}
+$('nm').value=S.nm||'';$('cl').value=S.cl||'';
+['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+$('copy').addEventListener('click',async()=>{
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 13.1 Tangent Ratio (Eid Al Etihad worksheet) – Score ${got}/${Q.length} – ${new Date().toLocaleDateString('en-GB')}`;
+  try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
+  catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
+});
+let armed=false;
+$('reset').addEventListener('click',()=>{
+  if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+  S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
+});
+score();
+}
+</script>
+</body>
+</html>

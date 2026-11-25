@@ -1,0 +1,120 @@
+<title>Worksheets AIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/*@@SHARED_CSS@@*/
+/* ================= Worksheets (Grades 6–10) ================= */
+.word.ws{font-size:1.3rem}
+.word.ws span{color:var(--good)}
+[data-theme="night"] .word.ws span{background:linear-gradient(100deg,#C8FFE6,#3BF0A0 60%,#3DBBFF);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.switchx b{font-family:var(--f-display);color:var(--accent)}
+.wsbody{display:flex;flex-direction:column;gap:22px}
+.wshead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wshead h2{font-size:1.35rem;font-weight:700;letter-spacing:-.025em}
+.wsmod{background:var(--fill)}
+.wsmod .t{font-weight:700}
+a.row{color:var(--ink);text-decoration:none!important}
+a.row:hover{background:var(--fill)}
+.wsitem .chip{min-width:54px;justify-content:center}
+.wsitem .ico{color:var(--muted)}
+.gradeseg button{white-space:nowrap}
+@media (max-width:480px){.gradeseg{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+<!--@@SPRITE@@-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M7 3.5h7.5L19 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z M14.5 3.5V8H19 M9 12h6M9 15.5h6M9 8.5h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+</svg>
+<div class="nightbg" id="nightbg" aria-hidden="true"><video id="nightvid" muted loop playsinline preload="none" disablepictureinpicture></video><div class="veil"></div></div>
+<div class="app">
+  <aside class="side" aria-label="Worksheets AIS">
+    <div class="brand">
+      <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="American International School logo"><span class="word ws">Worksheets <span>AIS</span></span></div>
+      <p class="inst"><b>Mathematics Department</b>American International School</p>
+      <span class="free"><svg><use href="#i-seal"/></svg>Free for AIS students</span>
+    </div>
+    <nav class="nav" id="nav-side">
+      <a href="worksheets.html" aria-current="page"><svg><use href="#i-sheet"/></svg>Worksheets</a>
+    </nav>
+    <a class="switchx" href="./#today">Switch to <b>SAT</b> prep</a>
+    <a class="switchx" href="act.html">Switch to <b>ACT</b> prep</a>
+    <div class="side-foot">
+      <div class="prefs">
+        <span class="pl">Appearance</span>
+        <div class="segmented sm" id="theme-seg" role="group" aria-label="Appearance"><button data-v="night" aria-pressed="true">Night</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></div>
+      </div>
+      <span>Class worksheets · Grades 6–10</span>
+      <a class="credit" href="./#creator"><span><small>Created and developed by</small><b>Aamer Bashir</b></span></a>
+    </div>
+  </aside>
+  <header class="mhead">
+    <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="American International School logo"><div><span class="word ws">Worksheets <span>AIS</span></span><p class="inst">Mathematics Department<br>American International School</p></div></div>
+  </header>
+  <div class="content">
+    <section class="page fade" id="v-ws">
+      <div class="ptitle"><span class="eyebrow">Grades 6–10 · Interactive class worksheets</span><h1>Worksheets</h1>
+        <p>Choose your grade, then your term and module. Each worksheet runs on screen: answer, check, use the hints, and see your score at the end.</p></div>
+      <div class="list seg-pad"><div class="segmented gradeseg" id="ws-grade" role="group" aria-label="Grade"></div></div>
+      <div id="ws-body" class="wsbody"></div>
+    </section>
+    <footer class="sitefoot"><a href="./#creator"><span>Created and developed by <b>Aamer Bashir</b></span></a><span class="sf-org">Mathematics Department · American International School</span></footer>
+  </div>
+  <nav class="tabbar" id="nav-tab" aria-label="Sections">
+    <a href="worksheets.html" aria-current="page" aria-label="Worksheets"><svg aria-hidden="true"><use href="#i-sheet"/></svg><span class="tl">Worksheets</span></a>
+    <a href="./#today" aria-label="SAT prep"><svg aria-hidden="true"><use href="#i-target"/></svg><span class="tl">SAT</span></a>
+    <a href="act.html" aria-label="ACT prep"><svg aria-hidden="true"><use href="#i-star"/></svg><span class="tl">ACT</span></a>
+  </nav>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+
+/* ---------- theme (shared with SAT and ACT) ---------- */
+function applyTheme(t){lsSet("ais-theme",t);if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  document.querySelectorAll("#theme-seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===t));
+  const v=$("nightvid");if(!v)return;const still=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.connection&&navigator.connection.saveData);
+  if(t!=="night"||still){try{v.pause();}catch(e){}return;}
+  if(!v.dataset.src){v.dataset.src=matchMedia("(min-width: 861px)").matches||devicePixelRatio>2.5?"assets/night-1080.mp4":"assets/night-720.mp4";v.addEventListener("playing",()=>v.classList.add("on"),{once:true});v.src=v.dataset.src;}
+  const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});}
+$("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");if(b)applyTheme(b.dataset.v);});
+applyTheme(lsGet("ais-theme")||"night");
+
+/* ---------- worksheets: grade → term → module → worksheet ----------
+   To add a worksheet: put its HTML file in source/worksheets/, add an item below, then run python3 source/build.py. */
+const GRADES=[
+  {id:"6",name:"Grade 6",course:"Mathematics",terms:[]},
+  {id:"7",name:"Grade 7",course:"Mathematics",terms:[]},
+  {id:"8",name:"Grade 8",course:"Mathematics",terms:[]},
+  {id:"9",name:"Grade 9",course:"Algebra 1",terms:[]},
+  {id:"10",name:"Grade 10",course:"Geometry",terms:[
+    {name:"Term 1",modules:[
+      {name:"Module 13",topic:"Trigonometry with Right Triangles",items:[
+        {code:"13.1",title:"Tangent Ratio",sub:"Eid Al Etihad edition · 14 interactive questions with hints and worked steps",file:"worksheets/g10-geometry-13-1-tangent-ratio.html"}]}]}]}
+];
+const fromHash=()=>{const m=/^#grade-(\d+)$/.exec(location.hash||"");return m&&GRADES.some(g=>g.id===m[1])?m[1]:null;};
+let grade=fromHash()||lsGet("ais-ws-grade")||"10";
+function render(){
+  $("ws-grade").innerHTML=GRADES.map(g=>'<button data-v="'+g.id+'" aria-pressed="'+(g.id===grade)+'">'+esc(g.name)+'</button>').join("");
+  const g=GRADES.find(x=>x.id===grade)||GRADES[GRADES.length-1];
+  const n=g.terms.reduce((a,t)=>a+t.modules.reduce((b,m)=>b+m.items.length,0),0);
+  let h='<div class="wshead"><h2>'+esc(g.name+" · "+g.course)+'</h2><span class="chip">'+n+(n===1?" worksheet":" worksheets")+'</span></div>';
+  if(!g.terms.length)h+='<div class="list"><div class="empty">Worksheets for '+esc(g.name)+' are coming soon.</div></div>';
+  g.terms.forEach(t=>{
+    h+='<div class="group"><span class="group-l">'+esc(t.name)+'</span>';
+    t.modules.forEach(m=>{
+      h+='<div class="list"><div class="row wsmod"><span class="grow"><span class="t">'+esc(m.name)+'</span><br><span class="d">'+esc(m.topic)+'</span></span></div>'+
+        m.items.map(it=>'<a class="row wsitem" href="'+esc(it.file)+'"><span class="chip l2">'+esc(it.code)+'</span><span class="grow"><span class="t">'+esc(it.title)+'</span><br><span class="d">'+esc(it.sub)+'</span></span><svg class="ico" aria-hidden="true"><use href="#i-chev"/></svg></a>').join("")+'</div>';
+    });
+    h+='</div>';
+  });
+  $("ws-body").innerHTML=h;
+}
+$("ws-grade").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;grade=b.dataset.v;lsSet("ais-ws-grade",grade);history.replaceState(null,"","#grade-"+grade);render();});
+window.addEventListener("hashchange",()=>{const h=fromHash();if(h){grade=h;render();}});
+render();
+})();
+</script>

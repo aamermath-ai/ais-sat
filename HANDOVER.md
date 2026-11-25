@@ -34,6 +34,8 @@ Themes: Night (animated beach video), Auto, Light, Dark. Sounds can be switched 
 
 ```
 index.html               the website (generated from source/emir.html; do not edit by hand)
+worksheets.html          the Worksheets page (generated from source/worksheets.html)
+worksheets/              the interactive worksheets (generated from source/worksheets/)
 admin.html               private usage dashboard (needs your admin key; see section 7)
 questions.json           questions served to students (Hard level only: 2,956; 2,845 Math, 111 R&W)
 data/questions-all.json  the full bank: 3,782 questions (3,562 Math, 220 R&W; easy, medium, hard)
@@ -122,6 +124,17 @@ Opening the site shows a welcome screen once per visit, where students choose **
   - every ACT question (English, Reading, Science and Math) has numbered solution steps, shown in the review after a test;
   - in **learning mode** (a drill option), the solution appears right after each answer.
 - **Adding another full ACT form:** write `english_form2.py`, `reading_form2.py` and `science_form2.py` in the same format, and add them to `forms` in `build_act.py`.
+
+## Worksheets (worksheets.html)
+
+The welcome screen offers three choices, with **Worksheets** first, then SAT and ACT. Each page links to the other two.
+
+- **What it is:** interactive class worksheets for Grades 6–10, organised grade → term → module. Students answer on screen, check each answer, get a hint after a wrong answer and the worked steps after a second one, and see a score they can copy or screenshot for Microsoft Teams.
+- **Now on the site:** Grade 10 Geometry → Term 1 → Module 13 → 13.1 Tangent Ratio (Eid Al Etihad edition). Grades 6–9 show "coming soon".
+- **Adding a worksheet:**
+  1. Put the worksheet's HTML file in `source/worksheets/` (one self-contained file; give it a "← All worksheets" link to `../worksheets.html`).
+  2. Add an item to the `GRADES` list in `source/worksheets.html` (grade → term → module → `{code, title, sub, file}`).
+  3. Run `python3 source/build.py`. It builds `worksheets.html` and copies every worksheet into `worksheets/` with the same security policy as the rest of the site.
 
 ## 7. Usage statistics (your private backend)
 

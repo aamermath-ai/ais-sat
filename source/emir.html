@@ -777,11 +777,13 @@ details.more[open] summary{margin-bottom:14px}
 .switchx{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;border:1px dashed var(--line);color:var(--ink-2);text-decoration:none!important;font-size:.88rem;font-weight:600}
 .switchx:hover{background:var(--fill)}
 .switchx b{font-family:var(--f-display);color:var(--gold)}
+.switchx b.wsb{color:var(--good)}
+.side .switchx+.switchx{margin-top:-18px}
 a.free{text-decoration:none!important}
 .gate{position:fixed;inset:0;z-index:100;overflow-y:auto;display:grid;place-items:center;padding:28px 16px;
   background:radial-gradient(70% 60% at 50% 0%,rgba(61,187,255,.18),transparent 70%),rgba(3,5,12,.66);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 html:not([data-theme="night"]) .gate{background:radial-gradient(70% 60% at 50% 0%,rgba(10,132,255,.14),transparent 70%),color-mix(in srgb,var(--bg) 92%,transparent)}
-.gate-in{width:min(860px,100%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.gate-in{width:min(1040px,100%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
 .gate-logo{width:76px;height:76px;border-radius:20px;background:#fff;padding:4px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .gate-k{font-size:.74rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .gate h1{font-family:var(--f-display);font-size:clamp(2rem,6vw,3.4rem);letter-spacing:-.04em;line-height:1.05;margin:0}
@@ -789,11 +791,13 @@ html:not([data-theme="night"]) .gate{background:radial-gradient(70% 60% at 50% 0
 .gate-note{max-width:60ch;font-size:1.06rem;line-height:1.7;color:var(--ink-2)}
 .gate-q{margin:4px 0 6px;max-width:56ch;font-family:var(--f-display);font-size:clamp(1.05rem,2.4vw,1.35rem);font-weight:600;letter-spacing:-.01em;line-height:1.35;color:var(--ink)}
 .gate-q cite{display:block;margin-top:6px;font-family:var(--f-ui);font-style:normal;font-size:.84rem;font-weight:600;color:var(--muted)}
-.gate-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;width:100%;margin-top:6px}
+.gate-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:100%;margin-top:6px}
 .gate-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;padding:24px;border-radius:24px;border:1px solid var(--line);color:var(--ink);text-decoration:none!important;background:var(--surface);box-shadow:0 20px 50px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
 .gate-card:hover{transform:translateY(-4px);box-shadow:0 28px 60px rgba(0,0,0,.35)}
 .gate-card.sat{background:radial-gradient(120% 120% at 0% 0%,rgba(10,132,255,.28),transparent 60%),var(--surface)}
 .gate-card.act{background:radial-gradient(120% 120% at 100% 0%,rgba(255,180,67,.28),transparent 60%),var(--surface)}
+.gate-card.ws{background:radial-gradient(120% 120% at 0% 0%,rgba(52,199,89,.26),transparent 60%),var(--surface)}
+.gate-card.ws b{color:var(--good);font-size:2.3rem}
 .gate-card b{font-family:var(--f-display);font-size:3rem;letter-spacing:-.05em;line-height:1}
 .gate-card.sat b{color:var(--accent)}.gate-card.act b{color:var(--gold)}
 .gc-k{font-size:.74rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
@@ -803,7 +807,7 @@ html:not([data-theme="night"]) .gate{background:radial-gradient(70% 60% at 50% 0
 [data-theme="night"] .gate-card{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);background-color:rgba(10,15,30,.7)}
 @media (prefers-reduced-motion:no-preference){.gate-in>*{animation:gateUp .7s cubic-bezier(.2,.8,.2,1) both}.gate-in>*:nth-child(2){animation-delay:.05s}.gate-in>*:nth-child(3){animation-delay:.1s}.gate-in>*:nth-child(4){animation-delay:.18s}.gate-in>*:nth-child(5){animation-delay:.26s}.gate-in>*:nth-child(6){animation-delay:.34s}.gate-in>*:nth-child(7){animation-delay:.42s}}
 @keyframes gateUp{from{opacity:0;transform:translateY(14px)}}
-@media (max-width:640px){.gate-cards{grid-template-columns:minmax(0,1fr)}.gate-card{padding:20px}.gate-card b{font-size:2.4rem}}
+@media (max-width:900px){.gate-cards{grid-template-columns:minmax(0,1fr)}.gate-card{padding:20px}.gate-card b,.gate-card.ws b{font-size:2.4rem}}
 /* ---------- creator credit + profile ---------- */
 html.no-creator .credit,html.no-creator .sitefoot a,html.no-creator #v-creator{display:none!important}
 html.no-creator .sitefoot{justify-content:center}
@@ -1095,6 +1099,7 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
       <a href="#unis" data-tab="unis"><svg><use href="#i-uni"/></svg>Universities</a>
       <a href="#bank" data-tab="bank"><svg><use href="#i-bank"/></svg>Question Bank</a>
     </nav>
+    <a class="switchx" href="worksheets.html">Switch to <b class="wsb">Worksheets</b></a>
     <a class="switchx" href="act.html">Switch to <b>ACT</b> prep</a>
     <div class="side-foot">
       <div class="prefs">
@@ -1116,6 +1121,7 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
       <div><span class="word">SAT <span>AIS</span></span><p class="inst">Mathematics Department<br>American International School</p></div>
     </div>
     <div class="hbtns">
+      <a class="free" href="worksheets.html">Worksheets</a>
       <a class="free" href="act.html">Switch to ACT</a>
       <button class="hbtn" id="m-theme" aria-label="Appearance: Auto"><svg class="ico"><use href="#i-auto"/></svg></button>
       <button class="hbtn" id="m-snd" aria-label="Sounds on"><svg class="ico"><use href="#i-sound"/></svg></button>
@@ -1489,13 +1495,14 @@ html.exam .app,html.exam .tabbar,html.exam .mhead{visibility:hidden}
     <img class="gate-logo" src="data:image/webp;base64,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" alt="American International School logo">
     <span class="gate-k">Mathematics Department · American International School</span>
     <h1 id="gate-t">Welcome, future graduate</h1>
-    <p class="gate-note">This is your space to grow. Whether you dream of a university across the world or just down the road, every question you practise here brings it a little closer. Take a breath, choose your test, and let's begin. We believe in you.</p>
+    <p class="gate-note">This is your space to grow. Whether you dream of a university across the world or just down the road, every question you practise here brings it a little closer. Take a breath, choose where to start, and let's begin. We believe in you.</p>
     <blockquote class="gate-q">“Education is the most powerful weapon which you can use to change the world.”<cite>Nelson Mandela</cite></blockquote>
     <div class="gate-cards">
+      <a class="gate-card ws" id="gate-ws" href="worksheets.html"><span class="gc-k">Grades 6–10</span><b>Worksheets</b><span class="gc-d">Interactive class worksheets by grade, term and module, with hints, worked steps and a score</span><i>Open worksheets →</i></a>
       <button class="gate-card sat" id="gate-sat"><span class="gc-k">Digital SAT</span><b>SAT</b><span class="gc-d">Adaptive practice, Desmos, formulas, 2,900+ Hard questions and university guidance</span><i>Start SAT prep →</i></button>
       <a class="gate-card act" id="gate-act" href="act.html"><span class="gc-k">Enhanced ACT</span><b>ACT</b><span class="gc-d">Real timed sections: English, Math, Reading and optional Science, scored 1–36</span><i>Start ACT prep →</i></a>
     </div>
-    <p class="gate-foot">Free for AIS students · You can switch between SAT and ACT at any time.</p>
+    <p class="gate-foot">Free for AIS students · You can switch between Worksheets, SAT and ACT at any time.</p>
   </div>
 </div>
 <div class="lockgate" id="lockgate" hidden role="dialog" aria-modal="true" aria-labelledby="lg-t">
@@ -2754,7 +2761,7 @@ document.querySelectorAll(".gtable").forEach(t=>{const h=[...t.querySelectorAll(
   $("gate").hidden=false;document.body.style.overflow="hidden";
   const done=()=>{try{sessionStorage.setItem("ais-gate","1");}catch(e){}};
   $("gate-sat").addEventListener("click",()=>{done();$("gate").hidden=true;document.body.style.overflow="";play("open");});
-  $("gate-act").addEventListener("click",done);})();
+  $("gate-act").addEventListener("click",done);$("gate-ws").addEventListener("click",done);})();
 /* ---------- test-window events ---------- */
 $("lw-back").addEventListener("click",()=>{lock.warn=false;$("lockwarn").hidden=true;if(lock.fs&&!fsEl())fsReq();play("select");});
 $("la-focus").addEventListener("click",()=>{try{testWin&&testWin.focus();}catch(e){}});

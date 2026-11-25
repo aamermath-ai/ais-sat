@@ -92,6 +92,16 @@ logo=re.search(r'<img class="mark" src="(data:image/[^"]+)"',src).group(1)
 act=act.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 act=head.replace('content="SAT AIS: free adaptive Digital SAT practice','content="ACT AIS: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="ACT AIS">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/act.html','w').write(csp(act, GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
+# ---- Worksheets page (worksheets.html, Grades 6-10) + the interactive worksheets in source/worksheets/
+ws=open(S+'/worksheets.html').read()
+ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
+ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-10').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+open(OUT+'/worksheets.html','w').write(csp(ws, "", None, "strict-origin-when-cross-origin"))
+os.makedirs(OUT+'/worksheets',exist_ok=True)
+for f in sorted(os.listdir(S+'/worksheets')):
+    if f.endswith('.html'):
+        open(OUT+'/worksheets/'+f,'w').write(csp(open(S+'/worksheets/'+f).read(), "", None, "strict-origin-when-cross-origin"))
+print('worksheets:',len([f for f in os.listdir(S+'/worksheets') if f.endswith('.html')]))
 adm=open(S+'/admin.html').read()
 open(OUT+'/admin.html','w').write(csp(adm, GS, None, "no-referrer"))   # private usage dashboard (needs the admin key)
 r=open(OUT+'/README.md').read().replace('# Emir\n','# SAT AIS\n')

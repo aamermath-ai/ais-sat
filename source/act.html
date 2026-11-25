@@ -10,6 +10,8 @@
 .switchx{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;border:1px dashed var(--line);color:var(--ink-2);text-decoration:none!important;font-size:.88rem;font-weight:600}
 .switchx:hover{background:var(--fill)}
 .switchx b{font-family:var(--f-display);color:var(--accent)}
+.switchx b.wsb{color:var(--good)}
+.side .switchx+.switchx{margin-top:-18px}
 .ahero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;padding:28px}
 .comp{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;text-align:center;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--track) 0);position:relative}
 .comp::before{content:"";position:absolute;inset:12px;border-radius:50%;background:var(--surface)}
@@ -146,6 +148,7 @@
       <a href="#guide" data-tab="guide"><svg><use href="#i-bank"/></svg>ACT guide</a>
     </nav>
     <a class="switchx" href="./#today" id="to-sat">Switch to <b>SAT</b> prep</a>
+    <a class="switchx" href="worksheets.html">Switch to <b class="wsb">Worksheets</b></a>
     <div class="side-foot">
       <div class="prefs">
         <span class="pl">Appearance</span>
