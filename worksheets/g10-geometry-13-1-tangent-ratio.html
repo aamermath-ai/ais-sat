@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-n/kN4+WU4soOUmDrgE68LSELGv3ijMe4e7AvHCjyBs4=' 'sha256-0IrFL8/mlg6ZL1uKH2QZ9gvQ69Gz7dDe6ztzFHGspyw=' 'sha256-KaiaqApt7tAdXD+B4MYY/C1pGO+0jJ7nL9Sp8CF43Bw=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-n/kN4+WU4soOUmDrgE68LSELGv3ijMe4e7AvHCjyBs4=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-KaiaqApt7tAdXD+B4MYY/C1pGO+0jJ7nL9Sp8CF43Bw=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>13.1 Tangent Ratio – Eid Al Etihad</title>
@@ -337,6 +337,16 @@ score();
 .gm-qr-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .gm-qr-row button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #00843D;background:#00843D;color:#fff;font:600 15px/1 Lexend,sans-serif;cursor:pointer}
 .gm-qr-row button.ghost{background:#fff;color:#00843D}
+.gm-who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:10px;width:100%;text-align:left}
+.gm-who label{display:flex;flex-direction:column;gap:5px;font:600 14px Lexend,sans-serif;color:#ffe3c2}
+.gm-who label b{color:#ff8a8a}
+.gm-who input{font:500 16px Lexend,sans-serif;min-height:46px;padding:8px 12px;border-radius:12px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.95);color:#15191c;width:100%}
+.gm-who.light label{color:#3a434a}.gm-who.light label b{color:#C8102E}.gm-who.light input{border-color:#cfd8d3;background:#fff}
+.gm-who input.bad{border-color:#ff4d6d;box-shadow:0 0 0 3px rgba(255,77,109,.25)}
+.gm-need-msg{margin:0;font:700 15px Lexend,sans-serif;color:#ffd0d0}.gm-qr-card .gm-need-msg{color:#C8102E}
+.req-star{color:#C8102E;font-weight:700}
+input.gm-missing{border-color:#C8102E!important;box-shadow:0 0 0 3px rgba(200,16,46,.18)}
+@media(max-width:600px){.gm-who{grid-template-columns:minmax(0,1fr)}}
 [hidden].gm-start,[hidden].gm-qr,[hidden].gm-stinger{display:none!important}
 @keyframes gmPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 @keyframes gmUp{0%{opacity:0;transform:translateY(10px) scale(.7)}15%{opacity:1;transform:translateY(0) scale(1.08)}75%{opacity:1}100%{opacity:0;transform:translateY(-46px) scale(1)}}
@@ -365,6 +375,8 @@ score();
       <li><b>Combo:</b> right answers in a row give bonus XP. A wrong answer resets it.</li>
       <li><b>Ranks:</b> Rookie → Explorer → Navigator → Pro → City Legend.</li>
     </ul>
+    <div class="gm-who"><label><span>Your name <b>*</b></span><input id="gm-nm" autocomplete="name" placeholder="First and last name" required></label><label><span>Class <b>*</b></span><input id="gm-cl" placeholder="e.g. 9B4" required></label></div>
+    <p class="gm-need-msg" id="gm-start-msg" hidden>Write your name and class to start.</p>
     <div class="gm-btns"><button class="gm-btn" id="gm-go" type="button">▶ START</button><button class="gm-btn alt" type="button" data-gm-qr>Show QR code</button></div>
     <a class="gm-back" id="gm-back" hidden>← All worksheets</a>
   </div>
@@ -376,6 +388,15 @@ score();
     <div class="gm-qr-box"><img src="qr/g10-geometry-13-1-tangent-ratio.svg" alt="QR code for this worksheet"><span class="gm-qr-badge" aria-hidden="true"><i></i></span></div>
     <div class="gm-qr-url" id="gm-qr-url">https://aamermath-ai.github.io/ais-sat/worksheets/g10-geometry-13-1-tangent-ratio.html</div>
     <div class="gm-qr-row"><button type="button" id="gm-qr-copy">Copy link</button><button type="button" class="ghost" id="gm-qr-x">Close</button></div>
+  </div>
+</div>
+<div class="gm-qr" id="gm-need" hidden role="dialog" aria-modal="true" aria-labelledby="gm-need-t">
+  <div class="gm-qr-card">
+    <h2 id="gm-need-t">Before you finish ✍️</h2>
+    <p id="gm-need-p">Your teacher needs your name and class to see your result.</p>
+    <div class="gm-who light"><label><span>Your name <b>*</b></span><input id="gm-nm2" autocomplete="name" placeholder="First and last name" required></label><label><span>Class <b>*</b></span><input id="gm-cl2" placeholder="e.g. 9B4" required></label></div>
+    <p class="gm-need-msg" id="gm-need-msg" hidden>Please fill in both boxes.</p>
+    <div class="gm-qr-row"><button type="button" id="gm-need-ok">Save</button></div>
   </div>
 </div>
 <div class="gm-stinger" id="gm-stinger" hidden aria-live="polite"><div id="gm-stinger-in"></div></div>
@@ -491,7 +512,7 @@ function onCorrect(q){
   }
   const after=rankOf(G.xp);
   if(after>before)setTimeout(()=>{toast('RANK UP · <b>'+esc(RANKS[after])+'</b>');tone(SFX.rank);},1500);
-  hudUpdate();mapUpdate();resultUpdate();
+  hudUpdate();mapUpdate();resultUpdate();checkWho();
 }
 function onWrong(q){const st=G.q[q.id]||(G.q[q.id]={tries:0});if(st.award)return;st.tries++;G.combo=0;save();
   q.classList.remove("gm-shake");void q.offsetWidth;q.classList.add("gm-shake");tone(SFX.no);hudUpdate();}
@@ -507,12 +528,39 @@ function resultUpdate(){if(!rs)return;const stars=Object.values(G.won).reduce((a
 window.AIS_GAME={summary:()=>"City Missions: "+RANKS[rankOf(G.xp)]+", "+G.xp+" XP"};
 
 /* ---- start screen and QR ---- */
+/* ---- name and class are required ---- */
+const nm=$("nm"),cl=$("cl");
+const okName=()=>!!(nm&&nm.value.trim().length>=2), okClass=()=>!!(cl&&cl.value.trim().length>=1);
+const haveWho=()=>!nm||!cl||(okName()&&okClass());
+function setWho(n,c){[[nm,n],[cl,c]].forEach(([el,v])=>{if(el&&v!==undefined&&el.value!==v){el.value=v;el.dispatchEvent(new Event("input",{bubbles:true}));}});markWho();}
+function markWho(){if(nm){nm.required=true;nm.classList.toggle("gm-missing",!okName());}if(cl){cl.required=true;cl.classList.toggle("gm-missing",!okClass());}}
+[nm,cl].forEach(el=>{if(!el)return;const lab=document.querySelector('label[for="'+el.id+'"]');if(lab&&!lab.querySelector(".req-star"))lab.insertAdjacentHTML("beforeend",' <span class="req-star">*</span>');el.addEventListener("input",markWho);});
+markWho();
+if(nm)$("gm-nm").value=nm.value;if(cl)$("gm-cl").value=cl.value;
+const needEl=$("gm-need");let needShown=false;
+function askWho(msg){if(!nm||!cl||haveWho())return false;$("gm-need-p").textContent=msg;$("gm-nm2").value=nm.value;$("gm-cl2").value=cl.value;$("gm-need-msg").hidden=true;
+  needEl.hidden=false;setTimeout(()=>{try{(nm.value.trim()?$("gm-cl2"):$("gm-nm2")).focus();}catch(e){}},50);return true;}
+$("gm-need-ok").addEventListener("click",()=>{const n=$("gm-nm2").value.trim(),c=$("gm-cl2").value.trim();
+  $("gm-nm2").classList.toggle("bad",n.length<2);$("gm-cl2").classList.toggle("bad",!c);
+  if(n.length<2||!c){$("gm-need-msg").hidden=false;return;}setWho(n,c);needEl.hidden=true;toast("SAVED · <b>"+esc(n)+"</b>");});
+["gm-nm2","gm-cl2"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")$("gm-need-ok").click();}));
+/* remind when 2 questions are left, again when everything is done, and before copying the result */
+function checkWho(){if(haveWho())return;const left=qs.filter(q=>!isDone(q)).length;
+  if(left===0)setTimeout(()=>askWho("You finished! Write your name and class so your teacher can see your result."),4400);
+  else if(left<=2&&!needShown){needShown=true;setTimeout(()=>askWho("Almost done! Write your name and class before you finish."),2800);}}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#ais-report .ar-send");if(b&&!haveWho()){e.stopImmediatePropagation();e.preventDefault();askWho("Write your name and class so your teacher knows whose result this is.");}},true);
+const copyBtn=$("copy");if(copyBtn)copyBtn.addEventListener("click",e=>{if(!haveWho()){e.stopImmediatePropagation();e.preventDefault();askWho("Write your name and class first, then copy your result.");}},true);
 const startEl=$("gm-start");
 const backA=document.querySelector("a.back");if(backA){$("gm-back").href=backA.getAttribute("href");$("gm-back").hidden=false;}
 $("gm-start-topic").textContent=title+" · "+parts.length+" missions · "+qs.length+" questions";
 let seen=false;try{seen=sessionStorage.getItem(KEY+":start")==="1";}catch(e){}
-if(!qs.some(isDone)&&!seen){startEl.hidden=false;document.documentElement.style.overflow="hidden";setTimeout(()=>{try{$("gm-go").focus();}catch(e){}},50);}
-$("gm-go").addEventListener("click",()=>{startEl.hidden=true;document.documentElement.style.overflow="";try{sessionStorage.setItem(KEY+":start","1");}catch(e){}
+if((!qs.some(isDone)&&!seen)||(!haveWho()&&!qs.some(isDone))){startEl.hidden=false;document.documentElement.style.overflow="hidden";setTimeout(()=>{try{(haveWho()?$("gm-go"):($("gm-nm").value.trim()?$("gm-cl"):$("gm-nm"))).focus();}catch(e){}},50);}
+["gm-nm","gm-cl"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")$("gm-go").click();}));
+$("gm-go").addEventListener("click",()=>{
+  const n=$("gm-nm").value.trim(),c=$("gm-cl").value.trim();
+  $("gm-nm").classList.toggle("bad",n.length<2);$("gm-cl").classList.toggle("bad",!c);
+  if(n.length<2||!c){$("gm-start-msg").hidden=false;try{(n.length<2?$("gm-nm"):$("gm-cl")).focus();}catch(e){}return;}
+  setWho(n,c);startEl.hidden=true;document.documentElement.style.overflow="";try{sessionStorage.setItem(KEY+":start","1");}catch(e){}
   tone(SFX.start);toast('MISSION 1 · <b>'+esc(DISTRICTS[0].toUpperCase())+'</b>');const f=parts[0].querySelector("button,input");if(f)try{f.focus({preventScroll:true});}catch(e){}});
 const qrEl=$("gm-qr");$("gm-qr-t").textContent=title;
 function openQR(){qrEl.hidden=false;try{$("gm-qr-x").focus();}catch(e){}}
@@ -520,7 +568,7 @@ function closeQR(){qrEl.hidden=true;}
 document.querySelectorAll("[data-gm-qr]").forEach(b=>b.addEventListener("click",openQR));
 $("gm-qr-x").addEventListener("click",closeQR);qrEl.addEventListener("click",e=>{if(e.target===qrEl)closeQR();});
 $("gm-qr-copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("gm-qr-url").textContent.trim());$("gm-qr-copy").textContent="Copied!";}catch(e){$("gm-qr-copy").textContent="Copy did not work";}setTimeout(()=>$("gm-qr-copy").textContent="Copy link",1800);});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!qrEl.hidden)closeQR();$("gm-stinger").hidden=true;}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!qrEl.hidden)closeQR();needEl.hidden=true;$("gm-stinger").hidden=true;}});
 
 hudUpdate();mapUpdate();resultUpdate();
 }
