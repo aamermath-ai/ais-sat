@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-a4Dh6AFI1w5uxemJjc9+axM5EKNUMLcWQXnCgd0pzr4=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-1+3z35EKp7tx+xMbTRsZxPFP/d4iQHJItMdNGKDoKyY=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo=' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-L9KS2KkH9JM8W8zA5mw3B6hky9qqHw2Yt1mL4ruPBVE=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-1+3z35EKp7tx+xMbTRsZxPFP/d4iQHJItMdNGKDoKyY=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo=' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>6.3 Riemann Sums, Summation Notation, and Definite Integral Notation – Calculus</title>
@@ -109,7 +109,8 @@ footer{font-size:14px;color:var(--mut)}
   <section class="result" id="res"><h2>My result</h2><p class="mut" id="who">Write your name at the top.</p>
     <div class="big" id="big">0</div><div class="sides" id="brk"></div>
     <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
-    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p></section>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div></section>
   <footer><p>Aligned to Flipped Math Calculus, Version 1 (AP Calculus CED). Graphs are drawn to scale unless stated.</p></footer>
 </div></main>
 <script>
@@ -208,6 +209,7 @@ function score(){
   let k=0;$('brk').innerHTML=Object.keys(parts).map(p=>{const idx=[];Q.forEach((q,j)=>{if(q.p===p)idx.push(j+1)});const g=idx.filter(j=>S.q[j]&&S.q[j].done).length;return `<div><b>${g} / ${idx.length}</b><br>${parts[p]}</div>`}).join('');
   const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
   $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · ${L.code} ${L.title} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
 }
 window.AISWS={id:L.ws,title:L.code+' '+L.title,grade:'12',parts,
   get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map((q,j)=>{const s=S.q[j+1]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};

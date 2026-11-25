@@ -107,7 +107,8 @@ footer{font-size:14px;color:var(--mut)}
   <section class="result" id="res"><h2>My result</h2><p class="mut" id="who">Write your name at the top.</p>
     <div class="big" id="big">0</div><div class="sides" id="brk"></div>
     <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
-    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p></section>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div></section>
   <footer><p>Aligned to Flipped Math Calculus, Version 1 (AP Calculus CED). Graphs are drawn to scale unless stated.</p></footer>
 </div></main>
 <script>
@@ -206,6 +207,7 @@ function score(){
   let k=0;$('brk').innerHTML=Object.keys(parts).map(p=>{const idx=[];Q.forEach((q,j)=>{if(q.p===p)idx.push(j+1)});const g=idx.filter(j=>S.q[j]&&S.q[j].done).length;return `<div><b>${g} / ${idx.length}</b><br>${parts[p]}</div>`}).join('');
   const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
   $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · ${L.code} ${L.title} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
 }
 window.AISWS={id:L.ws,title:L.code+' '+L.title,grade:'12',parts,
   get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map((q,j)=>{const s=S.q[j+1]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};

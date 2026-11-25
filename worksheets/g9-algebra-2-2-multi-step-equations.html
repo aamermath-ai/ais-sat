@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-ulIMuwz/3FcCkCIe8q/NgqKoK/D8ECjx1aAXHN+pOWc=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-1+3z35EKp7tx+xMbTRsZxPFP/d4iQHJItMdNGKDoKyY=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-VEhDmN1Ttg2ZLSgRGwWslz4QPWM77/8YH3GrWbZyTp0=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-1+3z35EKp7tx+xMbTRsZxPFP/d4iQHJItMdNGKDoKyY=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2.2 Solve Multi-step Linear Equations – Eid Al Etihad</title>
@@ -118,7 +118,8 @@ footer{font-size:14px;color:var(--mut)}
     <div class="big" id="big">0 / 15</div>
     <div class="sides" id="brk"></div>
     <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
-    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div>
   </section>
   <footer><p>Write every step in your copybook as well.</p></footer>
 </div></main>
@@ -221,6 +222,7 @@ function score(){
   $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
   const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
   $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 2.2 Multi-step Equations · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
 }
 window.AISWS={id:'g9-algebra-2-2',title:'2.2 Solve Multi-step Linear Equations',grade:'9',parts,
   get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
