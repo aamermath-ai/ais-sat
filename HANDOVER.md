@@ -130,7 +130,7 @@ Opening the site shows a welcome screen once per visit, where students choose **
 The welcome screen offers three choices, with **Worksheets** first, then SAT and ACT. Each page links to the other two.
 
 - **What it is:** interactive class worksheets for Grades 6–10, organised grade → term → module. Students answer on screen, check each answer, get a hint after a wrong answer and the worked steps after a second one, and see a score they can copy or screenshot for Microsoft Teams.
-- **Now on the site:** Grade 10 Geometry → Term 1 → Module 13 → 13.1 Tangent Ratio (Eid Al Etihad edition). Grades 6–9 show "coming soon".
+- **Now on the site:** Grade 9 Algebra 1 → Term 1 → Module 3 → 3.1 Linear Equations in Standard Form (quiz, Eid Al Etihad edition), and Grade 10 Geometry → Term 1 → Module 13 → 13.1 Tangent Ratio (Eid Al Etihad edition). Grades 6–8 show "coming soon".
 - **Adding a worksheet:**
   1. Put the worksheet's HTML file in `source/worksheets/` (one self-contained file; give it a "← All worksheets" link to `../worksheets.html`).
   2. Add an item to the `GRADES` list in `source/worksheets.html` (grade → term → module → `{code, title, sub, file}`).

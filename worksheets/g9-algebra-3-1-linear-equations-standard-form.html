@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-/SLLSra0iQH5XRrqgeDX+/wUcH1WEBUfOBCIzRL2VCQ=' 'sha256-XasPPqrYgxCLPdXbWWopffkC8K2t7aaQaxzImSFSCs8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.1 Linear Equations in Standard Form – Eid Al Etihad Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: friendly, clear classroom quiz for below-level Grade 9 students, festive but calm (same theme as 13.1)
+   IDEA: a National Day "mission card" — each question is a UAE celebration scene written as Ax + By = C
+   PICTURE: a coordinate grid over the skyline, with UAE flags planted at the two intercepts
+   COLOUR and TYPE: UAE flag green leads, red accent, black ink on white; Lexend for easy reading
+   LAYOUT: hero (title + scene), then parts A–E as stacked question cards, results card at the end */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.formula{font-size:26px;font-weight:700;color:var(--green);margin:4px 0}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:250px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line)}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:2px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.calc-tip{margin-top:6px}.calc-tip a{color:var(--green);font-weight:600}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+@media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+.pick button{text-align:left}
+.rule{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 4px}
+.rule div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:15px}
+.rule b{color:var(--green)}
+@media(max-width:600px){.rule{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><b></b></div>
+
+<header class="band"><div class="wrap hero">
+  <div>
+    <a class="back" href="../worksheets.html#grade-9">← All worksheets</a>
+    <div class="kick">Grade 9 Algebra 1 · Module 3 Quiz · Eid Al Etihad edition</div>
+    <h1>3.1 Linear Equations in Standard Form</h1>
+    <div class="lo"><b>LO:</b> I can graph linear equations in standard form and connect the solutions of an equation to points on its graph.<br>
+      <span class="tip">Standards: A.REI.D.10, A.CED.A.3</span></div>
+    <div class="formula">Ax + By = C</div>
+    <div class="tip"><b>x-intercept:</b> put y = 0 and solve. <b>y-intercept:</b> put x = 0 and solve. A point is a solution if it makes the equation true.</div>
+    <div class="tip calc-tip">Need a calculator? Tap <b>Calculator</b> at the bottom right. <a href="#" data-calc-video>▶ Watch how to use it</a></div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 9B4"></div>
+    </div>
+  </div>
+  <div class="scene" aria-label="The line 2x + 3y = 12 drawn on a grid over the Dubai skyline. UAE flags mark the x-intercept (6, 0) and the y-intercept (0, 4).">
+    <svg viewBox="0 0 640 400" role="img">
+      <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6fbfd"/></linearGradient>
+        <g id="fl"><rect x="-2" y="-52" width="4" height="52" fill="#59636b"/><rect x="2" y="-52" width="10" height="24" fill="#C8102E"/><rect x="12" y="-52" width="30" height="8" fill="#00843D"/><rect x="12" y="-44" width="30" height="8" fill="#fff" stroke="#c9d1d6" stroke-width=".6"/><rect x="12" y="-36" width="30" height="8" fill="#111"/></g></defs>
+      <rect width="640" height="400" fill="url(#sk)"/>
+      <circle cx="560" cy="66" r="32" fill="#ffd34d"/>
+      <g fill="#c4d3dd"><rect x="420" y="230" width="40" height="122"/><rect x="466" y="205" width="30" height="147"/><rect x="545" y="245" width="44" height="107"/></g>
+      <path d="M500 352 L509 180 L513 104 L515 70 L517 104 L521 180 L530 352Z" fill="#9fb4c2"/>
+      <rect x="0" y="352" width="640" height="48" fill="#e9dcbc"/>
+      <g stroke="#9fb7c6" stroke-width="1" opacity=".75">
+        <path d="M90 52V352M130 52V352M170 52V352M210 52V352M250 52V352M290 52V352M330 52V352M370 52V352M410 52V352"/>
+        <path d="M50 92H430M50 132H430M50 172H430M50 212H430M50 252H430M50 292H430"/>
+      </g>
+      <path d="M50 332H440M90 352V40" stroke="#15191c" stroke-width="2.5" fill="none"/>
+      <path d="M440 332l-10-5v10zM90 40l-5 10h10z" fill="#15191c"/>
+      <g font-family="Lexend,sans-serif" font-size="14" fill="#15191c"><text x="444" y="320">x</text><text x="98" y="48">y</text>
+        <text x="126" y="349">1</text><text x="166" y="349">2</text><text x="206" y="349">3</text><text x="246" y="349">4</text><text x="286" y="349">5</text><text x="326" y="349">6</text><text x="366" y="349">7</text>
+        <text x="74" y="297">1</text><text x="74" y="257">2</text><text x="74" y="217">3</text><text x="74" y="177">4</text><text x="74" y="137">5</text></g>
+      <line x1="70" y1="158.7" x2="352" y2="346.7" stroke="#00843D" stroke-width="5" stroke-linecap="round"/>
+      <use href="#fl" x="330" y="332"/><use href="#fl" x="90" y="172"/>
+      <circle cx="330" cy="332" r="8" fill="#C8102E" stroke="#fff" stroke-width="3"/><circle cx="90" cy="172" r="8" fill="#C8102E" stroke="#fff" stroke-width="3"/>
+      <g font-family="Lexend,sans-serif" font-weight="700" font-size="17">
+        <rect x="142" y="142" width="184" height="30" rx="15" fill="#fff" opacity=".92"/><text x="152" y="163" fill="#C8102E">y-intercept (0, 4)</text>
+        <rect x="250" y="360" width="184" height="30" rx="15" fill="#fff" opacity=".92"/><text x="260" y="381" fill="#C8102E">x-intercept (6, 0)</text>
+        <rect x="196" y="96" width="166" height="38" rx="12" fill="#00843D"/><text x="279" y="122" text-anchor="middle" fill="#fff" font-size="21">2x + 3y = 12</text>
+      </g>
+    </svg>
+  </div>
+</div></header>
+
+<div class="bar"><div class="wrap"><b id="sc">Score 0 / 14</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <section class="part"><h2>Part A · Standard form</h2><p class="mut">Warm-up. Standard form is <b>Ax + By = C</b>: x and y on the left, a number on the right. Tap the correct answer.</p><div id="A"></div></section>
+  <section class="part"><h2>Part B · Is the point a solution?</h2><p class="mut">Put the x-value and the y-value into the equation. If both sides are equal, the point is on the line.</p><div id="B"></div></section>
+  <section class="part"><h2>Part C · Find the intercepts</h2><p class="mut">x-intercept: put <b>y = 0</b>. y-intercept: put <b>x = 0</b>. Type one number.</p><div id="C"></div></section>
+  <section class="part"><h2>Part D · Special lines</h2>
+    <div class="rule"><div><b>A = 0</b> (no x): horizontal line</div><div><b>B = 0</b> (no y): vertical line</div><div><b>C = 0</b>: line through the origin</div></div>
+    <div id="D"></div></section>
+  <section class="part"><h2>Part E · Real life</h2><p class="mut">A National Day shopping problem. Take your time.</p><div id="E"></div></section>
+
+  <section class="result" id="res">
+    <h2>My result</h2>
+    <p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0 / 14</div>
+    <div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p>
+  </section>
+  <footer><p>Graphs are drawn on a grid; prices are for practice only.</p></footer>
+</div></main>
+
+<script>
+{
+const G='#00843D',R='#C8102E',INK='currentColor';
+const YN=['Yes','No'], LINES=['Horizontal line','Vertical line','Line through the origin'];
+const Q=[
+ {p:'A',id:'a1',kind:'pick',opts:['3x + 2y = 12','y = 2x + 5','xy = 6','x² + y = 4'],ans:'3x + 2y = 12',t:'Which equation is in <b>standard form</b>, Ax + By = C?',d:{k:'std'},hint:'Standard form has x and y on the left side, one number on the right, and no squares or xy.',steps:['3x + 2y = 12 has the form Ax + By = C','A = 3, B = 2, C = 12']},
+ {p:'A',id:'a2',kind:'pick',opts:['5x − 4y = 3','2x² − 4y² = 11','xy = 10'],ans:'5x − 4y = 3',t:'Which equation is <b>linear</b>?',d:{k:'lin'},hint:'In a linear equation, x and y have power 1 and are not multiplied together.',steps:['5x − 4y = 3: x and y have power 1, so it is linear','2x² − 4y² = 11 has squares, and xy = 10 multiplies x and y: not linear']},
+ {p:'A',id:'a3',kind:'pick',opts:['A = 4, B = 7, C = 28','A = 7, B = 4, C = 28','A = 28, B = 4, C = 7'],ans:'A = 4, B = 7, C = 28',t:'In <b>4x + 7y = 28</b>, what are A, B and C?',d:{k:'std',eq:'4x + 7y = 28'},hint:'A is the number with x, B is the number with y, C is the number on its own.',steps:['A is the coefficient of x: A = 4','B is the coefficient of y: B = 7','C is the constant: C = 28']},
+ {p:'B',id:'b1',kind:'pick',opts:YN,ans:'No',t:'Is the point <b>(4, 7)</b> a solution of <b>4x + 7y = 28</b>?',d:{k:'chk',a:4,b:7,op:'+',c:28,x:4,y:7},hint:'x = 4 and y = 7. Work out 4(4) + 7(7). Is it 28?',steps:['4(4) + 7(7) = 16 + 49 = 65','65 ≠ 28, so (4, 7) is not a solution']},
+ {p:'B',id:'b2',kind:'pick',opts:YN,ans:'Yes',t:'Is the point <b>(4, 7)</b> a solution of <b>4x − 3y = −5</b>?',d:{k:'chk',a:4,b:3,op:'−',c:-5,x:4,y:7},hint:'Work out 4(4) − 3(7). Is it −5?',steps:['4(4) − 3(7) = 16 − 21 = −5','−5 = −5, so (4, 7) is a solution']},
+ {p:'B',id:'b3',kind:'pick',opts:YN,ans:'Yes',t:'For National Day, Sara buys x small flags at AED 2 and y big flags at AED 5. She spends AED 40, so <b>2x + 5y = 40</b>. Can she buy <b>10 small and 4 big</b> flags?',d:{k:'chk',a:2,b:5,op:'+',c:40,x:10,y:4,flags:true},hint:'Check the point (10, 4): work out 2(10) + 5(4).',steps:['2(10) + 5(4) = 20 + 20 = 40','40 = 40, so yes: (10, 4) is a solution']},
+ {p:'C',id:'c1',t:'Find the <b>x-intercept</b> of <b>2x − 3y = 6</b>.',ans:3,tol:.01,d:{k:'graph',A:2,B:-3,C:6,x0:-4,x1:6,y0:-4,y1:4,mx:'?',my:''},hint:'Put y = 0: 2x − 3(0) = 6. Now solve for x.',steps:['Put y = 0: 2x − 3(0) = 6','2x = 6','x = 6 ÷ 2 = 3, so the x-intercept is 3, point (3, 0)']},
+ {p:'C',id:'c2',t:'Find the <b>y-intercept</b> of <b>2x − 3y = 6</b>.',ans:-2,tol:.01,d:{k:'graph',A:2,B:-3,C:6,x0:-4,x1:6,y0:-4,y1:4,mx:'(3, 0)',my:'?'},hint:'Put x = 0: 2(0) − 3y = 6. Now solve for y. Watch the negative sign.',steps:['Put x = 0: 2(0) − 3y = 6','−3y = 6','y = 6 ÷ (−3) = −2, so the y-intercept is −2, point (0, −2)']},
+ {p:'C',id:'c3',t:'Your class buys juice at AED 1 per litre (x) and laban at AED 1.5 per litre (y) for the National Day party. You spend AED 9: <b>x + 1.5y = 9</b>. How many litres of laban if you buy <b>no juice</b>?',unit:'litres',ans:6,tol:.01,d:{k:'graph',A:1,B:1.5,C:9,x0:0,x1:10,y0:0,y1:7,mx:'(9, 0)',my:'?',xl:'juice (L)',yl:'laban (L)'},hint:'No juice means x = 0. Solve 1.5y = 9.',steps:['No juice: x = 0, so 0 + 1.5y = 9','1.5y = 9','y = 9 ÷ 1.5 = 6 litres of laban']},
+ {p:'D',id:'d1',kind:'pick',opts:LINES,ans:'Horizontal line',t:'What kind of line is <b>4y = 12</b>?',d:{k:'abc',eq:'4y = 12',full:'0x + 4y = 12',A:0,B:4,C:12},hint:'There is no x, so A = 0. Look at the rule above.',steps:['4y = 12 is 0x + 4y = 12, so A = 0','A = 0 gives a horizontal line: y = 3 for every point']},
+ {p:'D',id:'d2',kind:'pick',opts:LINES,ans:'Vertical line',t:'What kind of line is <b>x = 5</b>?',d:{k:'abc',eq:'x = 5',full:'1x + 0y = 5',A:1,B:0,C:5},hint:'There is no y, so B = 0. Look at the rule above.',steps:['x = 5 is 1x + 0y = 5, so B = 0','B = 0 gives a vertical line: x = 5 for every point']},
+ {p:'D',id:'d3',kind:'pick',opts:LINES,ans:'Line through the origin',t:'What kind of line is <b>2x + 3y = 0</b>?',d:{k:'abc',eq:'2x + 3y = 0',full:'2x + 3y = 0',A:2,B:3,C:0},hint:'The number on the right is 0, so C = 0. Look at the rule above.',steps:['2x + 3y = 0, so C = 0','C = 0 means (0, 0) is a solution: the line passes through the origin']},
+ {p:'E',id:'e1',t:'Noor has <b>AED 55</b> for the 55th Eid Al Etihad. Flags cost AED 5 and scarves cost AED 10. She buys x flags and y scarves: <b>5x + 10y = 55</b>. If she buys <b>3 scarves</b>, how many flags can she buy?',unit:'flags',ans:5,tol:.01,d:{k:'shop'},hint:'3 scarves means y = 3. Put it in: 5x + 10(3) = 55.',steps:['y = 3: 5x + 10(3) = 55','5x + 30 = 55, so 5x = 25','x = 25 ÷ 5 = 5 flags']},
+ {p:'E',id:'e2',t:'Same shop: <b>5x + 10y = 55</b>. Find the <b>x-intercept</b>. It tells you how many flags Noor can buy with no scarves.',unit:'flags',ans:11,tol:.01,d:{k:'graph',A:5,B:10,C:55,x0:0,x1:12,y0:0,y1:7,mx:'?',my:'(0, 5.5)',xl:'flags',yl:'scarves',pt:[5,3]},hint:'Put y = 0: 5x + 10(0) = 55. Solve for x.',steps:['Put y = 0: 5x = 55','x = 55 ÷ 5 = 11','x-intercept 11: with no scarves, Noor can buy 11 flags']}
+];
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmtN=v=>String(v).replace('-','−');
+const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
+const ST=`<style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.big{font:700 30px Lexend,sans-serif;fill:${INK}}.sm{font:600 13px Lexend,sans-serif;fill:${INK};opacity:.75}.gr{fill:${G}}.rd{fill:${R}}</style>`;
+
+function draw(o){
+  if(o.k==='graph')return graph(o);
+  if(o.k==='std')return `<svg viewBox="0 0 380 236" role="img" aria-label="Standard form Ax + By = C">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>${flagIcon(26,34,.8)}
+    <text x="190" y="118" text-anchor="middle" style="font:700 44px Lexend,sans-serif"><tspan class="gr">A</tspan><tspan fill="currentColor">x + </tspan><tspan class="gr">B</tspan><tspan fill="currentColor">y = </tspan><tspan class="rd">C</tspan></text>
+    <text x="94" y="160" text-anchor="middle" class="sm">number with x</text><text x="214" y="160" text-anchor="middle" class="sm">number with y</text><text x="318" y="160" text-anchor="middle" class="sm">number alone</text>
+    ${o.eq?`<text x="190" y="200" text-anchor="middle" class="l">Your equation: ${o.eq}</text>`:'<text x="190" y="200" text-anchor="middle" class="l">Example: 3x + 2y = 12</text>'}</svg>`;
+  if(o.k==='lin')return `<svg viewBox="0 0 380 236" role="img" aria-label="Linear equations: x and y to the power 1">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>${flagIcon(26,34,.8)}
+    <text x="190" y="80" text-anchor="middle" class="l">Linear equation ✓</text>
+    <text x="190" y="118" text-anchor="middle" class="big">x¹ and y¹ only</text>
+    <text x="190" y="160" text-anchor="middle" class="l" style="fill:${R}">Not linear ✗  x²,  y²,  xy</text>
+    <text x="190" y="196" text-anchor="middle" class="sm">Its graph is a straight line</text></svg>`;
+  if(o.k==='chk'){const sgn=o.op;return `<svg viewBox="0 0 380 236" role="img" aria-label="Substitute x = ${o.x} and y = ${o.y}">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>
+    ${o.flags?flagIcon(26,34,.8):''}
+    <rect x="${o.flags?96:24}" y="34" width="${o.flags?260:332}" height="34" rx="17" fill="${R}"/><text x="${o.flags?226:190}" y="57" text-anchor="middle" style="font:700 16px Lexend,sans-serif;fill:#fff">point (${o.x}, ${o.y}): x = ${o.x}, y = ${o.y}</text>
+    <text x="190" y="122" text-anchor="middle" class="big">${o.a}x ${sgn} ${o.b}y = ${fmtN(o.c)}</text>
+    <text x="190" y="170" text-anchor="middle" class="big"><tspan>${o.a}(</tspan><tspan class="rd">${o.x}</tspan><tspan>) ${sgn} ${o.b}(</tspan><tspan class="rd">${o.y}</tspan><tspan>) = ?</tspan></text>
+    <text x="190" y="202" text-anchor="middle" class="sm">Is the left side equal to ${fmtN(o.c)}?</text></svg>`;}
+  if(o.k==='abc')return `<svg viewBox="0 0 380 236" role="img" aria-label="${esc(o.eq)} written as ${esc(o.full)}">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>${flagIcon(26,34,.8)}
+    <text x="190" y="96" text-anchor="middle" class="big">${esc(o.eq)}</text>
+    <text x="190" y="132" text-anchor="middle" class="l">→ ${esc(o.full)}</text>
+    ${['A','B','C'].map((k,i)=>`<rect x="${46+i*102}" y="154" width="86" height="40" rx="12" fill="${o[k]===0?R:G}" fill-opacity="${o[k]===0?1:.15}"/><text x="${89+i*102}" y="181" text-anchor="middle" style="font:700 18px Lexend,sans-serif;fill:${o[k]===0?'#fff':'currentColor'}">${k} = ${o[k]}</text>`).join('')}</svg>`;
+  if(o.k==='shop')return `<svg viewBox="0 0 380 236" role="img" aria-label="Flags AED 5 each, scarves AED 10 each, budget AED 55">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>
+    ${flagIcon(42,52,1.3)}<text x="74" y="128" text-anchor="middle" class="l">Flag</text><rect x="34" y="138" width="80" height="34" rx="10" fill="${G}"/><text x="74" y="161" text-anchor="middle" style="font:700 16px Lexend,sans-serif;fill:#fff">AED 5</text>
+    <g transform="translate(150 48)"><path d="M0 6 Q40 -6 80 6 L80 22 Q40 10 0 22Z" fill="${R}"/><path d="M0 22 Q40 10 80 22 L80 38 Q40 26 0 38Z" fill="${G}"/><path d="M8 38 L8 62 M16 38 L16 58 M64 38 L64 58 M72 38 L72 62" stroke="${R}" stroke-width="3"/></g>
+    <text x="190" y="128" text-anchor="middle" class="l">Scarf</text><rect x="150" y="138" width="80" height="34" rx="10" fill="${G}"/><text x="190" y="161" text-anchor="middle" style="font:700 16px Lexend,sans-serif;fill:#fff">AED 10</text>
+    <rect x="262" y="62" width="88" height="56" rx="10" fill="#c9a86a"/><rect x="262" y="76" width="88" height="10" fill="#a7864a"/><text x="306" y="110" text-anchor="middle" style="font:700 15px Lexend,sans-serif;fill:#3b2a10">wallet</text>
+    <rect x="262" y="138" width="88" height="34" rx="10" fill="${R}"/><text x="306" y="161" text-anchor="middle" style="font:700 16px Lexend,sans-serif;fill:#fff">AED 55</text>
+    <text x="190" y="202" text-anchor="middle" class="l">5x + 10y = 55</text></svg>`;
+  return '';
+}
+function graph(o){
+  const W=380,H=250,L=44,Rr=356,T=18,B=212;
+  const sx=v=>L+(v-o.x0)*(Rr-L)/(o.x1-o.x0), sy=v=>B-(v-o.y0)*(B-T)/(o.y1-o.y0);
+  const step=(o.x1-o.x0)>9?2:1, stepY=(o.y1-o.y0)>9?2:1;
+  let g='';
+  for(let x=o.x0;x<=o.x1;x++)g+=`<line x1="${sx(x)}" y1="${T}" x2="${sx(x)}" y2="${B}" stroke="${INK}" stroke-opacity=".12"/>`;
+  for(let y=o.y0;y<=o.y1;y++)g+=`<line x1="${L}" y1="${sy(y)}" x2="${Rr}" y2="${sy(y)}" stroke="${INK}" stroke-opacity=".12"/>`;
+  const ax=sx(Math.max(o.x0,Math.min(o.x1,0))), ay=sy(Math.max(o.y0,Math.min(o.y1,0)));
+  g+=`<line x1="${L}" y1="${ay}" x2="${Rr}" y2="${ay}" stroke="${INK}" stroke-width="2"/><line x1="${ax}" y1="${T}" x2="${ax}" y2="${B}" stroke="${INK}" stroke-width="2"/>`;
+  for(let x=o.x0;x<=o.x1;x+=step)if(x!==0)g+=`<text x="${sx(x)}" y="${ay+16}" text-anchor="middle" class="sm">${fmtN(x)}</text>`;
+  for(let y=o.y0;y<=o.y1;y+=stepY)if(y!==0)g+=`<text x="${ax-8}" y="${sy(y)+4}" text-anchor="end" class="sm">${fmtN(y)}</text>`;
+  const yAt=x=>(o.C-o.A*x)/o.B;
+  g+=`<clipPath id="cp${o.A}${o.B}${o.C}"><rect x="${L}" y="${T}" width="${Rr-L}" height="${B-T}"/></clipPath>`;
+  g+=`<line clip-path="url(#cp${o.A}${o.B}${o.C})" x1="${sx(o.x0-1)}" y1="${sy(yAt(o.x0-1))}" x2="${sx(o.x1+1)}" y2="${sy(yAt(o.x1+1))}" stroke="${G}" stroke-width="4" stroke-linecap="round"/>`;
+  const xi=o.C/o.A, yi=o.C/o.B;
+  const mark=(x,y,t,dx,dy,anc)=>`<circle cx="${sx(x)}" cy="${sy(y)}" r="7" fill="${R}" stroke="#fff" stroke-width="2.5"/>`+(t?`<text x="${sx(x)+dx}" y="${sy(y)+dy}" text-anchor="${anc}" style="font:700 16px Lexend,sans-serif;fill:${R}">${t}</text>`:'');
+  if(o.mx!==undefined)g+=mark(xi,0,o.mx,0,-14,'middle');
+  if(o.my!==undefined&&o.my!=='')g+=mark(0,yi,o.my,14,yi<0?18:-8,'start');
+  if(o.pt)g+=`<circle cx="${sx(o.pt[0])}" cy="${sy(o.pt[1])}" r="6" fill="${G}" stroke="#fff" stroke-width="2"/><text x="${sx(o.pt[0])+10}" y="${sy(o.pt[1])-10}" class="sm">(${o.pt[0]}, ${o.pt[1]})</text>`;
+  if(o.xl)g+=`<text x="${Rr}" y="${B+34}" text-anchor="end" class="l">${o.xl}</text>`;
+  if(o.yl)g+=`<text x="${L+8}" y="${T+2}" class="l">${o.yl}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graph of the line">${ST}${g}</svg>`;
+}
+
+const KEY='lin31-uae';let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const parse=s=>{s=String(s).trim().replace(/[−–]/g,'-').replace(/,/g,'.').replace(/[^0-9.\/\-]/g,'');if(!s)return NaN;if(s.includes('/')){const[a,b]=s.split('/').map(Number);return b?a/b:NaN}return Number(s)};
+
+let n=0;
+for(const q of Q){
+  n++;const box=document.createElement('article');box.className='q';box.id='q-'+q.id;
+  const ctl=q.kind==='pick'
+    ?`<div class="pick">${q.opts.map(o=>`<button type="button" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`
+    :`<div class="row"><input inputmode="text" aria-label="Answer for question ${n}" placeholder="Your answer${q.unit?' ('+q.unit+')':''}"><button type="button" class="chk">Check</button></div>`;
+  box.innerHTML=`<div><h3><span class="num">${n}</span>Question ${n}</h3><p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div><div>${draw(q.d)}</div>`;
+  $(q.p).appendChild(box);
+  const fb=box.querySelector('.fb'),st=S.q[q.id]||(S.q[q.id]={done:false,tries:0,v:''});
+  const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg};
+  const stepsHtml=(part)=>{if(!q.steps)return '';const L=part?q.steps.slice(0,-1).concat(['Now finish this last step yourself.']):q.steps;return `<ol class="steps">${L.map(s=>`<li>${s}</li>`).join('')}</ol>`};
+  const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+  const judge=ok=>{
+    if(ok){st.done=true;win()}
+    else{st.tries++;show(false,st.tries<2||!q.steps||q.kind==='pick'?`<b>Not yet.</b> Hint: ${q.hint}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(true)}`)}
+    save();score();
+  };
+  if(q.kind==='pick'){
+    box.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
+      if(st.done)return;const ok=b.dataset.o===q.ans;b.classList.add(ok?'ok':'no');judge(ok);
+      if(ok)box.querySelectorAll('.pick button').forEach(x=>x.disabled=true)}));
+    if(st.done){box.querySelectorAll('.pick button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.ans)x.classList.add('ok')});win()}
+  }else{
+    const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+    const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+      if(isNaN(v)){show(false,'Type a number first, like 3 or −2.');return}
+      const ok=Math.abs(v-q.ans)<=q.tol;judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+    btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+    if(st.done){inp.disabled=true;btn.disabled=true;win()}
+  }
+}
+
+const parts={A:'Standard form',B:'Check a point',C:'Intercepts',D:'Special lines',E:'Real life'};
+function score(){
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length,tot=Q.length;
+  $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+  $('lv').textContent=got===tot?'All done – amazing!':got>=10?'Nearly there!':got>=5?'Good progress!':'Let’s start!';
+  $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
+  const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+  $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 3.1 Linear Equations in Standard Form · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+}
+$('nm').value=S.nm||'';$('cl').value=S.cl||'';
+['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+$('copy').addEventListener('click',async()=>{
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 3.1 Linear Equations in Standard Form (Eid Al Etihad quiz) – Score ${got}/${Q.length} – ${new Date().toLocaleDateString('en-GB')}`;
+  try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
+  catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
+});
+let armed=false;
+$('reset').addEventListener('click',()=>{
+  if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+  S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
+});
+score();
+}
+</script>
+<!-- ===== AIS scientific calculator: shared by every page (source/build.py adds it before </body>; ../ = path to the site root) ===== -->
+<style>
+.sc-fab{min-height:52px!important;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(var(--sc-lift,0px) + max(16px,env(safe-area-inset-bottom,0px)));z-index:60;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 20px 0 12px;border:0;border-radius:999px;background:#1c1c1e;color:#fff;font:600 16px/1 Lexend,"Plus Jakarta Sans",Inter,system-ui,sans-serif;box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.12);cursor:pointer}
+.sc-fab i{width:32px;height:32px;border-radius:50%;background:#ff9f0a;display:grid;place-items:center}
+.sc-fab svg{width:18px;height:18px}
+.sc-fab:hover{background:#2c2c2e}
+.sc-fab:focus-visible,.sc .k:focus-visible,.sc-tb:focus-visible,.sc-vid button:focus-visible{outline:3px solid #ff9f0a;outline-offset:2px}
+.sc-fab[aria-expanded=true]{display:none}
+html.exam .sc-fab,html.exam .sc,html.solo-dx .sc-fab,html.solo-dx .sc,body:has(.sheet:not([hidden])) .sc-fab,body:has(.gate:not([hidden])) .sc-fab{display:none!important}
+.sc{position:fixed;z-index:70;right:max(16px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);width:372px;max-height:calc(100vh - 24px);overflow-y:auto;display:flex;flex-direction:column;
+  background:#000;color:#fff;border-radius:42px;padding:12px 16px 14px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.1);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;user-select:none;-webkit-user-select:none;scrollbar-width:none;outline:none;text-align:left;letter-spacing:0}
+.sc[hidden],.sc-hist[hidden],.sc-vid[hidden]{display:none!important}
+.sc *{box-sizing:border-box}
+.sc>*{flex-shrink:0}
+.sc button,.sc-fab,.sc-vid button{min-height:0;box-shadow:none;text-transform:none;letter-spacing:0}
+.sc .k{font-weight:400;line-height:1}
+.sc-top{display:flex;align-items:center;gap:8px;padding:2px 2px 0}
+.sc-tb{height:38px;min-width:38px;border-radius:999px;border:0;background:#2c2c2e;color:#fff;font-family:inherit;font-size:13px;font-weight:600;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px}
+.sc-tb svg{width:18px;height:18px}
+.sc-tb.on{background:#d4d4d2;color:#000}
+.sc-top .sp{flex:1}
+.sc-disp{padding:4px 8px 8px;text-align:right;min-height:104px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px}
+.sc-mode{align-self:flex-start;font-size:12px;font-weight:700;color:#ff9f0a;background:rgba(255,159,10,.15);padding:3px 9px;border-radius:999px;white-space:pre}
+.sc-expr{font-size:20px;color:#8e8e93;white-space:nowrap;overflow-x:auto;scrollbar-width:none;min-height:26px}
+.sc-expr::-webkit-scrollbar{display:none}
+.sc-res{font-size:56px;font-weight:300;line-height:1.08;white-space:nowrap;overflow:hidden;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sc-pad{position:relative}
+.sc-sci{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin-bottom:11px}
+.sc-std{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.sc .k{border:0;border-radius:999px;color:#fff;cursor:pointer;font-family:inherit;display:grid;place-items:center;padding:0;margin:0;transition:filter .12s,background-color .12s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap}
+.sc-sci .k{height:34px;background:#2a2a2c;font-size:14.5px}
+.sc-sci .k.x{background:#1d3a2a;color:#9ff0c3}
+.sc-std .k{height:50px;background:#333335;font-size:26px}
+.sc .k.fn{background:#5c5c5f}
+.sc .k.op{background:#ff9f0a;font-size:29px}
+.sc .k.on{background:#d4d4d2;color:#000}
+.sc .k:hover{filter:brightness(1.25)}
+.sc .k:active,.sc .k.hit{filter:brightness(1.7)}
+.sc-hist{position:absolute;inset:0;background:#000;border-radius:18px;display:flex;flex-direction:column;gap:8px;z-index:2}
+.sc-hist-h{display:flex;align-items:center;justify-content:space-between;padding:2px 4px;color:#8e8e93;font-size:13px;font-weight:600}
+.sc-hist ul{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:6px}
+.sc-hist li button{width:100%;text-align:right;border:0;border-radius:14px;background:#1c1c1e;color:#fff;padding:10px 12px;cursor:pointer;font-family:inherit}
+.sc-hist li small{display:block;color:#8e8e93;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-hist li b{font-weight:400;font-size:20px}
+.sc-hist .none{color:#8e8e93;text-align:center;padding:30px 10px;font-size:14px}
+.sc-note{margin:9px 4px 0;font-size:12px;color:#8e8e93;text-align:center}
+.sc-spacer{height:80px}
+.sc-vid{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:20px}
+.sc-vid>div{width:min(960px,100%);display:flex;flex-direction:column;gap:12px}
+.sc-vid video{width:100%;border-radius:18px;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.sc-vid p{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0;color:#fff;font:600 16px/1.3 Lexend,"Plus Jakarta Sans",Inter,system-ui,sans-serif}
+.sc-vid button{border:0;border-radius:999px;background:#2c2c2e;color:#fff;min-height:44px;padding:0 18px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer}
+@media (min-width:1100px){body.sc-open{padding-right:400px}}
+@media (max-width:700px){
+  .sc{left:0;right:0;bottom:0;top:auto;transform:none;width:auto;max-height:80vh;border-radius:28px 28px 0 0;padding:8px 12px calc(10px + env(safe-area-inset-bottom,0px))}
+  .sc-disp{min-height:74px;padding-bottom:4px}.sc-expr{font-size:16px;min-height:22px}
+  .sc-sci{gap:5px;margin-bottom:8px}.sc-sci .k{height:30px;font-size:13px}
+  .sc-std{gap:7px}.sc-std .k{height:42px;font-size:22px}.sc .k.op{font-size:24px}
+  .sc-tb{height:34px;min-width:34px}
+  .sc-note{display:none}
+  body.sc-open{padding-bottom:80vh}
+}
+@media (max-width:700px) and (max-height:760px){.sc{max-height:90vh}.sc-disp{min-height:58px}.sc-expr{font-size:14px;min-height:18px}.sc-sci .k{height:26px;font-size:12px}.sc-sci{gap:4px;margin-bottom:6px}.sc-std .k{height:36px;font-size:19px}.sc .k.op{font-size:21px}.sc-std{gap:6px}.sc-tb{height:30px;min-width:30px}body.sc-open{padding-bottom:90vh}}
+@media (prefers-reduced-motion:no-preference){.sc{animation:scIn .22s ease-out}@keyframes scIn{from{opacity:0}}}
+</style>
+<div class="sc-spacer" aria-hidden="true"></div>
+<button class="sc-fab" id="sc-fab" type="button" aria-controls="sc-panel" aria-expanded="false"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="#fff" stroke-width="2"/><path d="M8 7.5h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></i>Calculator</button>
+<section class="sc" id="sc-panel" hidden role="dialog" aria-label="Scientific calculator" tabindex="-1">
+  <div class="sc-top">
+    <button class="sc-tb" id="sc-histbtn" type="button" aria-label="History" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <button class="sc-tb" id="sc-howbtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>How to use</button>
+    <span class="sp"></span>
+    <button class="sc-tb" id="sc-close" type="button" aria-label="Close calculator">✕</button>
+  </div>
+  <div class="sc-disp"><span class="sc-mode" id="sc-mode">DEG</span><div class="sc-expr" id="sc-expr"></div><div class="sc-res" id="sc-res" aria-live="polite">0</div></div>
+  <div class="sc-pad">
+    <div class="sc-sci" id="sc-sci"></div>
+    <div class="sc-std" id="sc-std"></div>
+    <div class="sc-hist" id="sc-hist" hidden><div class="sc-hist-h"><span>History · tap one to use it</span><button class="sc-tb" id="sc-histclr" type="button">Clear</button></div><ul id="sc-histlist"></ul></div>
+  </div>
+  <p class="sc-note">Keyboard works too · <b>2nd</b> + tan gives tan⁻¹ · S⇔D shows a fraction</p>
+</section>
+<div class="sc-vid" id="sc-vid" hidden role="dialog" aria-modal="true" aria-label="How to use the calculator"><div>
+  <p><span>How to use the calculator</span><button type="button" id="sc-vidclose">Close ✕</button></p>
+  <video id="sc-video" controls playsinline preload="none" poster="../assets/calculator-howto.jpg"></video>
+</div></div>
+<script>
+{
+"use strict";
+const ROOT="../";
+const el=id=>document.getElementById(id);
+const panel=el("sc-panel"),fab=el("sc-fab"),exprEl=el("sc-expr"),resEl=el("sc-res"),modeEl=el("sc-mode");
+let tokens=[],ans=null,justEval=false,err=false,lastExpr="",deg=true,second=false,mem=0,preview="0",fracView=false;
+const BIN=["+","−","×","÷","^","C","P"],POST=["²","³","⁻¹","!","%","°"];
+const bad=()=>{throw new Error("math");};
+const toR=x=>deg?x*Math.PI/180:x, fromR=x=>deg?x*180/Math.PI:x, snap=v=>Math.abs(v)<1e-13?0:v;
+const FUNS={
+  "sin(":x=>snap(Math.sin(toR(x))),"cos(":x=>snap(Math.cos(toR(x))),
+  "tan(":x=>{const r=toR(x);if(Math.abs(Math.cos(r))<1e-12)bad();return snap(Math.tan(r));},
+  "sin⁻¹(":x=>(x<-1||x>1)?bad():fromR(Math.asin(x)),"cos⁻¹(":x=>(x<-1||x>1)?bad():fromR(Math.acos(x)),"tan⁻¹(":x=>fromR(Math.atan(x)),
+  "sinh(":Math.sinh,"cosh(":Math.cosh,"tanh(":Math.tanh,
+  "sinh⁻¹(":Math.asinh,"cosh⁻¹(":x=>x<1?bad():Math.acosh(x),"tanh⁻¹(":x=>(x<=-1||x>=1)?bad():Math.atanh(x),
+  "ln(":x=>x<=0?bad():Math.log(x),"log(":x=>x<=0?bad():Math.log10(x),"log₂(":x=>x<=0?bad():Math.log2(x),
+  "√(":x=>x<0?bad():Math.sqrt(x),"∛(":Math.cbrt,"e^(":Math.exp,"10^(":x=>Math.pow(10,x),"2^(":x=>Math.pow(2,x),"Abs(":Math.abs
+};
+const isFn=t=>typeof t==="string"&&Object.prototype.hasOwnProperty.call(FUNS,t);
+const isDigit=t=>typeof t==="string"&&/^[0-9.]$/.test(t);
+const isVal=t=>typeof t==="object"&&t!==null;
+const last=()=>tokens[tokens.length-1];
+const opener=t=>t===undefined||BIN.includes(t)||t==="("||isFn(t);
+
+/* ---- evaluation: lexer + recursive-descent parser (no eval) ---- */
+function lex(ts){
+  const out=[];let i=0;
+  while(i<ts.length){
+    const t=ts[i];
+    if(isDigit(t)){
+      let s="";while(i<ts.length&&isDigit(ts[i]))s+=ts[i++];
+      if(ts[i]==="E"){s+="e";i++;if(ts[i]==="−"||ts[i]==="+"){s+=ts[i]==="−"?"-":"+";i++;}let k="";while(i<ts.length&&isDigit(ts[i]))k+=ts[i++];if(!k||k.includes("."))bad();s+=k;}
+      const n=Number(s);if(isNaN(n))bad();out.push({t:"n",v:n});continue;
+    }
+    i++;
+    if(isVal(t))out.push({t:"n",v:t.v});
+    else if(t==="π")out.push({t:"n",v:Math.PI});
+    else if(t==="e")out.push({t:"n",v:Math.E});
+    else if(BIN.includes(t))out.push({t:"o",v:t});
+    else if(POST.includes(t))out.push({t:"p",v:t});
+    else if(isFn(t))out.push({t:"f",v:t});
+    else if(t==="("||t===")")out.push({t:t});
+    else bad();
+  }
+  return out;
+}
+function fact(n){if(n<0||n>170||!Number.isInteger(n))bad();let r=1;for(let k=2;k<=n;k++)r*=k;return r;}
+function perm(n,r){if(!Number.isInteger(n)||!Number.isInteger(r)||r<0||n<0||r>n)bad();let v=1;for(let k=0;k<r;k++)v*=n-k;return v;}
+function comb(n,r){if(!Number.isInteger(n)||!Number.isInteger(r)||r<0||n<0||r>n)bad();r=Math.min(r,n-r);let v=1;for(let k=1;k<=r;k++)v=v*(n-r+k)/k;return Math.round(v);}
+function pw(b,e){
+  if(b<0&&!Number.isInteger(e)){const q=1/e,r=Math.round(q);if(Math.abs(q-r)<1e-9&&Math.abs(r)%2===1)return -Math.pow(-b,e);bad();}
+  return Math.pow(b,e);
+}
+function evaluate(ts){
+  if(!ts.length)return null;
+  const L=lex(ts);let i=0;
+  const peek=()=>L[i], starts=x=>x&&(x.t==="n"||x.t==="f"||x.t==="(");
+  const isOp=(x,o)=>x&&x.t==="o"&&x.v===o;
+  function expr(){let v=term();while(isOp(peek(),"+")||isOp(peek(),"−")){const o=L[i++].v,r=term();v=o==="+"?v+r:v-r;}return v;}
+  function term(){let v=unary();for(;;){const p=peek();
+      if(isOp(p,"×")||isOp(p,"÷")){i++;const r=unary();if(p.v==="÷"){if(r===0)bad();v=v/r;}else v=v*r;}
+      else if(starts(p))v=v*unary();
+      else break;}
+    return v;}
+  function unary(){if(isOp(peek(),"−")){i++;return -unary();}if(isOp(peek(),"+")){i++;return unary();}return power();}
+  function power(){let b=post();
+    while(isOp(peek(),"C")||isOp(peek(),"P")){const o=L[i++].v,r=post();b=o==="C"?comb(b,r):perm(b,r);}
+    if(isOp(peek(),"^")){i++;return pw(b,unary());}return b;}
+  function post(){let v=prim();while(peek()&&peek().t==="p"){const o=L[i++].v;
+      if(o==="²")v=v*v;else if(o==="³")v=v*v*v;else if(o==="⁻¹"){if(v===0)bad();v=1/v;}else if(o==="%")v=v/100;else if(o==="°")v=deg?v:v*Math.PI/180;else v=fact(v);}
+    return v;}
+  function prim(){const p=L[i++];if(!p)bad();
+    if(p.t==="n")return p.v;
+    if(p.t==="f"){if(!peek()||peek().t===")")bad();const a=expr();if(peek()&&peek().t===")")i++;return FUNS[p.v](a);}
+    if(p.t==="("){const a=expr();if(peek()&&peek().t===")")i++;return a;}
+    bad();}
+  const v=expr();if(i<L.length||!isFinite(v))bad();return v;
+}
+function fmt(v){
+  if(Object.is(v,-0))v=0;const a=Math.abs(v);let s;
+  if(a!==0&&(a>=1e12||a<1e-7))s=v.toExponential(9).replace(/\.?0+e/,"e").replace("e+","e").replace("e","E");
+  else s=String(parseFloat(v.toPrecision(12)));
+  return s.replace("-","−");
+}
+function frac(v){   // best fraction with denominator up to 10000, or null
+  if(!isFinite(v)||Number.isInteger(v))return null;
+  let h1=1,h0=0,k1=0,k0=1,x=v;
+  for(let n=0;n<40;n++){const a=Math.floor(x);[h1,h0]=[a*h1+h0,h1];[k1,k0]=[a*k1+k0,k1];
+    if(k1>10000)return null;
+    if(Math.abs(v-h1/k1)<1e-9*Math.max(1,Math.abs(v)))return (h1<0?"−":"")+Math.abs(h1)+"/"+k1;
+    const f=x-a;if(f<1e-12)break;x=1/f;}
+  return null;
+}
+const disp=t=>isVal(t)?t.d:t;
+const depth=()=>tokens.reduce((d,t)=>d+(t==="("||isFn(t)?1:t===")"?-1:0),0);
+
+/* ---- history (kept in this browser only) ---- */
+let hist=[];try{hist=JSON.parse(localStorage.getItem("ais-calc-hist"))||[];if(!Array.isArray(hist))hist=[];}catch(e){hist=[];}
+hist=hist.filter(h=>h&&typeof h.e==="string"&&typeof h.r==="string"&&typeof h.v==="number").slice(0,30);
+const saveHist=()=>{try{localStorage.setItem("ais-calc-hist",JSON.stringify(hist.slice(0,30)));}catch(e){}};
+
+/* ---- key actions ---- */
+function clearAll(){tokens=[];justEval=false;err=false;preview="0";fracView=false;}
+function fresh(){if(justEval){tokens=[];justEval=false;err=false;}fracView=false;}
+function fromAns(){if(justEval){tokens=err||ans===null?[]:[{d:"Ans",v:ans}];justEval=false;err=false;}fracView=false;}
+function op(o){
+  fromAns();const L=last();
+  if(!tokens.length){if(o==="−")tokens.push("−");else if(ans!==null)tokens.push({d:"Ans",v:ans},o);return;}
+  if(L==="E"){if(o==="−")tokens.push("−");return;}
+  if(BIN.includes(L)){
+    const P=tokens[tokens.length-2];
+    if(L==="−"&&(tokens.length===1||opener(P)||P==="E"))return;   // a minus sign that belongs to the next number
+    if(o==="−"&&L!=="−"){tokens.push("−");return;}
+    tokens[tokens.length-1]=o;return;
+  }
+  if(L==="("||isFn(L)){if(o==="−")tokens.push("−");return;}
+  tokens.push(o);
+}
+function postfix(p){fromAns();if(opener(last())||last()==="E")return;tokens.push(p);}
+function fn(f){fresh();tokens.push(f);}
+function negate(){
+  fromAns();
+  let j=tokens.length;while(j>0&&(isDigit(tokens[j-1])||isVal(tokens[j-1])))j--;
+  if(j===tokens.length){if(opener(last()))tokens.push("−");return;}
+  const p=tokens[j-1];
+  if(p==="−"){if(j-1===0||opener(tokens[j-2]))tokens.splice(j-1,1);else tokens[j-1]="+";}
+  else if(p==="+")tokens[j-1]="−";
+  else tokens.splice(j,0,"−");
+}
+function equals(){
+  if(justEval||!tokens.length)return;
+  let v=null;try{v=evaluate(tokens);}catch(e){v=null;}
+  for(let n=depth();n>0;n--)tokens.push(")");
+  lastExpr=tokens.map(disp).join("")+" =";
+  if(v===null){err=true;}else{ans=v;err=false;hist.unshift({e:lastExpr,r:fmt(v),v:v});hist=hist.slice(0,30);saveHist();}
+  justEval=true;
+}
+function cur(){if(justEval)return err?null:ans;try{return evaluate(tokens);}catch(e){return null;}}
+const SECOND_KEYS=["ex","ln","sin","cos","tan","sinh","cosh","tanh"];
+function press(k){
+  if(/^[0-9]$/.test(k)){fresh();tokens.push(k);}
+  else switch(k){
+    case "dot":{fresh();let j=tokens.length;while(j>0&&isDigit(tokens[j-1]))j--;const run=tokens.slice(j);if(run.includes(".")||tokens[j-1]==="E")break;if(!run.length)tokens.push("0");tokens.push(".");break;}
+    case "add":op("+");break;case "sub":op("−");break;case "mul":op("×");break;case "div":op("÷");break;case "xy":op("^");break;
+    case "ncr":op("C");break;case "npr":op("P");break;
+    case "x2":postfix("²");break;case "x3":postfix("³");break;case "inv":postfix("⁻¹");break;case "fact":postfix("!");break;case "pct":postfix("%");break;case "deg":postfix("°");break;
+    case "yroot":fromAns();if(opener(last()))break;tokens.push("^","(","1","÷");break;
+    case "ex":fn(second?"2^(":"e^(");break;case "10x":fn("10^(");break;
+    case "sqrt":fn("√(");break;case "cbrt":fn("∛(");break;case "abs":fn("Abs(");break;
+    case "ln":fn(second?"log₂(":"ln(");break;case "log":fn("log(");break;
+    case "sin":case "cos":case "tan":case "sinh":case "cosh":case "tanh":fn(k+(second?"⁻¹":"")+"(");break;
+    case "e":fresh();tokens.push("e");break;case "pi":fresh();tokens.push("π");break;
+    case "ans":if(ans!==null){fresh();tokens.push({d:"Ans",v:ans});}break;
+    case "EE":{if(justEval)break;let j=tokens.length;while(j>0&&isDigit(tokens[j-1]))j--;if(j===tokens.length||tokens[j-1]==="E")break;tokens.push("E");break;}
+    case "rand":{fresh();const r=+Math.random().toFixed(8);tokens.push({d:fmt(r),v:r});break;}
+    case "(":fresh();tokens.push("(");break;
+    case ")":if(!justEval&&depth()>0&&!opener(last())&&last()!=="E")tokens.push(")");break;
+    case "neg":negate();break;
+    case "back":if(justEval)clearAll();else{tokens.pop();fracView=false;}break;
+    case "ac":clearAll();break;
+    case "eq":equals();fracView=false;break;
+    case "sd":if(!justEval)equals();if(justEval&&!err)fracView=!fracView;break;
+    case "2nd":second=!second;break;
+    case "rad":deg=!deg;break;
+    case "mc":mem=0;break;
+    case "m+":{const v=cur();if(v!==null)mem+=v;break;}
+    case "m−":{const v=cur();if(v!==null)mem-=v;break;}
+    case "mr":fresh();tokens.push({d:fmt(mem),v:mem});break;
+  }
+  if(second&&SECOND_KEYS.includes(k))second=false;   // like SHIFT: 2nd works for one key
+  relabel();update();
+}
+
+/* ---- keys and display ---- */
+const SCI=[["(","("],[")",")"],["mc","mc"],["m+","m+"],["m−","m−"],["mr","mr"],
+  ["2nd","2nd"],["x2","x²"],["x3","x³"],["xy","xʸ"],["ex","eˣ","2ˣ"],["10x","10ˣ"],
+  ["inv","1/x"],["sqrt","²√x"],["cbrt","³√x"],["yroot","ʸ√x"],["ln","ln","log₂"],["log","log₁₀"],
+  ["fact","x!"],["sin","sin","sin⁻¹"],["cos","cos","cos⁻¹"],["tan","tan","tan⁻¹"],["e","e"],["EE","EE"],
+  ["rand","Rand"],["sinh","sinh","sinh⁻¹"],["cosh","cosh","cosh⁻¹"],["tanh","tanh","tanh⁻¹"],["pi","π"],["rad","Rad"],
+  ["sd","S⇔D","","x"],["ncr","nCr","","x"],["npr","nPr","","x"],["abs","|x|","","x"],["deg","°","","x"],["ans","Ans","","x"]];
+const STD=[["back","⌫","fn","Backspace"],["ac","AC","fn","All clear"],["pct","%","fn","Percent"],["div","÷","op","Divide"],
+  ["7","7"],["8","8"],["9","9"],["mul","×","op","Multiply"],["4","4"],["5","5"],["6","6"],["sub","−","op","Minus"],
+  ["1","1"],["2","2"],["3","3"],["add","+","op","Plus"],["neg","±","","Change sign"],["0","0"],["dot",".","","Decimal point"],["eq","=","op","Equals"]];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ARIA={sd:"Fraction or decimal",ncr:"Combinations n C r",npr:"Permutations n P r",abs:"Absolute value",deg:"Degrees symbol",ans:"Last answer",inv:"Reciprocal",yroot:"y-th root",fact:"Factorial"};
+el("sc-sci").innerHTML=SCI.map(([k,l,,c])=>'<button type="button" class="k '+(c||"")+'" data-k="'+esc(k)+'" aria-label="'+esc(ARIA[k]||l)+'">'+esc(l)+'</button>').join("");
+el("sc-std").innerHTML=STD.map(([k,l,c,a])=>'<button type="button" class="k '+(c||"")+'" data-k="'+esc(k)+'" aria-label="'+esc(a||l)+'">'+esc(l)+'</button>').join("");
+function relabel(){
+  SCI.forEach(([k,l,l2])=>{const b=panel.querySelector('[data-k="'+k+'"]');if(!b)return;
+    const t=k==="rad"?(deg?"Rad":"Deg"):(second&&l2?l2:l);if(b.textContent!==t){b.textContent=t;b.setAttribute("aria-label",k==="rad"?"Switch to "+(deg?"radians":"degrees"):(ARIA[k]||t));}});
+  panel.querySelector('[data-k="2nd"]').classList.toggle("on",second);
+}
+function update(){
+  exprEl.textContent=justEval?lastExpr:tokens.map(disp).join("");
+  exprEl.scrollLeft=exprEl.scrollWidth;
+  let big;
+  if(justEval)big=err?"Error":(fracView&&frac(ans))||fmt(ans);
+  else if(!tokens.length)big="0";
+  else{try{const v=evaluate(tokens);big=v===null?"0":fmt(v);preview=big;}catch(e){big=preview;}}
+  resEl.textContent=big;
+  const base=innerWidth<=700?40:56;resEl.style.fontSize=Math.max(22,Math.min(base,base*9/Math.max(9,big.length)))+"px";
+  modeEl.textContent=(deg?"DEG":"RAD")+(second?"  ·  2nd":"")+(mem!==0?"  ·  M":"")+(fracView&&justEval?"  ·  fraction":"");
+}
+function flash(k){const b=panel.querySelector('[data-k="'+k+'"]');if(!b)return;b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),110);}
+panel.querySelector(".sc-pad").addEventListener("click",e=>{const b=e.target.closest(".k");if(!b)return;press(b.dataset.k);if(e.detail>0){try{panel.focus({preventScroll:true});}catch(_){}}});
+
+/* history panel */
+const histEl=el("sc-hist"),histBtn=el("sc-histbtn");
+function renderHist(){el("sc-histlist").innerHTML=hist.length?hist.map((h,i)=>'<li><button type="button" data-h="'+i+'"><small>'+esc(h.e)+'</small><b>'+esc(h.r)+'</b></button></li>').join(""):'<li class="none">No calculations yet. Press = and they appear here.</li>';}
+function showHist(on){histEl.hidden=!on;histBtn.classList.toggle("on",on);histBtn.setAttribute("aria-pressed",on);if(on)renderHist();}
+histBtn.addEventListener("click",()=>showHist(histEl.hidden));
+el("sc-histclr").addEventListener("click",()=>{hist=[];saveHist();renderHist();});
+el("sc-histlist").addEventListener("click",e=>{const b=e.target.closest("[data-h]");if(!b)return;const h=hist[+b.dataset.h];if(!h)return;fresh();tokens.push({d:h.r,v:h.v});showHist(false);update();});
+
+/* how-to video */
+const vid=el("sc-vid"),video=el("sc-video");
+function openVideo(){if(!video.getAttribute("src"))video.src=ROOT+"assets/calculator-howto.mp4";vid.hidden=false;const p=video.play();if(p&&p.catch)p.catch(()=>{});try{el("sc-vidclose").focus();}catch(e){}}
+function closeVideo(){try{video.pause();}catch(e){}vid.hidden=true;}
+el("sc-howbtn").addEventListener("click",openVideo);
+el("sc-vidclose").addEventListener("click",closeVideo);
+vid.addEventListener("click",e=>{if(e.target===vid)closeVideo();});
+document.querySelectorAll("[data-calc-video]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openVideo();}));
+
+/* open / close, and keep the button above a phone tab bar */
+function openCalc(){panel.hidden=false;fab.setAttribute("aria-expanded","true");document.body.classList.add("sc-open");update();try{panel.focus({preventScroll:true});}catch(e){}}
+function closeCalc(){panel.hidden=true;showHist(false);fab.setAttribute("aria-expanded","false");document.body.classList.remove("sc-open");try{fab.focus({preventScroll:true});}catch(e){}}
+fab.addEventListener("click",openCalc);
+el("sc-close").addEventListener("click",closeCalc);
+document.querySelectorAll("[data-calc-open]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();panel.hidden?openCalc():closeCalc();}));
+function lift(){const t=document.querySelector(".tabbar");let h=0;if(t){const r=t.getBoundingClientRect();if(getComputedStyle(t).display!=="none"&&r.height>0)h=Math.max(0,innerHeight-r.top)+8;}
+  fab.style.setProperty("--sc-lift",h?Math.max(0,h-16)+"px":"0px");}
+addEventListener("resize",lift);lift();
+const KEYMAP={"+":"add","-":"sub","*":"mul","x":"mul","/":"div","^":"xy",".":"dot",",":"dot","(":"(",")":")","!":"fact","%":"pct","Enter":"eq","=":"eq","Backspace":"back","Delete":"ac","p":"pi","s":"sin","c":"cos","t":"tan"};
+document.addEventListener("keydown",e=>{
+  if(!vid.hidden&&e.key==="Escape"){closeVideo();return;}
+  if(panel.hidden||e.ctrlKey||e.metaKey||e.altKey)return;
+  const tg=e.target,tag=tg&&tg.tagName;
+  if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT")return;
+  if(e.key==="Escape"){e.preventDefault();if(!histEl.hidden)showHist(false);else closeCalc();return;}
+  if(e.key==="Enter"&&tag==="BUTTON")return;
+  const k=/^[0-9]$/.test(e.key)?e.key:KEYMAP[e.key];
+  if(!k)return;
+  e.preventDefault();press(k);flash(k);
+});
+relabel();update();
+}
+</script>
+</body>
+</html>
