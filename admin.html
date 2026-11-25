@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-UT8Lw7DosYIlxwS35KhWR+xY3B8aWuwD9XzsogJpGTw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-LDuAuk7Na09ALLCuF/HDe4W93cY8q0V+iNsykfo2odI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -229,7 +229,9 @@ $("t-add").addEventListener("click",async()=>{
   $("t-add").disabled=true;
   try{const r=await tapi({op:"add",email,name});
     if(!r.ok){tmsg(r.error||"Could not add the teacher.","err");return;}
-    teachers=r.teachers;renderTeachers();$("t-email").value="";$("t-name").value="";tmsg("Added "+email+". They got an email explaining how to log in.","ok");}
+    teachers=r.teachers;renderTeachers();$("t-email").value="";$("t-name").value="";
+    if(r.mail&&r.mail!=="sent")tmsg("Added "+email+", but the welcome email was not sent: "+r.mail,"err");
+    else tmsg("Added "+email+"."+(r.mail==="sent"?" They got an email explaining how to log in.":""),"ok");}
   catch(e){tmsg("Could not reach the script.","err");}
   finally{$("t-add").disabled=false;}
 });
@@ -237,7 +239,9 @@ $("t-email").addEventListener("keydown",e=>{if(e.key==="Enter")$("t-add").click(
 $("t-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-e]");if(!b)return;b.disabled=true;
   try{const r=await tapi({op:"set",email:b.dataset.e,status:b.dataset.s});
     if(!r.ok){tmsg(r.error||"Could not update.","err");b.disabled=false;return;}
-    teachers=r.teachers;renderTeachers();tmsg(b.dataset.s==="approved"?"Approved "+b.dataset.e+". They got an email explaining how to log in.":"Updated "+b.dataset.e+".","ok");}
+    teachers=r.teachers;renderTeachers();
+    if(r.mail&&r.mail!=="sent")tmsg("Approved "+b.dataset.e+", but the email was not sent: "+r.mail,"err");
+    else tmsg(b.dataset.s==="approved"?"Approved "+b.dataset.e+"."+(r.mail==="sent"?" They got an email explaining how to log in.":""):"Updated "+b.dataset.e+".","ok");}
   catch(x){tmsg("Could not reach the script.","err");b.disabled=false;}});
 
 $("go").addEventListener("click",load);

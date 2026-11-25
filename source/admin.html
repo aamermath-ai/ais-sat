@@ -227,7 +227,9 @@ $("t-add").addEventListener("click",async()=>{
   $("t-add").disabled=true;
   try{const r=await tapi({op:"add",email,name});
     if(!r.ok){tmsg(r.error||"Could not add the teacher.","err");return;}
-    teachers=r.teachers;renderTeachers();$("t-email").value="";$("t-name").value="";tmsg("Added "+email+". They got an email explaining how to log in.","ok");}
+    teachers=r.teachers;renderTeachers();$("t-email").value="";$("t-name").value="";
+    if(r.mail&&r.mail!=="sent")tmsg("Added "+email+", but the welcome email was not sent: "+r.mail,"err");
+    else tmsg("Added "+email+"."+(r.mail==="sent"?" They got an email explaining how to log in.":""),"ok");}
   catch(e){tmsg("Could not reach the script.","err");}
   finally{$("t-add").disabled=false;}
 });
@@ -235,7 +237,9 @@ $("t-email").addEventListener("keydown",e=>{if(e.key==="Enter")$("t-add").click(
 $("t-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-e]");if(!b)return;b.disabled=true;
   try{const r=await tapi({op:"set",email:b.dataset.e,status:b.dataset.s});
     if(!r.ok){tmsg(r.error||"Could not update.","err");b.disabled=false;return;}
-    teachers=r.teachers;renderTeachers();tmsg(b.dataset.s==="approved"?"Approved "+b.dataset.e+". They got an email explaining how to log in.":"Updated "+b.dataset.e+".","ok");}
+    teachers=r.teachers;renderTeachers();
+    if(r.mail&&r.mail!=="sent")tmsg("Approved "+b.dataset.e+", but the email was not sent: "+r.mail,"err");
+    else tmsg(b.dataset.s==="approved"?"Approved "+b.dataset.e+"."+(r.mail==="sent"?" They got an email explaining how to log in.":""):"Updated "+b.dataset.e+".","ok");}
   catch(x){tmsg("Could not reach the script.","err");b.disabled=false;}});
 
 $("go").addEventListener("click",load);

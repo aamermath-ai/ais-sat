@@ -168,8 +168,9 @@ The welcome screen offers three choices, with **Worksheets** first, then SAT and
 **One-time setup (owner, about 3 minutes):**
 1. Open the Apps Script project (the Google Sheet → **Extensions → Apps Script**). Open https://raw.githubusercontent.com/aamermath-ai/ais-sat/main/source/analytics/Code.gs in another tab, select all (Ctrl+A / Cmd+A) and copy. In Apps Script, click inside `Code.gs`, select all, paste, and save (Ctrl+S / Cmd+S).
 2. **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy.** Keep the same deployment so the web-app URL does not change. Google asks you to authorize again (the script now sends login emails): choose your account → **Advanced → Go to (project name) (unsafe) → Allow**. "Unsafe" only means Google has not reviewed your own script.
-3. Open `admin.html`, enter the admin key, and add yourself and your colleagues under **Teacher logins**.
-4. Open `teacher.html`, press **Log in**, type your email, and use the code from your inbox.
+3. Still in Apps Script, choose **testEmail** in the list next to **▷ Run**, press **Run**, then **Review permissions → your account → Advanced → Go to (project) (unsafe) → Allow**. You get a test email. (Deploying does not ask for this permission; without it, login codes cannot be sent.)
+4. Open `admin.html`, enter the admin key (16+ characters), and add yourself and your colleagues under **Teacher logins**.
+5. Open `teacher.html`, press **Log in**, type your email, and use the code from your inbox.
 
 If the login page says "the school server needs the latest Code.gs", step 1 or 3 has not been done yet. No Google Cloud or Microsoft (Azure) setup is needed.
 

@@ -363,19 +363,36 @@ function worksheetData_(email) {
 }
 
 function siteUrl_() { return 'https://aamermath-ai.github.io/ais-sat/teacher.html'; }
+// Turns a MailApp error into a plain message for the website (and writes it to Apps Script → Executions)
+function mailError_(e) {
+  var m = String(e && e.message || e);
+  console.error('Email failed: ' + m);
+  if (/permission|authori[sz]/i.test(m)) return 'The school server is not allowed to send email yet. The site owner needs to open Apps Script, choose "testEmail" next to Run, press Run and click Allow.';
+  if (/quota|too many|limit|exceeded/i.test(m)) return 'The school server has sent its maximum number of emails for today. Please try again tomorrow.';
+  if (/invalid email|recipient/i.test(m)) return 'This email address could not receive mail. Check it for typos.';
+  return 'The email could not be sent (' + m.slice(0, 140) + ').';
+}
+// Run this once from the Apps Script editor: choose "testEmail" in the list next to Run, then press Run.
+// Google asks for permission to send email (click Allow), and you get a test message.
+function testEmail() {
+  var me = Session.getEffectiveUser().getEmail();
+  MailApp.sendEmail(me, 'Worksheets AIS: test email', 'Email works. Teachers can now get their login codes.\n\nMathematics Department, American International School');
+  Logger.log('Sent a test email to ' + me + '. Emails left today: ' + MailApp.getRemainingDailyQuota());
+}
 function notifyOwners_(g) {
   try {
     var to = list_('OWNER_EMAILS').join(',');
     if (to) MailApp.sendEmail(to, 'Worksheets AIS: teacher access request from ' + g.name,
       g.name + ' (' + g.email + ') asked for teacher access on Worksheets AIS.\n\nTo approve, log in at ' + siteUrl_() + ' and open "Teachers".');
-  } catch (e) {}
+  } catch (e) { mailError_(e); }
 }
 function notifyApproved_(email, name) {
   try {
     MailApp.sendEmail(email, 'Worksheets AIS: your teacher login is ready',
       'Hello ' + (name || '') + ',\n\nYou now have a teacher login on Worksheets AIS.\n\n1. Open ' + siteUrl_() + '\n2. Press "Log in" and type this email address: ' + email +
       '\n3. We email you a 6-digit code. Type it in, and you are in.\n\nThere is no password. Share worksheets with your class by QR code or Microsoft Teams, and see your students\' results.\n\nMathematics Department, American International School');
-  } catch (e) {}
+    return '';
+  } catch (e) { return mailError_(e); }
 }
 
 // ---------------- email login codes (works with any email: Gmail, Outlook/Microsoft, school) ----------------
@@ -398,7 +415,7 @@ function sendCode_(raw) {
   try {
     MailApp.sendEmail(email, 'Your Worksheets AIS login code: ' + code,
       'Your login code is ' + code + '\n\nType it on the Worksheets AIS teacher page. It works for ' + CODE_MINUTES + ' minutes.\n\nIf you did not ask for this, you can ignore this email.\n\nMathematics Department, American International School');
-  } catch (e) { return { ok: false, error: 'The login email could not be sent. Please try again later.' }; }
+  } catch (e) { cache.remove('otp:' + email); return { ok: false, error: mailError_(e) }; }
   return { ok: true, status: 'sent', email: email };
 }
 function verifyCode_(raw, code) {
@@ -475,7 +492,7 @@ function joinInfo_(code) {
 function adminTeachers_(d) {
   var err = adminError_(d.key);
   if (err) return { ok: false, error: err };
-  var op = String(d.op || 'list');
+  var op = String(d.op || 'list'), mailNote = '';
   if (op === 'add' || op === 'set') {
     var email = cleanEmail_(d.email);
     if (!email) return { ok: false, error: 'Type a valid email address.' };
@@ -493,11 +510,11 @@ function adminTeachers_(d) {
         t.sh.getRange(i + 2, 2, 1, 2).setValues([[name || unplain_(t.rows[i][1]) || email, status]]);
       }
     } finally { try { lock.releaseLock(); } catch (x) {} }
-    if (notify) notifyApproved_(email, name);
+    if (notify) mailNote = notifyApproved_(email, name) || 'sent';
   }
   var list = teachers_().rows.map(function (r) {
     return { email: String(r[0]), name: unplain_(r[1]), status: String(r[2]),
       requested: r[3] instanceof Date ? r[3].toISOString() : '', lastLogin: r[4] instanceof Date ? r[4].toISOString() : '' };
   });
-  return { ok: true, teachers: list, owners: list_('OWNER_EMAILS') };
+  return { ok: true, teachers: list, owners: list_('OWNER_EMAILS'), mail: mailNote };
 }
