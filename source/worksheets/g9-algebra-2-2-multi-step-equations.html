@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2.2 Solve Multi-step Linear Equations – Eid Al Etihad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Same system as the Grade 10 13.1 worksheet: UAE flag colours, Lexend, stacked question cards.
+   PICTURE: a balance scale — "do the same to both sides" */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.formula{font-size:24px;font-weight:700;color:var(--green);margin:4px 0}
+.chain{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.chain span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:250px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.eq{font-size:22px;font-weight:700;letter-spacing:.3px;margin:4px 0 6px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line);text-align:left}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:2px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+@media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who{grid-template-columns:minmax(0,1fr)}.sides{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><b></b></div>
+
+<header class="band"><div class="wrap hero">
+  <div>
+    <a class="back" href="../worksheets.html#grade-9">← All worksheets</a>
+    <div class="kick">Grade 9 Algebra 1 · Eid Al Etihad edition</div>
+    <h1>2.2 Solve Multi-step Linear Equations</h1>
+    <div class="lo"><b>LO:</b> I can solve multi-step linear equations, including equations with brackets and variables on both sides, and use them to solve real-life problems.<br>
+      <span class="tip">Standards: A.REI.B.3, A.CED.A.1</span></div>
+    <div class="formula">Do the same to both sides ⚖️</div>
+    <div class="chain"><span>1 Distribute</span><span>2 Collect x-terms</span><span>3 Undo + / −</span><span>4 Undo × / ÷</span><span>5 Check</span></div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 9G2"></div>
+    </div>
+  </div>
+  <div class="scene" aria-label="A balance scale. The left pan holds 3x + 4 and the right pan holds x + 10. The scale is level, so both sides are equal.">
+    <svg viewBox="0 0 640 400" role="img">
+      <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6fbfd"/></linearGradient></defs>
+      <rect width="640" height="400" fill="url(#sk)"/>
+      <g fill="#9fb4c2"><rect x="20" y="250" width="50" height="110"/><rect x="80" y="225" width="36" height="135"/><rect x="520" y="240" width="40" height="120"/><rect x="566" y="205" width="32" height="155"/></g>
+      <rect x="0" y="352" width="640" height="48" fill="#e9dcbc"/>
+      <path d="M270 352 L370 352 L330 120 L310 120Z" fill="#59636b"/>
+      <rect x="316" y="62" width="6" height="60" fill="#59636b"/>
+      <g transform="translate(322 64)"><rect width="18" height="40" fill="#C8102E"/><rect x="18" width="54" height="13.3" fill="#00843D"/><rect x="18" y="13.3" width="54" height="13.3" fill="#fff"/><rect x="18" y="26.6" width="54" height="13.4" fill="#111"/></g>
+      <rect x="110" y="116" width="420" height="10" rx="5" fill="#15191c"/>
+      <circle cx="320" cy="121" r="12" fill="#00843D"/>
+      <g stroke="#15191c" stroke-width="2.5"><line x1="140" y1="126" x2="100" y2="230"/><line x1="140" y1="126" x2="220" y2="230"/><line x1="500" y1="126" x2="420" y2="230"/><line x1="500" y1="126" x2="540" y2="230"/></g>
+      <path d="M80 230 H240 A80 24 0 0 1 80 230Z" fill="#00843D"/>
+      <path d="M400 230 H560 A80 24 0 0 1 400 230Z" fill="#C8102E"/>
+      <g font-family="Lexend,sans-serif" font-weight="700" font-size="34" text-anchor="middle" fill="#15191c">
+        <text x="160" y="216">3x + 4</text><text x="480" y="216">x + 10</text>
+        <text x="320" y="296" font-size="30" fill="#fff">=</text>
+      </g>
+      <text x="320" y="388" text-anchor="middle" font-family="Lexend,sans-serif" font-size="18" font-weight="600" fill="#15191c">Balanced: what you do to one side, do to the other</text>
+    </svg>
+  </div>
+</div></header>
+
+<div class="bar"><div class="wrap"><b id="sc">Score 0 / 15</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <section class="part"><h2>Part A · Choose the first step</h2><p class="mut">Warm-up. Tap the best next step.</p><div id="A"></div></section>
+  <section class="part"><h2>Part B · Two-step and brackets</h2><p class="mut">Solve for x. Type just the number.</p><div id="B"></div></section>
+  <section class="part"><h2>Part C · Variables on both sides</h2><p class="mut">First move the x-terms to one side.</p><div id="C"></div></section>
+  <section class="part"><h2>Part D · UAE real-life problems</h2><p class="mut">Write an equation, then solve it.</p><div id="D"></div></section>
+  <section class="part"><h2>Part E · Critical thinking</h2><p class="mut">Take your time.</p><div id="E"></div></section>
+
+  <section class="result" id="res">
+    <h2>My result</h2>
+    <p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0 / 15</div>
+    <div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p>
+  </section>
+  <footer><p>Write every step in your copybook as well.</p></footer>
+</div></main>
+
+<script>
+{
+const G='#00843D',R='#C8102E',INK='currentColor';
+const Q=[
+ {p:'A',id:'a1',kind:'pick',eq:'4(x + 2) = 20',t:'What should you do first?',opts:['Distribute the 4','Subtract 20 from both sides','Divide both sides by x'],ans:'Distribute the 4',d:{l:'4(x + 2)',r:'20'},hint:'Brackets come first. Multiply 4 by everything inside.'},
+ {p:'A',id:'a2',kind:'pick',eq:'5x + 3 = 2x + 18',t:'Which step collects the x-terms on one side?',opts:['Add 2x to both sides','Subtract 2x from both sides','Subtract 18 from both sides'],ans:'Subtract 2x from both sides',d:{l:'5x + 3',r:'2x + 18'},hint:'To remove +2x from the right side, do the opposite: subtract 2x.'},
+ {p:'A',id:'a3',kind:'pick',eq:'3x − 7 = 11',t:'How do you undo the − 7?',opts:['Subtract 7 from both sides','Add 7 to both sides','Multiply both sides by 7'],ans:'Add 7 to both sides',d:{l:'3x − 7',r:'11'},hint:'The opposite of subtracting 7 is adding 7.'},
+ {p:'B',id:'b1',eq:'4x − 6 = 30',t:'Solve for x.',ans:9,tol:.01,d:{l:'4x − 6',r:'30'},hint:'Add 6 to both sides first. Then divide by 4.',steps:['4x − 6 + 6 = 30 + 6','4x = 36','x = 36 ÷ 4 = 9']},
+ {p:'B',id:'b2',eq:'5(x − 2) = 40',t:'Solve for x.',ans:10,tol:.01,d:{l:'5(x − 2)',r:'40'},hint:'Distribute: 5 × x and 5 × (−2).',steps:['5x − 10 = 40','5x = 50','x = 50 ÷ 5 = 10']},
+ {p:'B',id:'b3',eq:'2(3x + 1) − 4 = 28',t:'Solve for x.',ans:5,tol:.01,d:{l:'2(3x + 1) − 4',r:'28'},hint:'Distribute, then combine 2 − 4 = −2.',steps:['6x + 2 − 4 = 28','6x − 2 = 28','6x = 30','x = 30 ÷ 6 = 5']},
+ {p:'C',id:'c1',eq:'7x − 4 = 3x + 20',t:'Solve for x.',ans:6,tol:.01,d:{l:'7x − 4',r:'3x + 20'},hint:'Subtract 3x from both sides. Then add 4.',steps:['7x − 3x − 4 = 20','4x − 4 = 20','4x = 24','x = 6']},
+ {p:'C',id:'c2',eq:'4(x + 3) = 2x + 30',t:'Solve for x.',ans:9,tol:.01,d:{l:'4(x + 3)',r:'2x + 30'},hint:'Distribute first: 4x + 12. Then subtract 2x.',steps:['4x + 12 = 2x + 30','2x + 12 = 30','2x = 18','x = 9']},
+ {p:'C',id:'c3',eq:'5x + 2(x − 3) = 3x + 22',t:'Solve for x.',ans:7,tol:.01,d:{l:'5x + 2(x − 3)',r:'3x + 22'},hint:'Distribute, then combine 5x + 2x = 7x.',steps:['5x + 2x − 6 = 3x + 22','7x − 6 = 3x + 22','4x − 6 = 22','4x = 28','x = 7']},
+ {p:'C',id:'c4',eq:'−2(x − 4) = x − 7',t:'Solve for x. Watch the negative sign!',ans:5,tol:.01,d:{l:'−2(x − 4)',r:'x − 7'},hint:'−2 × (−4) = +8. So the left side is −2x + 8.',steps:['−2x + 8 = x − 7','Add 2x: 8 = 3x − 7','Add 7: 15 = 3x','x = 15 ÷ 3 = 5']},
+ {p:'D',id:'d1',t:'A Dubai taxi charges AED 12 to start plus AED 2 for each km. Your ride to the National Day fireworks costs AED 40. How many km was the ride?',unit:'km',ans:14,tol:.01,d:{card:'taxi',lines:['Start fare: AED 12','Each km: AED 2','Total: AED 40']},hint:'12 + 2k = 40. Subtract 12, then divide by 2.',steps:['12 + 2k = 40','2k = 28','k = 14 km']},
+ {p:'D',id:'d2',t:'Shop A sells National Day scarves for AED 15 each plus AED 10 delivery. Shop B sells them for AED 20 each with free delivery. For how many scarves do both shops cost the same?',unit:'scarves',ans:2,tol:.01,d:{card:'shops',lines:['Shop A: AED 15 each + AED 10 delivery','Shop B: AED 20 each','Same total cost?']},hint:'15s + 10 = 20s. Subtract 15s from both sides.',steps:['15s + 10 = 20s','10 = 5s','s = 2 scarves']},
+ {p:'D',id:'d3',t:'A rectangular flag banner is 3 times as long as it is wide. Its perimeter is 64 m. Find the width, w.',unit:'m',ans:8,tol:.01,d:{rect:1},hint:'Perimeter = 2(length + width) = 2(3w + w).',steps:['2(3w + w) = 64','2(4w) = 64','8w = 64','w = 8 m']},
+ {p:'E',id:'e1',t:'A bus for the National Day trip costs AED 200 plus AED 25 per student. The budget is AED 900. What is the greatest number of students who can go?',unit:'students',ans:28,tol:.01,d:{card:'bus',lines:['Bus: AED 200','Each student: AED 25','Budget: AED 900 or less']},hint:'Write an inequality: 200 + 25s ≤ 900. Solve it like an equation.',steps:['200 + 25s ≤ 900','25s ≤ 700','s ≤ 28','Greatest number = 28 students']},
+ {p:'E',id:'e2',kind:'pick',eq:'2(x + 3) = 2x + 6',t:'How many solutions does this equation have?',opts:['One solution','No solution','Infinitely many solutions'],ans:'Infinitely many solutions',d:{l:'2(x + 3)',r:'2x + 6'},hint:'Distribute the left side. What do you notice about the two sides?'}
+];
+
+function balance(o){
+  const L=o.l,Rr=o.r,fs=Math.max(14,Math.min(22,230/Math.max(L.length,Rr.length)));
+  return `<svg viewBox="0 0 380 236" role="img" aria-label="Balance scale: ${L} on the left, ${Rr} on the right">
+  <path d="M170 210 L210 210 L196 70 L184 70Z" fill="#6b747b"/>
+  <rect x="40" y="64" width="300" height="8" rx="4" fill="${INK}"/><circle cx="190" cy="68" r="9" fill="${G}"/>
+  <g stroke="${INK}" stroke-width="2"><line x1="62" y1="72" x2="30" y2="150"/><line x1="62" y1="72" x2="150" y2="150"/><line x1="318" y1="72" x2="230" y2="150"/><line x1="318" y1="72" x2="350" y2="150"/></g>
+  <path d="M22 150 H158 A68 18 0 0 1 22 150Z" fill="${G}" fill-opacity=".85"/><path d="M222 150 H358 A68 18 0 0 1 222 150Z" fill="${R}" fill-opacity=".85"/>
+  <rect x="16" y="112" width="148" height="38" rx="8" fill="#fff" stroke="${G}" stroke-width="2"/><rect x="216" y="112" width="148" height="38" rx="8" fill="#fff" stroke="${R}" stroke-width="2"/>
+  <text x="90" y="139" text-anchor="middle" style="font:700 ${fs}px Lexend,sans-serif;fill:#15191c">${L}</text><text x="290" y="139" text-anchor="middle" style="font:700 ${fs}px Lexend,sans-serif;fill:#15191c">${Rr}</text>
+  <rect x="150" y="210" width="80" height="8" rx="4" fill="#6b747b"/></svg>`;
+}
+function card(o){
+  const icon={taxi:`<rect x="34" y="40" width="70" height="34" rx="8" fill="#ffd34d" stroke="${INK}" stroke-width="2"/><rect x="52" y="28" width="34" height="14" rx="3" fill="${INK}"/><text x="69" y="39" text-anchor="middle" style="font:700 9px Lexend;fill:#ffd34d">TAXI</text><circle cx="50" cy="76" r="8" fill="${INK}"/><circle cx="88" cy="76" r="8" fill="${INK}"/>`,
+   shops:`<path d="M30 70 h40 v-26 l-20 -14 l-20 14z" fill="${G}" fill-opacity=".8"/><path d="M78 70 h40 v-26 l-20 -14 l-20 14z" fill="${R}" fill-opacity=".8"/><text x="50" y="64" text-anchor="middle" style="font:700 14px Lexend;fill:#fff">A</text><text x="98" y="64" text-anchor="middle" style="font:700 14px Lexend;fill:#fff">B</text>`,
+   bus:`<rect x="26" y="34" width="96" height="40" rx="8" fill="${G}"/><rect x="34" y="42" width="18" height="14" fill="#fff"/><rect x="58" y="42" width="18" height="14" fill="#fff"/><rect x="82" y="42" width="18" height="14" fill="#fff"/><circle cx="46" cy="76" r="8" fill="${INK}"/><circle cx="102" cy="76" r="8" fill="${INK}"/>`}[o.card];
+  return `<svg viewBox="0 0 380 236" role="img" aria-label="${o.lines.join('. ')}">
+  <rect x="10" y="10" width="360" height="216" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>
+  <rect x="10" y="10" width="20" height="216" rx="6" fill="${R}"/>
+  <g transform="translate(130 0)">${icon}</g>
+  ${o.lines.map((s,i)=>`<text x="46" y="${130+i*32}" style="font:600 16px Lexend,sans-serif;fill:currentColor">${s}</text>`).join('')}</svg>`;
+}
+function rect(){
+  return `<svg viewBox="0 0 380 236" role="img" aria-label="Rectangle banner, width w, length 3w, perimeter 64 m"><style>.rl{font:600 17px Lexend,sans-serif;fill:currentColor}</style>
+  <rect x="50" y="60" width="270" height="90" fill="${G}" fill-opacity=".12" stroke="${INK}" stroke-width="2.5"/>
+  <rect x="50" y="60" width="40" height="90" fill="${R}" fill-opacity=".8"/>
+  <rect x="90" y="60" width="230" height="30" fill="${G}" fill-opacity=".7"/><rect x="90" y="120" width="230" height="30" fill="#111" fill-opacity=".75"/>
+  <text x="185" y="180" text-anchor="middle" class="rl">length = 3w</text>
+  <text x="335" y="110" class="rl">w</text>
+  <text x="185" y="40" text-anchor="middle" class="rl" style="fill:${R}">Perimeter = 64 m</text></svg>`;
+}
+const pic=d=>d.rect?rect():d.card?card(d):balance(d);
+
+const KEY='alg22-uae';let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const parse=s=>{s=String(s).trim().replace(/−/g,'-').replace(/,/g,'.').replace(/[^0-9.\/\-]/g,'');if(!s)return NaN;if(s.includes('/')){const[a,b]=s.split('/').map(Number);return b?a/b:NaN}return Number(s)};
+
+let n=0;
+for(const q of Q){
+  n++;const box=document.createElement('article');box.className='q';box.id='q-'+q.id;
+  const ctl=q.kind==='pick'
+    ?`<div class="pick">${q.opts.map(o=>`<button type="button" data-o="${o}">${o}</button>`).join('')}</div>`
+    :`<div class="row"><input inputmode="decimal" aria-label="Answer for question ${n}" placeholder="${q.unit?'Your answer ('+q.unit+')':'x = ?'}"><button type="button" class="chk">Check</button></div>`;
+  box.innerHTML=`<div><h3><span class="num">${n}</span>Question ${n}</h3>${q.eq?`<div class="eq">${q.eq}</div>`:''}<p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div><div>${pic(q.d)}</div>`;
+  $(q.p).appendChild(box);
+  const fb=box.querySelector('.fb'),st=S.q[q.id]||(S.q[q.id]={done:false,tries:0,v:''});
+  const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg};
+  const stepsHtml=(part)=>{if(!q.steps)return '';const L=part?q.steps.slice(0,-1).concat(['Now finish this last step yourself.']):q.steps;return `<ol class="steps">${L.map(s=>`<li>${s}</li>`).join('')}</ol>`};
+  const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+  const judge=ok=>{
+    if(ok){st.done=true;win()}
+    else{st.tries++;show(false,st.tries<2||!q.steps?`<b>Not yet.</b> Hint: ${q.hint}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(true)}`)}
+    save();score();
+  };
+  if(q.kind==='pick'){
+    box.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
+      if(st.done)return;const ok=b.dataset.o===q.ans;b.classList.add(ok?'ok':'no');judge(ok);
+      if(ok)box.querySelectorAll('.pick button').forEach(x=>x.disabled=true)}));
+    if(st.done){box.querySelectorAll('.pick button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.ans)x.classList.add('ok')});win()}
+  }else{
+    const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+    const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+      if(isNaN(v)){show(false,'Type a number first, like 6.');return}
+      const ok=Math.abs(v-q.ans)<=q.tol;judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+    btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+    if(st.done){inp.disabled=true;btn.disabled=true;win()}
+  }
+}
+
+const parts={A:'First step',B:'Two-step & brackets',C:'Both sides',D:'Real life',E:'Critical thinking'};
+function score(){
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length,tot=Q.length;
+  $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+  $('lv').textContent=got===tot?'All done – amazing!':got>=11?'Nearly there!':got>=5?'Good progress!':'Let’s start!';
+  $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
+  const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+  $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 2.2 Multi-step Equations · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+}
+window.AISWS={id:'g9-algebra-2-2',title:'2.2 Solve Multi-step Linear Equations',grade:'9',parts,
+  get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
+$('nm').value=S.nm||'';$('cl').value=S.cl||'';
+['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+$('copy').addEventListener('click',async()=>{
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 2.2 Solve Multi-step Linear Equations (Eid Al Etihad worksheet) – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
+  try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
+  catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
+});
+let armed=false;
+$('reset').addEventListener('click',()=>{
+  if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+  S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
+});
+score();
+}
+</script>
+</body>
+</html>

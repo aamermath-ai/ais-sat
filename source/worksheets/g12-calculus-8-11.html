@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8.11 Volume with Washer Method: Revolving Around the x- or y-Axis – Calculus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+/* VOICE: calm, encouraging AP Calculus practice for Grade 12; same family as the Grade 9/10 AIS worksheets
+   IDEA: a UAE "mission card" per lesson — warm-up, practice, AP challenge
+   PICTURE: a curve with its tangent line and shaded area over a Dubai skyline; graphs drawn per question
+   COLOUR and TYPE: UAE flag green leads, red accent, black ink on white; Lexend, KaTeX for maths
+   LAYOUT: hero (title + LO + key idea + scene), sticky score bar, parts A–C as question cards, result card */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a);--grid:light-dark(#e3e9e5,#25302b)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
+h1{font-size:clamp(30px,4.6vw,46px);line-height:1.08;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.key{font-size:19px;font-weight:600;color:var(--green);margin:6px 0;overflow-x:auto}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:center}
+.q.has{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:300px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.q p{overflow-x:auto}
+table.t{border-collapse:collapse;margin:8px 0;font-size:15px}table.t td,table.t th{border:1px solid var(--line);padding:4px 10px;text-align:center}table.t th{background:var(--soft)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line);text-align:left;font-weight:500}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:3px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+@media(max-width:760px){.hero,.q.has{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><b></b></div>
+<header class="band"><div class="wrap hero">
+  <div>
+    <a class="back" href="../worksheets.html#grade-12">← All worksheets</a>
+    <div class="kick" id="kick"></div>
+    <h1 id="ttl"></h1>
+    <div class="lo"><b>LO:</b> <span id="lo"></span></div>
+    <div class="key" id="key"></div>
+    <div class="tip">Type numbers like <b>0.75</b>, <b>3/4</b>, <b>-2</b>, <b>pi/2</b>, <b>sqrt(3)</b>, <b>e^2</b> or <b>ln(5)</b>. Round decimals to 3 places.</div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 12A"></div>
+    </div>
+  </div>
+  <div class="scene" aria-label="A curve over the Dubai skyline with a tangent line touching it and the area under it shaded.">
+    <svg viewBox="0 0 640 400" role="img">
+      <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6fbfd"/></linearGradient></defs>
+      <rect width="640" height="400" fill="url(#sk)"/>
+      <circle cx="560" cy="70" r="32" fill="#ffd34d"/>
+      <g fill="#9fb4c2"><rect x="30" y="250" width="44" height="110"/><rect x="82" y="215" width="34" height="145"/><rect x="430" y="235" width="40" height="125"/><rect x="520" y="220" width="36" height="140"/><rect x="566" y="255" width="44" height="105"/></g>
+      <path d="M478 360 L488 170 L493 80 L496 26 L499 80 L504 170 L514 360Z" fill="#7d93a3"/>
+      <rect x="0" y="352" width="640" height="48" fill="#e9dcbc"/>
+      <path d="M60 352 L60 300 C140 300 180 150 280 140 C360 132 400 240 470 250 L470 352Z" fill="#00843D" fill-opacity=".16"/>
+      <path d="M40 310 C140 300 180 150 280 140 C360 132 400 240 470 250 C520 256 560 230 610 200" fill="none" stroke="#00843D" stroke-width="5" stroke-linecap="round"/>
+      <line x1="150" y1="230" x2="330" y2="112" stroke="#C8102E" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="226" cy="180" r="9" fill="#C8102E"/>
+      <g font-family="Lexend,sans-serif" font-weight="700"><text x="250" y="118" font-size="22" fill="#C8102E">f′(a)</text><text x="230" y="300" font-size="26" fill="#00843D">∫ f(x) dx</text><text x="560" y="182" font-size="24" fill="#15191c">y = f(x)</text></g>
+    </svg>
+  </div>
+</div></header>
+<div class="bar"><div class="wrap"><b id="sc">Score 0</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <section class="part"><h2>Part A · Warm-up</h2><p class="mut">Check the big idea first.</p><div id="A"></div></section>
+  <section class="part"><h2>Part B · Practice</h2><p class="mut">Show your working in your copybook, then type the answer.</p><div id="B"></div></section>
+  <section class="part"><h2>Part C · AP Challenge</h2><p class="mut">Exam-style. Take your time.</p><div id="C"></div></section>
+  <section class="result" id="res"><h2>My result</h2><p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0</div><div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p></section>
+  <footer><p>Aligned to Flipped Math Calculus, Version 1 (AP Calculus CED). Graphs are drawn to scale unless stated.</p></footer>
+</div></main>
+<script>
+{
+const L={"unit": "Unit 8 · Applications of Integration", "code": "8.11", "title": "Volume with Washer Method: Revolving Around the x- or y-Axis", "lo": "I can find volumes with washers (hollow discs).", "key": "$V=\\pi\\int_a^b\\left(R^2-r^2\\right)dx$", "qs": [{"t": "Washer method volume:", "opts": ["$\\pi\\int(R^2-r^2)\\,dx$", "$\\pi\\int(R-r)^2\\,dx$", "$\\pi\\int R^2\\,dx$"], "a": 0, "h": "Big disc minus hole.", "p": "A"}, {"t": "Revolve the region between $y=x$ and $y=x^2$ about the $x$-axis.", "a": 0.41887902047863906, "h": "$R=x$, $r=x^2$", "s": ["$\\pi\\int_0^1(x^2-x^4)dx=\\frac{2\\pi}{15}\\approx0.419$"], "tol": 0.002, "p": "B"}, {"t": "Same region about the $y$-axis.", "a": 0.5235987755982988, "h": "In $y$: $R=\\sqrt y$, $r=y$", "s": ["$\\pi\\int_0^1(y-y^2)dy=\\frac\\pi6\\approx0.524$"], "tol": 0.002, "p": "B"}, {"t": "Revolve the region between $y=4-x^2$ and $y=3$ about the $x$-axis.", "a": 28.48377339254746, "h": "$R=4-x^2$, $r=3$, $-1\\le x\\le1$", "s": ["$\\pi\\int_{-1}^1(7-8x^2+x^4)dx$", "$\\frac{136\\pi}{15}\\approx28.484$"], "tol": 0.01, "p": "B"}, {"t": "Revolve the region between $y=2x$ and $y=x^2$ about the $x$-axis.", "a": 13.40412865531645, "h": "$R=2x$, $r=x^2$", "s": ["$\\pi\\int_0^2(4x^2-x^4)dx=\\pi\\left(\\frac{32}3-\\frac{32}5\\right)$", "$\\frac{64\\pi}{15}\\approx13.404$"], "tol": 0.01, "p": "C"}]};
+const FX={};
+const $=id=>document.getElementById(id);
+const G='#00843D',R='#C8102E';
+$('kick').textContent='Grade 12 Calculus · '+L.unit;
+$('ttl').textContent=L.code+' '+L.title;$('lo').innerHTML=L.lo;$('key').innerHTML=L.key;
+const Q=L.qs;
+/* safe maths parser */
+function ev(src){
+  let s=String(src).toLowerCase().replace(/\s+/g,'').replace(/−/g,'-').replace(/×/g,'*').replace(/÷/g,'/').replace(/π/g,'pi').replace(/√/g,'sqrt').replace(/,/g,'');
+  let i=0;const peek=()=>s[i];
+  function num(){let m=s.slice(i).match(/^(\d+\.?\d*|\.\d+)/);if(!m)return null;i+=m[0].length;return parseFloat(m[0])}
+  const F={sqrt:Math.sqrt,ln:Math.log,log:Math.log10,sin:Math.sin,cos:Math.cos,tan:Math.tan,abs:Math.abs,exp:Math.exp,arctan:Math.atan,arcsin:Math.asin,arccos:Math.acos};
+  function prim(){
+    if(peek()==='('){i++;const v=add();if(peek()!==')')throw 0;i++;return v}
+    if(peek()==='-'){i++;return -pow()}
+    if(peek()==='+'){i++;return pow()}
+    const n=num();if(n!==null)return n;
+    let m=s.slice(i).match(/^[a-z]+/);if(!m)throw 0;const w=m[0];
+    for(const k of ['arctan','arcsin','arccos','sqrt','abs','exp','sin','cos','tan','ln','log']){if(w.startsWith(k)){i+=k.length;const a=pow();return F[k](a)}}
+    if(w.startsWith('pi')){i+=2;return Math.PI}
+    if(w.startsWith('e')){i+=1;return Math.E}
+    if(w.startsWith('inf')){i+=w.startsWith('infinity')?8:3;return Infinity}
+    throw 0;
+  }
+  function pow(){let b=prim();if(peek()==='^'){i++;const e=powU();return Math.pow(b,e)}return b}
+  function powU(){if(peek()==='-'){i++;return -pow()}return pow()}
+  function mul(){let v=pow();for(;;){const c=peek();if(c==='*'){i++;v*=pow()}else if(c==='/'){i++;v/=pow()}else if(c&&/[0-9a-z(.]/.test(c)){v*=pow()}else return v}}
+  function add(){let v=mul();for(;;){const c=peek();if(c==='+'){i++;v+=mul()}else if(c==='-'){i++;v-=mul()}else return v}}
+  const v=add();if(i<s.length)throw 0;return v;
+}
+const parse=x=>{try{const v=ev(x);return typeof v==='number'&&!isNaN(v)?v:NaN}catch(e){return NaN}};
+const near=(v,a,t)=>{if(a===Infinity||a===-Infinity)return v===a;return Math.abs(v-a)<=(t!=null?t:Math.max(0.0105,Math.abs(a)*0.002))};
+/* graph */
+function plot(g,id){
+  const W=360,H=260,P=26,[x0,x1]=g.xr,[y0,y1]=g.yr;
+  const X=x=>P+(x-x0)/(x1-x0)*(W-2*P),Y=y=>H-P-(y-y0)/(y1-y0)*(H-2*P);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${g.alt||'Graph'}"><defs><clipPath id="c${id}"><rect x="${P}" y="${P}" width="${W-2*P}" height="${H-2*P}"/></clipPath></defs>`;
+  const st=g.step||1;
+  for(let x=Math.ceil(x0/st)*st;x<=x1+1e-9;x+=st)s+=`<line x1="${X(x)}" y1="${Y(y0)}" x2="${X(x)}" y2="${Y(y1)}" stroke="var(--grid)"/>`;
+  for(let y=Math.ceil(y0/st)*st;y<=y1+1e-9;y+=st)s+=`<line x1="${X(x0)}" y1="${Y(y)}" x2="${X(x1)}" y2="${Y(y)}" stroke="var(--grid)"/>`;
+  if(y0<=0&&y1>=0)s+=`<line x1="${X(x0)}" y1="${Y(0)}" x2="${X(x1)}" y2="${Y(0)}" stroke="currentColor" stroke-width="1.6"/>`;
+  if(x0<=0&&x1>=0)s+=`<line x1="${X(0)}" y1="${Y(y0)}" x2="${X(0)}" y2="${Y(y1)}" stroke="currentColor" stroke-width="1.6"/>`;
+  const tl=g.ticks||[];
+  for(const [x,lab] of tl)s+=`<text x="${X(x)}" y="${Y(0)+16}" text-anchor="middle" font-size="12" fill="currentColor">${lab}</text>`;
+  for(const [y,lab] of (g.yticks||[]))s+=`<text x="${X(0)-5}" y="${Y(y)+4}" text-anchor="end" font-size="12" fill="currentColor">${lab}</text>`;
+  const mk=e=>FX[e];
+  if(g.shade){const [e,a,b]=g.shade,f=mk(e);let d=`M${X(a)} ${Y(0)}`;for(let k=0;k<=120;k++){const x=a+(b-a)*k/120;d+=` L${X(x)} ${Y(f(x))}`}d+=` L${X(b)} ${Y(0)}Z`;s+=`<path d="${d}" fill="${G}" fill-opacity=".18"/>`}
+  if(g.between){const [e1,e2,a,b]=g.between,f1=mk(e1),f2=mk(e2);let d='',e='';for(let k=0;k<=120;k++){const x=a+(b-a)*k/120;d+=(k?' L':'M')+X(x)+' '+Y(f1(x));e=` L${X(x)} ${Y(f2(x))}`+e}s+=`<path d="${d}${e}Z" fill="${G}" fill-opacity=".18"/>`}
+  for(const r of (g.rects||[])){const [a,b,h]=r;s+=`<rect x="${Math.min(X(a),X(b))}" y="${Math.min(Y(0),Y(h))}" width="${Math.abs(X(b)-X(a))}" height="${Math.abs(Y(h)-Y(0))}" fill="${R}" fill-opacity=".12" stroke="${R}" stroke-width="1.5"/>`}
+  (g.fs||[]).forEach((F,j)=>{const [e,a,b,col]=F,f=mk(e);let d='',pen=false;for(let k=0;k<=200;k++){const x=a+(b-a)*k/200,y=f(x);if(!isFinite(y)||y<y0-(y1-y0)||y>y1+(y1-y0)){pen=false;continue}d+=(pen?' L':' M')+X(x).toFixed(1)+' '+Y(y).toFixed(1);pen=true}
+    s+=`<path d="${d}" fill="none" stroke="${col||G}" stroke-width="3" stroke-linecap="round" clip-path="url(#c${id})"/>`});
+  if(g.sf){const f=FX[g.sf],d=0.32;for(let x=Math.ceil(x0);x<=x1;x+=1)for(let y=Math.ceil(y0);y<=y1;y+=1){const m=f(x,y),a=Math.atan(m*(H-2*P)/(y1-y0)/((W-2*P)/(x1-x0))),dx=Math.cos(a)*9,dy=Math.sin(a)*9;s+=`<line x1="${X(x)-dx}" y1="${Y(y)+dy}" x2="${X(x)+dx}" y2="${Y(y)-dy}" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`}}
+  (g.ls||[]).forEach(([a,b,c,d,dash])=>{s+=`<line x1="${X(a)}" y1="${Y(b)}" x2="${X(c)}" y2="${Y(d)}" stroke="${dash?'var(--mut)':R}" stroke-width="2" ${dash?'stroke-dasharray="6 5"':''}/>`});
+  (g.pts||[]).forEach(([x,y,o])=>{s+=`<circle cx="${X(x)}" cy="${Y(y)}" r="5" fill="${o?'var(--bg)':G}" stroke="${G}" stroke-width="2.5"/>`});
+  (g.lab||[]).forEach(([x,y,t])=>{s+=`<text x="${X(x)}" y="${Y(y)}" font-size="14" font-weight="700" fill="currentColor">${t}</text>`});
+  return s+'</svg>';
+}
+const KEY='calc-'+L.code;let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const tex=el=>{if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})};
+let n=0;
+for(const q of Q){
+  n++;const box=document.createElement('article');box.className='q'+(q.g?' has':'');
+  const ctl=q.opts?`<div class="pick">${q.opts.map((o,k)=>`<button type="button" data-k="${k}">${o}</button>`).join('')}</div>`
+    :`<div class="row"><input inputmode="text" autocomplete="off" aria-label="Answer for question ${n}" placeholder="Your answer${q.unit?' ('+q.unit+')':''}"><button type="button" class="chk">Check</button></div>`;
+  box.innerHTML=`<div><h3><span class="num">${n}</span>Question ${n}</h3><p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div>${q.g?'<div>'+plot(q.g,n)+'</div>':''}`;
+  $(q.p).appendChild(box);
+  const fb=box.querySelector('.fb'),st=S.q[n]||(S.q[n]={done:false,tries:0,v:''});
+  const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg;tex(fb)};
+  const stepsHtml=part=>{if(!q.s)return '';const Lx=part?q.s.slice(0,-1).concat(['Now finish the last step yourself.']):q.s;return `<ol class="steps">${Lx.map(x=>`<li>${x}</li>`).join('')}</ol>`};
+  const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+  const judge=ok=>{if(ok){st.done=true;win()}else{st.tries++;show(false,st.tries<2||!q.s?`<b>Not yet.</b> Hint: ${q.h}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(q.s.length>1)}`)}save();score()};
+  if(q.opts){
+    const bs=box.querySelectorAll('.pick button');
+    bs.forEach(b=>b.addEventListener('click',()=>{if(st.done)return;const ok=+b.dataset.k===q.a;b.classList.add(ok?'ok':'no');judge(ok);if(ok)bs.forEach(x=>x.disabled=true)}));
+    if(st.done){bs.forEach(x=>{x.disabled=true;if(+x.dataset.k===q.a)x.classList.add('ok')});win()}
+  }else{
+    const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+    const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+      if(isNaN(v)){show(false,'Type a number or expression first, like 2/3 or sqrt(2).');return}
+      const ok=near(v,q.a,q.tol);judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+    btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+    if(st.done){inp.disabled=true;btn.disabled=true;win()}
+  }
+}
+const parts={A:'Warm-up',B:'Practice',C:'AP Challenge'};
+function score(){
+  const got=Object.values(S.q).filter(x=>x.done).length,tot=Q.length;
+  $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+  $('lv').textContent=got===tot?'All done – excellent!':got>=tot-2?'Nearly there!':got>=2?'Good progress!':'Let’s start!';
+  let k=0;$('brk').innerHTML=Object.keys(parts).map(p=>{const idx=[];Q.forEach((q,j)=>{if(q.p===p)idx.push(j+1)});const g=idx.filter(j=>S.q[j]&&S.q[j].done).length;return `<div><b>${g} / ${idx.length}</b><br>${parts[p]}</div>`}).join('');
+  const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+  $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · ${L.code} ${L.title} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+}
+window.AISWS={id:L.ws,title:L.code+' '+L.title,grade:'12',parts,
+  get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map((q,j)=>{const s=S.q[j+1]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
+$('nm').value=S.nm||'';$('cl').value=S.cl||'';
+['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+$('copy').addEventListener('click',async()=>{const got=Object.values(S.q).filter(x=>x.done).length;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – Calculus ${L.code} ${L.title} – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
+  try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}});
+let armed=false;
+$('reset').addEventListener('click',()=>{if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+  S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload()});
+score();
+const go=()=>tex(document.body);
+if(window.renderMathInElement)go();else window.addEventListener('load',go);
+}
+</script>
+</body>
+</html>

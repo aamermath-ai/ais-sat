@@ -71,11 +71,11 @@ head='''<!doctype html>
 src=head+src.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 # ---- security: strict Content Security Policy (only our own scripts run; only listed services are contacted)
 import re, hashlib, base64
-def csp(html, connect, frames, referrer, scripts="", styles=""):
+def csp(html, connect, frames, referrer, scripts="", styles="", fonts=""):
     hashes=" ".join("'sha256-"+base64.b64encode(hashlib.sha256(m.encode()).digest()).decode()+"'"
                     for m in re.findall(r"<script>(.*?)</script>", html, re.S))
     pol=("default-src 'self'; script-src "+hashes+(" "+scripts if scripts else "")+"; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com"+(" "+styles if styles else "")+"; "
-         "font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' "+connect+"; "
+         "font-src https://fonts.gstatic.com"+(" "+fonts if fonts else "")+"; img-src 'self' data:; media-src 'self'; connect-src 'self' "+connect+"; "
          "frame-src "+(frames or "'none'")+"; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests")
     meta='<meta http-equiv="Content-Security-Policy" content="'+pol+'">\n<meta name="referrer" content="'+referrer+'">\n'
     return html.replace('<meta charset="utf-8">\n','<meta charset="utf-8">\n'+meta,1)
@@ -96,14 +96,14 @@ logo=re.search(r'<img class="mark" src="(data:image/[^"]+)"',src).group(1)
 act=act.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 act=head.replace('content="SAT AIS: free adaptive Digital SAT practice','content="ACT AIS: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="ACT AIS">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/act.html','w').write(csp(add_calc(act,''), GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
-# ---- Worksheets page (worksheets.html, Grades 6-10) + the interactive worksheets in source/worksheets/
+# ---- Worksheets page (worksheets.html, Grades 6-12) + the interactive worksheets in source/worksheets/
 grades=open(S+'/worksheets-catalog.js').read()      # the worksheet list (grade → term → module → worksheet)
 landing_css=open(S+'/landing.css').read()           # bright landing look for teacher.html (signed out) and join.html
 ill=open(S+'/landing-ill.html').read(); ill_l=ill[ill.index('<!--@@ILL_L-->')+14:ill.index('<!--@@ILL_R-->')]; ill_r=ill[ill.index('<!--@@ILL_R-->')+14:]
 def landing(h): return h.replace('/*@@LANDING_CSS@@*/',landing_css,1).replace('<!--@@ILL_L@@-->',ill_l,1).replace('<!--@@ILL_R@@-->',ill_r,1)
 ws=open(S+'/worksheets.html').read().replace('/*@@GRADES@@*/',grades,1)
 ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
-ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-10').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-12').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), "", None, "strict-origin-when-cross-origin"))
 STATS_URL=re.search(r'const STATS_URL="([^"]*)"',src).group(1)   # the school's Apps Script (source/analytics/Code.gs)
 report=open(S+'/ws-report.html').read().replace('@@STATS_URL@@',STATS_URL)   # "Send to my teacher" on every worksheet
@@ -122,7 +122,8 @@ for f in sorted(os.listdir(S+'/worksheets')):
         i=w.rfind('</body>'); assert i>0
         w=w[:i]+kit.replace('@@QR@@','qr/'+f[:-5]+'.svg').replace('@@URL@@',url)+report+w[i:]
         w=add_calc(w,'../')
-        open(OUT+'/worksheets/'+f,'w').write(csp(w, GS, None, "strict-origin-when-cross-origin"))
+        KX="https://cdnjs.cloudflare.com" if "KaTeX" in w else ""   # calculus worksheets typeset maths with KaTeX
+        open(OUT+'/worksheets/'+f,'w').write(csp(w, GS, None, "strict-origin-when-cross-origin", scripts=KX, styles=KX, fonts=KX))
 # ---- Teacher sign-in (Sign in with Google) + worksheet results dashboard
 qrlib=open(S+'/vendor/qrcode.js').read()   # QR Code Generator by Kazuhiko Arase (MIT licence, header kept), for class-code QR codes
 tp=landing(open(S+'/teacher.html').read()).replace('@@STATS_URL@@',STATS_URL).replace('/*@@GRADES@@*/',grades,1)
