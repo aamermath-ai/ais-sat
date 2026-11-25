@@ -130,7 +130,7 @@ tp=tp.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).
 tp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS teachers: sign in to see worksheet results').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Teachers">')+tp.replace('</style>\n','</style>\n</head>\n<body class="signed-out">\n',1).replace('<script>\n(function(){','<script>\n'+qrlib+'\n</script>\n<script>\n(function(){',1)+'</body>\n</html>\n'
 open(OUT+'/teacher.html','w').write(csp(add_calc(tp,''), GS, None, "strict-origin-when-cross-origin"))   # login is by emailed code: no third-party scripts
 # ---- Join a worksheet (students type or scan a class code)
-jp=landing(open(S+'/join.html').read()).replace('@@STATS_URL@@',STATS_URL).replace('@@LOGO@@',logo)
+jp=landing(open(S+'/join.html').read()).replace('/*@@GRADES@@*/',grades,1).replace('@@STATS_URL@@',STATS_URL).replace('@@LOGO@@',logo)
 jp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Join your class on Worksheets AIS with the code from your teacher').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Join">')+jp+'</html>\n'
 open(OUT+'/join.html','w').write(csp(jp, GS, None, "strict-origin-when-cross-origin"))
 print('worksheets:',len([f for f in os.listdir(S+'/worksheets') if f.endswith('.html')]))

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-Mfb94/8P6TAcvWztYkUzbf7zAZD83k5/DYVfHnZx8Os=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-C07947tu3bD/7BTJA8V/DcUxIBXBiQMir0HmTUfX9YQ=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Worksheets AIS teachers: sign in to see worksheet results, from the Mathematics Department, American International School.">
@@ -4004,7 +4004,8 @@ const GRADES=[
 ];
 
 const SITE=new URL(".",location.href).href;            // the site's address (…/ais-sat/)
-const joinUrl=code=>SITE+"join.html?c="+code;
+// the link also carries the worksheet and class, so students can start even if the school server is slow or blocked
+const joinUrl=A=>SITE+"join.html?"+new URLSearchParams(A.ws?{c:A.code,w:A.ws,k:A.cls}:{c:A.code}).toString();
 let pendingSel="";
 (function fillWorksheets(){
   $("a-ws").innerHTML=GRADES.filter(g=>g.terms.length).map(g=>'<optgroup label="'+esc(g.name+" · "+g.course)+'">'+
@@ -4043,7 +4044,7 @@ function qrSvg(text){const q=qrcode(0,"M");q.addData(text);q.make();const n=q.ge
   for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))d+="M"+(c+m)+" "+(r+m)+"h1v1h-1z";
   return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+2*m)+' '+(n+2*m)+'" shape-rendering="crispEdges" role="img" aria-label="QR code"><rect width="100%" height="100%" fill="#fff"/><path d="'+d+'" fill="#0f1420"/></svg>';}
 let cur=null;
-function openShare(A){if(!A)return;cur=A;const url=joinUrl(A.code);
+function openShare(A){if(!A)return;cur=A;const url=joinUrl(A);
   $("sh-t").textContent=A.cls+" · "+A.title;
   $("sh-sub").textContent="Grade "+A.grade+(A.due?" · due "+new Date(A.due+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"}):"");
   $("sh-code").textContent=A.code;$("sh-link").textContent=url;$("sh-qr").innerHTML=qrSvg(url);
@@ -4055,7 +4056,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!$("present").hi
 // Microsoft "Share to Teams": opens Teams' own share window, where the teacher picks the class team and
 // posts the link in a channel or creates a Teams Assignment (Teams for Education).
 $("sh-teams").addEventListener("click",()=>{if(!cur)return;
-  const url=joinUrl(cur.code), due=cur.due?" by "+new Date(cur.due+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}):"";
+  const url=joinUrl(cur), due=cur.due?" by "+new Date(cur.due+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}):"";
   const p=new URLSearchParams({href:url,preview:"true",
     msgText:("Maths worksheet "+cur.title+" for "+cur.cls+due+". Tap the link and write your name. Class code: "+cur.code).slice(0,200),
     assignTitle:(cur.title+" ("+cur.cls+")").slice(0,100),
@@ -4063,7 +4064,7 @@ $("sh-teams").addEventListener("click",()=>{if(!cur)return;
   const w=window.open("https://teams.microsoft.com/share?"+p.toString(),"ms-teams-share","width=720,height=640");
   if(w){try{w.opener=null;}catch(e){}}else{const a=document.createElement("a");a.href="https://teams.microsoft.com/share?"+p.toString();a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();}
 });
-$("sh-copy").addEventListener("click",async()=>{if(!cur)return;const t=joinUrl(cur.code);
+$("sh-copy").addEventListener("click",async()=>{if(!cur)return;const t=joinUrl(cur);
   try{await navigator.clipboard.writeText(t);$("sh-copy").textContent="Copied ✓";}catch(e){$("sh-copy").textContent="Select the link above";}
   setTimeout(()=>$("sh-copy").textContent="Copy link",2000);});
 $("sh-dl").addEventListener("click",()=>{if(!cur)return;
@@ -4076,7 +4077,7 @@ $("sh-dl").addEventListener("click",()=>{if(!cur)return;
 // projector view: big QR + code, and names appear as students join
 let prTimer=0;
 $("sh-present").addEventListener("click",()=>{if(!cur)return;closeShare();
-  $("pr-t").textContent=cur.cls+" · "+cur.title;$("pr-qr").innerHTML=qrSvg(joinUrl(cur.code));
+  $("pr-t").textContent=cur.cls+" · "+cur.title;$("pr-qr").innerHTML=qrSvg(joinUrl(cur));
   $("pr-url").textContent=SITE.replace(/^https?:\/\//,"")+"join.html";$("pr-code").textContent=cur.code;
   $("present").hidden=false;try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{});}catch(e){}
   presentTick();clearInterval(prTimer);prTimer=setInterval(()=>load().then(presentTick),8000);});

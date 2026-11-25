@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-B2/dfSzeHgZCvKj3XaLFwcxXaiE7pL8Ufqv3dYd7GqU=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-bWu8yzTpqueIWea+oin/ATaiysb3ImjLTnI5AvAl5Bs=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-B2/dfSzeHgZCvKj3XaLFwcxXaiE7pL8Ufqv3dYd7GqU=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-1+3z35EKp7tx+xMbTRsZxPFP/d4iQHJItMdNGKDoKyY=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>3.1 Linear Equations in Standard Form – Eid Al Etihad Quiz</title>
@@ -643,7 +643,7 @@ function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 function devId(){var d=lsGet("ais-dev");if(!d||!/^[a-z0-9]{6,16}$/.test(d)){var A="abcdefghijklmnopqrstuvwxyz0123456789";try{d=Array.from(crypto.getRandomValues(new Uint8Array(12)),function(x){return A[x%36];}).join("");}catch(e){d=(Math.random().toString(36).slice(2)+"000000000000").slice(0,12);}lsSet("ais-dev",d);}return d;}
 function today(){var t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");}
-var SENT="ais-ws-sent:"+W.id, ASG="ais-ws-class:"+W.id, sending=false, again=false, timer=0, lastBody="";
+var SENT="ais-ws-sent:"+W.id, ASG="ais-ws-class:"+W.id, sending=false, again=false, timer=0, retryT=0, lastBody="";
 var asg=null; try{asg=JSON.parse(lsGet(ASG)||"null");}catch(e){asg=null;}
 box.innerHTML='<div class="ar-row"><button type="button" class="ar-send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Send to my teacher</span></button><span class="ar-live" hidden><i></i>Updates automatically</span></div>'+
   '<p class="ar-msg" aria-live="polite"></p><p class="ar-fine">Sends your name, class and score for this worksheet to your AIS maths teachers.</p>';
@@ -667,7 +667,9 @@ function send(manual){
     say("Sent ✓ "+r.score+" / "+r.total+" at "+t+". Your teacher will see new answers automatically.","ok");
     btn.querySelector("span").textContent="Send again";
   }).catch(function(e){
-    say(e&&e.message==="name"?"Write your name and class at the top first.":"Could not send. Check your internet connection and try again.","err");
+    say(e&&e.message==="name"?"Write your name and class at the top first.":"Could not send yet. We will keep trying – or press the button to try again.","err");
+    // try again by itself in 20 seconds (the school server can be slow, or the Wi-Fi may drop for a moment)
+    if(!(e&&e.message==="name")){lastBody="";clearTimeout(retryT);retryT=setTimeout(function(){send(false);},20000);}
   }).then(function(){sending=false;btn.disabled=false;if(again){again=false;send(false);}});
 }
 btn.addEventListener("click",function(){send(true);});
@@ -691,11 +693,19 @@ function joined(a){
   send(false);
 }
 var qc=(new URLSearchParams(location.search).get("c")||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+var qk=(new URLSearchParams(location.search).get("k")||"").replace(/[^A-Za-z0-9 .\-]/g,"").slice(0,12);
+function lookup(n){
+  return fetch(URL_+"?a=join&c="+qc+"&_="+Date.now(),{cache:"no-store"}).then(function(r){return r.text();}).then(function(t){return JSON.parse(t);})
+    .catch(function(x){if(n>0)return new Promise(function(ok){setTimeout(ok,1500);}).then(function(){return lookup(n-1);});throw x;});
+}
 if(qc.length===6&&(!asg||asg.code!==qc)){
-  fetch(URL_+"?a=join&c="+qc).then(function(r){return r.json();}).then(function(r){
+  lookup(2).then(function(r){
     if(r&&r.ok&&r.ws===W.id)joined({code:r.code,cls:r.cls,teacher:r.teacher||"Your teacher",due:r.due||""});
     else if(r&&r.error==="closed")say("This class code is closed. Ask your teacher for a new one.","err");
-  }).catch(function(){});
+  }).catch(function(){
+    // school server not reachable: still use the class from the teacher's link; answers are sent when it works
+    if(qk)joined({code:qc,cls:qk,teacher:"Your teacher",due:""});
+  });
 }else if(asg)joined(asg);
 })();
 </script>
