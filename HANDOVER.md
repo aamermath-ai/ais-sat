@@ -135,6 +135,7 @@ The welcome screen offers three choices, with **Worksheets** first, then SAT and
   1. Put the worksheet's HTML file in `source/worksheets/` (one self-contained file; give it a "← All worksheets" link to `../worksheets.html`).
   2. Add an item to the `GRADES` list in `source/worksheets.html` (grade → term → module → `{code, title, sub, file}`).
   3. Run `python3 source/build.py`. It builds `worksheets.html` and copies every worksheet into `worksheets/` with the same security policy as the rest of the site.
+- **Scientific calculator:** every worksheet gets a "Calculator" button (bottom right) that opens an iPhone-style scientific calculator beside the questions (a bottom sheet on phones). It starts in degrees, has 2nd for sin⁻¹/cos⁻¹/tan⁻¹, memory, Ans, and keyboard input, and never uses `eval`. The build adds it from `source/calculator.html`, so new worksheets get it automatically.
 
 ## 7. Usage statistics (your private backend)
 
