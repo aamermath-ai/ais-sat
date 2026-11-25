@@ -134,12 +134,31 @@ The welcome screen offers three choices, with **Worksheets** first, then SAT and
 - **Adding a worksheet:**
   1. Put the worksheet's HTML file in `source/worksheets/` (one self-contained file; give it a "← All worksheets" link to `../worksheets.html`).
   2. Add an item to the `GRADES` list in `source/worksheets.html` (grade → term → module → `{code, title, sub, file}`).
+  - To let students send results to teachers, the worksheet needs three small additions (copy them from an existing worksheet): `<div id="ais-report"></div>` in its result box, `window.AISWS={id,title,grade,parts,get}`, and `document.dispatchEvent(new Event('ais-ws-change'))` at the end of its `score()` function. The build adds the "Send to my teacher" button (`source/ws-report.html`) automatically.
   3. Run `python3 source/build.py`. It builds `worksheets.html` and copies every worksheet into `worksheets/` with the same security policy as the rest of the site.
 - **Scientific calculator (on every page):** the SAT, ACT and Worksheets pages and every worksheet have a "Calculator" button at the bottom right (above the tab bar on phones). It opens an iPhone-style scientific calculator beside the work (a bottom sheet on phones): degrees by default, 2nd for inverse trig and hyperbolics, powers and roots, logs, x!, nCr, nPr, |x|, π, e, EE, %, memory, Ans, S⇔D (fraction or decimal), history and keyboard input. It uses its own parser (no `eval`) and is hidden inside test windows, so SAT and ACT practice keep test-day rules (Desmos only). The build adds it from `source/calculator.html`, so new pages and worksheets get it automatically.
 - **QR codes:** every worksheet gets its own QR code (`worksheets/qr/<worksheet>.svg`), made by the build with the `segno` library (`pip install segno`). Teachers show it from the QR button beside each worksheet in the list, or from the QR button inside the worksheet, and students scan it to open the worksheet straight away. The address comes from `SITE_URL` in `source/build.py`: change it if the site moves.
 - **City Missions game (`source/worksheet-kit.html`, added to every worksheet by the build):** a start screen, then each part of the worksheet is a "mission" in a Dubai district on a city map. Students earn XP (+100 per correct answer, +50 on the first try, combo bonus for answers in a row), stars per mission and ranks (Rookie → Explorer → Navigator → Pro → City Legend), with sounds that can be muted. It reads the worksheet's own right/wrong feedback, so new worksheets need no extra code. The rank and XP appear in the result box and in "Copy my result".
   - *Content rules (UAE school setting):* original artwork only, no commercial game brands or characters, no violence, weapons, crime, gambling or chance-based rewards, respectful use of the UAE flag and landmarks, and no personal data sent anywhere (progress stays in the student's browser). Keep to these rules when changing the game.
 - **How-to video:** `assets/calculator-howto.mp4` (68 s, with captions; poster `assets/calculator-howto.jpg`) plays from the calculator's "How to use" button and on the Worksheets page. `source/media/calculator_howto_film.py` films it again from the live calculator if the design changes (then encode with ffmpeg as in the script's notes).
+
+## Teacher sign-in and worksheet results (teacher.html)
+
+- **Students** press **Send to my teacher** at the end of a worksheet. Their name, class and per-question results go to the **Worksheets** tab of the statistics Google Sheet. After the first send, new answers are sent automatically.
+- **Teachers** open `teacher.html` (link on the Worksheets page) and press **Sign in with Google** or **Sign up with Google**. Their Gmail address is their username. No passwords are stored by the site.
+- **Approval:** new teachers wait until an owner approves them on `teacher.html` (Teachers panel). Owners get an email for each new request, and teachers get an email when approved. Emails in a domain listed in `TEACHER_DOMAINS` are approved automatically.
+- **Dashboard:** students, average score, finished, right first time, score distribution, by part, by class, per-question analysis with "Re-teach" flags, a student table (sortable, searchable) and CSV download.
+
+**One-time setup (owner):**
+1. **Google Cloud Console** (console.cloud.google.com), signed in with the school/owner Google account: create a project → *APIs & Services* → *OAuth consent screen*: choose **External**, app name "Worksheets AIS", your support email, then publish it (only name and email are requested, so no Google review is needed).
+2. *APIs & Services* → *Credentials* → **Create credentials → OAuth client ID** → type **Web application**. Under **Authorized JavaScript origins** add `https://aamermath-ai.github.io` (and the school's domain if the site moves). Copy the **Client ID** (ends in `.apps.googleusercontent.com`).
+3. In the Apps Script project, replace `Code.gs` with the new `source/analytics/Code.gs`. In **Project Settings → Script properties** add:
+   - `GOOGLE_CLIENT_ID` = the Client ID from step 2
+   - `OWNER_EMAILS` = your Gmail address (comma-separated for more owners)
+   - `TEACHER_DOMAINS` = optional, e.g. a school email domain, to approve those teachers automatically
+4. **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy.** Keep the same deployment so the URL does not change. Google asks you to authorize again (the script now verifies sign-ins and sends approval emails).
+
+Change the link in the approval emails with `siteUrl_()` in `Code.gs` if the site moves.
 
 ## 7. Usage statistics (your private backend)
 

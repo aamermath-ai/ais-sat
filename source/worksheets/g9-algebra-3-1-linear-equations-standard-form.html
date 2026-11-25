@@ -133,7 +133,8 @@ footer{font-size:14px;color:var(--mut)}
     <div class="big" id="big">0 / 14</div>
     <div class="sides" id="brk"></div>
     <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
-    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div>
   </section>
   <footer><p>Graphs are drawn on a grid; prices are for practice only.</p></footer>
 </div></main>
@@ -268,8 +269,11 @@ function score(){
   $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
   const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
   $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 3.1 Linear Equations in Standard Form · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
 }
 $('nm').value=S.nm||'';$('cl').value=S.cl||'';
+window.AISWS={id:'g9-algebra-3-1',title:'3.1 Linear Equations in Standard Form',grade:'9',parts,
+  get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
 ['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
 $('copy').addEventListener('click',async()=>{
   const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-mTi8I/fn+y9r9PZD2inWx3FJvDhlbx204wlw+NW0g2g=' 'sha256-0IrFL8/mlg6ZL1uKH2QZ9gvQ69Gz7dDe6ztzFHGspyw=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-n/kN4+WU4soOUmDrgE68LSELGv3ijMe4e7AvHCjyBs4=' 'sha256-0IrFL8/mlg6ZL1uKH2QZ9gvQ69Gz7dDe6ztzFHGspyw=' 'sha256-KaiaqApt7tAdXD+B4MYY/C1pGO+0jJ7nL9Sp8CF43Bw=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>13.1 Tangent Ratio – Eid Al Etihad</title>
@@ -122,7 +122,8 @@ footer{font-size:14px;color:var(--mut)}
     <div class="big" id="big">0 / 14</div>
     <div class="sides" id="brk"></div>
     <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
-    <p class="tip" id="cmsg">When you finish, copy your result or take a screenshot and post it in Microsoft Teams.</p>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div>
   </section>
   <footer><p>Diagrams are not drawn to scale.</p></footer>
 </div></main>
@@ -234,8 +235,11 @@ function score(){
   $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
   const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
   $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 13.1 Tangent Ratio · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
 }
 $('nm').value=S.nm||'';$('cl').value=S.cl||'';
+window.AISWS={id:'g10-geometry-13-1',title:'13.1 Tangent Ratio',grade:'10',parts,
+  get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
 ['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
 $('copy').addEventListener('click',async()=>{
   const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
@@ -521,6 +525,63 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!qrEl.hidden)clo
 hudUpdate();mapUpdate();resultUpdate();
 }
 }
+</script>
+<!-- ===== Worksheets AIS: "Send to my teacher" (source/build.py adds this to every worksheet in source/worksheets/) =====
+     A worksheet joins in with three small additions (see HANDOVER.md, "Adding a worksheet"):
+       1. <div id="ais-report"></div> inside its result box
+       2. window.AISWS={id,title,grade,parts,get} once its questions are set up
+       3. document.dispatchEvent(new Event("ais-ws-change")) at the end of its score() function -->
+<style>
+#ais-report{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line,#ccd)}
+#ais-report .ar-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#ais-report .ar-send{display:inline-flex;align-items:center;gap:8px}
+#ais-report .ar-send svg{width:18px;height:18px;flex:none}
+#ais-report .ar-msg{margin:8px 0 0;font-size:14px;color:var(--mut,#667)}
+#ais-report .ar-msg.ok{color:var(--green,#1e8e4a);font-weight:600}
+#ais-report .ar-msg.err{color:var(--red,#c62e3a)}
+#ais-report .ar-fine{margin:6px 0 0;font-size:12.5px;color:var(--mut,#667)}
+#ais-report .ar-live{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--mut,#667)}
+#ais-report .ar-live i{width:8px;height:8px;border-radius:50%;background:var(--green,#1e8e4a)}
+</style>
+<script>
+(function(){
+"use strict";
+var URL_="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec", W=window.AISWS, box=document.getElementById("ais-report");
+if(!W||!box||!URL_)return;
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function devId(){var d=lsGet("ais-dev");if(!d||!/^[a-z0-9]{6,16}$/.test(d)){var A="abcdefghijklmnopqrstuvwxyz0123456789";try{d=Array.from(crypto.getRandomValues(new Uint8Array(12)),function(x){return A[x%36];}).join("");}catch(e){d=(Math.random().toString(36).slice(2)+"000000000000").slice(0,12);}lsSet("ais-dev",d);}return d;}
+function today(){var t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");}
+var SENT="ais-ws-sent:"+W.id, sending=false, again=false, timer=0, lastBody="";
+box.innerHTML='<div class="ar-row"><button type="button" class="ar-send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Send to my teacher</span></button><span class="ar-live" hidden><i></i>Updates automatically</span></div>'+
+  '<p class="ar-msg" aria-live="polite"></p><p class="ar-fine">Sends your name, class and score for this worksheet to your AIS maths teachers.</p>';
+var btn=box.querySelector(".ar-send"), msg=box.querySelector(".ar-msg"), live=box.querySelector(".ar-live");
+function say(t,c){msg.textContent=t;msg.className="ar-msg"+(c?" "+c:"");}
+function payload(){
+  var g=W.get(); return {t:"ws",d:devId(),date:today(),ws:W.id,title:W.title,grade:W.grade,name:String(g.name||"").trim(),cls:String(g.cls||"").trim(),
+    items:g.items.join(","),parts:Object.keys(W.parts).map(function(k){return k+":"+W.parts[k];}).join("|")};
+}
+function send(manual){
+  var p=payload();
+  if(p.name.length<2||!p.cls){if(manual)say("Write your name and class at the top first.","err");return;}
+  var body=JSON.stringify(p); if(!manual&&body===lastBody)return;
+  if(sending){again=true;return;}
+  sending=true; btn.disabled=true; if(manual)say("Sending…");
+  fetch(URL_,{method:"POST",headers:{"Content-Type":"text/plain"},body:body}).then(function(r){return r.json();}).then(function(r){
+    if(!r||!r.ok)throw new Error(r&&r.error||"no");
+    lastBody=body; lsSet(SENT,"1"); live.hidden=false;
+    var t=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+    say("Sent ✓ "+r.score+" / "+r.total+" at "+t+". Your teacher will see new answers automatically.","ok");
+    btn.querySelector("span").textContent="Send again";
+  }).catch(function(e){
+    say(e&&e.message==="name"?"Write your name and class at the top first.":"Could not send. Check your internet connection and try again.","err");
+  }).then(function(){sending=false;btn.disabled=false;if(again){again=false;send(false);}});
+}
+btn.addEventListener("click",function(){send(true);});
+// once a student has sent this worksheet, later answers are sent automatically (a few seconds after each change)
+document.addEventListener("ais-ws-change",function(){if(lsGet(SENT)!=="1")return;clearTimeout(timer);timer=setTimeout(function(){send(false);},2500);});
+if(lsGet(SENT)==="1"){live.hidden=false;btn.querySelector("span").textContent="Send again";}
+})();
 </script>
 <!-- ===== AIS scientific calculator: shared by every page (source/build.py adds it before </body>; ../ = path to the site root) ===== -->
 <style>

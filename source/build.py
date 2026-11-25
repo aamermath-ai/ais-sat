@@ -71,10 +71,10 @@ head='''<!doctype html>
 src=head+src.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 # ---- security: strict Content Security Policy (only our own scripts run; only listed services are contacted)
 import re, hashlib, base64
-def csp(html, connect, frames, referrer):
+def csp(html, connect, frames, referrer, scripts="", styles=""):
     hashes=" ".join("'sha256-"+base64.b64encode(hashlib.sha256(m.encode()).digest()).decode()+"'"
                     for m in re.findall(r"<script>(.*?)</script>", html, re.S))
-    pol=("default-src 'self'; script-src "+hashes+"; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+    pol=("default-src 'self'; script-src "+hashes+(" "+scripts if scripts else "")+"; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com"+(" "+styles if styles else "")+"; "
          "font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' "+connect+"; "
          "frame-src "+(frames or "'none'")+"; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests")
     meta='<meta http-equiv="Content-Security-Policy" content="'+pol+'">\n<meta name="referrer" content="'+referrer+'">\n'
@@ -101,6 +101,8 @@ ws=open(S+'/worksheets.html').read()
 ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-10').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), "", None, "strict-origin-when-cross-origin"))
+STATS_URL=re.search(r'const STATS_URL="([^"]*)"',src).group(1)   # the school's Apps Script (source/analytics/Code.gs)
+report=open(S+'/ws-report.html').read().replace('@@STATS_URL@@',STATS_URL)   # "Send to my teacher" on every worksheet
 os.makedirs(OUT+'/worksheets',exist_ok=True)
 SITE_URL='https://aamermath-ai.github.io/ais-sat/'   # public address of the site, used in the worksheet QR codes
 kit=open(S+'/worksheet-kit.html').read()             # City Missions game + QR code, added to every worksheet
@@ -114,9 +116,15 @@ for f in sorted(os.listdir(S+'/worksheets')):
         elif not os.path.exists(qr): print('WARNING: no QR code for',f,'- run: pip install segno')
         w=open(S+'/worksheets/'+f).read()
         i=w.rfind('</body>'); assert i>0
-        w=w[:i]+kit.replace('@@QR@@','qr/'+f[:-5]+'.svg').replace('@@URL@@',url)+w[i:]
+        w=w[:i]+kit.replace('@@QR@@','qr/'+f[:-5]+'.svg').replace('@@URL@@',url)+report+w[i:]
         w=add_calc(w,'../')
-        open(OUT+'/worksheets/'+f,'w').write(csp(w, "", None, "strict-origin-when-cross-origin"))
+        open(OUT+'/worksheets/'+f,'w').write(csp(w, GS, None, "strict-origin-when-cross-origin"))
+# ---- Teacher sign-in (Sign in with Google) + worksheet results dashboard
+tp=open(S+'/teacher.html').read().replace('@@STATS_URL@@',STATS_URL)
+tp=tp.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
+tp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS teachers: sign in to see worksheet results').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Teachers">')+tp.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+GSI="https://accounts.google.com/gsi/"
+open(OUT+'/teacher.html','w').write(csp(add_calc(tp,''), GS+" "+GSI, GSI, "strict-origin-when-cross-origin", scripts=GSI+"client", styles=GSI+"style"))
 print('worksheets:',len([f for f in os.listdir(S+'/worksheets') if f.endswith('.html')]))
 adm=open(S+'/admin.html').read()
 open(OUT+'/admin.html','w').write(csp(adm, GS, None, "no-referrer"))   # private usage dashboard (needs the admin key)
