@@ -87,6 +87,7 @@ function doPost(e) {
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.a === 'config') return out_({ ok: true, clientId: prop_('GOOGLE_CLIENT_ID') });
+  if (p.a === 'join') return out_(joinInfo_(p.c));
   var key = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
   if (!key) return out_({ ok: false, error: 'ADMIN_KEY is not set in Project Settings → Script properties.' });
   if (key.length < MIN_KEY_LENGTH) return out_({ ok: false, error: 'For security, ADMIN_KEY must be at least ' + MIN_KEY_LENGTH + ' characters. Make it longer in Script properties.' });
@@ -126,7 +127,7 @@ function doGet(e) {
 // Worksheets: student results
 // ======================================================================================================
 var WS_SHEET = 'Worksheets';
-var WS_HEAD = ['updated', 'date', 'device', 'worksheet', 'title', 'grade', 'name', 'class', 'score', 'total', 'items', 'parts', 'first'];
+var WS_HEAD = ['updated', 'date', 'device', 'worksheet', 'title', 'grade', 'name', 'class', 'score', 'total', 'items', 'parts', 'first', 'assignment'];
 var MAX_WS_PER_DEVICE_HOUR = 200;
 
 function prop_(k) { return PropertiesService.getScriptProperties().getProperty(k) || ''; }
@@ -148,6 +149,11 @@ function worksheetSubmit_(d, lock) {
   if (!/^[a-z0-9]{6,16}$/.test(dev) || !/^[a-z0-9][a-z0-9\-]{2,60}$/.test(ws)) return { ok: false };
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(d.date)) || !dateOk_(String(d.date))) return { ok: false };
   var name = plain_(d.name, 60), cls = plain_(d.cls, 12).toUpperCase();
+  var asg = '';
+  if (d.asg) {   // joined with a class code: the class comes from the teacher's assignment
+    var A = findAssignment_(d.asg);
+    if (A && A.status === 'open' && A.ws === ws) { asg = A.code; cls = A.cls; }
+  }
   if (name.length < 2 || !cls) return { ok: false, error: 'name' };
   var items = String(d.items || '');   // e.g. "A10,A11,B02": part letter, done (0/1), wrong tries before (0–9)
   if (!/^([A-Z][01]\d)(,[A-Z][01]\d){0,59}$/.test(items)) return { ok: false };
@@ -159,17 +165,19 @@ function worksheetSubmit_(d, lock) {
   if (count_(cache, 'day:' + new Date().toISOString().slice(0, 10), 21600) > MAX_PER_DAY) return { ok: false };
   lock.waitLock(10000);
   var sh = tab_(WS_SHEET, WS_HEAD), last = sh.getLastRow();
-  var row = [new Date(), "'" + d.date, dev, ws, plain_(d.title, 90), plain_(d.grade, 4), name, cls, score, list.length, items, parts, first];
-  // one row per student per worksheet on this device: update it if it is already there
-  var key = dev + '|' + ws + '|' + name.toLowerCase(), at = -1;
+  if (sh.getLastColumn && sh.getLastColumn() < WS_HEAD.length) sh.getRange(1, 1, 1, WS_HEAD.length).setValues([WS_HEAD]);   // older sheets: add new columns
+  var row = [new Date(), "'" + d.date, dev, ws, plain_(d.title, 90), plain_(d.grade, 4), name, cls, score, list.length, items, parts, first, asg];
+  // one row per student per worksheet (per class code) on this device: update it if it is already there
+  var key = dev + '|' + ws + '|' + name.toLowerCase() + '|' + asg, at = -1;
   if (last > 1) {
     var v = sh.getRange(2, 3, last - 1, 5).getValues();   // device, worksheet, title, grade, name
+    var g = sh.getRange(2, 14, last - 1, 1).getValues();  // assignment
     for (var i = v.length - 1; i >= 0; i--) {
-      if (v[i][0] + '|' + v[i][1] + '|' + unplain_(v[i][4]).toLowerCase() === key) { at = i + 2; break; }
+      if (v[i][0] + '|' + v[i][1] + '|' + unplain_(v[i][4]).toLowerCase() + '|' + String(g[i][0] || '') === key) { at = i + 2; break; }
     }
   }
   if (at > 0) sh.getRange(at, 1, 1, row.length).setValues([row]); else sh.appendRow(row);
-  return { ok: true, score: score, total: list.length };
+  return { ok: true, score: score, total: list.length, cls: cls, asg: asg };
 }
 
 // ======================================================================================================
@@ -197,6 +205,22 @@ function readSession_(tok) {
   var parts = Utilities.newBlob(Utilities.base64DecodeWebSafe(pad)).getDataAsString().split('|');
   if (parts.length !== 2 || !(Number(parts[1]) > Date.now())) return null;
   return parts[0];
+}
+// Checks a Google access token (from the site's own Sign up / Log in buttons) and returns {email, name} or null
+function verifyAccess_(at) {
+  var clientId = prop_('GOOGLE_CLIENT_ID');
+  if (!clientId || !/^[A-Za-z0-9._\-~+\/]{20,4000}$/.test(String(at || ''))) return null;
+  var r = UrlFetchApp.fetch('https://oauth2.googleapis.com/tokeninfo?access_token=' + encodeURIComponent(at), { muteHttpExceptions: true });
+  if (r.getResponseCode() !== 200) return null;
+  var p = JSON.parse(r.getContentText());
+  if (p.aud !== clientId && p.azp !== clientId) return null;   // the token must have been issued to this site
+  if (String(p.email_verified) !== 'true' || !p.email || !(Number(p.exp) * 1000 > Date.now())) return null;
+  var name = '';
+  try {
+    var u = UrlFetchApp.fetch('https://openidconnect.googleapis.com/v1/userinfo', { headers: { Authorization: 'Bearer ' + at }, muteHttpExceptions: true });
+    if (u.getResponseCode() === 200) name = JSON.parse(u.getContentText()).name || '';
+  } catch (e) {}
+  return { email: String(p.email).toLowerCase(), name: plain_(name || p.email, 60) };
 }
 // Checks a Google ID token with Google and returns {email, name} or null
 function verifyGoogle_(cred) {
@@ -232,7 +256,7 @@ function teacherApi_(d) {
   if (d.a === 'login') {
     if (count_(cache, 'logins:' + new Date().toISOString().slice(0, 13), 3600) > MAX_LOGINS_PER_HOUR) return { ok: false, error: 'Too many sign-ins right now. Try again in a few minutes.' };
     if (!prop_('GOOGLE_CLIENT_ID')) return { ok: false, error: 'Teacher sign-in is not set up yet (GOOGLE_CLIENT_ID is missing).' };
-    var g = verifyGoogle_(d.cred);
+    var g = d.at ? verifyAccess_(d.at) : verifyGoogle_(d.cred);
     if (!g) return { ok: false, error: 'Google sign-in could not be verified. Please try again.' };
     var lock = LockService.getScriptLock(); lock.waitLock(10000);
     try {
@@ -256,6 +280,25 @@ function teacherApi_(d) {
   if (statusOf_(email) !== 'approved') return { ok: false, error: 'session' };
   if (count_(cache, 'tapi:' + email, 3600) > 600) return { ok: false, error: 'Too many requests. Try again later.' };
   if (d.a === 'data') return worksheetData_(email);
+  if (d.a === 'assign') {   // create a class code for a worksheet
+    var ws = String(d.ws || ''), file = String(d.file || ''), cls = plain_(d.cls, 12).toUpperCase();
+    if (!/^[a-z0-9][a-z0-9\-]{2,60}$/.test(ws) || !/^worksheets\/[a-z0-9\-]+\.html$/.test(file) || !cls) return { ok: false, error: 'Choose a worksheet and type the class.' };
+    var due = /^\d{4}-\d{2}-\d{2}$/.test(String(d.due)) ? String(d.due) : '';
+    var me2 = teachers_(), mi = findTeacher_(me2, email), tname = mi >= 0 ? unplain_(me2.rows[mi][1]) : email;
+    var lock3 = LockService.getScriptLock(); lock3.waitLock(10000);
+    try {
+      var sh = tab_(A_SHEET, A_HEAD), code;
+      do { code = newCode_(); } while (findAssignment_(code));
+      sh.appendRow([code, ws, file, plain_(d.title, 90), plain_(d.grade, 4), cls, email, tname, new Date(), due, 'open']);
+    } finally { try { lock3.releaseLock(); } catch (x) {} }
+    var res = worksheetData_(email); res.created = code; return res;
+  }
+  if (d.a === 'close' || d.a === 'reopen') {   // stop or restart a class code (only its teacher or an owner)
+    var A = findAssignment_(d.code);
+    if (!A || (A.email !== email && !isOwner_(email))) return { ok: false, error: 'Class code not found.' };
+    tab_(A_SHEET, A_HEAD).getRange(A.row, 11).setValue(d.a === 'close' ? 'closed' : 'open');
+    return worksheetData_(email);
+  }
   if (d.a === 'approve' && isOwner_(email)) {
     var who = String(d.email || '').toLowerCase(), to = String(d.status || '');
     if (['approved', 'removed', 'pending'].indexOf(to) < 0) return { ok: false };
@@ -277,9 +320,11 @@ function worksheetData_(email) {
   var out = rows.map(function (r) {
     return { at: r[0] instanceof Date ? r[0].toISOString() : String(r[0]), date: unplain_(r[1]), ws: String(r[3]), title: unplain_(r[4]),
       grade: unplain_(r[5]), name: unplain_(r[6]), cls: unplain_(r[7]), score: +r[8] || 0, total: +r[9] || 0,
-      items: String(r[10]), parts: unplain_(r[11]), first: +r[12] || 0 };
+      items: String(r[10]), parts: unplain_(r[11]), first: +r[12] || 0, asg: String(r[13] || '') };
   });
-  var res = { ok: true, email: email, owner: isOwner_(email), rows: out };
+  var own = isOwner_(email);
+  var asg = assignments_().filter(function (a) { return own || a.email === email; });
+  var res = { ok: true, email: email, owner: own, rows: out, assignments: asg };
   if (res.owner) {
     res.teachers = teachers_().rows.map(function (r) {
       return { email: String(r[0]), name: unplain_(r[1]), status: String(r[2]),
@@ -302,4 +347,37 @@ function notifyApproved_(email, name) {
     MailApp.sendEmail(email, 'Worksheets AIS: your teacher access is ready',
       'Hello ' + (name || '') + ',\n\nYour teacher account on Worksheets AIS has been approved. Sign in with Google at ' + siteUrl_() + ' to see your students\' worksheet results.\n\nMathematics Department, American International School');
   } catch (e) {}
+}
+
+
+// ======================================================================================================
+// Class codes (assignments): a teacher shares a worksheet with a class by QR code, link or Microsoft Teams
+// ======================================================================================================
+var A_SHEET = 'Assignments';
+var A_HEAD = ['code', 'worksheet', 'file', 'title', 'grade', 'class', 'teacher', 'teacherName', 'created', 'due', 'status'];
+var CODE_ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';   // no 0/O or 1/I/L, so codes are easy to read aloud
+function newCode_() { var c = ''; for (var i = 0; i < 6; i++) c += CODE_ABC.charAt(Math.floor(Math.random() * CODE_ABC.length)); return c; }
+function assignments_() {
+  var sh = tab_(A_SHEET, A_HEAD), last = sh.getLastRow();
+  var rows = last > 1 ? sh.getRange(2, 1, last - 1, A_HEAD.length).getValues() : [];
+  return rows.map(function (r, i) {
+    return { row: i + 2, code: String(r[0]), ws: String(r[1]), file: String(r[2]), title: unplain_(r[3]), grade: unplain_(r[4]), cls: unplain_(r[5]),
+      email: String(r[6]), teacher: unplain_(r[7]), created: r[8] instanceof Date ? r[8].toISOString() : String(r[8]), due: String(r[9]).replace(/^'/, ''), status: String(r[10]) };
+  });
+}
+function findAssignment_(code) {
+  code = String(code || '').toUpperCase();
+  if (!/^[A-Z0-9]{6}$/.test(code)) return null;
+  var all = assignments_();
+  for (var i = 0; i < all.length; i++) if (all[i].code === code) return all[i];
+  return null;
+}
+// public: what a student sees after typing or scanning a class code (no emails)
+function joinInfo_(code) {
+  var cache = CacheService.getScriptCache();
+  if (count_(cache, 'join:' + new Date().toISOString().slice(0, 13), 3600) > 5000) return { ok: false, error: 'busy' };
+  var A = findAssignment_(code);
+  if (!A) return { ok: false, error: 'notfound' };
+  if (A.status !== 'open') return { ok: false, error: 'closed' };
+  return { ok: true, code: A.code, ws: A.ws, file: A.file, title: A.title, grade: A.grade, cls: A.cls, teacher: A.teacher, due: A.due };
 }

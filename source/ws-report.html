@@ -14,6 +14,13 @@
 #ais-report .ar-fine{margin:6px 0 0;font-size:12.5px;color:var(--mut,#667)}
 #ais-report .ar-live{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--mut,#667)}
 #ais-report .ar-live i{width:8px;height:8px;border-radius:50%;background:var(--green,#1e8e4a)}
+.ar-class{position:relative;z-index:4;display:flex;align-items:center;justify-content:center;gap:8px 10px;flex-wrap:wrap;padding:7px 14px;
+  background:#0b7a5a;color:#fff;font:600 14px/1.35 Lexend,"Nunito",system-ui,sans-serif;text-align:center}
+.ar-class b{font-weight:800}
+@media (max-width:600px){.ar-class{font-size:13px}.ar-class .ar-long{display:none}}
+.ar-class .ar-code{font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;background:rgba(255,255,255,.18);padding:5px 8px;border-radius:8px}
+.ar-class .ar-dot{width:9px;height:9px;border-radius:50%;background:#7CF2C0;box-shadow:0 0 0 4px rgba(124,242,192,.25)}
+input.ar-locked{background:rgba(11,122,90,.08)!important;font-weight:700}
 </style>
 <script>
 (function(){
@@ -24,13 +31,14 @@ function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 function devId(){var d=lsGet("ais-dev");if(!d||!/^[a-z0-9]{6,16}$/.test(d)){var A="abcdefghijklmnopqrstuvwxyz0123456789";try{d=Array.from(crypto.getRandomValues(new Uint8Array(12)),function(x){return A[x%36];}).join("");}catch(e){d=(Math.random().toString(36).slice(2)+"000000000000").slice(0,12);}lsSet("ais-dev",d);}return d;}
 function today(){var t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");}
-var SENT="ais-ws-sent:"+W.id, sending=false, again=false, timer=0, lastBody="";
+var SENT="ais-ws-sent:"+W.id, ASG="ais-ws-class:"+W.id, sending=false, again=false, timer=0, lastBody="";
+var asg=null; try{asg=JSON.parse(lsGet(ASG)||"null");}catch(e){asg=null;}
 box.innerHTML='<div class="ar-row"><button type="button" class="ar-send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Send to my teacher</span></button><span class="ar-live" hidden><i></i>Updates automatically</span></div>'+
   '<p class="ar-msg" aria-live="polite"></p><p class="ar-fine">Sends your name, class and score for this worksheet to your AIS maths teachers.</p>';
 var btn=box.querySelector(".ar-send"), msg=box.querySelector(".ar-msg"), live=box.querySelector(".ar-live");
 function say(t,c){msg.textContent=t;msg.className="ar-msg"+(c?" "+c:"");}
 function payload(){
-  var g=W.get(); return {t:"ws",d:devId(),date:today(),ws:W.id,title:W.title,grade:W.grade,name:String(g.name||"").trim(),cls:String(g.cls||"").trim(),
+  var g=W.get(); return {t:"ws",asg:asg?asg.code:"",d:devId(),date:today(),ws:W.id,title:W.title,grade:W.grade,name:String(g.name||"").trim(),cls:String(g.cls||"").trim(),
     items:g.items.join(","),parts:Object.keys(W.parts).map(function(k){return k+":"+W.parts[k];}).join("|")};
 }
 function send(manual){
@@ -42,6 +50,7 @@ function send(manual){
   fetch(URL_,{method:"POST",headers:{"Content-Type":"text/plain"},body:body}).then(function(r){return r.json();}).then(function(r){
     if(!r||!r.ok)throw new Error(r&&r.error||"no");
     lastBody=body; lsSet(SENT,"1"); live.hidden=false;
+    if(asg&&r.asg!==asg.code){asg=null;try{localStorage.removeItem(ASG);}catch(x){}var bar=document.getElementById("ar-class");if(bar)bar.remove();}
     var t=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
     say("Sent ✓ "+r.score+" / "+r.total+" at "+t+". Your teacher will see new answers automatically.","ok");
     btn.querySelector("span").textContent="Send again";
@@ -53,5 +62,28 @@ btn.addEventListener("click",function(){send(true);});
 // once a student has sent this worksheet, later answers are sent automatically (a few seconds after each change)
 document.addEventListener("ais-ws-change",function(){if(lsGet(SENT)!=="1")return;clearTimeout(timer);timer=setTimeout(function(){send(false);},2500);});
 if(lsGet(SENT)==="1"){live.hidden=false;btn.querySelector("span").textContent="Send again";}
+
+/* ---- joined with a class code (join.html?c=CODE opens this worksheet with ?c=CODE) ----
+   The class comes from the teacher's code, and answers are sent automatically. */
+function e(t){return String(t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function joined(a){
+  asg=a; lsSet(ASG,JSON.stringify(a)); lsSet(SENT,"1"); live.hidden=false;
+  var old=document.getElementById("ar-class"); if(old)old.remove();
+  var bar=document.createElement("div"); bar.id="ar-class"; bar.className="ar-class"; bar.setAttribute("role","status");
+  bar.innerHTML='<span class="ar-dot" aria-hidden="true"></span><span>You joined <b>'+e(a.teacher)+'’s class '+e(a.cls)+'</b>. Your answers go to your teacher automatically.</span><span class="ar-code">'+e(a.code)+'</span>';
+  document.body.insertBefore(bar,document.body.firstChild);
+  ["cl","gm-cl","gm-cl2"].forEach(function(id){var el=document.getElementById(id);if(!el)return;
+    if(el.value!==a.cls){el.value=a.cls;el.dispatchEvent(new Event("input",{bubbles:true}));}el.readOnly=true;el.classList.add("ar-locked");el.title="Set by your teacher’s class code";});
+  btn.querySelector("span").textContent="Send now";
+  say("Connected to "+a.teacher+"’s class "+a.cls+". Write your name, then just answer – your teacher sees your progress.","ok");
+  send(false);
+}
+var qc=(new URLSearchParams(location.search).get("c")||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+if(qc.length===6&&(!asg||asg.code!==qc)){
+  fetch(URL_+"?a=join&c="+qc).then(function(r){return r.json();}).then(function(r){
+    if(r&&r.ok&&r.ws===W.id)joined({code:r.code,cls:r.cls,teacher:r.teacher||"Your teacher",due:r.due||""});
+    else if(r&&r.error==="closed")say("This class code is closed. Ask your teacher for a new one.","err");
+  }).catch(function(){});
+}else if(asg)joined(asg);
 })();
 </script>

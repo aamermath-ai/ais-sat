@@ -2,7 +2,7 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Nunito:wght@600;700;800;900&display=swap">
 <style>
 /*@@SHARED_CSS@@*/
 /* ================= Teacher sign-in + worksheet results ================= */
@@ -11,22 +11,54 @@
 [data-theme="night"] .word.ws span{background:linear-gradient(100deg,#C8FFE6,#3BF0A0 60%,#3DBBFF);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .switchx b{font-family:var(--f-display);color:var(--accent)}
 [hidden]{display:none!important}
-/* sign-in */
-.tsign{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:stretch}
-.tsign .card{display:flex;flex-direction:column;gap:14px}
-.gbtn{min-height:44px;display:flex;align-items:center}
-.gwrap{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-.or{font-size:.82rem;color:var(--muted);font-weight:600}
-.tsteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:s}
-.tsteps li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start;counter-increment:s}
-.tsteps li::before{content:counter(s);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-weight:700;font-family:var(--f-display)}
-.tsteps b{display:block}
-.tsteps span{color:var(--muted);font-size:.88rem}
-.tmsg{padding:12px 14px;border-radius:12px;background:var(--fill);font-size:.9rem;color:var(--ink-2)}
-.tmsg.err{background:var(--bad-fill);color:var(--bad)}
-.tmsg.ok{background:var(--good-fill);color:var(--good)}
-.pend{display:flex;gap:16px;align-items:flex-start}
-.pend svg{width:40px;height:40px;flex:none;color:var(--warn)}
+/*@@LANDING_CSS@@*/
+body.signed-out .app,body.signed-out .nightbg,body.signed-out .sc-fab{display:none!important}
+body:not(.signed-out) .lp{display:none}
+.lp-pend{width:min(460px,100%);background:var(--lp-card);border:2px solid var(--lp-line);border-radius:18px;padding:20px;text-align:left;box-shadow:0 5px 0 var(--lp-line);display:flex;flex-direction:column;gap:12px}
+.lp-pend h2{margin:0;font:800 22px/1.2 Nunito,sans-serif}
+.lp-pend p{margin:0;color:var(--lp-mut);font-weight:700;line-height:1.5}
+.lp-pend .row2{display:flex;gap:10px;flex-wrap:wrap}
+.lp-small{font-size:14px;color:var(--lp-mut);font-weight:700;text-align:center;max-width:440px}
+.lp-small a{color:var(--lp-brand-d)}
+/* assign + share */
+.asg{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) auto;gap:12px;align-items:end}
+.asg .field input,.asg .field select{padding:10px 12px}
+.codes{display:flex;flex-direction:column}
+.code-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.code-chip{font:800 .95rem/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:8px 10px;border-radius:10px;background:var(--accent-soft);color:var(--accent)}
+.code-row.closed .code-chip{background:var(--fill);color:var(--muted);text-decoration:line-through}
+.code-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.modal2{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;background:rgba(5,8,16,.6);overflow-y:auto}
+.share{width:min(560px,100%);background:var(--surface);color:var(--ink);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.share-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.share-h h2{margin:0;font-size:1.3rem}
+.share-h p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+.share-mid{display:grid;grid-template-columns:180px minmax(0,1fr);gap:18px;align-items:center}
+.qrbox{background:#fff;border-radius:16px;padding:10px;box-shadow:inset 0 0 0 2px var(--line)}
+.qrbox svg{display:block;width:100%;height:auto}
+.bigcode{font:900 2.4rem/1 ui-monospace,Menlo,monospace;letter-spacing:.16em}
+.share-link{font:600 .82rem/1.4 ui-monospace,Menlo,monospace;background:var(--fill);border-radius:10px;padding:8px 10px;overflow-wrap:anywhere}
+.share-btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.btn.teams{background:#5b5fc7;color:#fff}
+.btn.teams svg{width:20px;height:20px}
+.share-note{font-size:.8rem;color:var(--muted);margin:0}
+.present{position:fixed;inset:0;z-index:110;background:#0f1420;color:#fff;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(16px,3vw,40px);gap:16px;font-family:Nunito,system-ui,sans-serif}
+.present-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.present-top b{font-size:clamp(18px,2.2vw,28px);font-weight:800}
+.present-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(16px,4vw,60px);align-items:center;min-height:0}
+.present-qr{background:#fff;border-radius:24px;padding:16px;max-width:min(52vh,100%);justify-self:end;width:100%}
+.present-qr svg{display:block;width:100%;height:auto}
+.present-txt{display:flex;flex-direction:column;gap:14px}
+.present-txt small{font-size:clamp(16px,1.8vw,22px);font-weight:800;color:#9aa6b8}
+.present-txt .url{font-size:clamp(18px,2.2vw,30px);font-weight:800;color:#7cf2c0;overflow-wrap:anywhere}
+.present-txt .pcode{font:900 clamp(54px,9vw,120px)/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;background:#fff;color:#0f1420;border-radius:18px;padding:12px 18px;width:max-content;max-width:100%;box-shadow:0 8px 0 #12a37f}
+.present-foot{display:flex;flex-direction:column;gap:10px}
+.present-count{font-size:clamp(18px,2vw,26px);font-weight:800}
+.present-names{display:flex;flex-wrap:wrap;gap:8px;max-height:22vh;overflow:auto}
+.present-names span{background:#1f2a40;border-radius:999px;padding:7px 14px;font-weight:800;animation:pop .35s ease-out}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.present .btn{background:#fff;color:#0f1420}
+@media (max-width:760px){.asg{grid-template-columns:minmax(0,1fr)}.share-mid{grid-template-columns:minmax(0,1fr);justify-items:center}.qrbox{width:200px}.share-btns{grid-template-columns:minmax(0,1fr)}.present-main{grid-template-columns:minmax(0,1fr)}.present-qr{justify-self:center;max-width:60vw}.code-row{grid-template-columns:auto minmax(0,1fr)}.code-acts{grid-column:1/-1;justify-content:flex-start}}
 /* signed-in header */
 .tuser{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .tuser .avatar{width:44px;height:44px}
@@ -88,7 +120,7 @@
 .trow .d{overflow-wrap:anywhere}
 .tip2{position:fixed;z-index:90;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.8rem;font-weight:600;padding:6px 10px;border-radius:10px;max-width:260px;transform:translate(-50%,calc(-100% - 10px));opacity:0;transition:opacity .1s}
 .tip2.on{opacity:1}
-@media (max-width:900px){.tsign,.grid2{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.tfil{grid-template-columns:minmax(0,1fr)}.hb .r,.qa .r{grid-template-columns:minmax(0,110px) minmax(0,1fr) 42px}}
 </style>
 <!--@@SPRITE@@-->
@@ -100,6 +132,39 @@
   <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 </svg>
+<div class="lp" id="lp">
+  <header class="lp-top">
+    <a class="lp-logo" href="worksheets.html"><img src="@@LOGO@@" alt=""><span>Worksheets <i>AIS</i></span></a>
+    <nav class="lp-nav">
+      <a class="lp-b join" href="join.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>Join a worksheet</a>
+      <button class="lp-b" type="button" id="lp-login">Log in</button>
+    </nav>
+  </header>
+  <main class="lp-hero">
+    <!--@@ILL_L@@-->
+    <div class="lp-mid">
+      <h1>Fun, free maths worksheets for every AIS class!</h1>
+      <div id="lp-signup-box" style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%">
+        <button class="lp-b main" type="button" id="lp-signup">Sign up</button>
+        <p class="lp-small">For AIS teachers. Sign up with your Google (Gmail) account in one step – no new password.</p>
+      </div>
+      <div class="lp-pend" id="t-pend" hidden>
+        <h2>Request sent ✉️</h2>
+        <p id="t-pend-txt"></p>
+        <div class="row2"><button class="lp-b" type="button" id="t-recheck">Check again</button><button class="lp-b" type="button" id="t-other">Use another account</button></div>
+      </div>
+      <div class="lp-msg" id="t-msg" role="status" hidden></div>
+    </div>
+    <!--@@ILL_R@@-->
+  </main>
+  <section class="lp-steps" aria-label="How it works">
+    <div class="lp-step"><i>1</i><div><b>Sign up with Gmail</b><span>Your email is your username. The Maths Department approves new teachers.</span></div></div>
+    <div class="lp-step"><i>2</i><div><b>Pick a worksheet and class</b><span>You get a class code and a QR code in one click.</span></div></div>
+    <div class="lp-step"><i>3</i><div><b>Share it in Teams or on the board</b><span>Students scan and join. Their scores arrive live in your dashboard.</span></div></div>
+  </section>
+  <footer class="lp-foot"><span>Mathematics Department · American International School</span>
+    <span class="lp-theme" id="lp-theme" role="group" aria-label="Appearance"><button data-v="light" aria-pressed="false">Light</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="dark" aria-pressed="false">Dark</button></span></footer>
+</div>
 <div class="nightbg" id="nightbg" aria-hidden="true"><video id="nightvid" muted loop playsinline preload="none" disablepictureinpicture></video><div class="veil"></div></div>
 <div class="app">
   <aside class="side" aria-label="Worksheets AIS">
@@ -128,38 +193,8 @@
   </header>
   <div class="content">
     <section class="page fade" id="v-t">
-      <div class="ptitle"><span class="eyebrow">For AIS teachers</span><h1 id="t-h1">Teacher sign-in</h1>
+      <div class="ptitle"><span class="eyebrow">For AIS teachers</span><h1 id="t-h1">Worksheet results</h1>
         <p id="t-lead">See how your students did on each worksheet: scores, the questions they found hardest, and who needs help.</p></div>
-
-      <!-- signed out -->
-      <div id="t-out" class="tsign">
-        <article class="card">
-          <div class="card-h"><h2>Sign in with Google</h2><span class="aside">Your Gmail address is your username</span></div>
-          <div class="gwrap">
-            <div class="gbtn" id="g-in"></div>
-            <span class="or">New teacher?</span>
-            <div class="gbtn" id="g-up"></div>
-          </div>
-          <div class="tmsg" id="t-msg" hidden></div>
-          <p class="note">No new password to remember. Google only shares your name and email address with this site.</p>
-        </article>
-        <article class="card">
-          <div class="card-h"><h2>New here? Three steps</h2></div>
-          <ol class="tsteps">
-            <li><div><b>Tap “Sign up with Google”</b><span>A small Google window opens.</span></div></li>
-            <li><div><b>Choose your Gmail account</b><span>Your email becomes your username here.</span></div></li>
-            <li><div><b>Wait for approval</b><span>The Mathematics Department approves new teachers, so only staff can see student results. You get an email when it’s done.</span></div></li>
-          </ol>
-        </article>
-      </div>
-
-      <!-- request waiting for approval -->
-      <article class="card" id="t-pend" hidden>
-        <div class="pend"><svg aria-hidden="true"><use href="#i-clock"/></svg>
-          <div><h2 style="font-size:1.2rem;margin-bottom:6px">Request sent</h2>
-            <p class="note" id="t-pend-txt"></p>
-            <div class="row" style="padding:12px 0 0;gap:10px"><button class="btn small" id="t-recheck">Check again</button><button class="btn small plain" id="t-other">Use another account</button></div></div></div>
-      </article>
 
       <!-- signed in -->
       <div id="t-in" hidden style="display:flex;flex-direction:column;gap:22px">
@@ -170,13 +205,25 @@
           <button class="btn small plain" id="t-out-btn">Sign out</button>
         </article>
 
+        <article class="card" id="t-assign">
+          <div class="card-h"><h2>Share a worksheet with your class</h2><span class="aside">Students join by QR code, link or Microsoft Teams</span></div>
+          <div class="asg">
+            <div class="field"><label for="a-ws">Worksheet</label><select id="a-ws"></select></div>
+            <div class="field"><label for="a-cls">Class</label><input id="a-cls" placeholder="e.g. 9B4" maxlength="12" autocomplete="off"></div>
+            <div class="field"><label for="a-due">Due (optional)</label><input id="a-due" type="date"></div>
+            <button class="btn" id="a-go" type="button">Create class code</button>
+          </div>
+          <div class="tmsg" id="a-msg" hidden style="margin-top:12px"></div>
+          <div id="a-mine" hidden><h3 style="font-size:.95rem;margin:22px 0 10px">My class codes</h3><div class="list codes" id="a-list"></div></div>
+        </article>
+
         <article class="card" id="t-teachers" hidden>
           <div class="card-h"><h2>Teachers</h2><span class="aside" id="t-tcount"></span></div>
           <div class="list" id="t-tlist"></div>
         </article>
 
         <div class="list seg-pad tfil" id="t-filters">
-          <div class="field"><label for="f-ws">Worksheet</label><select id="f-ws"></select></div>
+          <div class="field"><label for="f-ws">Results for</label><select id="f-ws"></select></div>
           <div class="field"><label for="f-cls">Class</label><select id="f-cls"></select></div>
           <div class="field"><label>Period</label><div class="segmented" id="f-per" role="group" aria-label="Period"><button data-v="all" aria-pressed="true">All time</button><button data-v="30" aria-pressed="false">30 days</button><button data-v="7" aria-pressed="false">7 days</button></div></div>
         </div>
@@ -212,6 +259,26 @@
   </nav>
 </div>
 <div class="tip2" id="tip2" role="tooltip"></div>
+<div class="modal2" id="share" hidden role="dialog" aria-modal="true" aria-labelledby="sh-t">
+  <div class="share">
+    <div class="share-h"><div><h2 id="sh-t"></h2><p id="sh-sub"></p></div><button class="iconbtn" id="sh-x" type="button" aria-label="Close">✕</button></div>
+    <div class="share-mid"><div class="qrbox" id="sh-qr"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;min-width:0"><span class="note">Class code</span><span class="bigcode" id="sh-code"></span><span class="share-link" id="sh-link"></span></div></div>
+    <div class="share-btns">
+      <button class="btn teams" id="sh-teams" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="16.5" cy="7" r="2.6" fill="currentColor"/><path d="M14 11h6.5a1.5 1.5 0 0 1 1.5 1.5V16a3.5 3.5 0 0 1-6.6 1.6" fill="currentColor"/><rect x="2" y="6" width="12" height="12" rx="2" fill="currentColor"/><path d="M5 9.5h6M8 9.5v6" stroke="#5b5fc7" stroke-width="1.8" stroke-linecap="round"/></svg>Share to Teams</button>
+      <button class="btn plain" id="sh-present" type="button">Show on the board</button>
+      <button class="btn plain" id="sh-copy" type="button">Copy link</button>
+      <button class="btn plain" id="sh-dl" type="button">Download QR code</button>
+    </div>
+    <p class="share-note" id="sh-note">Microsoft Teams opens a small window: choose your class team, then post it in a channel or turn it into a Teams <b>Assignment</b>. Students tap the link, or scan the QR code with a phone or iPad camera.</p>
+  </div>
+</div>
+<div class="present" id="present" hidden role="dialog" aria-modal="true" aria-label="Class code on the board">
+  <div class="present-top"><b id="pr-t"></b><button class="btn small" id="pr-x" type="button">Close</button></div>
+  <div class="present-main"><div class="present-qr" id="pr-qr"></div>
+    <div class="present-txt"><small>Scan the QR code, or go to</small><span class="url" id="pr-url"></span><small>and enter the code</small><span class="pcode" id="pr-code"></span></div></div>
+  <div class="present-foot"><span class="present-count" id="pr-count">Waiting for students…</span><div class="present-names" id="pr-names"></div></div>
+</div>
 
 <script>
 (function(){
@@ -224,12 +291,14 @@ const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}}, lsS
 /* ---------- theme (shared with the other pages) ---------- */
 function applyTheme(t){lsSet("ais-theme",t);if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
   document.querySelectorAll("#theme-seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===t));
+  document.querySelectorAll("#lp-theme button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===t||(t==="night"&&b.dataset.v==="dark")));
   const v=$("nightvid");if(v){const still=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.connection&&navigator.connection.saveData);
   if(t!=="night"||still){try{v.pause();}catch(e){}}
   else{if(!v.dataset.src){v.dataset.src=matchMedia("(min-width: 861px)").matches||devicePixelRatio>2.5?"assets/night-1080.mp4":"assets/night-720.mp4";v.addEventListener("playing",()=>v.classList.add("on"),{once:true});v.src=v.dataset.src;}
   const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});}}
-  if(window.google&&gReady)drawGoogle();}
+}
 $("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");if(b)applyTheme(b.dataset.v);});
+$("lp-theme").addEventListener("click",e=>{const b=e.target.closest("button");if(b)applyTheme(b.dataset.v);});
 
 /* ---------- talking to the school's Apps Script ---------- */
 async function api(body){
@@ -240,52 +309,64 @@ const SESS="ais-teacher";
 let me=null;   // {s,email,name,owner}
 try{me=JSON.parse(lsGet(SESS)||"null");}catch(e){me=null;}
 
-function show(which){$("t-out").hidden=which!=="out";$("t-pend").hidden=which!=="pend";$("t-in").hidden=which!=="in";
-  $("t-h1").textContent=which==="in"?"Worksheet results":"Teacher sign-in";$("t-lead").hidden=which==="in";}
-function msg(t,c){const m=$("t-msg");m.hidden=!t;m.textContent=t||"";m.className="tmsg"+(c?" "+c:"");}
+function show(which){
+  document.body.classList.toggle("signed-out",which!=="in");
+  $("t-in").hidden=which!=="in";
+  $("t-h1").textContent="Worksheet results";$("t-lead").hidden=true;
+  $("t-pend").hidden=which!=="pend";$("lp-signup-box").hidden=which==="pend";
+  if(which==="in")window.scrollTo(0,0);}
+function msg(t,c){const m=$("t-msg");m.hidden=!t;m.textContent=t||"";m.className="lp-msg"+(c?" "+c:"");}
 
-/* ---------- Sign in with Google ---------- */
-let gReady=false, clientId="";
-function dark(){const t=document.documentElement.getAttribute("data-theme");return t==="night"||t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);}
-function drawGoogle(){
-  const w=Math.min(320,Math.max(220,$("g-in").parentElement.clientWidth||300));
-  [["g-in","signin_with"],["g-up","signup_with"]].forEach(([id,text])=>{$(id).innerHTML="";
-    google.accounts.id.renderButton($(id),{type:"standard",theme:dark()?"filled_black":"outline",size:"large",shape:"pill",text,logo_alignment:"left",width:w});});
-}
+/* ---------- Sign up / Log in with Google (the site's own buttons open Google's account window) ---------- */
+let gReady=false, clientId="", tokenClient=null, gWant="";
 function loadGoogle(){
   return fetch(API+"?a=config").then(r=>r.json()).then(c=>{
     clientId=c&&c.clientId||"";
-    if(!clientId){msg("Teacher sign-in is being set up by the Mathematics Department. Please try again later.");return;}
+    if(!clientId){gWant="";msg("Teacher sign-in is being set up by the Mathematics Department. Please try again later.");return;}
     const s=document.createElement("script");s.src="https://accounts.google.com/gsi/client";s.async=true;
-    s.onload=()=>{google.accounts.id.initialize({client_id:clientId,callback:onGoogle,ux_mode:"popup",auto_select:false,cancel_on_tap_outside:true,context:"signin"});gReady=true;drawGoogle();};
+    s.onload=()=>{tokenClient=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:"openid email profile",callback:onToken,
+      error_callback:e=>{busy(false);msg(e&&e.type==="popup_closed"?"The Google window was closed. Try again when you’re ready.":"Google sign-in was blocked. Allow pop-ups for this site, then try again.","err");}});
+      gReady=true;if(gWant)go(gWant);};
     s.onerror=()=>msg("Google sign-in could not load. Check your internet connection or school network, then reload.","err");
     document.head.appendChild(s);
   }).catch(()=>msg("Could not reach the school server. Check your internet connection and reload.","err"));
 }
-async function onGoogle(resp){
+function busy(b){$("lp-signup").disabled=b;$("lp-login").disabled=b;}
+function go(kind){
+  if(!gReady){gWant=kind;msg("Opening Google…");return;}
+  gWant="";busy(true);msg("");
+  tokenClient.requestAccessToken({prompt:"select_account"});
+}
+$("lp-signup").addEventListener("click",()=>go("signup"));
+$("lp-login").addEventListener("click",()=>go("login"));
+async function onToken(resp){
+  if(!resp||resp.error||!resp.access_token){busy(false);msg("Google sign-in was cancelled. Try again when you’re ready.","err");return;}
   msg("Signing you in…");
   try{
-    const r=await api({a:"login",cred:resp.credential});
+    const r=await api({a:"login",at:resp.access_token});
+    try{google.accounts.oauth2.revoke(resp.access_token,()=>{});}catch(e){}   // the school server has checked it; it is not kept
     if(!r.ok){msg(r.error||"Sign-in failed. Please try again.","err");return;}
     if(r.status==="approved"){me={s:r.session,email:r.email,name:r.name,owner:!!r.owner};lsSet(SESS,JSON.stringify(me));msg("");enter();return;}
     const first=(r.name||"").split(" ")[0]||"there";
     $("t-pend-txt").textContent=r.status==="removed"
       ?"Hi "+first+". Teacher access for "+r.email+" is switched off. Please contact the Mathematics Department."
-      :"Thanks, "+first+". Your username is "+r.email+". The Mathematics Department will approve your account and you’ll get an email. Then sign in here with the same Google account.";
-    lsSet("ais-teacher-pending",r.email);show("pend");
+      :"Thanks, "+first+"! Your username is "+r.email+". The Mathematics Department will approve your account and you’ll get an email. Then log in here with the same Google account.";
+    msg("");show("pend");
   }catch(e){msg("Could not reach the school server. Please try again.","err");}
+  finally{busy(false);}
 }
-$("t-recheck").addEventListener("click",()=>{show("out");msg("Sign in with Google again to check your approval.");if(gReady)google.accounts.id.prompt();});
-$("t-other").addEventListener("click",()=>{lsDel("ais-teacher-pending");show("out");msg("");});
-$("t-out-btn").addEventListener("click",()=>{me=null;lsDel(SESS);if(window.google&&gReady)google.accounts.id.disableAutoSelect();data=null;show("out");msg("You are signed out.","ok");});
+$("t-recheck").addEventListener("click",()=>go("login"));
+$("t-other").addEventListener("click",()=>{show("out");msg("");go("signup");});
+$("t-out-btn").addEventListener("click",()=>{me=null;lsDel(SESS);data=null;show("out");msg("You are signed out.","ok");});
 
 /* ---------- dashboard ---------- */
 let data=null, sortBy="score", sortDir=-1, per="all";
 async function load(){
+  if(!me)return;
   $("t-refresh").disabled=true;
   try{
     const r=await api({a:"data",s:me.s});
-    if(!r.ok){if(r.error==="session"){me=null;lsDel(SESS);show("out");msg("Please sign in again.");}else alert(r.error||"Could not load results.");return;}
+    if(!r.ok){if(r.error==="session"){me=null;lsDel(SESS);show("out");msg("Please log in again.");}else alert(r.error||"Could not load results.");return;}
     data=r; me.owner=!!r.owner; lsSet(SESS,JSON.stringify(me)); render();
   }catch(e){$("t-empty").hidden=false;$("t-dash").hidden=true;$("t-empty-txt").textContent="Could not reach the school server. Check your connection and press Refresh.";}
   finally{$("t-refresh").disabled=false;}
@@ -297,6 +378,92 @@ function enter(){
   load();
 }
 $("t-refresh").addEventListener("click",load);
+
+/* ---------- class codes: assign a worksheet, share by QR / link / Microsoft Teams ---------- */
+/*@@GRADES@@*/
+const SITE=new URL(".",location.href).href;            // the site's address (…/ais-sat/)
+const joinUrl=code=>SITE+"join.html?c="+code;
+let pendingSel="";
+(function fillWorksheets(){
+  $("a-ws").innerHTML=GRADES.filter(g=>g.terms.length).map(g=>'<optgroup label="'+esc(g.name+" · "+g.course)+'">'+
+    g.terms.flatMap(t=>t.modules.flatMap(m=>m.items.filter(it=>it.ws).map(it=>'<option value="'+esc(it.ws)+'" data-file="'+esc(it.file)+'" data-title="'+esc(it.code+" "+it.title)+'" data-grade="'+esc(g.id)+'">'+esc(it.code+" "+it.title+" · "+t.name)+'</option>'))).join("")+'</optgroup>').join("");
+})();
+function amsg(t,c){const m=$("a-msg");m.hidden=!t;m.textContent=t||"";m.className="tmsg"+(c?" "+c:"");}
+$("a-go").addEventListener("click",async()=>{
+  const o=$("a-ws").selectedOptions[0], cls=$("a-cls").value.trim();
+  if(!o){amsg("Choose a worksheet.","err");return;}
+  if(!cls){amsg("Type the class, for example 9B4.","err");$("a-cls").focus();return;}
+  $("a-go").disabled=true;amsg("Creating your class code…");
+  try{
+    const r=await api({a:"assign",s:me.s,ws:o.value,file:o.dataset.file,title:o.dataset.title,grade:o.dataset.grade,cls,due:$("a-due").value});
+    if(!r.ok){amsg(r.error||"Could not create the class code.","err");return;}
+    amsg("");$("a-cls").value="";$("a-due").value="";data=r;pendingSel="a:"+r.created;lsSet("ais-t-sel",pendingSel);render();
+    openShare((r.assignments||[]).find(a=>a.code===r.created));
+  }catch(e){amsg("Could not reach the school server. Please try again.","err");}
+  finally{$("a-go").disabled=false;}
+});
+function joinedCount(code){return students((data.rows||[]).filter(r=>r.asg===code)).length;}
+function renderCodes(){
+  const codes=(data.assignments||[]).slice().sort((a,b)=>a.created<b.created?1:-1);
+  $("a-mine").hidden=!codes.length;
+  $("a-list").innerHTML=codes.map(a=>{const n=joinedCount(a.code),mine=a.email===me.email;
+    const due=a.due?" · due "+new Date(a.due+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
+    return '<div class="row code-row'+(a.status==="open"?"":" closed")+'"><span class="code-chip">'+esc(a.code)+'</span><span class="grow"><span class="t">'+esc(a.cls)+' · '+esc(a.title)+'</span><br><span class="d">'+n+(n===1?" student":" students")+due+(mine?"":" · "+esc(a.teacher))+(a.status==="open"?"":" · closed")+'</span></span>'+
+      '<span class="code-acts">'+(a.status==="open"?'<button class="btn small" data-act="share" data-c="'+esc(a.code)+'">Share</button>':'')+'<button class="btn small plain" data-act="results" data-c="'+esc(a.code)+'">Results</button>'+
+      '<button class="btn small plain" data-act="'+(a.status==="open"?"close":"reopen")+'" data-c="'+esc(a.code)+'">'+(a.status==="open"?"Close":"Reopen")+'</button></span></div>';}).join("");
+}
+$("a-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-act]");if(!b)return;const code=b.dataset.c,A=(data.assignments||[]).find(a=>a.code===code);
+  if(b.dataset.act==="share")openShare(A);
+  else if(b.dataset.act==="results"){$("f-ws").value="a:"+code;lsSet("ais-t-sel","a:"+code);render();$("t-filters").scrollIntoView({behavior:"smooth",block:"start"});}
+  else{b.disabled=true;try{const r=await api({a:b.dataset.act,s:me.s,code});if(r.ok){data=r;render();}else alert(r.error||"Could not update.");}catch(x){alert("Could not reach the school server.");}finally{b.disabled=false;}}});
+
+function qrSvg(text){const q=qrcode(0,"M");q.addData(text);q.make();const n=q.getModuleCount(),m=2;let d="";
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))d+="M"+(c+m)+" "+(r+m)+"h1v1h-1z";
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+2*m)+' '+(n+2*m)+'" shape-rendering="crispEdges" role="img" aria-label="QR code"><rect width="100%" height="100%" fill="#fff"/><path d="'+d+'" fill="#0f1420"/></svg>';}
+let cur=null;
+function openShare(A){if(!A)return;cur=A;const url=joinUrl(A.code);
+  $("sh-t").textContent=A.cls+" · "+A.title;
+  $("sh-sub").textContent="Grade "+A.grade+(A.due?" · due "+new Date(A.due+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"}):"");
+  $("sh-code").textContent=A.code;$("sh-link").textContent=url;$("sh-qr").innerHTML=qrSvg(url);
+  $("share").hidden=false;$("sh-teams").focus();}
+function closeShare(){$("share").hidden=true;}
+$("sh-x").addEventListener("click",closeShare);
+$("share").addEventListener("click",e=>{if(e.target===$("share"))closeShare();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!$("present").hidden)closePresent();else if(!$("share").hidden)closeShare();}});
+// Microsoft "Share to Teams": opens Teams' own share window, where the teacher picks the class team and
+// posts the link in a channel or creates a Teams Assignment (Teams for Education).
+$("sh-teams").addEventListener("click",()=>{if(!cur)return;
+  const url=joinUrl(cur.code), due=cur.due?" by "+new Date(cur.due+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}):"";
+  const p=new URLSearchParams({href:url,preview:"true",
+    msgText:("Maths worksheet "+cur.title+" for "+cur.cls+due+". Tap the link and write your name. Class code: "+cur.code).slice(0,200),
+    assignTitle:(cur.title+" ("+cur.cls+")").slice(0,100),
+    assignInstr:("Open the link, write your name and answer every question"+due+". Your score is sent to me automatically. Class code: "+cur.code).slice(0,200)});
+  const w=window.open("https://teams.microsoft.com/share?"+p.toString(),"ms-teams-share","width=720,height=640");
+  if(w){try{w.opener=null;}catch(e){}}else{const a=document.createElement("a");a.href="https://teams.microsoft.com/share?"+p.toString();a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();}
+});
+$("sh-copy").addEventListener("click",async()=>{if(!cur)return;const t=joinUrl(cur.code);
+  try{await navigator.clipboard.writeText(t);$("sh-copy").textContent="Copied ✓";}catch(e){$("sh-copy").textContent="Select the link above";}
+  setTimeout(()=>$("sh-copy").textContent="Copy link",2000);});
+$("sh-dl").addEventListener("click",()=>{if(!cur)return;
+  const svg=$("sh-qr").querySelector("svg").outerHTML, img=new Image(), cv=document.createElement("canvas"), S=1024, pad=60, H=S+180;
+  img.onload=()=>{cv.width=S;cv.height=H;const g=cv.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,S,H);g.imageSmoothingEnabled=false;g.drawImage(img,pad,pad,S-2*pad,S-2*pad);
+    g.fillStyle="#0f1420";g.textAlign="center";g.font="900 84px ui-monospace,Menlo,monospace";g.fillText(cur.code,S/2,S+40);
+    g.font="700 34px Nunito,system-ui,sans-serif";g.fillText((cur.cls+" · "+cur.title).slice(0,48),S/2,S+110);
+    const a=document.createElement("a");a.href=cv.toDataURL("image/png");a.download="Class code "+cur.code+" "+cur.cls+".png";document.body.appendChild(a);a.click();a.remove();};
+  img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);});
+// projector view: big QR + code, and names appear as students join
+let prTimer=0;
+$("sh-present").addEventListener("click",()=>{if(!cur)return;closeShare();
+  $("pr-t").textContent=cur.cls+" · "+cur.title;$("pr-qr").innerHTML=qrSvg(joinUrl(cur.code));
+  $("pr-url").textContent=SITE.replace(/^https?:\/\//,"")+"join.html";$("pr-code").textContent=cur.code;
+  $("present").hidden=false;try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{});}catch(e){}
+  presentTick();clearInterval(prTimer);prTimer=setInterval(()=>load().then(presentTick),8000);});
+function presentTick(){if(!cur||$("present").hidden)return;const S2=students((data.rows||[]).filter(r=>r.asg===cur.code)).sort((a,b)=>a.at<b.at?-1:1);
+  $("pr-count").textContent=S2.length?S2.length+(S2.length===1?" student has joined":" students have joined"):"Waiting for students…";
+  const have=new Set([...$("pr-names").children].map(x=>x.textContent));
+  S2.forEach(r=>{const nm=r.name.split(" ")[0]+" "+(r.name.split(" ")[1]||"").slice(0,1);if(!have.has(nm)){const sp=document.createElement("span");sp.textContent=nm.trim();$("pr-names").appendChild(sp);have.add(nm);}});}
+function closePresent(){$("present").hidden=true;clearInterval(prTimer);$("pr-names").innerHTML="";try{document.fullscreenElement&&document.exitFullscreen();}catch(e){}}
+$("pr-x").addEventListener("click",closePresent);
 
 // one entry per student per worksheet: if a student sent from two devices, keep the attempt with more answers
 function students(rows){
@@ -313,19 +480,25 @@ function render(){
   // teachers panel (owners)
   $("t-teachers").hidden=!data.owner;
   if(data.owner)renderTeachers();
+  renderCodes();
   const all=data.rows||[];
-  // worksheet list, most recent activity first
+  // "Results for": my class codes first, then every worksheet that has results
   const wsMap=new Map();
   all.forEach(r=>{const o=wsMap.get(r.ws)||{id:r.ws,title:r.title,grade:r.grade,last:"",n:0};o.n++;if(r.at>o.last){o.last=r.at;o.title=r.title;}wsMap.set(r.ws,o);});
   const wsList=[...wsMap.values()].sort((a,b)=>a.last<b.last?1:-1);
-  const fws=$("f-ws"),prevWs=fws.value||lsGet("ais-t-ws");
-  fws.innerHTML=wsList.map(w=>'<option value="'+esc(w.id)+'">Grade '+esc(w.grade)+' · '+esc(w.title)+'</option>').join("");
-  if(wsList.some(w=>w.id===prevWs))fws.value=prevWs;
-  $("t-filters").hidden=!wsList.length;
-  if(!wsList.length){$("t-dash").hidden=true;$("t-empty").hidden=false;
-    $("t-empty-txt").textContent="No results yet. When students press “Send to my teacher” at the end of a worksheet, their scores appear here.";return;}
-  const ws=fws.value;
-  let rows=students(all.filter(r=>r.ws===ws));
+  const codes=(data.assignments||[]).slice().sort((a,b)=>a.created<b.created?1:-1);
+  const fws=$("f-ws"),prev=pendingSel||fws.value||lsGet("ais-t-sel");pendingSel="";
+  fws.innerHTML=(codes.length?'<optgroup label="My class codes">'+codes.map(a=>'<option value="a:'+esc(a.code)+'">'+esc(a.cls+" · "+a.title+" · "+a.code)+(a.status==="open"?"":" (closed)")+'</option>').join("")+'</optgroup>':"")+
+    (wsList.length?'<optgroup label="All students, by worksheet">'+wsList.map(w=>'<option value="w:'+esc(w.id)+'">Grade '+esc(w.grade)+' · '+esc(w.title)+'</option>').join("")+'</optgroup>':"");
+  if([...fws.options].some(o=>o.value===prev))fws.value=prev;
+  $("t-filters").hidden=!fws.options.length;
+  if(!fws.options.length){$("t-dash").hidden=true;$("t-empty").hidden=false;
+    $("t-empty-txt").textContent="No results yet. Create a class code above and share it with your class – their scores appear here as they work.";return;}
+  const sel=fws.value, isCode=sel.startsWith("a:"), key=sel.slice(2);
+  const A=isCode?codes.find(a=>a.code===key):null;
+  $("f-cls").closest(".field").hidden=isCode;
+  let rows=students(all.filter(r=>isCode?r.asg===key:r.ws===key));
+  if(isCode&&!rows.length){$("t-dash").hidden=true;$("t-empty").hidden=false;$("t-empty-txt").textContent="No one has joined "+A.cls+" yet. Press Share next to the class code to show the QR code or post it in Teams.";$("f-cls").innerHTML="";return;}
   if(per!=="all"){const since=new Date(Date.now()-(+per)*864e5).toISOString();rows=rows.filter(r=>r.at>=since);}
   const classes=[...new Set(rows.map(r=>r.cls))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
   const fc=$("f-cls"),prevC=fc.value;
@@ -391,11 +564,11 @@ function when(iso){const d=new Date(iso);if(isNaN(d))return "";const t=new Date(
 $("t-table").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const k=b.dataset.k;
   if(sortBy===k)sortDir=-sortDir;else{sortBy=k;sortDir=k==="name"||k==="cls"?1:-1;}renderTable(lastRows,lastTotal);});
 $("t-search").addEventListener("input",()=>renderTable(lastRows,lastTotal));
-$("f-ws").addEventListener("change",()=>{lsSet("ais-t-ws",$("f-ws").value);$("f-cls").value="";render();});
+$("f-ws").addEventListener("change",()=>{lsSet("ais-t-sel",$("f-ws").value);$("f-cls").value="";render();});
 $("f-cls").addEventListener("change",render);
 $("f-per").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;per=b.dataset.v;document.querySelectorAll("#f-per button").forEach(x=>x.setAttribute("aria-pressed",x===b));render();});
 $("t-csv").addEventListener("click",()=>{
-  const ws=$("f-ws").selectedOptions[0]?$("f-ws").selectedOptions[0].textContent:"worksheet";
+  const ws=$("f-ws").selectedOptions[0]?$("f-ws").selectedOptions[0].textContent.replace(/[·]/g," "):"worksheet";
   const q=s=>{s=String(s);if(/^[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};
   const head=["Student","Class","Score","Total","Percent","Right first time"].concat(lastRows[0]?parseItems(lastRows[0]).map((x,i)=>"Q"+(i+1)):[]).concat(["Last update"]);
   const lines=[head.map(q).join(",")].concat(lastRows.map(r=>[r.name,r.cls,r.score,r.total,pct(r.score,r.total),r.first].concat(parseItems(r).map(x=>x.done?(x.tries?"right after hints":"right first time"):"not yet")).concat([new Date(r.at).toLocaleString("en-GB")]).map(q).join(",")));
@@ -428,7 +601,7 @@ document.addEventListener("scroll",()=>tip.classList.remove("on"),{passive:true}
 
 /* ---------- start ---------- */
 applyTheme(lsGet("ais-theme")||"night");
-if(me&&me.s)enter();else{show("out");}
+if(me&&me.s)enter();else show("out");
 loadGoogle();
 })();
 </script>

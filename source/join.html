@@ -1,0 +1,77 @@
+<title>Join a worksheet · Worksheets AIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+html,body{margin:0}
+[hidden]{display:none!important}
+/*@@LANDING_CSS@@*/
+</style>
+</head>
+<body>
+<div class="lp">
+  <header class="lp-top">
+    <a class="lp-logo" href="worksheets.html"><img src="@@LOGO@@" alt=""><span>Worksheets <i>AIS</i></span></a>
+    <nav class="lp-nav"><a class="lp-b" href="teacher.html">Teacher log in</a></nav>
+  </header>
+  <main class="lp-hero">
+    <!--@@ILL_L@@-->
+    <div class="lp-mid">
+      <h1 id="j-h1">Join your class</h1>
+      <p id="j-lead">Type the code your teacher shows on the board, or scan their QR code.</p>
+      <form class="lp-join" id="j-form" autocomplete="off">
+        <label for="j-code" class="lp-mut" style="position:absolute;left:-9999px">Class code</label>
+        <input class="lp-code" id="j-code" inputmode="text" maxlength="7" placeholder="ABC123" spellcheck="false" autocapitalize="characters" aria-describedby="j-msg">
+        <button class="lp-b main" id="j-go" type="submit">Join</button>
+      </form>
+      <div class="lp-join" id="j-found" hidden>
+        <div class="lp-class"><small id="j-who"></small><h2 id="j-title"></h2><p id="j-meta"></p></div>
+        <a class="lp-b main" id="j-start" href="#">▶ Start</a>
+        <button class="lp-b" id="j-back" type="button">Use another code</button>
+      </div>
+      <div class="lp-msg" id="j-msg" role="status" hidden></div>
+    </div>
+    <!--@@ILL_R@@-->
+  </main>
+  <footer class="lp-foot"><span>Mathematics Department · American International School</span>
+    <span class="lp-theme" id="theme-seg" role="group" aria-label="Appearance"><button data-v="light" aria-pressed="false">Light</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="dark" aria-pressed="false">Dark</button></span></footer>
+</div>
+<script>
+(function(){
+"use strict";
+const API="@@STATS_URL@@";
+const $=id=>document.getElementById(id);
+const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+function theme(t){lsSet("ais-theme",t);if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  document.querySelectorAll("#theme-seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===t||(t==="night"&&b.dataset.v==="dark")));}
+$("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");if(b)theme(b.dataset.v);});
+theme(lsGet("ais-theme")||"light");
+function msg(t,c){const m=$("j-msg");m.hidden=!t;m.textContent=t||"";m.className="lp-msg"+(c?" "+c:"");}
+const clean=v=>String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);
+$("j-code").addEventListener("input",e=>{const v=clean(e.target.value);if(e.target.value!==v)e.target.value=v;msg("");});
+async function look(code){
+  if(code.length!==6){msg("A class code has 6 letters and numbers, like K7Q2MX.","err");$("j-code").focus();return;}
+  $("j-go").disabled=true;msg("Finding your class…");
+  try{
+    const r=await (await fetch(API+"?a=join&c="+code)).json();
+    if(!r.ok){msg(r.error==="closed"?"This class code is closed. Ask your teacher for a new one.":"We couldn’t find that code. Check it with your teacher and try again.","err");return;}
+    msg("");
+    $("j-form").hidden=true;$("j-found").hidden=false;
+    $("j-h1").textContent="You’re in! 🎉";$("j-lead").textContent="Check this is your class, then start.";
+    $("j-who").textContent=(r.teacher||"Your teacher")+"’s class "+r.cls;
+    $("j-title").textContent=r.title;
+    let meta="Grade "+r.grade+" · Code "+r.code;
+    if(r.due){const d=new Date(r.due+"T12:00:00");if(!isNaN(d))meta+=" · Due "+d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});}
+    $("j-meta").textContent=meta;
+    $("j-start").href=r.file+"?c="+encodeURIComponent(r.code);
+    $("j-start").focus();
+  }catch(e){msg("Could not reach the school server. Check your internet connection and try again.","err");}
+  finally{$("j-go").disabled=false;}
+}
+$("j-form").addEventListener("submit",e=>{e.preventDefault();look(clean($("j-code").value));});
+$("j-back").addEventListener("click",()=>{$("j-found").hidden=true;$("j-form").hidden=false;$("j-h1").textContent="Join your class";$("j-lead").textContent="Type the code your teacher shows on the board, or scan their QR code.";$("j-code").value="";$("j-code").focus();history.replaceState(null,"","join.html");});
+const c=clean(new URLSearchParams(location.search).get("c"));
+if(c){$("j-code").value=c;look(c);}else $("j-code").focus();
+})();
+</script>
+</body>

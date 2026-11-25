@@ -97,7 +97,11 @@ act=act.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1
 act=head.replace('content="SAT AIS: free adaptive Digital SAT practice','content="ACT AIS: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="ACT AIS">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/act.html','w').write(csp(add_calc(act,''), GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
 # ---- Worksheets page (worksheets.html, Grades 6-10) + the interactive worksheets in source/worksheets/
-ws=open(S+'/worksheets.html').read()
+grades=open(S+'/worksheets-catalog.js').read()      # the worksheet list (grade → term → module → worksheet)
+landing_css=open(S+'/landing.css').read()           # bright landing look for teacher.html (signed out) and join.html
+ill=open(S+'/landing-ill.html').read(); ill_l=ill[ill.index('<!--@@ILL_L-->')+14:ill.index('<!--@@ILL_R-->')]; ill_r=ill[ill.index('<!--@@ILL_R-->')+14:]
+def landing(h): return h.replace('/*@@LANDING_CSS@@*/',landing_css,1).replace('<!--@@ILL_L@@-->',ill_l,1).replace('<!--@@ILL_R@@-->',ill_r,1)
+ws=open(S+'/worksheets.html').read().replace('/*@@GRADES@@*/',grades,1)
 ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-10').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), "", None, "strict-origin-when-cross-origin"))
@@ -120,11 +124,16 @@ for f in sorted(os.listdir(S+'/worksheets')):
         w=add_calc(w,'../')
         open(OUT+'/worksheets/'+f,'w').write(csp(w, GS, None, "strict-origin-when-cross-origin"))
 # ---- Teacher sign-in (Sign in with Google) + worksheet results dashboard
-tp=open(S+'/teacher.html').read().replace('@@STATS_URL@@',STATS_URL)
+qrlib=open(S+'/vendor/qrcode.js').read()   # QR Code Generator by Kazuhiko Arase (MIT licence, header kept), for class-code QR codes
+tp=landing(open(S+'/teacher.html').read()).replace('@@STATS_URL@@',STATS_URL).replace('/*@@GRADES@@*/',grades,1)
 tp=tp.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
-tp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS teachers: sign in to see worksheet results').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Teachers">')+tp.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+tp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS teachers: sign in to see worksheet results').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Teachers">')+tp.replace('</style>\n','</style>\n</head>\n<body class="signed-out">\n',1).replace('<script>\n(function(){','<script>\n'+qrlib+'\n</script>\n<script>\n(function(){',1)+'</body>\n</html>\n'
 GSI="https://accounts.google.com/gsi/"
 open(OUT+'/teacher.html','w').write(csp(add_calc(tp,''), GS+" "+GSI, GSI, "strict-origin-when-cross-origin", scripts=GSI+"client", styles=GSI+"style"))
+# ---- Join a worksheet (students type or scan a class code)
+jp=landing(open(S+'/join.html').read()).replace('@@STATS_URL@@',STATS_URL).replace('@@LOGO@@',logo)
+jp=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Join your class on Worksheets AIS with the code from your teacher').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="AIS Join">')+jp+'</html>\n'
+open(OUT+'/join.html','w').write(csp(jp, GS, None, "strict-origin-when-cross-origin"))
 print('worksheets:',len([f for f in os.listdir(S+'/worksheets') if f.endswith('.html')]))
 adm=open(S+'/admin.html').read()
 open(OUT+'/admin.html','w').write(csp(adm, GS, None, "no-referrer"))   # private usage dashboard (needs the admin key)

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-Oag/AT/osgKLLmBvhGN836kdPKbih6djdlQR4+xO9Z4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Join your class on Worksheets AIS with the code from your teacher, from the Mathematics Department, American International School.">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AIS Join">
+<meta name="author" content="Aamer Bashir">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>try{var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<title>Join a worksheet · Worksheets AIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+html,body{margin:0}
+[hidden]{display:none!important}
+/* ===== Worksheets AIS landing look (teacher.html signed-out screen + join.html) =====
+   Bright, friendly, chunky buttons with a solid bottom edge. Light by default; Night/Dark themes get a dark version. */
+.lp{--lp-bg:#ffffff;--lp-ink:#2f3640;--lp-mut:#6b7480;--lp-line:#dfe3e8;--lp-card:#ffffff;--lp-soft:#f3f7f6;
+  --lp-brand:#12a37f;--lp-brand-d:#0b7a5f;--lp-brand-ink:#ffffff;--lp-red:#e0475b;--lp-gold:#ffc23d;--lp-sky:#e8f6ff;
+  min-height:100vh;min-height:100dvh;background:var(--lp-bg);color:var(--lp-ink);font-family:Nunito,"Plus Jakarta Sans",system-ui,sans-serif;
+  display:flex;flex-direction:column;overflow-x:clip}
+:root[data-theme="night"] .lp,:root[data-theme="dark"] .lp{--lp-bg:#0f1420;--lp-ink:#eef2f8;--lp-mut:#9aa6b8;--lp-line:#2a3346;--lp-card:#171e2d;--lp-soft:#1b2335;--lp-sky:#16233a}
+@media (prefers-color-scheme:dark){:root:not([data-theme]) .lp{--lp-bg:#0f1420;--lp-ink:#eef2f8;--lp-mut:#9aa6b8;--lp-line:#2a3346;--lp-card:#171e2d;--lp-soft:#1b2335;--lp-sky:#16233a}}
+.lp *{box-sizing:border-box}
+.lp-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px clamp(16px,5vw,64px);flex-wrap:wrap}
+.lp-logo{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:12px;background:var(--lp-brand);color:#fff;text-decoration:none;
+  box-shadow:0 5px 0 var(--lp-brand-d);transform:rotate(-1.5deg)}
+.lp-logo img{width:40px;height:40px;border-radius:9px;background:#fff;padding:2px}
+.lp-logo span{font:900 clamp(20px,3vw,28px)/1 Nunito,system-ui,sans-serif;letter-spacing:-.01em}
+.lp-logo span i{font-style:normal;color:#ffe08a}
+.lp-nav{display:flex;gap:12px;flex-wrap:wrap}
+.lp-b{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 22px;border-radius:10px;cursor:pointer;
+  font:800 18px/1 Nunito,system-ui,sans-serif;text-decoration:none;border:2px solid var(--lp-line);background:var(--lp-card);color:var(--lp-ink);
+  box-shadow:0 4px 0 var(--lp-line);transition:transform .08s,box-shadow .08s,filter .15s}
+.lp-b:hover{filter:brightness(.98)}
+.lp-b:active{transform:translateY(3px);box-shadow:0 1px 0 var(--lp-line)}
+.lp-b:focus-visible{outline:3px solid var(--lp-brand);outline-offset:3px}
+.lp-b svg{width:18px;height:18px;flex:none}
+.lp-b.join{color:var(--lp-brand)}
+.lp-b.main{min-height:64px;padding:0 40px;font-size:26px;border:0;border-radius:12px;background:var(--lp-brand);color:var(--lp-brand-ink);box-shadow:0 6px 0 var(--lp-brand-d);width:min(440px,100%)}
+.lp-b.main:active{box-shadow:0 2px 0 var(--lp-brand-d);transform:translateY(4px)}
+.lp-b:disabled{opacity:.55;cursor:wait}
+.lp-hero{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:clamp(12px,3vw,40px);padding:clamp(20px,5vh,70px) clamp(16px,4vw,56px)}
+.lp-hero svg.ill{width:100%;height:auto;display:block}
+.lp-mid{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.lp-mid h1{margin:0;font:800 clamp(32px,4.2vw,54px)/1.12 Nunito,system-ui,sans-serif;letter-spacing:-.01em;color:var(--lp-ink);text-wrap:balance}
+.lp-mid p{margin:0;color:var(--lp-mut);font-weight:700;font-size:17px}
+.lp-msg{width:min(440px,100%);padding:12px 14px;border-radius:12px;background:var(--lp-soft);font-weight:700;font-size:15px;color:var(--lp-ink);text-align:left}
+.lp-msg.err{background:rgba(224,71,91,.12);color:var(--lp-red)}
+.lp-msg.ok{background:rgba(18,163,127,.12);color:var(--lp-brand-d)}
+:root[data-theme="night"] .lp-msg.ok,:root[data-theme="dark"] .lp-msg.ok{color:#7cf2c0}
+.lp-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:10px clamp(16px,5vw,64px) 40px;max-width:1200px;margin:0 auto;width:100%}
+.lp-step{background:var(--lp-soft);border-radius:18px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.lp-step b{display:block;font-size:18px;font-weight:800;margin-bottom:2px}
+.lp-step span{color:var(--lp-mut);font-weight:600;font-size:15px;line-height:1.45}
+.lp-step i{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font:900 20px/1 Nunito,sans-serif;font-style:normal;color:#fff;background:var(--lp-brand);box-shadow:0 3px 0 var(--lp-brand-d)}
+.lp-step:nth-child(2) i{background:#3d8bfd;box-shadow:0 3px 0 #2a64b8}
+.lp-step:nth-child(3) i{background:#f08a24;box-shadow:0 3px 0 #b8640f}
+.lp-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px clamp(16px,5vw,64px) 26px;color:var(--lp-mut);font-weight:700;font-size:14px;border-top:1px solid var(--lp-line)}
+.lp-foot a{color:inherit}
+.lp-theme{display:inline-flex;gap:4px}
+.lp-theme button{appearance:none;border:0;background:transparent;color:var(--lp-mut);font:700 13px Nunito,sans-serif;padding:5px 9px;border-radius:8px;cursor:pointer}
+.lp-theme button[aria-pressed="true"]{background:var(--lp-soft);color:var(--lp-ink)}
+/* join card */
+.lp-join{display:flex;flex-direction:column;align-items:center;gap:18px;width:min(460px,100%)}
+.lp-code{width:100%;text-align:center;font:900 clamp(30px,8vw,44px)/1 ui-monospace,"SF Mono",Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;
+  padding:16px 10px 16px calc(10px + .22em);border-radius:14px;border:3px solid var(--lp-line);background:var(--lp-card);color:var(--lp-ink);box-shadow:0 4px 0 var(--lp-line)}
+.lp-code:focus{outline:none;border-color:var(--lp-brand);box-shadow:0 4px 0 var(--lp-brand-d)}
+.lp-code::placeholder{color:var(--lp-line);letter-spacing:.22em}
+.lp-class{width:100%;background:var(--lp-card);border:2px solid var(--lp-line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:6px;text-align:left;box-shadow:0 5px 0 var(--lp-line)}
+.lp-class small{font-weight:800;color:var(--lp-brand);letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+.lp-class h2{margin:0;font:800 24px/1.2 Nunito,sans-serif}
+.lp-class p{margin:0;color:var(--lp-mut);font-weight:700}
+@media (max-width:980px){.lp-hero{grid-template-columns:minmax(0,1fr)}.lp-hero .ill-l{order:2;max-width:420px;margin:0 auto}.lp-hero .ill-r{order:3;max-width:420px;margin:0 auto}.lp-steps{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.lp-top{justify-content:center}.lp-b{min-height:44px;padding:0 16px;font-size:16px}.lp-b.main{font-size:22px;min-height:58px}}
+@media (prefers-reduced-motion:no-preference){.lp .bob{animation:lpBob 3.2s ease-in-out infinite}.lp .bob.d2{animation-delay:.5s}.lp .bob.d3{animation-delay:1s}
+  @keyframes lpBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}}
+
+</style>
+</head>
+<body>
+<div class="lp">
+  <header class="lp-top">
+    <a class="lp-logo" href="worksheets.html"><img src="data:image/webp;base64,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" alt=""><span>Worksheets <i>AIS</i></span></a>
+    <nav class="lp-nav"><a class="lp-b" href="teacher.html">Teacher log in</a></nav>
+  </header>
+  <main class="lp-hero">
+    
+<svg class="ill ill-l" viewBox="0 0 420 320" role="img" aria-label="A class board showing a maths worksheet and a QR code, with a friendly pencil">
+  <g class="bob d3"><rect x="22" y="40" width="9" height="9" rx="2" fill="#3d8bfd" transform="rotate(20 26 44)"/><rect x="392" y="36" width="9" height="9" rx="2" fill="#e0475b" transform="rotate(-15 396 40)"/><rect x="380" y="270" width="8" height="8" rx="2" fill="#ffc23d"/></g>
+  <!-- board -->
+  <rect x="96" y="50" width="304" height="214" rx="16" fill="#d9914a"/>
+  <rect x="108" y="62" width="280" height="190" rx="8" fill="#f6f6f4"/>
+  <rect x="96" y="256" width="304" height="10" rx="5" fill="#c27a37"/>
+  <!-- worksheet card -->
+  <rect x="124" y="80" width="150" height="152" rx="10" fill="#fff" stroke="#e3e6ea" stroke-width="2"/>
+  <rect x="124" y="80" width="150" height="10" rx="5" fill="#12a37f"/>
+  <text x="199" y="120" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="19" fill="#2f3640">2x + 3y = 12</text>
+  <rect x="140" y="134" width="118" height="22" rx="6" fill="#58d36b"/><path d="M186 145l6 6 12-12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="140" y="162" width="56" height="22" rx="6" fill="#dfe3e8"/><rect x="202" y="162" width="56" height="22" rx="6" fill="#dfe3e8"/>
+  <rect x="140" y="190" width="56" height="22" rx="6" fill="#dfe3e8"/><rect x="202" y="190" width="56" height="22" rx="6" fill="#dfe3e8"/>
+  <!-- QR card -->
+  <g transform="rotate(4 330 150)">
+    <rect x="284" y="92" width="92" height="118" rx="10" fill="#fff" stroke="#e3e6ea" stroke-width="2"/>
+    <g fill="#2f3640">
+      <rect x="294" y="102" width="22" height="22" rx="3"/><rect x="344" y="102" width="22" height="22" rx="3"/><rect x="294" y="152" width="22" height="22" rx="3"/>
+      <rect x="322" y="104" width="6" height="6"/><rect x="330" y="112" width="6" height="6"/><rect x="322" y="122" width="6" height="6"/><rect x="336" y="130" width="6" height="6"/>
+      <rect x="296" y="132" width="6" height="6"/><rect x="306" y="140" width="6" height="6"/><rect x="322" y="140" width="6" height="6"/><rect x="344" y="132" width="6" height="6"/>
+      <rect x="356" y="140" width="6" height="6"/><rect x="330" y="152" width="6" height="6"/><rect x="344" y="156" width="6" height="6"/><rect x="322" y="164" width="6" height="6"/>
+      <rect x="356" y="164" width="6" height="6"/><rect x="336" y="168" width="6" height="6"/>
+    </g>
+    <g fill="#fff"><rect x="299" y="107" width="12" height="12" rx="2"/><rect x="349" y="107" width="12" height="12" rx="2"/><rect x="299" y="157" width="12" height="12" rx="2"/></g>
+    <g fill="#2f3640"><rect x="302" y="110" width="6" height="6"/><rect x="352" y="110" width="6" height="6"/><rect x="302" y="160" width="6" height="6"/></g>
+    <rect x="292" y="182" width="76" height="18" rx="6" fill="#12a37f"/><text x="330" y="195" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="800" font-size="11" letter-spacing="1.5" fill="#fff">K7Q2MX</text>
+  </g>
+  <!-- easel legs -->
+  <path d="M150 266l-18 46M346 266l18 46" stroke="#a86529" stroke-width="10" stroke-linecap="round"/>
+  <!-- pencil mascot -->
+  <g class="bob">
+    <g transform="rotate(-14 60 200)">
+      <rect x="34" y="96" width="52" height="150" rx="8" fill="#ffc23d"/>
+      <rect x="34" y="96" width="17" height="150" fill="#ffd56b"/>
+      <rect x="34" y="82" width="52" height="22" rx="6" fill="#f07a8a"/><rect x="34" y="100" width="52" height="10" fill="#c9ccd1"/>
+      <path d="M34 246h52l-26 40z" fill="#f3d2a6"/><path d="M52 274h16l-8 12z" fill="#2f3640"/>
+      <circle cx="50" cy="150" r="7" fill="#2f3640"/><circle cx="72" cy="150" r="7" fill="#2f3640"/><circle cx="52" cy="148" r="2.4" fill="#fff"/><circle cx="74" cy="148" r="2.4" fill="#fff"/>
+      <path d="M50 168q11 10 22 0" fill="none" stroke="#2f3640" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="42" cy="164" r="5" fill="#f08a24" opacity=".35"/><circle cx="80" cy="164" r="5" fill="#f08a24" opacity=".35"/>
+    </g>
+  </g>
+</svg>
+
+    <div class="lp-mid">
+      <h1 id="j-h1">Join your class</h1>
+      <p id="j-lead">Type the code your teacher shows on the board, or scan their QR code.</p>
+      <form class="lp-join" id="j-form" autocomplete="off">
+        <label for="j-code" class="lp-mut" style="position:absolute;left:-9999px">Class code</label>
+        <input class="lp-code" id="j-code" inputmode="text" maxlength="7" placeholder="ABC123" spellcheck="false" autocapitalize="characters" aria-describedby="j-msg">
+        <button class="lp-b main" id="j-go" type="submit">Join</button>
+      </form>
+      <div class="lp-join" id="j-found" hidden>
+        <div class="lp-class"><small id="j-who"></small><h2 id="j-title"></h2><p id="j-meta"></p></div>
+        <a class="lp-b main" id="j-start" href="#">▶ Start</a>
+        <button class="lp-b" id="j-back" type="button">Use another code</button>
+      </div>
+      <div class="lp-msg" id="j-msg" role="status" hidden></div>
+    </div>
+    
+<svg class="ill ill-r" viewBox="0 0 420 320" role="img" aria-label="Three maths-shape students at desks with tablets, getting answers right">
+  <!-- desks -->
+  <g fill="#8a5a33"><rect x="12" y="226" width="126" height="12" rx="4"/><rect x="148" y="226" width="126" height="12" rx="4"/><rect x="284" y="226" width="126" height="12" rx="4"/></g>
+  <g fill="#9aa1ab"><rect x="24" y="238" width="10" height="70" rx="3"/><rect x="116" y="238" width="10" height="70" rx="3"/><rect x="160" y="238" width="10" height="70" rx="3"/><rect x="252" y="238" width="10" height="70" rx="3"/><rect x="296" y="238" width="10" height="70" rx="3"/><rect x="388" y="238" width="10" height="70" rx="3"/>
+    <rect x="34" y="282" width="82" height="7" rx="3"/><rect x="170" y="282" width="82" height="7" rx="3"/><rect x="306" y="282" width="82" height="7" rx="3"/></g>
+  <!-- tablets -->
+  <g><rect x="40" y="196" width="46" height="32" rx="5" fill="#c9ccd1" transform="skewX(-8)"/><rect x="176" y="196" width="46" height="32" rx="5" fill="#8f6ad8" transform="skewX(-8)"/><rect x="314" y="196" width="46" height="32" rx="5" fill="#c9ccd1" transform="skewX(-8)"/></g>
+  <!-- circle student -->
+  <g class="bob">
+    <circle cx="76" cy="138" r="46" fill="#f08a24"/><circle cx="62" cy="130" r="7" fill="#2f3640"/><circle cx="90" cy="130" r="7" fill="#2f3640"/><circle cx="64" cy="128" r="2.4" fill="#fff"/><circle cx="92" cy="128" r="2.4" fill="#fff"/>
+    <path d="M62 150q14 12 28 0" fill="none" stroke="#2f3640" stroke-width="4" stroke-linecap="round"/>
+    <g transform="translate(104 64)"><rect width="44" height="30" rx="10" fill="#fff" stroke="#dfe3e8" stroke-width="2"/><path d="M13 15l6 6 12-12" fill="none" stroke="#2aa84a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+  </g>
+  <!-- triangle student -->
+  <g class="bob d2">
+    <path d="M211 72l52 92h-104z" fill="#12a37f" stroke="#12a37f" stroke-width="10" stroke-linejoin="round"/>
+    <circle cx="198" cy="132" r="7" fill="#2f3640"/><circle cx="224" cy="132" r="7" fill="#2f3640"/><circle cx="200" cy="130" r="2.4" fill="#fff"/><circle cx="226" cy="130" r="2.4" fill="#fff"/>
+    <path d="M200 148q11 9 22 0" fill="none" stroke="#2f3640" stroke-width="4" stroke-linecap="round"/>
+    <g transform="translate(236 50)"><rect width="52" height="30" rx="10" fill="#fff" stroke="#dfe3e8" stroke-width="2"/><text x="26" y="21" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="15" fill="#2f3640">9/14</text></g>
+  </g>
+  <!-- hexagon student -->
+  <g class="bob d3">
+    <path d="M348 88l40 23v46l-40 23-40-23v-46z" fill="#3d8bfd" stroke="#3d8bfd" stroke-width="8" stroke-linejoin="round"/>
+    <circle cx="335" cy="130" r="7" fill="#2f3640"/><circle cx="361" cy="130" r="7" fill="#2f3640"/><circle cx="337" cy="128" r="2.4" fill="#fff"/><circle cx="363" cy="128" r="2.4" fill="#fff"/>
+    <path d="M337 147q11 9 22 0" fill="none" stroke="#2f3640" stroke-width="4" stroke-linecap="round"/>
+    <g transform="translate(372 56)"><rect width="36" height="30" rx="10" fill="#fff" stroke="#dfe3e8" stroke-width="2"/><path d="M18 7l3.2 6.6 7.2 1-5.2 5 1.3 7.2L18 23.4l-6.5 3.4 1.3-7.2-5.2-5 7.2-1z" fill="#ffc23d"/></g>
+  </g>
+</svg>
+
+  </main>
+  <footer class="lp-foot"><span>Mathematics Department · American International School</span>
+    <span class="lp-theme" id="theme-seg" role="group" aria-label="Appearance"><button data-v="light" aria-pressed="false">Light</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="dark" aria-pressed="false">Dark</button></span></footer>
+</div>
+<script>
+(function(){
+"use strict";
+const API="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec";
+const $=id=>document.getElementById(id);
+const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+function theme(t){lsSet("ais-theme",t);if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  document.querySelectorAll("#theme-seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===t||(t==="night"&&b.dataset.v==="dark")));}
+$("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");if(b)theme(b.dataset.v);});
+theme(lsGet("ais-theme")||"light");
+function msg(t,c){const m=$("j-msg");m.hidden=!t;m.textContent=t||"";m.className="lp-msg"+(c?" "+c:"");}
+const clean=v=>String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);
+$("j-code").addEventListener("input",e=>{const v=clean(e.target.value);if(e.target.value!==v)e.target.value=v;msg("");});
+async function look(code){
+  if(code.length!==6){msg("A class code has 6 letters and numbers, like K7Q2MX.","err");$("j-code").focus();return;}
+  $("j-go").disabled=true;msg("Finding your class…");
+  try{
+    const r=await (await fetch(API+"?a=join&c="+code)).json();
+    if(!r.ok){msg(r.error==="closed"?"This class code is closed. Ask your teacher for a new one.":"We couldn’t find that code. Check it with your teacher and try again.","err");return;}
+    msg("");
+    $("j-form").hidden=true;$("j-found").hidden=false;
+    $("j-h1").textContent="You’re in! 🎉";$("j-lead").textContent="Check this is your class, then start.";
+    $("j-who").textContent=(r.teacher||"Your teacher")+"’s class "+r.cls;
+    $("j-title").textContent=r.title;
+    let meta="Grade "+r.grade+" · Code "+r.code;
+    if(r.due){const d=new Date(r.due+"T12:00:00");if(!isNaN(d))meta+=" · Due "+d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});}
+    $("j-meta").textContent=meta;
+    $("j-start").href=r.file+"?c="+encodeURIComponent(r.code);
+    $("j-start").focus();
+  }catch(e){msg("Could not reach the school server. Check your internet connection and try again.","err");}
+  finally{$("j-go").disabled=false;}
+}
+$("j-form").addEventListener("submit",e=>{e.preventDefault();look(clean($("j-code").value));});
+$("j-back").addEventListener("click",()=>{$("j-found").hidden=true;$("j-form").hidden=false;$("j-h1").textContent="Join your class";$("j-lead").textContent="Type the code your teacher shows on the board, or scan their QR code.";$("j-code").value="";$("j-code").focus();history.replaceState(null,"","join.html");});
+const c=clean(new URLSearchParams(location.search).get("c"));
+if(c){$("j-code").value=c;look(c);}else $("j-code").focus();
+})();
+</script>
+</body>
+</html>

@@ -133,7 +133,7 @@ The welcome screen offers three choices, with **Worksheets** first, then SAT and
 - **Now on the site:** Grade 9 Algebra 1 → Term 1 → Module 3 → 3.1 Linear Equations in Standard Form (quiz, Eid Al Etihad edition), and Grade 10 Geometry → Term 1 → Module 13 → 13.1 Tangent Ratio (Eid Al Etihad edition). Grades 6–8 show "coming soon".
 - **Adding a worksheet:**
   1. Put the worksheet's HTML file in `source/worksheets/` (one self-contained file; give it a "← All worksheets" link to `../worksheets.html`).
-  2. Add an item to the `GRADES` list in `source/worksheets.html` (grade → term → module → `{code, title, sub, file}`).
+  2. Add an item to `source/worksheets-catalog.js` (grade → term → module → `{code, ws, title, sub, file}`). This one list feeds both the Worksheets page and the teacher's "Assign" picker. `ws` must equal the id in the worksheet's `window.AISWS`.
   - To let students send results to teachers, the worksheet needs three small additions (copy them from an existing worksheet): `<div id="ais-report"></div>` in its result box, `window.AISWS={id,title,grade,parts,get}`, and `document.dispatchEvent(new Event('ais-ws-change'))` at the end of its `score()` function. The build adds the "Send to my teacher" button (`source/ws-report.html`) automatically.
   3. Run `python3 source/build.py`. It builds `worksheets.html` and copies every worksheet into `worksheets/` with the same security policy as the rest of the site.
 - **Scientific calculator (on every page):** the SAT, ACT and Worksheets pages and every worksheet have a "Calculator" button at the bottom right (above the tab bar on phones). It opens an iPhone-style scientific calculator beside the work (a bottom sheet on phones): degrees by default, 2nd for inverse trig and hyperbolics, powers and roots, logs, x!, nCr, nPr, |x|, π, e, EE, %, memory, Ans, S⇔D (fraction or decimal), history and keyboard input. It uses its own parser (no `eval`) and is hidden inside test windows, so SAT and ACT practice keep test-day rules (Desmos only). The build adds it from `source/calculator.html`, so new pages and worksheets get it automatically.
@@ -145,9 +145,21 @@ The welcome screen offers three choices, with **Worksheets** first, then SAT and
 ## Teacher sign-in and worksheet results (teacher.html)
 
 - **Students** press **Send to my teacher** at the end of a worksheet. Their name, class and per-question results go to the **Worksheets** tab of the statistics Google Sheet. After the first send, new answers are sent automatically.
-- **Teachers** open `teacher.html` (link on the Worksheets page) and press **Sign in with Google** or **Sign up with Google**. Their Gmail address is their username. No passwords are stored by the site.
+- **Teachers** open `teacher.html` (link on the Worksheets page) and press **Sign up** or **Log in**, which open Google's account window. Their Gmail address is their username. No passwords are stored by the site.
 - **Approval:** new teachers wait until an owner approves them on `teacher.html` (Teachers panel). Owners get an email for each new request, and teachers get an email when approved. Emails in a domain listed in `TEACHER_DOMAINS` are approved automatically.
 - **Dashboard:** students, average score, finished, right first time, score distribution, by part, by class, per-question analysis with "Re-teach" flags, a student table (sortable, searchable) and CSV download.
+
+**Class codes, QR codes and Microsoft Teams:**
+- On `teacher.html` a teacher picks a worksheet and a class (e.g. 9B4), with an optional due date, and presses **Create class code**. This makes a 6-character code (no 0/O or 1/I/L, so it is easy to read aloud) and a QR code.
+- **Share** gives four ways to send it:
+  - **Share to Teams:** Microsoft's own "Share to Teams" window opens. The teacher picks the class team and posts the link in a channel, or turns it into a Teams **Assignment** (Teams for Education).
+  - **Show on the board:** a full-screen QR code and code for the projector. Students' names appear as they join.
+  - **Copy link**.
+  - **Download QR code** (a PNG to print or paste anywhere).
+- Students scan the QR code, or open `join.html` and type the code. They see the teacher's name and the class, press Start, and the worksheet opens with the class filled in and locked. Their answers are sent automatically and appear under that class code in the dashboard.
+- **Close** stops a code; **Reopen** starts it again. Class codes are stored in the **Assignments** tab of the Google Sheet.
+- The look of the signed-out teacher page and `join.html` is in `source/landing.css` and `source/landing-ill.html` (original illustrations).
+- The QR codes on the teacher page are drawn in the browser by `source/vendor/qrcode.js`, Kazuhiko Arase's QR Code Generator (MIT licence; its notice is kept at the top of the file).
 
 **One-time setup (owner):**
 1. **Google Cloud Console** (console.cloud.google.com), signed in with the school/owner Google account: create a project → *APIs & Services* → *OAuth consent screen*: choose **External**, app name "Worksheets AIS", your support email, then publish it (only name and email are requested, so no Google review is needed).

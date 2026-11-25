@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-9j1IYHWvENDyyFYQ/8DVt3AtU3Y76WL5/ibx65sS4Tc=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-lCUrDuLpdeOseFl5/GPbwWoBcb+K/EqjiNhApoYZY1s=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' ; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Worksheets AIS: interactive maths class worksheets for Grades 6-10, from the Mathematics Department, American International School.">
@@ -1229,7 +1229,11 @@ $("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");i
 applyTheme(lsGet("ais-theme")||"night");
 
 /* ---------- worksheets: grade → term → module → worksheet ----------
-   To add a worksheet: put its HTML file in source/worksheets/, add an item below, then run python3 source/build.py. */
+   The list itself is in source/worksheets-catalog.js (shared with teacher.html). */
+/* Worksheets AIS catalogue: grade → term → module → worksheet.
+   Used by worksheets.html (the list students see) and teacher.html (the "Assign" picker).
+   To add a worksheet: put its HTML file in source/worksheets/, add an item here, then run python3 source/build.py.
+   "ws" must match the id in the worksheet's window.AISWS, so teachers can assign it to a class. */
 const GRADES=[
   {id:"6",name:"Grade 6",course:"Mathematics",terms:[]},
   {id:"7",name:"Grade 7",course:"Mathematics",terms:[]},
@@ -1237,12 +1241,13 @@ const GRADES=[
   {id:"9",name:"Grade 9",course:"Algebra 1",terms:[
     {name:"Term 1",modules:[
       {name:"Module 3",topic:"Linear Equations",items:[
-        {code:"3.1",title:"Linear Equations in Standard Form",sub:"Quiz · Eid Al Etihad edition · 14 questions with hints and worked steps",file:"worksheets/g9-algebra-3-1-linear-equations-standard-form.html"}]}]}]},
+        {code:"3.1",ws:"g9-algebra-3-1",title:"Linear Equations in Standard Form",sub:"Quiz · Eid Al Etihad edition · 14 questions with hints and worked steps",file:"worksheets/g9-algebra-3-1-linear-equations-standard-form.html"}]}]}]},
   {id:"10",name:"Grade 10",course:"Geometry",terms:[
     {name:"Term 1",modules:[
       {name:"Module 13",topic:"Trigonometry with Right Triangles",items:[
-        {code:"13.1",title:"Tangent Ratio",sub:"Eid Al Etihad edition · 14 interactive questions with hints and worked steps",file:"worksheets/g10-geometry-13-1-tangent-ratio.html"}]}]}]}
+        {code:"13.1",ws:"g10-geometry-13-1",title:"Tangent Ratio",sub:"Eid Al Etihad edition · 14 interactive questions with hints and worked steps",file:"worksheets/g10-geometry-13-1-tangent-ratio.html"}]}]}]}
 ];
+
 const fromHash=()=>{const m=/^#grade-(\d+)$/.exec(location.hash||"");return m&&GRADES.some(g=>g.id===m[1])?m[1]:null;};
 let grade=fromHash()||lsGet("ais-ws-grade")||"10";
 function render(){
