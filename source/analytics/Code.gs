@@ -19,7 +19,7 @@
 //   their email, this script emails them a 6-digit code, they type the code. No passwords. Their email is their username.
 //   Owners add teachers (or approve requests) on teacher.html. Emails in TEACHER_DOMAINS are approved automatically.
 //   Script properties used:
-//     OWNER_EMAILS     – comma-separated emails of the people who manage teachers (needed: the first owner logs in with it)
+//     OWNER_EMAILS     – optional: emails that can also manage teachers from teacher.html (admin.html can always do it with ADMIN_KEY)
 //     GOOGLE_CLIENT_ID – optional, only for the older "Sign in with Google" button
 //     TEACHER_DOMAINS  – optional, comma-separated email domains approved automatically (e.g. a school domain)
 //     SESSION_SECRET   – created automatically; do not share
@@ -82,6 +82,17 @@ function doPost(e) {
   } finally {
     try { lock.releaseLock(); } catch (x) {}
   }
+}
+
+// Checks the admin key. Returns '' when it is right, or an error message.
+function adminError_(given) {
+  var key = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
+  if (!key) return 'ADMIN_KEY is not set in Project Settings → Script properties.';
+  if (key.length < MIN_KEY_LENGTH) return 'For security, ADMIN_KEY must be at least ' + MIN_KEY_LENGTH + ' characters. Make it longer in Script properties.';
+  var cache = CacheService.getScriptCache();
+  if (Number(cache.get('badkeys') || 0) >= MAX_BAD_KEYS) return 'Too many wrong keys. Locked for 15 minutes.';
+  if (!sameKey_(given, key)) { count_(cache, 'badkeys', 900); return 'Wrong admin key.'; }
+  return '';
 }
 
 // admin.html reads daily totals here: ?key=ADMIN_KEY&since=YYYY-MM-DD
@@ -275,6 +286,7 @@ function teacherApi_(d) {
       return { ok: true, status: 'approved', email: g.email, name: g.name, owner: isOwner_(g.email), session: makeSession_(g.email) };
     } finally { try { lock.releaseLock(); } catch (x) {} }
   }
+  if (d.a === 'admin') return adminTeachers_(d);   // admin.html: manage teacher logins with the admin key
   if (d.a === 'code') return sendCode_(d.email);
   if (d.a === 'verify') return verifyCode_(d.email, d.code);
   if (d.a === 'request') return requestAccess_(d.email, d.name);
@@ -375,7 +387,6 @@ function cleanEmail_(v) {
 function sendCode_(raw) {
   var email = cleanEmail_(raw);
   if (!email) return { ok: false, error: 'Type your full email address, for example name@school.ae.' };
-  if (!list_('OWNER_EMAILS').length) return { ok: false, error: 'Teacher login is not set up yet: OWNER_EMAILS is missing in the Apps Script.' };
   var cache = CacheService.getScriptCache();
   if (count_(cache, 'codes:' + new Date().toISOString().slice(0, 13), 3600) > CODES_PER_HOUR) return { ok: false, error: 'Too many login emails right now. Try again in a few minutes.' };
   var st = statusOf_(email);
@@ -457,4 +468,36 @@ function joinInfo_(code) {
   if (!A) return { ok: false, error: 'notfound' };
   if (A.status !== 'open') return { ok: false, error: 'closed' };
   return { ok: true, code: A.code, ws: A.ws, file: A.file, title: A.title, grade: A.grade, cls: A.cls, teacher: A.teacher, due: A.due };
+}
+
+
+// ---------------- admin.html: teacher logins (needs ADMIN_KEY) ----------------
+function adminTeachers_(d) {
+  var err = adminError_(d.key);
+  if (err) return { ok: false, error: err };
+  var op = String(d.op || 'list');
+  if (op === 'add' || op === 'set') {
+    var email = cleanEmail_(d.email);
+    if (!email) return { ok: false, error: 'Type a valid email address.' };
+    var status = op === 'add' ? 'approved' : String(d.status || '');
+    if (['approved', 'removed', 'pending'].indexOf(status) < 0) return { ok: false, error: 'Unknown status.' };
+    var name = plain_(d.name, 60), notify = false;
+    var lock = LockService.getScriptLock(); lock.waitLock(10000);
+    try {
+      var t = teachers_(), i = findTeacher_(t, email);
+      if (i < 0) {
+        if (op !== 'add') return { ok: false, error: 'Teacher not found.' };
+        t.sh.appendRow([email, name || email, 'approved', new Date(), '']); notify = true;
+      } else {
+        if (status === 'approved' && String(t.rows[i][2]) !== 'approved') notify = true;
+        t.sh.getRange(i + 2, 2, 1, 2).setValues([[name || unplain_(t.rows[i][1]) || email, status]]);
+      }
+    } finally { try { lock.releaseLock(); } catch (x) {} }
+    if (notify) notifyApproved_(email, name);
+  }
+  var list = teachers_().rows.map(function (r) {
+    return { email: String(r[0]), name: unplain_(r[1]), status: String(r[2]),
+      requested: r[3] instanceof Date ? r[3].toISOString() : '', lastLogin: r[4] instanceof Date ? r[4].toISOString() : '' };
+  });
+  return { ok: true, teachers: list, owners: list_('OWNER_EMAILS') };
 }

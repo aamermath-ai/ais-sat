@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-5+n+F8LHIs7Lk+COQP5+Yy+G1TipGdEMebl2MycA67M=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-Mfb94/8P6TAcvWztYkUzbf7zAZD83k5/DYVfHnZx8Os=' 'sha256-3NgA5FoBqKLJakKwiXoUegSwQCrubXthT+ErugOfxeQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Worksheets AIS teachers: sign in to see worksheet results, from the Mathematics Department, American International School.">
@@ -3896,7 +3896,6 @@ async function check(){
   await ready;
   if(server&&server.offline){msg("Could not reach the school server. Check your internet connection and reload the page.","err");return false;}
   if(!server||!server.ok||!(server.v>=3)){msg("Teacher login is being set up: the school server (Apps Script) needs the latest Code.gs. See HANDOVER.md, “Teacher sign-in”.","err");return false;}
-  if(!server.owners){msg("Teacher login is being set up: add OWNER_EMAILS in the Apps Script project settings.","err");return false;}
   return true;
 }
 let loginEmail="";
