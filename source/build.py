@@ -80,7 +80,11 @@ def csp(html, connect, frames, referrer):
     meta='<meta http-equiv="Content-Security-Policy" content="'+pol+'">\n<meta name="referrer" content="'+referrer+'">\n'
     return html.replace('<meta charset="utf-8">\n','<meta charset="utf-8">\n'+meta,1)
 GS="https://script.google.com https://script.googleusercontent.com"
-src=csp(src, GS, "https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io", "strict-origin-when-cross-origin")
+calc_widget=open(S+'/calculator.html').read()   # the shared scientific calculator (button + panel + how-to video)
+def add_calc(html, root):
+    i=html.rfind('</body>'); assert i>0
+    return html[:i]+calc_widget.replace('@@ROOT@@',root)+html[i:]
+src=csp(add_calc(src,''), GS, "https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io", "strict-origin-when-cross-origin")
 open(OUT+'/index.html','w').write(src)
 # ---- ACT practice site (act.html + act-questions.json), sharing the SAT page's design
 sys.path.insert(0,os.path.join(S,'act')); import build_act
@@ -91,19 +95,17 @@ sprite=re.search(r'<svg width="0" height="0" style="position:absolute" aria-hidd
 logo=re.search(r'<img class="mark" src="(data:image/[^"]+)"',src).group(1)
 act=act.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 act=head.replace('content="SAT AIS: free adaptive Digital SAT practice','content="ACT AIS: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="ACT AIS">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
-open(OUT+'/act.html','w').write(csp(act, GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
+open(OUT+'/act.html','w').write(csp(add_calc(act,''), GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
 # ---- Worksheets page (worksheets.html, Grades 6-10) + the interactive worksheets in source/worksheets/
 ws=open(S+'/worksheets.html').read()
 ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 ws=head.replace('content="SAT AIS: free adaptive Digital SAT practice for AIS students','content="Worksheets AIS: interactive maths class worksheets for Grades 6-10').replace('<meta name="apple-mobile-web-app-title" content="SAT AIS">','<meta name="apple-mobile-web-app-title" content="Worksheets AIS">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
-open(OUT+'/worksheets.html','w').write(csp(ws, "", None, "strict-origin-when-cross-origin"))
+open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), "", None, "strict-origin-when-cross-origin"))
 os.makedirs(OUT+'/worksheets',exist_ok=True)
-calc_widget=open(S+'/calculator.html').read()   # the shared scientific calculator, added to every worksheet
 for f in sorted(os.listdir(S+'/worksheets')):
     if f.endswith('.html'):
         w=open(S+'/worksheets/'+f).read()
-        assert w.count('</body>')==1, f
-        w=w.replace('</body>',calc_widget+'</body>')
+        w=add_calc(w,'../')
         open(OUT+'/worksheets/'+f,'w').write(csp(w, "", None, "strict-origin-when-cross-origin"))
 print('worksheets:',len([f for f in os.listdir(S+'/worksheets') if f.endswith('.html')]))
 adm=open(S+'/admin.html').read()

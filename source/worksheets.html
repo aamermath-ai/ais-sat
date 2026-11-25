@@ -19,10 +19,16 @@ a.row:hover{background:var(--fill)}
 .wsitem .chip{min-width:54px;justify-content:center}
 .wsitem .ico{color:var(--muted)}
 .gradeseg button{white-space:nowrap}
+.wscalc-in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:center}
+.wscalc video{width:100%;border-radius:16px;background:#000;display:block}
+.wscalc-txt{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.wscalc-txt ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
+@media (max-width:760px){.wscalc-in{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:480px){.gradeseg{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 <!--@@SPRITE@@-->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 7.5h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
   <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M7 3.5h7.5L19 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z M14.5 3.5V8H19 M9 12h6M9 15.5h6M9 8.5h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
 </svg>
 <div class="nightbg" id="nightbg" aria-hidden="true"><video id="nightvid" muted loop playsinline preload="none" disablepictureinpicture></video><div class="veil"></div></div>
@@ -35,6 +41,8 @@ a.row:hover{background:var(--fill)}
     </div>
     <nav class="nav" id="nav-side">
       <a href="worksheets.html" aria-current="page"><svg><use href="#i-sheet"/></svg>Worksheets</a>
+      <a href="#calculator" data-calc-open><svg><use href="#i-calc"/></svg>Calculator</a>
+      <a href="#calculator-guide"><svg><use href="#i-practice"/></svg>How to use the calculator</a>
     </nav>
     <a class="switchx" href="./#today">Switch to <b>SAT</b> prep</a>
     <a class="switchx" href="act.html">Switch to <b>ACT</b> prep</a>
@@ -56,11 +64,28 @@ a.row:hover{background:var(--fill)}
         <p>Choose your grade, then your term and module. Each worksheet runs on screen: answer, check, use the hints, and see your score at the end.</p></div>
       <div class="list seg-pad"><div class="segmented gradeseg" id="ws-grade" role="group" aria-label="Grade"></div></div>
       <div id="ws-body" class="wsbody"></div>
+      <article class="card wscalc" id="calculator-guide">
+        <div class="card-h"><h2>Scientific calculator</h2><span class="aside">On every page · bottom-right button</span></div>
+        <div class="wscalc-in">
+          <video controls playsinline preload="none" poster="assets/calculator-howto.jpg" src="assets/calculator-howto.mp4" aria-label="Video: how to use the scientific calculator"></video>
+          <div class="wscalc-txt">
+            <p>Tap <b>Calculator</b> at the bottom right of any page to open a full scientific calculator beside your work.</p>
+            <ul>
+              <li>It starts in <b>DEG</b> mode, ready for trigonometry.</li>
+              <li><b>2nd</b> then <b>tan</b> gives <b>tan⁻¹</b>, to find an angle.</li>
+              <li><b>⌫</b> deletes one key, <b>AC</b> clears everything, <b>Ans</b> uses your last answer.</li>
+              <li><b>S⇔D</b> shows the answer as a fraction. The clock shows your history.</li>
+            </ul>
+            <button class="btn" type="button" data-calc-open>Open the calculator</button>
+          </div>
+        </div>
+      </article>
     </section>
     <footer class="sitefoot"><a href="./#creator"><span>Created and developed by <b>Aamer Bashir</b></span></a><span class="sf-org">Mathematics Department · American International School</span></footer>
   </div>
   <nav class="tabbar" id="nav-tab" aria-label="Sections">
     <a href="worksheets.html" aria-current="page" aria-label="Worksheets"><svg aria-hidden="true"><use href="#i-sheet"/></svg><span class="tl">Worksheets</span></a>
+    <a href="#calculator" data-calc-open aria-label="Calculator"><svg aria-hidden="true"><use href="#i-calc"/></svg><span class="tl">Calculator</span></a>
     <a href="./#today" aria-label="SAT prep"><svg aria-hidden="true"><use href="#i-target"/></svg><span class="tl">SAT</span></a>
     <a href="act.html" aria-label="ACT prep"><svg aria-hidden="true"><use href="#i-star"/></svg><span class="tl">ACT</span></a>
   </nav>

@@ -135,7 +135,8 @@ The welcome screen offers three choices, with **Worksheets** first, then SAT and
   1. Put the worksheet's HTML file in `source/worksheets/` (one self-contained file; give it a "← All worksheets" link to `../worksheets.html`).
   2. Add an item to the `GRADES` list in `source/worksheets.html` (grade → term → module → `{code, title, sub, file}`).
   3. Run `python3 source/build.py`. It builds `worksheets.html` and copies every worksheet into `worksheets/` with the same security policy as the rest of the site.
-- **Scientific calculator:** every worksheet gets a "Calculator" button (bottom right) that opens an iPhone-style scientific calculator beside the questions (a bottom sheet on phones). It starts in degrees, has 2nd for sin⁻¹/cos⁻¹/tan⁻¹, memory, Ans, and keyboard input, and never uses `eval`. The build adds it from `source/calculator.html`, so new worksheets get it automatically.
+- **Scientific calculator (on every page):** the SAT, ACT and Worksheets pages and every worksheet have a "Calculator" button at the bottom right (above the tab bar on phones). It opens an iPhone-style scientific calculator beside the work (a bottom sheet on phones): degrees by default, 2nd for inverse trig and hyperbolics, powers and roots, logs, x!, nCr, nPr, |x|, π, e, EE, %, memory, Ans, S⇔D (fraction or decimal), history and keyboard input. It uses its own parser (no `eval`) and is hidden inside test windows, so SAT and ACT practice keep test-day rules (Desmos only). The build adds it from `source/calculator.html`, so new pages and worksheets get it automatically.
+- **How-to video:** `assets/calculator-howto.mp4` (68 s, with captions; poster `assets/calculator-howto.jpg`) plays from the calculator's "How to use" button and on the Worksheets page. `source/media/calculator_howto_film.py` films it again from the live calculator if the design changes (then encode with ffmpeg as in the script's notes).
 
 ## 7. Usage statistics (your private backend)
 

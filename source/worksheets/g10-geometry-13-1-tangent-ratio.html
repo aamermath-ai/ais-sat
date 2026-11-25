@@ -57,6 +57,7 @@ button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.
 .sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
 .sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
 footer{font-size:14px;color:var(--mut)}
+.calc-tip{margin-top:6px}.calc-tip a{color:var(--green);font-weight:600}
 .back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
 @media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.meter div{transition:none}}
@@ -74,6 +75,7 @@ footer{font-size:14px;color:var(--mut)}
       <span class="tip">Standards: G-SRT.C.6, G-SRT.C.8</span></div>
     <div class="formula">tan θ = opposite ÷ adjacent</div>
     <div class="tip">Remember <b>TOA</b>. Set your calculator to <b>DEG</b> mode. To find an angle, use <b>tan⁻¹</b> (SHIFT + tan, or <b>2nd</b> + tan on the Calculator button).</div>
+    <div class="tip calc-tip">Need a calculator? Tap <b>Calculator</b> at the bottom right. <a href="#" data-calc-video>▶ Watch how to use it</a></div>
     <div class="who">
       <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
       <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 10B6"></div>

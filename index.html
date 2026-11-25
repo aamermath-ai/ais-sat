@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-B8JAwlq33RZ8oeKxlO0hMrEJTnM+SkR+lmp3dBVDMCI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-B8JAwlq33RZ8oeKxlO0hMrEJTnM+SkR+lmp3dBVDMCI=' 'sha256-zZ4wq6MVjWJiAsyhu077Eh1xOi95T63vT2/CkHbMA/0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="SAT AIS: free adaptive Digital SAT practice for AIS students, from the Mathematics Department, American International School.">
@@ -2852,6 +2852,337 @@ route(); booted=true;
   if(!S)render();
 })();
 })();
+</script>
+<!-- ===== AIS scientific calculator: shared by every page (source/build.py adds it before </body>;  = path to the site root) ===== -->
+<style>
+.sc-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(var(--sc-lift,0px) + max(16px,env(safe-area-inset-bottom,0px)));z-index:60;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 20px 0 12px;border:0;border-radius:999px;background:#1c1c1e;color:#fff;font:600 16px/1 Lexend,"Plus Jakarta Sans",Inter,system-ui,sans-serif;box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.12);cursor:pointer}
+.sc-fab i{width:32px;height:32px;border-radius:50%;background:#ff9f0a;display:grid;place-items:center}
+.sc-fab svg{width:18px;height:18px}
+.sc-fab:hover{background:#2c2c2e}
+.sc-fab:focus-visible,.sc .k:focus-visible,.sc-tb:focus-visible,.sc-vid button:focus-visible{outline:3px solid #ff9f0a;outline-offset:2px}
+.sc-fab[aria-expanded=true]{display:none}
+html.exam .sc-fab,html.exam .sc,html.solo-dx .sc-fab,html.solo-dx .sc,body:has(.sheet:not([hidden])) .sc-fab,body:has(.gate:not([hidden])) .sc-fab{display:none!important}
+.sc{position:fixed;z-index:70;right:max(16px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);width:372px;max-height:calc(100vh - 24px);overflow-y:auto;display:flex;flex-direction:column;
+  background:#000;color:#fff;border-radius:42px;padding:12px 16px 14px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.1);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;user-select:none;-webkit-user-select:none;scrollbar-width:none;outline:none;text-align:left;letter-spacing:0}
+.sc[hidden],.sc-hist[hidden],.sc-vid[hidden]{display:none!important}
+.sc *{box-sizing:border-box}
+.sc-top{display:flex;align-items:center;gap:8px;padding:2px 2px 0}
+.sc-tb{height:38px;min-width:38px;border-radius:999px;border:0;background:#2c2c2e;color:#fff;font-family:inherit;font-size:13px;font-weight:600;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px}
+.sc-tb svg{width:18px;height:18px}
+.sc-tb.on{background:#d4d4d2;color:#000}
+.sc-top .sp{flex:1}
+.sc-disp{padding:4px 8px 8px;text-align:right;min-height:104px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px}
+.sc-mode{align-self:flex-start;font-size:12px;font-weight:700;color:#ff9f0a;background:rgba(255,159,10,.15);padding:3px 9px;border-radius:999px;white-space:pre}
+.sc-expr{font-size:20px;color:#8e8e93;white-space:nowrap;overflow-x:auto;scrollbar-width:none;min-height:26px}
+.sc-expr::-webkit-scrollbar{display:none}
+.sc-res{font-size:56px;font-weight:300;line-height:1.08;white-space:nowrap;overflow:hidden;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sc-pad{position:relative}
+.sc-sci{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin-bottom:11px}
+.sc-std{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.sc .k{border:0;border-radius:999px;color:#fff;cursor:pointer;font-family:inherit;display:grid;place-items:center;padding:0;margin:0;transition:filter .12s,background-color .12s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap}
+.sc-sci .k{height:34px;background:#2a2a2c;font-size:14.5px}
+.sc-sci .k.x{background:#1d3a2a;color:#9ff0c3}
+.sc-std .k{height:50px;background:#333335;font-size:26px}
+.sc .k.fn{background:#5c5c5f}
+.sc .k.op{background:#ff9f0a;font-size:29px}
+.sc .k.on{background:#d4d4d2;color:#000}
+.sc .k:hover{filter:brightness(1.25)}
+.sc .k:active,.sc .k.hit{filter:brightness(1.7)}
+.sc-hist{position:absolute;inset:0;background:#000;border-radius:18px;display:flex;flex-direction:column;gap:8px;z-index:2}
+.sc-hist-h{display:flex;align-items:center;justify-content:space-between;padding:2px 4px;color:#8e8e93;font-size:13px;font-weight:600}
+.sc-hist ul{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:6px}
+.sc-hist li button{width:100%;text-align:right;border:0;border-radius:14px;background:#1c1c1e;color:#fff;padding:10px 12px;cursor:pointer;font-family:inherit}
+.sc-hist li small{display:block;color:#8e8e93;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-hist li b{font-weight:400;font-size:20px}
+.sc-hist .none{color:#8e8e93;text-align:center;padding:30px 10px;font-size:14px}
+.sc-note{margin:9px 4px 0;font-size:12px;color:#8e8e93;text-align:center}
+.sc-spacer{height:80px}
+.sc-vid{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:20px}
+.sc-vid>div{width:min(960px,100%);display:flex;flex-direction:column;gap:12px}
+.sc-vid video{width:100%;border-radius:18px;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.sc-vid p{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0;color:#fff;font:600 16px/1.3 Lexend,"Plus Jakarta Sans",Inter,system-ui,sans-serif}
+.sc-vid button{border:0;border-radius:999px;background:#2c2c2e;color:#fff;min-height:44px;padding:0 18px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer}
+@media (min-width:1100px){body.sc-open{padding-right:400px}}
+@media (max-width:700px){
+  .sc{left:0;right:0;bottom:0;top:auto;transform:none;width:auto;max-height:80vh;border-radius:28px 28px 0 0;padding:8px 12px calc(10px + env(safe-area-inset-bottom,0px))}
+  .sc-disp{min-height:74px;padding-bottom:4px}.sc-expr{font-size:16px;min-height:22px}
+  .sc-sci{gap:5px;margin-bottom:8px}.sc-sci .k{height:30px;font-size:13px}
+  .sc-std{gap:7px}.sc-std .k{height:42px;font-size:22px}.sc .k.op{font-size:24px}
+  .sc-tb{height:34px;min-width:34px}
+  .sc-note{display:none}
+  body.sc-open{padding-bottom:80vh}
+}
+@media (prefers-reduced-motion:no-preference){.sc{animation:scIn .22s ease-out}@keyframes scIn{from{opacity:0}}}
+</style>
+<div class="sc-spacer" aria-hidden="true"></div>
+<button class="sc-fab" id="sc-fab" type="button" aria-controls="sc-panel" aria-expanded="false"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="#fff" stroke-width="2"/><path d="M8 7.5h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></i>Calculator</button>
+<section class="sc" id="sc-panel" hidden role="dialog" aria-label="Scientific calculator" tabindex="-1">
+  <div class="sc-top">
+    <button class="sc-tb" id="sc-histbtn" type="button" aria-label="History" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <button class="sc-tb" id="sc-howbtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>How to use</button>
+    <span class="sp"></span>
+    <button class="sc-tb" id="sc-close" type="button" aria-label="Close calculator">✕</button>
+  </div>
+  <div class="sc-disp"><span class="sc-mode" id="sc-mode">DEG</span><div class="sc-expr" id="sc-expr"></div><div class="sc-res" id="sc-res" aria-live="polite">0</div></div>
+  <div class="sc-pad">
+    <div class="sc-sci" id="sc-sci"></div>
+    <div class="sc-std" id="sc-std"></div>
+    <div class="sc-hist" id="sc-hist" hidden><div class="sc-hist-h"><span>History · tap one to use it</span><button class="sc-tb" id="sc-histclr" type="button">Clear</button></div><ul id="sc-histlist"></ul></div>
+  </div>
+  <p class="sc-note">Keyboard works too · <b>2nd</b> + tan gives tan⁻¹ · S⇔D shows a fraction</p>
+</section>
+<div class="sc-vid" id="sc-vid" hidden role="dialog" aria-modal="true" aria-label="How to use the calculator"><div>
+  <p><span>How to use the calculator</span><button type="button" id="sc-vidclose">Close ✕</button></p>
+  <video id="sc-video" controls playsinline preload="none" poster="assets/calculator-howto.jpg"></video>
+</div></div>
+<script>
+{
+"use strict";
+const ROOT="";
+const el=id=>document.getElementById(id);
+const panel=el("sc-panel"),fab=el("sc-fab"),exprEl=el("sc-expr"),resEl=el("sc-res"),modeEl=el("sc-mode");
+let tokens=[],ans=null,justEval=false,err=false,lastExpr="",deg=true,second=false,mem=0,preview="0",fracView=false;
+const BIN=["+","−","×","÷","^","C","P"],POST=["²","³","⁻¹","!","%","°"];
+const bad=()=>{throw new Error("math");};
+const toR=x=>deg?x*Math.PI/180:x, fromR=x=>deg?x*180/Math.PI:x, snap=v=>Math.abs(v)<1e-13?0:v;
+const FUNS={
+  "sin(":x=>snap(Math.sin(toR(x))),"cos(":x=>snap(Math.cos(toR(x))),
+  "tan(":x=>{const r=toR(x);if(Math.abs(Math.cos(r))<1e-12)bad();return snap(Math.tan(r));},
+  "sin⁻¹(":x=>(x<-1||x>1)?bad():fromR(Math.asin(x)),"cos⁻¹(":x=>(x<-1||x>1)?bad():fromR(Math.acos(x)),"tan⁻¹(":x=>fromR(Math.atan(x)),
+  "sinh(":Math.sinh,"cosh(":Math.cosh,"tanh(":Math.tanh,
+  "sinh⁻¹(":Math.asinh,"cosh⁻¹(":x=>x<1?bad():Math.acosh(x),"tanh⁻¹(":x=>(x<=-1||x>=1)?bad():Math.atanh(x),
+  "ln(":x=>x<=0?bad():Math.log(x),"log(":x=>x<=0?bad():Math.log10(x),"log₂(":x=>x<=0?bad():Math.log2(x),
+  "√(":x=>x<0?bad():Math.sqrt(x),"∛(":Math.cbrt,"e^(":Math.exp,"10^(":x=>Math.pow(10,x),"2^(":x=>Math.pow(2,x),"Abs(":Math.abs
+};
+const isFn=t=>typeof t==="string"&&Object.prototype.hasOwnProperty.call(FUNS,t);
+const isDigit=t=>typeof t==="string"&&/^[0-9.]$/.test(t);
+const isVal=t=>typeof t==="object"&&t!==null;
+const last=()=>tokens[tokens.length-1];
+const opener=t=>t===undefined||BIN.includes(t)||t==="("||isFn(t);
+
+/* ---- evaluation: lexer + recursive-descent parser (no eval) ---- */
+function lex(ts){
+  const out=[];let i=0;
+  while(i<ts.length){
+    const t=ts[i];
+    if(isDigit(t)){
+      let s="";while(i<ts.length&&isDigit(ts[i]))s+=ts[i++];
+      if(ts[i]==="E"){s+="e";i++;if(ts[i]==="−"||ts[i]==="+"){s+=ts[i]==="−"?"-":"+";i++;}let k="";while(i<ts.length&&isDigit(ts[i]))k+=ts[i++];if(!k||k.includes("."))bad();s+=k;}
+      const n=Number(s);if(isNaN(n))bad();out.push({t:"n",v:n});continue;
+    }
+    i++;
+    if(isVal(t))out.push({t:"n",v:t.v});
+    else if(t==="π")out.push({t:"n",v:Math.PI});
+    else if(t==="e")out.push({t:"n",v:Math.E});
+    else if(BIN.includes(t))out.push({t:"o",v:t});
+    else if(POST.includes(t))out.push({t:"p",v:t});
+    else if(isFn(t))out.push({t:"f",v:t});
+    else if(t==="("||t===")")out.push({t:t});
+    else bad();
+  }
+  return out;
+}
+function fact(n){if(n<0||n>170||!Number.isInteger(n))bad();let r=1;for(let k=2;k<=n;k++)r*=k;return r;}
+function perm(n,r){if(!Number.isInteger(n)||!Number.isInteger(r)||r<0||n<0||r>n)bad();let v=1;for(let k=0;k<r;k++)v*=n-k;return v;}
+function comb(n,r){if(!Number.isInteger(n)||!Number.isInteger(r)||r<0||n<0||r>n)bad();r=Math.min(r,n-r);let v=1;for(let k=1;k<=r;k++)v=v*(n-r+k)/k;return Math.round(v);}
+function pw(b,e){
+  if(b<0&&!Number.isInteger(e)){const q=1/e,r=Math.round(q);if(Math.abs(q-r)<1e-9&&Math.abs(r)%2===1)return -Math.pow(-b,e);bad();}
+  return Math.pow(b,e);
+}
+function evaluate(ts){
+  if(!ts.length)return null;
+  const L=lex(ts);let i=0;
+  const peek=()=>L[i], starts=x=>x&&(x.t==="n"||x.t==="f"||x.t==="(");
+  const isOp=(x,o)=>x&&x.t==="o"&&x.v===o;
+  function expr(){let v=term();while(isOp(peek(),"+")||isOp(peek(),"−")){const o=L[i++].v,r=term();v=o==="+"?v+r:v-r;}return v;}
+  function term(){let v=unary();for(;;){const p=peek();
+      if(isOp(p,"×")||isOp(p,"÷")){i++;const r=unary();if(p.v==="÷"){if(r===0)bad();v=v/r;}else v=v*r;}
+      else if(starts(p))v=v*unary();
+      else break;}
+    return v;}
+  function unary(){if(isOp(peek(),"−")){i++;return -unary();}if(isOp(peek(),"+")){i++;return unary();}return power();}
+  function power(){let b=post();
+    while(isOp(peek(),"C")||isOp(peek(),"P")){const o=L[i++].v,r=post();b=o==="C"?comb(b,r):perm(b,r);}
+    if(isOp(peek(),"^")){i++;return pw(b,unary());}return b;}
+  function post(){let v=prim();while(peek()&&peek().t==="p"){const o=L[i++].v;
+      if(o==="²")v=v*v;else if(o==="³")v=v*v*v;else if(o==="⁻¹"){if(v===0)bad();v=1/v;}else if(o==="%")v=v/100;else if(o==="°")v=deg?v:v*Math.PI/180;else v=fact(v);}
+    return v;}
+  function prim(){const p=L[i++];if(!p)bad();
+    if(p.t==="n")return p.v;
+    if(p.t==="f"){if(!peek()||peek().t===")")bad();const a=expr();if(peek()&&peek().t===")")i++;return FUNS[p.v](a);}
+    if(p.t==="("){const a=expr();if(peek()&&peek().t===")")i++;return a;}
+    bad();}
+  const v=expr();if(i<L.length||!isFinite(v))bad();return v;
+}
+function fmt(v){
+  if(Object.is(v,-0))v=0;const a=Math.abs(v);let s;
+  if(a!==0&&(a>=1e12||a<1e-7))s=v.toExponential(9).replace(/\.?0+e/,"e").replace("e+","e").replace("e","E");
+  else s=String(parseFloat(v.toPrecision(12)));
+  return s.replace("-","−");
+}
+function frac(v){   // best fraction with denominator up to 10000, or null
+  if(!isFinite(v)||Number.isInteger(v))return null;
+  let h1=1,h0=0,k1=0,k0=1,x=v;
+  for(let n=0;n<40;n++){const a=Math.floor(x);[h1,h0]=[a*h1+h0,h1];[k1,k0]=[a*k1+k0,k1];
+    if(k1>10000)return null;
+    if(Math.abs(v-h1/k1)<1e-9*Math.max(1,Math.abs(v)))return (h1<0?"−":"")+Math.abs(h1)+"/"+k1;
+    const f=x-a;if(f<1e-12)break;x=1/f;}
+  return null;
+}
+const disp=t=>isVal(t)?t.d:t;
+const depth=()=>tokens.reduce((d,t)=>d+(t==="("||isFn(t)?1:t===")"?-1:0),0);
+
+/* ---- history (kept in this browser only) ---- */
+let hist=[];try{hist=JSON.parse(localStorage.getItem("ais-calc-hist"))||[];if(!Array.isArray(hist))hist=[];}catch(e){hist=[];}
+hist=hist.filter(h=>h&&typeof h.e==="string"&&typeof h.r==="string"&&typeof h.v==="number").slice(0,30);
+const saveHist=()=>{try{localStorage.setItem("ais-calc-hist",JSON.stringify(hist.slice(0,30)));}catch(e){}};
+
+/* ---- key actions ---- */
+function clearAll(){tokens=[];justEval=false;err=false;preview="0";fracView=false;}
+function fresh(){if(justEval){tokens=[];justEval=false;err=false;}fracView=false;}
+function fromAns(){if(justEval){tokens=err||ans===null?[]:[{d:"Ans",v:ans}];justEval=false;err=false;}fracView=false;}
+function op(o){
+  fromAns();const L=last();
+  if(!tokens.length){if(o==="−")tokens.push("−");else if(ans!==null)tokens.push({d:"Ans",v:ans},o);return;}
+  if(L==="E"){if(o==="−")tokens.push("−");return;}
+  if(BIN.includes(L)){
+    const P=tokens[tokens.length-2];
+    if(L==="−"&&(tokens.length===1||opener(P)||P==="E"))return;   // a minus sign that belongs to the next number
+    if(o==="−"&&L!=="−"){tokens.push("−");return;}
+    tokens[tokens.length-1]=o;return;
+  }
+  if(L==="("||isFn(L)){if(o==="−")tokens.push("−");return;}
+  tokens.push(o);
+}
+function postfix(p){fromAns();if(opener(last())||last()==="E")return;tokens.push(p);}
+function fn(f){fresh();tokens.push(f);}
+function negate(){
+  fromAns();
+  let j=tokens.length;while(j>0&&(isDigit(tokens[j-1])||isVal(tokens[j-1])))j--;
+  if(j===tokens.length){if(opener(last()))tokens.push("−");return;}
+  const p=tokens[j-1];
+  if(p==="−"){if(j-1===0||opener(tokens[j-2]))tokens.splice(j-1,1);else tokens[j-1]="+";}
+  else if(p==="+")tokens[j-1]="−";
+  else tokens.splice(j,0,"−");
+}
+function equals(){
+  if(justEval||!tokens.length)return;
+  let v=null;try{v=evaluate(tokens);}catch(e){v=null;}
+  for(let n=depth();n>0;n--)tokens.push(")");
+  lastExpr=tokens.map(disp).join("")+" =";
+  if(v===null){err=true;}else{ans=v;err=false;hist.unshift({e:lastExpr,r:fmt(v),v:v});hist=hist.slice(0,30);saveHist();}
+  justEval=true;
+}
+function cur(){if(justEval)return err?null:ans;try{return evaluate(tokens);}catch(e){return null;}}
+const SECOND_KEYS=["ex","ln","sin","cos","tan","sinh","cosh","tanh"];
+function press(k){
+  if(/^[0-9]$/.test(k)){fresh();tokens.push(k);}
+  else switch(k){
+    case "dot":{fresh();let j=tokens.length;while(j>0&&isDigit(tokens[j-1]))j--;const run=tokens.slice(j);if(run.includes(".")||tokens[j-1]==="E")break;if(!run.length)tokens.push("0");tokens.push(".");break;}
+    case "add":op("+");break;case "sub":op("−");break;case "mul":op("×");break;case "div":op("÷");break;case "xy":op("^");break;
+    case "ncr":op("C");break;case "npr":op("P");break;
+    case "x2":postfix("²");break;case "x3":postfix("³");break;case "inv":postfix("⁻¹");break;case "fact":postfix("!");break;case "pct":postfix("%");break;case "deg":postfix("°");break;
+    case "yroot":fromAns();if(opener(last()))break;tokens.push("^","(","1","÷");break;
+    case "ex":fn(second?"2^(":"e^(");break;case "10x":fn("10^(");break;
+    case "sqrt":fn("√(");break;case "cbrt":fn("∛(");break;case "abs":fn("Abs(");break;
+    case "ln":fn(second?"log₂(":"ln(");break;case "log":fn("log(");break;
+    case "sin":case "cos":case "tan":case "sinh":case "cosh":case "tanh":fn(k+(second?"⁻¹":"")+"(");break;
+    case "e":fresh();tokens.push("e");break;case "pi":fresh();tokens.push("π");break;
+    case "ans":if(ans!==null){fresh();tokens.push({d:"Ans",v:ans});}break;
+    case "EE":{if(justEval)break;let j=tokens.length;while(j>0&&isDigit(tokens[j-1]))j--;if(j===tokens.length||tokens[j-1]==="E")break;tokens.push("E");break;}
+    case "rand":{fresh();const r=+Math.random().toFixed(8);tokens.push({d:fmt(r),v:r});break;}
+    case "(":fresh();tokens.push("(");break;
+    case ")":if(!justEval&&depth()>0&&!opener(last())&&last()!=="E")tokens.push(")");break;
+    case "neg":negate();break;
+    case "back":if(justEval)clearAll();else{tokens.pop();fracView=false;}break;
+    case "ac":clearAll();break;
+    case "eq":equals();fracView=false;break;
+    case "sd":if(!justEval)equals();if(justEval&&!err)fracView=!fracView;break;
+    case "2nd":second=!second;break;
+    case "rad":deg=!deg;break;
+    case "mc":mem=0;break;
+    case "m+":{const v=cur();if(v!==null)mem+=v;break;}
+    case "m−":{const v=cur();if(v!==null)mem-=v;break;}
+    case "mr":fresh();tokens.push({d:fmt(mem),v:mem});break;
+  }
+  if(second&&SECOND_KEYS.includes(k))second=false;   // like SHIFT: 2nd works for one key
+  relabel();update();
+}
+
+/* ---- keys and display ---- */
+const SCI=[["(","("],[")",")"],["mc","mc"],["m+","m+"],["m−","m−"],["mr","mr"],
+  ["2nd","2nd"],["x2","x²"],["x3","x³"],["xy","xʸ"],["ex","eˣ","2ˣ"],["10x","10ˣ"],
+  ["inv","1/x"],["sqrt","²√x"],["cbrt","³√x"],["yroot","ʸ√x"],["ln","ln","log₂"],["log","log₁₀"],
+  ["fact","x!"],["sin","sin","sin⁻¹"],["cos","cos","cos⁻¹"],["tan","tan","tan⁻¹"],["e","e"],["EE","EE"],
+  ["rand","Rand"],["sinh","sinh","sinh⁻¹"],["cosh","cosh","cosh⁻¹"],["tanh","tanh","tanh⁻¹"],["pi","π"],["rad","Rad"],
+  ["sd","S⇔D","","x"],["ncr","nCr","","x"],["npr","nPr","","x"],["abs","|x|","","x"],["deg","°","","x"],["ans","Ans","","x"]];
+const STD=[["back","⌫","fn","Backspace"],["ac","AC","fn","All clear"],["pct","%","fn","Percent"],["div","÷","op","Divide"],
+  ["7","7"],["8","8"],["9","9"],["mul","×","op","Multiply"],["4","4"],["5","5"],["6","6"],["sub","−","op","Minus"],
+  ["1","1"],["2","2"],["3","3"],["add","+","op","Plus"],["neg","±","","Change sign"],["0","0"],["dot",".","","Decimal point"],["eq","=","op","Equals"]];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ARIA={sd:"Fraction or decimal",ncr:"Combinations n C r",npr:"Permutations n P r",abs:"Absolute value",deg:"Degrees symbol",ans:"Last answer",inv:"Reciprocal",yroot:"y-th root",fact:"Factorial"};
+el("sc-sci").innerHTML=SCI.map(([k,l,,c])=>'<button type="button" class="k '+(c||"")+'" data-k="'+esc(k)+'" aria-label="'+esc(ARIA[k]||l)+'">'+esc(l)+'</button>').join("");
+el("sc-std").innerHTML=STD.map(([k,l,c,a])=>'<button type="button" class="k '+(c||"")+'" data-k="'+esc(k)+'" aria-label="'+esc(a||l)+'">'+esc(l)+'</button>').join("");
+function relabel(){
+  SCI.forEach(([k,l,l2])=>{const b=panel.querySelector('[data-k="'+k+'"]');if(!b)return;
+    const t=k==="rad"?(deg?"Rad":"Deg"):(second&&l2?l2:l);if(b.textContent!==t){b.textContent=t;b.setAttribute("aria-label",k==="rad"?"Switch to "+(deg?"radians":"degrees"):(ARIA[k]||t));}});
+  panel.querySelector('[data-k="2nd"]').classList.toggle("on",second);
+}
+function update(){
+  exprEl.textContent=justEval?lastExpr:tokens.map(disp).join("");
+  exprEl.scrollLeft=exprEl.scrollWidth;
+  let big;
+  if(justEval)big=err?"Error":(fracView&&frac(ans))||fmt(ans);
+  else if(!tokens.length)big="0";
+  else{try{const v=evaluate(tokens);big=v===null?"0":fmt(v);preview=big;}catch(e){big=preview;}}
+  resEl.textContent=big;
+  const base=innerWidth<=700?40:56;resEl.style.fontSize=Math.max(22,Math.min(base,base*9/Math.max(9,big.length)))+"px";
+  modeEl.textContent=(deg?"DEG":"RAD")+(second?"  ·  2nd":"")+(mem!==0?"  ·  M":"")+(fracView&&justEval?"  ·  fraction":"");
+}
+function flash(k){const b=panel.querySelector('[data-k="'+k+'"]');if(!b)return;b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),110);}
+panel.querySelector(".sc-pad").addEventListener("click",e=>{const b=e.target.closest(".k");if(!b)return;press(b.dataset.k);if(e.detail>0){try{panel.focus({preventScroll:true});}catch(_){}}});
+
+/* history panel */
+const histEl=el("sc-hist"),histBtn=el("sc-histbtn");
+function renderHist(){el("sc-histlist").innerHTML=hist.length?hist.map((h,i)=>'<li><button type="button" data-h="'+i+'"><small>'+esc(h.e)+'</small><b>'+esc(h.r)+'</b></button></li>').join(""):'<li class="none">No calculations yet. Press = and they appear here.</li>';}
+function showHist(on){histEl.hidden=!on;histBtn.classList.toggle("on",on);histBtn.setAttribute("aria-pressed",on);if(on)renderHist();}
+histBtn.addEventListener("click",()=>showHist(histEl.hidden));
+el("sc-histclr").addEventListener("click",()=>{hist=[];saveHist();renderHist();});
+el("sc-histlist").addEventListener("click",e=>{const b=e.target.closest("[data-h]");if(!b)return;const h=hist[+b.dataset.h];if(!h)return;fresh();tokens.push({d:h.r,v:h.v});showHist(false);update();});
+
+/* how-to video */
+const vid=el("sc-vid"),video=el("sc-video");
+function openVideo(){if(!video.getAttribute("src"))video.src=ROOT+"assets/calculator-howto.mp4";vid.hidden=false;const p=video.play();if(p&&p.catch)p.catch(()=>{});try{el("sc-vidclose").focus();}catch(e){}}
+function closeVideo(){try{video.pause();}catch(e){}vid.hidden=true;}
+el("sc-howbtn").addEventListener("click",openVideo);
+el("sc-vidclose").addEventListener("click",closeVideo);
+vid.addEventListener("click",e=>{if(e.target===vid)closeVideo();});
+document.querySelectorAll("[data-calc-video]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openVideo();}));
+
+/* open / close, and keep the button above a phone tab bar */
+function openCalc(){panel.hidden=false;fab.setAttribute("aria-expanded","true");document.body.classList.add("sc-open");update();try{panel.focus({preventScroll:true});}catch(e){}}
+function closeCalc(){panel.hidden=true;showHist(false);fab.setAttribute("aria-expanded","false");document.body.classList.remove("sc-open");try{fab.focus({preventScroll:true});}catch(e){}}
+fab.addEventListener("click",openCalc);
+el("sc-close").addEventListener("click",closeCalc);
+document.querySelectorAll("[data-calc-open]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();panel.hidden?openCalc():closeCalc();}));
+function lift(){const t=document.querySelector(".tabbar");let h=0;if(t){const r=t.getBoundingClientRect();if(getComputedStyle(t).display!=="none"&&r.height>0)h=Math.max(0,innerHeight-r.top)+8;}
+  fab.style.setProperty("--sc-lift",h?Math.max(0,h-16)+"px":"0px");}
+addEventListener("resize",lift);lift();
+const KEYMAP={"+":"add","-":"sub","*":"mul","x":"mul","/":"div","^":"xy",".":"dot",",":"dot","(":"(",")":")","!":"fact","%":"pct","Enter":"eq","=":"eq","Backspace":"back","Delete":"ac","p":"pi","s":"sin","c":"cos","t":"tan"};
+document.addEventListener("keydown",e=>{
+  if(!vid.hidden&&e.key==="Escape"){closeVideo();return;}
+  if(panel.hidden||e.ctrlKey||e.metaKey||e.altKey)return;
+  const tg=e.target,tag=tg&&tg.tagName;
+  if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT")return;
+  if(e.key==="Escape"){e.preventDefault();if(!histEl.hidden)showHist(false);else closeCalc();return;}
+  if(e.key==="Enter"&&tag==="BUTTON")return;
+  const k=/^[0-9]$/.test(e.key)?e.key:KEYMAP[e.key];
+  if(!k)return;
+  e.preventDefault();press(k);flash(k);
+});
+relabel();update();
+}
 </script>
 </body>
 </html>
