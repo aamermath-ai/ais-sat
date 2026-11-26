@@ -10,6 +10,29 @@ A free Digital SAT practice website for students of the American International S
 
 ---
 
+## Worksheet builder (contributors)
+
+- **Giving someone access:**
+  1. Add them on `admin.html` → **Teacher logins**.
+  2. Tick the grades they may build for under **"Can build worksheets for"**.
+  3. They log in on `teacher.html` and see a **Worksheet builder** card (`build.html`).
+- **Their steps:**
+  1. Upload a lesson file (PDF, Word, PowerPoint or a photo, up to 15 MB) with its grade, term, module, lesson number and title.
+  2. A Claude session builds the worksheet.
+  3. They check the draft, edit the questions, answers, hints and steps, preview it, then **Send for approval**.
+- **Building the queue:** start a Claude session and say **"Build the queued Omega worksheets"**. The rules for the session are in `source/worksheets/BUILDER.md`.
+  - Uploads are saved in your Google Drive folder **Omega uploads**.
+  - Drafts come back through the folder **Omega drafts**.
+- **Approving:** go to `admin.html` → **Worksheet requests** and press **Preview**, then **Approve** (or **Request changes**).
+  - Approved worksheets are live at once at `worksheets/w.html?id=…`.
+  - They appear on the Worksheets page and in the teachers' Assign list.
+  - They include the game, the QR code and Send to my teacher.
+  - **Unpublish** takes one off the site.
+- **Setup:**
+  1. Paste in the new `Code.gs`.
+  2. Run **testEmail** once: Google asks for the new **Drive** permission (the script saves uploads to your Drive). Click Allow.
+  3. Deploy a **New version**.
+
 ## Brand: Omega
 
 - **Name:** Omega. The sections are **Omega SAT**, **Omega ACT** and **Omega Worksheets**.

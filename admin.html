@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-LDuAuk7Na09ALLCuF/HDe4W93cY8q0V+iNsykfo2odI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-PFfeC7AGN3UAZqq4y28G64Tk7lkuNOc3MmSYj8g77YA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -73,6 +73,15 @@ th{color:var(--muted);font-weight:600}
 .pill.pending{background:rgba(199,110,0,.14);color:#C76E00}
 .pill.removed{background:var(--fill);color:var(--muted)}
 .tmsg{margin-top:10px;font-size:.88rem}
+.gr{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--muted)}
+.gr label{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;background:var(--fill);color:var(--ink);font-weight:600;cursor:pointer}
+.gr input{flex:none;width:auto;margin:0}
+.brow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.brow b{display:block}.brow .em{font-size:.84rem;color:var(--muted)}
+.brow .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.brow button,.brow a.btnl{padding:8px 14px;font-size:.85rem}
+a.btnl{font:inherit;font-weight:700;border-radius:999px;background:var(--fill);color:var(--ink);text-decoration:none}
+.pill.queued{background:var(--fill);color:var(--ink-2)}.pill.draft,.pill.changes{background:rgba(47,123,245,.12);color:var(--bar)}.pill.submitted{background:rgba(199,110,0,.14);color:#C76E00}.pill.live{background:rgba(30,142,74,.13);color:var(--good)}
 .tmsg.ok{color:var(--good)}.tmsg.err{color:var(--bad)}
 @media (max-width:640px){.tform{grid-template-columns:minmax(0,1fr)}.trow{grid-template-columns:minmax(0,1fr) auto}.trow .acts{grid-column:1/-1;justify-content:flex-start}}
 </style>
@@ -103,6 +112,12 @@ th{color:var(--muted);font-weight:600}
       <div class="tform"><input id="t-name" placeholder="Teacher’s name (e.g. Sana Malik)" autocomplete="off"><input id="t-email" type="email" placeholder="Email, e.g. name@school.ae" autocomplete="off"><button id="t-add">Add teacher</button></div>
       <p class="tmsg" id="t-msg" hidden></p>
       <div class="trows" id="t-list"></div>
+    </div>
+    <div class="card" id="builds" style="margin-bottom:16px">
+      <div class="row" style="justify-content:space-between"><h2>Worksheet requests</h2><span class="note" id="b-count"></span></div>
+      <p class="note">Contributors upload lesson files for their grades. Uploads wait in the queue until a Claude session builds the drafts (ask Claude to “build the queued worksheets”). The contributor checks the draft and sends it to you. Preview it, then <b>Approve</b> to make it live, or <b>Request changes</b>.</p>
+      <p class="tmsg" id="b-msg" hidden></p>
+      <div class="trows" id="b-list"></div>
     </div>
     <div class="tiles" id="tiles"></div>
     <div class="grid2" style="margin-top:16px">
@@ -148,7 +163,7 @@ async function load(){
     const j=await r.json();
     if(!j.ok)throw new Error(j.error||"The script refused the request.");
     ls.set("ais-admin-url",url); keySet(key,$("remember").checked); idle();
-    data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers();
+    data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers(); loadBuilds();
   }catch(e){showErr(e.message&&e.message!=="Failed to fetch"?e.message:"Could not reach the script. Check the address and that it is deployed with access “Anyone”.");}
   $("go").textContent="Show statistics";
 }
@@ -220,7 +235,8 @@ function renderTeachers(){
     const btn=(st,label,ghost)=>'<button class="'+(ghost?"ghost":"")+'" data-e="'+esc(t.email)+'" data-s="'+st+'">'+label+'</button>';
     const acts=t.status==="pending"?btn("approved","Approve")+btn("removed","Decline",1):t.status==="approved"?btn("removed","Remove",1):btn("approved","Restore",1);
     const label={approved:"Can log in",pending:"Asked to join",removed:"Removed"}[t.status]||t.status;
-    return '<div class="trow"><div><b>'+esc(t.name||t.email)+'</b><span class="em">'+esc(t.email)+' · last login: '+esc(when(t.lastLogin))+'</span></div><span class="pill '+esc(t.status)+'">'+label+'</span><div class="acts">'+acts+'</div></div>';}).join("")
+    return '<div class="trow"><div><b>'+esc(t.name||t.email)+'</b><span class="em">'+esc(t.email)+' · last login: '+esc(when(t.lastLogin))+'</span></div><span class="pill '+esc(t.status)+'">'+label+'</span><div class="acts">'+acts+'</div>'+
+      (t.status==="approved"?'<div class="gr" data-e="'+esc(t.email)+'"><span>Can build worksheets for:</span>'+["6","7","8","9","10","11","12"].map(g=>'<label><input type="checkbox" value="'+g+'"'+((t.grades||"").split(",").includes(g)?" checked":"")+'>'+g+'</label>').join("")+'</div>':'')+'</div>';}).join("")
     :'<p class="note" style="padding:12px 0">No teachers yet. Add the first one above.</p>';
 }
 $("t-add").addEventListener("click",async()=>{
@@ -236,6 +252,42 @@ $("t-add").addEventListener("click",async()=>{
   finally{$("t-add").disabled=false;}
 });
 $("t-email").addEventListener("keydown",e=>{if(e.key==="Enter")$("t-add").click();});
+$("t-list").addEventListener("change",async e=>{const box=e.target.closest(".gr");if(!box)return;
+  const grades=[...box.querySelectorAll("input:checked")].map(i=>i.value).join(",");box.style.opacity=.5;
+  try{const r=await tapi({op:"grades",email:box.dataset.e,grades});if(!r.ok){tmsg(r.error||"Could not update.","err");return;}
+    teachers=r.teachers;renderTeachers();tmsg(grades?"Saved: "+box.dataset.e+" can build worksheets for Grade "+grades.split(",").join(", ")+".":"Saved: "+box.dataset.e+" cannot build worksheets.","ok");}
+  catch(x){tmsg("Could not reach the script.","err");}finally{box.style.opacity="";}});
+/* ---- worksheet requests (Worksheet builder) ---- */
+let builds=[];
+function bmsg(t,c){const m=$("b-msg");m.hidden=!t;m.textContent=t||"";m.className="tmsg"+(c?" "+c:"");}
+async function loadBuilds(){
+  try{const r=await tapi({op:"builds"});if(!r.ok){$("builds").hidden=true;return;}builds=r.builds||[];renderBuilds();}
+  catch(e){$("builds").hidden=true;}
+}
+function renderBuilds(){
+  const order={submitted:0,queued:1,changes:2,draft:3,live:4,cancelled:5};
+  const L=builds.filter(b=>b.status!=="cancelled").sort((a,b)=>(order[a.status]-order[b.status])||(a.updated<b.updated?1:-1));
+  const wait=L.filter(b=>b.status==="submitted").length, q=L.filter(b=>b.status==="queued").length;
+  $("b-count").textContent=(wait?wait+" waiting for you":"none waiting for you")+(q?" · "+q+" in the queue for Claude":"");
+  const lab={queued:"Queue · for Claude",draft:"Draft · with contributor",changes:"Changes requested",submitted:"Waiting for you",live:"Live"};
+  $("b-list").innerHTML=L.length?L.map(b=>{
+    const btn=(op,t,g)=>'<button class="'+(g?"ghost":"")+'" data-b="'+esc(b.id)+'" data-op="'+op+'">'+t+'</button>';
+    const acts=b.status==="submitted"?btn("preview","Preview",1)+btn("build-approve","Approve")+btn("build-changes","Request changes",1)
+      :b.status==="live"?'<a class="btnl" href="worksheets/w.html?id='+esc(b.id)+'" target="_blank" rel="noopener">Open</a>'+btn("build-unpublish","Unpublish",1)
+      :["draft","changes"].includes(b.status)?btn("preview","Preview",1):"";
+    return '<div class="brow"><div><b>Grade '+esc(b.grade)+' · '+esc(b.code)+' '+esc(b.title)+'</b><span class="em">'+esc(b.name)+' · '+esc(b.fileName)+' · '+esc(when(b.updated))+'</span></div>'+
+      '<div class="acts"><span class="pill '+esc(b.status)+'">'+(lab[b.status]||esc(b.status))+'</span>'+acts+'</div></div>';}).join("")
+    :'<p class="note" style="padding:12px 0">No uploads yet. Tick grades for a teacher above; they can then upload lessons on the Worksheet builder page.</p>';
+}
+$("b-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-op]");if(!b)return;const id=b.dataset.b,op=b.dataset.op;
+  if(op==="preview"){window.open("worksheets/w.html?id="+id+"&draft=1","_blank");return;}   // the preview tab reads the admin key of this session
+  let feedback="";
+  if(op==="build-changes"){feedback=prompt("What should the contributor change?")||"";if(!feedback.trim())return;}
+  if(op==="build-unpublish"&&!confirm("Take this worksheet off the site? The contributor can edit it and send it again."))return;
+  b.disabled=true;
+  try{const r=await tapi({op,id,feedback});if(!r.ok){bmsg(r.error||"Could not update.","err");b.disabled=false;return;}
+    builds=r.builds;renderBuilds();bmsg(op==="build-approve"?"Approved: the worksheet is live on the Worksheets page.":op==="build-changes"?"Sent back to the contributor with your note.":"Taken off the site.","ok");}
+  catch(x){bmsg("Could not reach the script.","err");b.disabled=false;}});
 $("t-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-e]");if(!b)return;b.disabled=true;
   try{const r=await tapi({op:"set",email:b.dataset.e,status:b.dataset.s});
     if(!r.ok){tmsg(r.error||"Could not update.","err");b.disabled=false;return;}

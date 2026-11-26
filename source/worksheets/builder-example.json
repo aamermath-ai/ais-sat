@@ -1,0 +1,28 @@
+{
+  "v": 1,
+  "kicker": "Grade 7 Mathematics · Module 2 · Example",
+  "lo": "I can find the <b>unit rate</b> and use it to compare prices.",
+  "standard": "7.RP.A.1",
+  "formula": "unit rate = total ÷ number of units",
+  "tip": "Always write the <b>units</b>: AED per kg, km per hour.",
+  "keywords": ["rate", "unit rate", "per"],
+  "hero": {"svg": "<svg viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"640\" height=\"400\" fill=\"#e8f3f9\"/><circle cx=\"560\" cy=\"70\" r=\"34\" fill=\"#ffd34d\"/><rect x=\"80\" y=\"150\" width=\"220\" height=\"150\" rx=\"18\" fill=\"#00843D\"/><text x=\"190\" y=\"215\" text-anchor=\"middle\" font-family=\"Lexend,sans-serif\" font-size=\"30\" font-weight=\"700\" fill=\"#fff\">3 kg</text><text x=\"190\" y=\"260\" text-anchor=\"middle\" font-family=\"Lexend,sans-serif\" font-size=\"26\" fill=\"#fff\">AED 18</text><rect x=\"360\" y=\"150\" width=\"220\" height=\"150\" rx=\"18\" fill=\"#C8102E\"/><text x=\"470\" y=\"215\" text-anchor=\"middle\" font-family=\"Lexend,sans-serif\" font-size=\"30\" font-weight=\"700\" fill=\"#fff\">1 kg</text><text x=\"470\" y=\"260\" text-anchor=\"middle\" font-family=\"Lexend,sans-serif\" font-size=\"26\" fill=\"#fff\">AED ?</text></svg>"},
+  "parts": [
+    {"id": "A", "name": "What is a unit rate?", "intro": "Warm-up. Tap the correct answer."},
+    {"id": "B", "name": "Find the unit rate", "intro": "Type one number."},
+    {"id": "C", "name": "Real life", "intro": "Compare and decide."}
+  ],
+  "questions": [
+    {"id": "a1", "part": "A", "kind": "pick", "text": "Which is a <b>unit rate</b>?", "options": ["AED 6 per 1 kg", "AED 18 for 3 kg", "3 kg for AED 18"], "answer": "AED 6 per 1 kg",
+     "hint": "A unit rate is for exactly <b>1</b> unit.", "steps": ["A unit rate compares to 1 unit", "AED 6 per 1 kg is for 1 kg"],
+     "draw": {"type": "card", "rows": [["unit rate = for 1 unit", "big"], ["AED 6 per 1 kg", "l"]]}},
+    {"id": "b1", "part": "B", "kind": "num", "text": "Dates cost <b>AED 18</b> for <b>3 kg</b>. What is the price per kg?", "answer": 6, "tol": 0.01, "unit": "AED per kg",
+     "hint": "Divide the total by the number of kg: 18 ÷ 3.", "steps": ["unit rate = total ÷ units", "18 ÷ 3 = 6", "AED 6 per kg"]},
+    {"id": "b2", "part": "B", "kind": "num", "text": "A car travels <b>240 km</b> in <b>3 hours</b>. What is its speed in km per hour?", "answer": 80, "tol": 0.01, "unit": "km per hour",
+     "hint": "Speed = distance ÷ time.", "steps": ["240 ÷ 3 = 80", "80 km per hour"],
+     "draw": {"type": "plot", "x0": 0, "x1": 4, "y0": 0, "y1": 320, "gx": 1, "gy": 40, "lx": 1, "ly": 80, "lines": [[[0, 0], [3, 240]]], "pts": [[3, 240, "(3, 240)"]], "xl": "time (h)", "yl": "distance (km)"}},
+    {"id": "c1", "part": "C", "kind": "pick", "text": "Shop A sells 2 L of laban for AED 7. Shop B sells 3 L for AED 9.60. Which is cheaper per litre?", "options": ["Shop A", "Shop B", "They are the same"], "answer": "Shop B",
+     "hint": "Find the price for 1 L at each shop.", "steps": ["Shop A: 7 ÷ 2 = AED 3.50 per L", "Shop B: 9.60 ÷ 3 = AED 3.20 per L", "Shop B is cheaper"]}
+  ],
+  "footer": "Prices are for practice only."
+}

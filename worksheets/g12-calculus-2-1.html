@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-BjRZJnH03zm9uNGip9o2Vx6XL5jDFJ81uXz91J24p5U=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-TJlrrDvlNSl4WHEzLB4UM/vPfrIPqHit4RRXJ7eCIVU=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo=' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-BjRZJnH03zm9uNGip9o2Vx6XL5jDFJ81uXz91J24p5U=' 'sha256-dgUULrEt5cErrfKIHaNaSNrp+NQ+3w5fTElcEANn+qk=' 'sha256-TJlrrDvlNSl4WHEzLB4UM/vPfrIPqHit4RRXJ7eCIVU=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo=' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2.1 Defining Average and Instantaneous Rate of Change at a Point – Calculus</title>
@@ -381,7 +381,7 @@ const qs=[...document.querySelectorAll("article.q")];
 if(parts.length&&qs.length){
 const DISTRICTS=["Al Fahidi","Dubai Creek","Downtown","Dubai Marina","Burj Khalifa","Global Village","Hatta","Jebel Jais"];
 const RANKS=["Rookie","Explorer","Navigator","Pro","City Legend"];
-const KEY="ais-game:"+location.pathname;
+const KEY="ais-game:"+location.pathname+(new URLSearchParams(location.search).get("id")||"");   // built worksheets share one page (w.html?id=…)
 const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const title=((document.querySelector("h1")||{}).textContent||"Worksheet").trim();
 let G={xp:0,combo:0,best:0,q:{},won:{},sound:true};

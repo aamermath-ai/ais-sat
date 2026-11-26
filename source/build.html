@@ -1,0 +1,274 @@
+<title>Worksheet builder · Omega</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/*@@SHARED_CSS@@*/
+/* ================= Worksheet builder (contributors) ================= */
+[hidden]{display:none!important}
+body{background:var(--bg)}
+.bwrap{max-width:1040px;margin:0 auto;padding:28px max(16px,4vw) 80px;display:flex;flex-direction:column;gap:22px}
+.btop{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.btop .mark{width:46px;height:46px}
+.btop .t{flex:1;min-width:200px}
+.btop .t b{display:block;font-family:var(--f-display);font-size:1.4rem;letter-spacing:-.03em}
+.btop .t span{color:var(--muted);font-size:.88rem;overflow-wrap:anywhere}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid2b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field input,.field select,.field textarea{font:inherit;font-size:.95rem;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+.field textarea{min-height:76px;resize:vertical;font-family:inherit}
+.drop{border:2px dashed var(--line);border-radius:16px;padding:18px;text-align:center;color:var(--muted);cursor:pointer}
+.drop.on{border-color:var(--accent);background:var(--accent-soft)}
+.drop b{color:var(--ink)}
+.bmsg{padding:12px 14px;border-radius:12px;background:var(--fill);font-size:.9rem}
+.bmsg.err{background:var(--bad-fill);color:var(--bad)}.bmsg.ok{background:var(--good-fill);color:var(--good)}
+.req{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 14px;align-items:center;padding:14px 16px}
+.req+.req{border-top:1px solid var(--line)}
+.req .t{font-weight:600}.req .d{font-size:.82rem;color:var(--muted)}
+.req .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.req .fbk{grid-column:1/-1;font-size:.86rem;background:var(--warn-fill);color:var(--warn);border-radius:10px;padding:8px 10px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.queued{background:var(--fill);color:var(--ink-2)}.pill.draft{background:var(--accent-soft);color:var(--accent)}
+.pill.submitted{background:var(--warn-fill);color:var(--warn)}.pill.live{background:var(--good-fill);color:var(--good)}.pill.changes{background:var(--bad-fill);color:var(--bad)}
+.steps-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.steps-strip div{background:var(--fill);border-radius:14px;padding:12px;font-size:.84rem;color:var(--ink-2)}
+.steps-strip b{display:block;color:var(--ink);font-size:.92rem}
+/* editor */
+.ed-q{border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.ed-q h3{margin:0;font-size:1rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ed-q h3 .sp{flex:1}
+.ed-q .row4{display:grid;grid-template-columns:110px 130px minmax(0,1fr) 110px;gap:10px}
+.ed-parts .prow{display:grid;grid-template-columns:70px minmax(0,1fr) minmax(0,1.4fr) auto;gap:10px;align-items:end}
+.iconbtn2{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:10px;padding:6px 10px;font-weight:600;cursor:pointer}
+.iconbtn2:disabled{opacity:.35}
+.edbar{position:sticky;bottom:12px;z-index:20;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:18px;padding:10px}
+.hasPic{font-size:.78rem;color:var(--muted)}
+@media (max-width:760px){.grid3,.grid2b,.steps-strip{grid-template-columns:minmax(0,1fr)}.ed-q .row4{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ed-parts .prow{grid-template-columns:60px minmax(0,1fr)}.req{grid-template-columns:minmax(0,1fr)}.req .acts{justify-content:flex-start}}
+</style>
+</head>
+<body>
+<div class="bwrap">
+  <header class="btop">
+    <img class="mark" src="@@LOGO@@" alt="Omega logo">
+    <div class="t"><b>Worksheet builder</b><span id="b-who">Omega Worksheets</span></div>
+    <a class="btn small plain" href="teacher.html">Teacher dashboard</a>
+  </header>
+
+  <div class="bmsg" id="b-msg" hidden></div>
+
+  <section class="card" id="b-login" hidden>
+    <div class="card-h"><h2>Please log in first</h2></div>
+    <p class="note">The Worksheet builder uses your teacher login. Log in on the teacher page, then come back here.</p>
+    <p style="margin-top:12px"><a class="btn" href="teacher.html">Log in</a></p>
+  </section>
+
+  <section class="card" id="b-noaccess" hidden>
+    <div class="card-h"><h2>No worksheet grades yet</h2></div>
+    <p class="note">You are logged in, but the site admin has not given you any grades to build worksheets for. Ask them to tick your grades on the admin page.</p>
+  </section>
+
+  <div id="b-main" hidden style="display:flex;flex-direction:column;gap:22px">
+    <div class="steps-strip" aria-label="How it works">
+      <div><b>1 · Upload</b>Your lesson file: PDF, Word or PowerPoint.</div>
+      <div><b>2 · Draft</b>Claude builds the worksheet. You get an email.</div>
+      <div><b>3 · Check</b>Preview it, fix anything, send for approval.</div>
+      <div><b>4 · Live</b>The admin approves it. It appears for students.</div>
+    </div>
+
+    <section class="card">
+      <div class="card-h"><h2>Upload a lesson</h2><span class="aside" id="b-grades"></span></div>
+      <div class="grid3">
+        <div class="field"><label for="u-grade">Grade</label><select id="u-grade"></select></div>
+        <div class="field"><label for="u-term">Term</label><select id="u-term"><option>Term 1</option><option>Term 2</option><option>Term 3</option></select></div>
+        <div class="field"><label for="u-module">Module</label><input id="u-module" placeholder="e.g. Module 3"></div>
+      </div>
+      <div class="grid3" style="margin-top:12px">
+        <div class="field"><label for="u-topic">Module topic</label><input id="u-topic" placeholder="e.g. Ratios and Rates"></div>
+        <div class="field"><label for="u-code">Lesson number</label><input id="u-code" placeholder="e.g. 3.2"></div>
+        <div class="field"><label for="u-title">Lesson title</label><input id="u-title" placeholder="e.g. Unit Rates"></div>
+      </div>
+      <div class="field" style="margin-top:12px"><label for="u-notes">Notes for the worksheet (optional)</label><textarea id="u-notes" placeholder="e.g. 15 questions, include a Dubai shopping problem, keep the numbers small"></textarea></div>
+      <label class="drop" id="u-drop" style="margin-top:12px;display:block"><input type="file" id="u-file" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" hidden>
+        <b id="u-fname">Choose a file</b><br><span>or drop it here · PDF, Word, PowerPoint or a photo · up to 15 MB</span></label>
+      <div class="row" style="padding:12px 0 0;gap:10px"><button class="btn" id="u-go" type="button">Upload for a worksheet</button></div>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h2>My worksheets</h2><span class="aside"><button class="btn small plain" id="b-refresh" type="button">Refresh</button></span></div>
+      <div class="list" id="b-list"></div>
+    </section>
+
+    <section class="card" id="ed" hidden>
+      <div class="card-h"><h2 id="ed-h">Edit worksheet</h2><span class="aside" id="ed-status"></span></div>
+      <div class="bmsg err" id="ed-fb" hidden></div>
+      <div class="grid2b">
+        <div class="field"><label for="ed-lo">Learning objective (LO)</label><textarea id="ed-lo"></textarea></div>
+        <div class="field"><label for="ed-formula">Key formula or idea (optional)</label><textarea id="ed-formula"></textarea></div>
+      </div>
+      <div class="grid3" style="margin-top:12px">
+        <div class="field"><label for="ed-std">Standard</label><input id="ed-std"></div>
+        <div class="field"><label for="ed-keys">Keywords (comma-separated)</label><input id="ed-keys"></div>
+        <div class="field"><label for="ed-tip">Tip line (optional)</label><input id="ed-tip"></div>
+      </div>
+      <h3 style="margin:22px 0 10px;font-size:1rem">Parts</h3>
+      <div class="ed-parts" id="ed-parts" style="display:flex;flex-direction:column;gap:10px"></div>
+      <h3 style="margin:22px 0 10px;font-size:1rem">Questions</h3>
+      <div id="ed-qs" style="display:flex;flex-direction:column;gap:12px"></div>
+      <div class="row" style="padding:12px 0 0"><button class="btn small plain" id="ed-addq" type="button">+ Add a question</button></div>
+      <div class="edbar">
+        <button class="btn small plain" id="ed-close" type="button">Close</button>
+        <button class="btn small plain" id="ed-preview" type="button">Preview</button>
+        <button class="btn small plain" id="ed-save" type="button">Save</button>
+        <button class="btn small" id="ed-submit" type="button">Send for approval</button>
+      </div>
+    </section>
+  </div>
+</div>
+<script>
+(function(){
+"use strict";
+const API="@@STATS_URL@@";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+(function(){const t=lsGet("ais-theme");if(t&&t!=="system")document.documentElement.setAttribute("data-theme",t==="night"?"dark":t);})();
+let me=null;try{me=JSON.parse(lsGet("ais-teacher")||"null")}catch(e){}
+const api=b=>fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(b)}).then(r=>r.json());
+function msg(t,c){const m=$("b-msg");m.hidden=!t;m.textContent=t||"";m.className="bmsg"+(c?" "+c:"");if(t)m.scrollIntoView({block:"nearest"});}
+const STATUS={queued:["queued","Waiting for Claude"],draft:["draft","Draft ready – check it"],changes:["changes","Changes requested"],submitted:["submitted","Waiting for approval"],live:["live","Live"]};
+let builds=[], grades=[];
+
+async function load(){
+  if(!me||!me.s){$("b-login").hidden=false;return;}
+  $("b-who").textContent=(me.name||me.email)+" · "+me.email;
+  try{
+    const r=await api({a:"build-list",s:me.s});
+    if(!r.ok){if(r.error==="session"){$("b-login").hidden=false;return;}msg(r.error||"Could not load your worksheets.","err");return;}
+    grades=(r.grades||"").split(",").filter(Boolean);builds=r.builds||[];
+    if(!grades.length){$("b-noaccess").hidden=false;$("b-main").hidden=true;return;}
+    $("b-main").hidden=false;$("b-noaccess").hidden=true;
+    $("b-grades").textContent="Your grades: "+grades.map(g=>"Grade "+g).join(", ");
+    const sel=$("u-grade"),prev=sel.value;sel.innerHTML=grades.map(g=>'<option value="'+g+'">Grade '+g+'</option>').join("");if(grades.includes(prev))sel.value=prev;
+    renderList();
+  }catch(e){msg("Could not reach the school server. Check your connection and press Refresh.","err");}
+}
+function renderList(){
+  const L=builds.slice().sort((a,b)=>a.updated<b.updated?1:-1);
+  $("b-list").innerHTML=L.length?L.map(b=>{const s=STATUS[b.status]||[b.status,b.status];
+    const acts=(["draft","changes"].includes(b.status)?'<button class="btn small" data-act="edit" data-id="'+esc(b.id)+'">Check & edit</button>':'')+
+      (["draft","changes","submitted"].includes(b.status)?'<button class="btn small plain" data-act="preview" data-id="'+esc(b.id)+'">Preview</button>':'')+
+      (b.status==="live"?'<a class="btn small plain" href="worksheets/w.html?id='+esc(b.id)+'" target="_blank" rel="noopener">Open</a>':'')+
+      (["queued","draft","changes"].includes(b.status)?'<button class="btn small plain" data-act="cancel" data-id="'+esc(b.id)+'">Cancel</button>':'');
+    return '<div class="req"><div><span class="t">Grade '+esc(b.grade)+' · '+esc(b.code)+' '+esc(b.title)+'</span><br><span class="d">'+esc([b.term,b.module,b.topic].filter(Boolean).join(" · "))+' · '+esc(b.fileName)+(b.email!==me.email?' · by '+esc(b.name):'')+'</span></div>'+
+      '<div class="acts"><span class="pill '+esc(s[0])+'">'+esc(s[1])+'</span>'+acts+'</div>'+(b.status==="changes"&&b.feedback?'<div class="fbk"><b>Admin:</b> '+esc(b.feedback)+'</div>':'')+'</div>';}).join("")
+    :'<div class="empty">Nothing yet. Upload your first lesson above.</div>';
+}
+$("b-refresh").addEventListener("click",load);
+$("b-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-act]");if(!b)return;const id=b.dataset.id;
+  if(b.dataset.act==="edit")openEditor(id);
+  else if(b.dataset.act==="preview")window.open("worksheets/w.html?id="+id+"&draft=1","_blank","noopener");
+  else if(b.dataset.act==="cancel"){if(!confirm("Cancel this worksheet request?"))return;const r=await api({a:"build-cancel",s:me.s,id});if(r.ok){builds=r.builds;renderList();}else msg(r.error,"err");}
+});
+
+/* ---- upload ---- */
+let file=null;
+const drop=$("u-drop");
+function pick(f){if(!f)return;if(f.size>15*1048576){msg("That file is bigger than 15 MB. Save it as a smaller PDF and try again.","err");return;}file=f;$("u-fname").textContent=f.name;msg("");}
+$("u-file").addEventListener("change",e=>pick(e.target.files[0]));
+["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("on");}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("on");}));
+drop.addEventListener("drop",e=>pick(e.dataTransfer.files[0]));
+const MIME={pdf:"application/pdf",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",ppt:"application/vnd.ms-powerpoint",pptx:"application/vnd.openxmlformats-officedocument.presentationml.presentation",png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg"};
+$("u-go").addEventListener("click",async()=>{
+  const code=$("u-code").value.trim(),title=$("u-title").value.trim();
+  if(!file){msg("Choose your lesson file first.","err");return;}
+  if(!code||!title){msg("Type the lesson number and title.","err");return;}
+  const mime=MIME[(file.name.split(".").pop()||"").toLowerCase()]||file.type;
+  if(!Object.values(MIME).includes(mime)){msg("Upload a PDF, Word, PowerPoint or photo file.","err");return;}
+  $("u-go").disabled=true;msg("Uploading "+file.name+"…");
+  try{
+    const data=await new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>ok(String(fr.result).split(",")[1]);fr.onerror=no;fr.readAsDataURL(file);});
+    const r=await api({a:"build-new",s:me.s,grade:$("u-grade").value,term:$("u-term").value,module:$("u-module").value.trim(),topic:$("u-topic").value.trim(),code,title,notes:$("u-notes").value.trim(),fileName:file.name,mime,data});
+    if(!r.ok){msg(r.error||"The upload did not work. Please try again.","err");return;}
+    builds=r.builds;renderList();file=null;$("u-fname").textContent="Choose a file";["u-code","u-title","u-notes"].forEach(i=>$(i).value="");
+    msg("Uploaded! Your worksheet is in the queue. You will get an email when the draft is ready to check.","ok");
+  }catch(e){msg("The upload did not work. Check your connection and try again.","err");}
+  finally{$("u-go").disabled=false;}
+});
+
+/* ---- editor: change words, answers, hints and steps; pictures are kept as they are ---- */
+let cur=null, W=null;
+async function openEditor(id){
+  msg("Opening the worksheet…");
+  const r=await api({a:"build-get",s:me.s,id});
+  if(!r.ok){msg(r.error||"Could not open it.","err");return;}
+  msg("");cur=r.build;try{W=JSON.parse(cur.json);}catch(e){msg("This draft could not be read.","err");return;}
+  $("ed").hidden=false;$("ed-h").textContent="Grade "+cur.grade+" · "+cur.code+" "+cur.title;
+  $("ed-status").innerHTML='<span class="pill '+esc(cur.status)+'">'+esc((STATUS[cur.status]||[0,cur.status])[1])+'</span>';
+  $("ed-fb").hidden=!(cur.status==="changes"&&cur.feedback);$("ed-fb").textContent="Admin: "+(cur.feedback||"");
+  $("ed-lo").value=W.lo||"";$("ed-formula").value=W.formula||"";$("ed-std").value=W.standard||"";$("ed-keys").value=(W.keywords||[]).join(", ");$("ed-tip").value=W.tip||"";
+  renderEditor();$("ed").scrollIntoView({behavior:"smooth"});
+}
+function partOpts(sel){return W.parts.map(p=>'<option value="'+esc(p.id)+'"'+(p.id===sel?" selected":"")+'>'+esc(p.id)+'</option>').join("");}
+function renderEditor(){
+  $("ed-parts").innerHTML=W.parts.map((p,i)=>'<div class="prow"><div class="field"><label>Part</label><input value="'+esc(p.id)+'" disabled></div><div class="field"><label>Name</label><input data-p="'+i+'" data-k="name" value="'+esc(p.name||"")+'"></div><div class="field"><label>Instruction</label><input data-p="'+i+'" data-k="intro" value="'+esc(p.intro||"")+'"></div><div></div></div>').join("");
+  $("ed-qs").innerHTML=W.questions.map((q,i)=>{
+    const opts=(q.options||[]).join("\n");
+    return '<div class="ed-q" data-i="'+i+'"><h3>Question '+(i+1)+(q.draw?' <span class="hasPic">· has a picture</span>':'')+'<span class="sp"></span>'+
+      '<button class="iconbtn2" data-mv="-1" '+(i?"":"disabled")+' title="Move up">↑</button><button class="iconbtn2" data-mv="1" '+(i<W.questions.length-1?"":"disabled")+' title="Move down">↓</button><button class="iconbtn2" data-del title="Delete">Delete</button></h3>'+
+      '<div class="row4"><div class="field"><label>Part</label><select data-k="part">'+partOpts(q.part)+'</select></div>'+
+      '<div class="field"><label>Type</label><select data-k="kind"><option value="pick"'+(q.kind==="pick"?" selected":"")+'>Choose an answer</option><option value="num"'+(q.kind==="num"?" selected":"")+'>Type a number</option></select></div>'+
+      (q.kind==="num"?'<div class="field"><label>Correct number (fractions like 3/4 are fine)</label><input data-k="answer" value="'+esc(q.answer)+'"></div><div class="field"><label>Unit</label><input data-k="unit" value="'+esc(q.unit||"")+'"></div>'
+        :'<div class="field"><label>Correct answer (must match one option exactly)</label><input data-k="answer" value="'+esc(q.answer)+'"></div><div></div>')+'</div>'+
+      '<div class="field"><label>Question <span style="text-transform:none;letter-spacing:0;font-weight:500">(&lt;b&gt;word&lt;/b&gt; makes a word <b>bold</b>)</span></label><textarea data-k="text">'+esc(q.text)+'</textarea></div>'+
+      (q.kind==="pick"?'<div class="field"><label>Options (one per line)</label><textarea data-k="options">'+esc(opts)+'</textarea></div>':'')+
+      '<div class="grid2b"><div class="field"><label>Hint (after the first wrong answer)</label><textarea data-k="hint">'+esc(q.hint||"")+'</textarea></div>'+
+      '<div class="field"><label>Worked steps (one per line)</label><textarea data-k="steps">'+esc((q.steps||[]).join("\n"))+'</textarea></div></div>'+
+      (q.draw?'<label class="note"><input type="checkbox" data-k="nodraw" style="width:auto"> Remove the picture</label>':'')+'</div>';}).join("");
+}
+function frac(v){v=String(v).trim().replace(/[−–]/g,"-");if(/^-?\d+(\.\d+)?\/-?\d+(\.\d+)?$/.test(v)){const [a,b]=v.split("/").map(Number);return b?a/b:NaN;}return v===""?NaN:Number(v);}
+function collect(){
+  W.lo=$("ed-lo").value.trim();W.formula=$("ed-formula").value.trim();W.standard=$("ed-std").value.trim();W.tip=$("ed-tip").value.trim();
+  W.keywords=$("ed-keys").value.split(",").map(s=>s.trim()).filter(Boolean).slice(0,8);
+  $("ed-parts").querySelectorAll("input[data-p]").forEach(el=>{W.parts[+el.dataset.p][el.dataset.k]=el.value.trim();});
+  const errs=[];
+  $("ed-qs").querySelectorAll(".ed-q").forEach(box=>{const q=W.questions[+box.dataset.i],g=k=>{const el=box.querySelector('[data-k="'+k+'"]');return el?el.value:null;};
+    q.part=g("part");q.text=g("text").trim();q.hint=g("hint").trim();q.steps=g("steps").split("\n").map(s=>s.trim()).filter(Boolean);
+    if(q.kind==="pick"){q.options=g("options").split("\n").map(s=>s.trim()).filter(Boolean);q.answer=g("answer").trim();delete q.unit;delete q.tol;
+      if(!q.options.includes(q.answer))errs.push("Question "+(+box.dataset.i+1)+": the correct answer must match one of the options exactly.");
+      if(q.options.length<2)errs.push("Question "+(+box.dataset.i+1)+": give at least 2 options.");}
+    else{const v=frac(g("answer"));q.unit=g("unit").trim();delete q.options;if(!isFinite(v))errs.push("Question "+(+box.dataset.i+1)+": the correct answer must be a number.");else q.answer=v;if(!q.tol)q.tol=0.01;}
+    if(!q.text)errs.push("Question "+(+box.dataset.i+1)+": the question text is empty.");
+    const nd=box.querySelector('[data-k="nodraw"]');if(nd&&nd.checked)delete q.draw;
+  });
+  return errs;
+}
+$("ed-qs").addEventListener("change",e=>{const k=e.target.dataset.k;if(k!=="kind")return;collect();const q=W.questions[+e.target.closest(".ed-q").dataset.i];q.kind=e.target.value;
+  if(q.kind==="pick"&&!q.options){q.options=[String(q.answer||""),""].filter(Boolean);q.answer=String(q.answer||"");}if(q.kind==="num"){q.answer=isFinite(Number(q.answer))?Number(q.answer):0;}renderEditor();});
+$("ed-qs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const i=+b.closest(".ed-q").dataset.i;collect();
+  if(b.dataset.mv){const j=i+(+b.dataset.mv);[W.questions[i],W.questions[j]]=[W.questions[j],W.questions[i]];}
+  else if(b.hasAttribute("data-del")){if(W.questions.length<2||!confirm("Delete question "+(i+1)+"?"))return;W.questions.splice(i,1);}
+  renderEditor();});
+$("ed-addq").addEventListener("click",()=>{collect();W.questions.push({id:"q"+Date.now().toString(36),part:W.parts[W.parts.length-1].id,kind:"num",text:"",answer:0,tol:0.01,hint:"",steps:[]});renderEditor();
+  $("ed-qs").lastElementChild.scrollIntoView({behavior:"smooth"});});
+async function save(quiet){
+  const errs=collect();if(errs.length){msg(errs[0],"err");return false;}
+  const r=await api({a:"build-save",s:me.s,id:cur.id,json:JSON.stringify(W)});
+  if(!r.ok){msg(r.error||"Could not save.","err");return false;}
+  if(!quiet)msg("Saved.","ok");return true;
+}
+$("ed-save").addEventListener("click",()=>save(false));
+$("ed-preview").addEventListener("click",()=>{const errs=collect();if(errs.length){msg(errs[0],"err");return;}
+  lsSet("omega-preview:"+cur.id,JSON.stringify({json:JSON.stringify(W),title:cur.title,code:cur.code,grade:cur.grade,module:cur.module}));
+  window.open("worksheets/w.html?id="+cur.id+"&preview=1","_blank","noopener");});
+$("ed-submit").addEventListener("click",async()=>{if(!(await save(true)))return;
+  if(!confirm("Send this worksheet to the admin for approval? You cannot edit it while it is waiting."))return;
+  const r=await api({a:"build-submit",s:me.s,id:cur.id});
+  if(!r.ok){msg(r.error||"Could not send it.","err");return;}
+  builds=r.builds;renderList();$("ed").hidden=true;msg("Sent for approval. You will get an email when it is live.","ok");});
+$("ed-close").addEventListener("click",()=>{$("ed").hidden=true;});
+load();
+})();
+</script>
+</body>

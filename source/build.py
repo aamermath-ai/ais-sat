@@ -103,11 +103,11 @@ grades=open(S+'/worksheets-catalog.js').read()      # the worksheet list (grade 
 landing_css=open(S+'/landing.css').read()           # bright landing look for teacher.html (signed out) and join.html
 ill=open(S+'/landing-ill.html').read(); ill_l=ill[ill.index('<!--@@ILL_L-->')+14:ill.index('<!--@@ILL_R-->')]; ill_r=ill[ill.index('<!--@@ILL_R-->')+14:]
 def landing(h): return h.replace('/*@@LANDING_CSS@@*/',landing_css,1).replace('<!--@@ILL_L@@-->',ill_l,1).replace('<!--@@ILL_R@@-->',ill_r,1)
-ws=open(S+'/worksheets.html').read().replace('/*@@GRADES@@*/',grades,1)
-ws=ws.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
-ws=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega Worksheets: interactive math class worksheets for Grades 6-12').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
-open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), "", None, "strict-origin-when-cross-origin"))
 STATS_URL=re.search(r'const STATS_URL="([^"]*)"',src).group(1)   # the school's Apps Script (source/analytics/Code.gs)
+ws=open(S+'/worksheets.html').read().replace('/*@@GRADES@@*/',grades,1).replace('/*@@QRLIB@@*/',open(S+'/vendor/qrcode.js').read(),1)
+ws=ws.replace('@@STATS_URL@@',STATS_URL).replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
+ws=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega Worksheets: interactive math class worksheets for Grades 6-12').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
+open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), GS, None, "strict-origin-when-cross-origin"))   # GS: lists worksheets made with the builder
 report=open(S+'/ws-report.html').read().replace('@@STATS_URL@@',STATS_URL)   # "Send to my teacher" on every worksheet
 os.makedirs(OUT+'/worksheets',exist_ok=True)
 SITE_URL='https://aamermath-ai.github.io/ais-sat/'   # public address of the site, used in the worksheet QR codes
@@ -126,6 +126,15 @@ for f in sorted(os.listdir(S+'/worksheets')):
         w=add_calc(w,'../')
         KX="https://cdnjs.cloudflare.com" if "KaTeX" in w else ""   # calculus worksheets typeset maths with KaTeX
         open(OUT+'/worksheets/'+f,'w').write(csp(w, GS, None, "strict-origin-when-cross-origin", scripts=KX, styles=KX, fonts=KX))
+# ---- Worksheet builder (contributors upload lessons, edit drafts): build.html
+bp=open(S+'/build.html').read().replace('@@STATS_URL@@',STATS_URL).replace('/*@@SHARED_CSS@@*/',css,1).replace('@@LOGO@@',logo)
+bp=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega Worksheet builder').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+bp+'</html>\n'
+open(OUT+'/build.html','w').write(csp(bp, GS, None, "no-referrer"))
+# ---- Built worksheets (Worksheet builder): one page shows any approved worksheet, worksheets/w.html?id=…
+lv=open(S+'/worksheet-live.html').read().replace('@@STATS_URL@@',STATS_URL)
+late='<template id="ws-late">'+kit.replace('@@QR@@','').replace('@@URL@@','')+report+'</template>'
+lv=lv.replace('<!--@@LATE@@-->',late,1).replace('/*@@QRLIB@@*/',open(S+'/vendor/qrcode.js').read(),1)
+open(OUT+'/worksheets/w.html','w').write(csp(add_calc(lv,'../'), GS, None, "strict-origin-when-cross-origin"))
 # ---- Teacher sign-in (Sign in with Google) + worksheet results dashboard
 qrlib=open(S+'/vendor/qrcode.js').read()   # QR Code Generator by Kazuhiko Arase (MIT licence, header kept), for class-code QR codes
 tp=landing(open(S+'/teacher.html').read()).replace('@@STATS_URL@@',STATS_URL).replace('/*@@GRADES@@*/',grades,1)

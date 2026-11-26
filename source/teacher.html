@@ -245,6 +245,10 @@ body:not(.signed-out) .lp{display:none}
           <button class="btn small plain" id="t-out-btn">Sign out</button>
         </article>
 
+        <a class="card" id="t-builder" href="build.html" hidden style="display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.8rem" aria-hidden="true">🛠️</span>
+          <span style="flex:1"><b style="display:block;font-size:1.05rem">Worksheet builder</b><span class="note" id="t-builder-g">Upload a lesson file and turn it into a worksheet.</span></span>
+          <span class="btn small">Open</span></a>
         <article class="card" id="t-assign">
           <div class="card-h"><h2>Share a worksheet with your class</h2><span class="aside">Students join by QR code, link or Microsoft Teams</span></div>
           <div class="asg">
@@ -449,7 +453,8 @@ async function load(){
   try{
     const r=await api({a:"data",s:me.s});
     if(!r.ok){if(r.error==="session"){me=null;lsDel(SESS);openLogin(lsGet("ais-teacher-email")||"");msg("Please log in again.");}else alert(r.error||"Could not load results.");return;}
-    data=r; me.owner=!!r.owner; lsSet(SESS,JSON.stringify(me)); render();
+    data=r; me.owner=!!r.owner; me.grades=r.grades||""; lsSet(SESS,JSON.stringify(me)); render();
+    $("t-builder").hidden=!me.grades;if(me.grades)$("t-builder-g").textContent="Upload a lesson file and turn it into a worksheet · Grades "+me.grades.split(",").join(", ")+".";
   }catch(e){$("t-empty").hidden=false;$("t-dash").hidden=true;$("t-empty-txt").textContent="Could not reach the school server. Check your connection and press Refresh.";}
   finally{$("t-refresh").disabled=false;}
 }
@@ -467,10 +472,13 @@ const SITE=new URL(".",location.href).href;            // the site's address (�
 // the link also carries the worksheet and class, so students can start even if the school server is slow or blocked
 const joinUrl=A=>SITE+"join.html?"+new URLSearchParams(A.ws?{c:A.code,w:A.ws,k:A.cls}:{c:A.code}).toString();
 let pendingSel="";
-(function fillWorksheets(){
+function fillWorksheets(){
   $("a-ws").innerHTML=GRADES.filter(g=>g.terms.length).map(g=>'<optgroup label="'+esc(g.name+" · "+g.course)+'">'+
     g.terms.flatMap(t=>t.modules.flatMap(m=>m.items.filter(it=>it.ws).map(it=>'<option value="'+esc(it.ws)+'" data-file="'+esc(it.file)+'" data-title="'+esc(it.code+" "+it.title)+'" data-grade="'+esc(g.id)+'">'+esc(it.code+" "+it.title+" · "+t.name)+'</option>'))).join("")+'</optgroup>').join("");
-})();
+}
+fillWorksheets();
+// add worksheets made with the Worksheet builder
+fetch(API+"?a=wslist").then(r=>r.json()).then(r=>{if(r&&r.ok&&r.worksheets&&r.worksheets.length){const v=$("a-ws").value;mergeLive(r.worksheets);fillWorksheets();if(v)$("a-ws").value=v;}}).catch(()=>{});
 function amsg(t,c){const m=$("a-msg");m.hidden=!t;m.textContent=t||"";m.className="tmsg"+(c?" "+c:"");}
 $("a-go").addEventListener("click",async()=>{
   const o=$("a-ws").selectedOptions[0], cls=$("a-cls").value.trim();

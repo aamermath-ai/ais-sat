@@ -78,7 +78,7 @@ function show(r){
   let meta="Grade "+r.grade+" · Code "+r.code;
   if(r.due){const d=new Date(r.due+"T12:00:00");if(!isNaN(d))meta+=" · Due "+d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});}
   $("j-meta").textContent=meta;
-  $("j-start").href=r.file+"?"+new URLSearchParams(r.offline&&r.cls?{c:r.code,k:r.cls}:{c:r.code}).toString();
+  $("j-start").href=r.file+(r.file.includes("?")?"&":"?")+new URLSearchParams(r.offline&&r.cls?{c:r.code,k:r.cls}:{c:r.code}).toString();
   $("j-start").focus();
 }
 let lastCode="";

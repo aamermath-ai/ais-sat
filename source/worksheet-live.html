@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omega Worksheet</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Omega built worksheets: one page shows any worksheet made with the Worksheet builder (worksheets/w.html?id=…).
+   The worksheet itself is data (JSON) kept in the school's Apps Script; see source/worksheets/BUILDER.md.
+   Same look and question engine as the hand-made worksheets (3.1, 3.2). */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a);--blue:light-dark(#1f6fd1,#6fb2ff)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.formula{font-size:26px;font-weight:700;color:var(--green);margin:4px 0}
+.formula small{font-size:18px;color:var(--mut);font-weight:600}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:260px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line);text-align:left}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:2px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.calc-tip{margin-top:6px}.calc-tip a{color:var(--green);font-weight:600}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+.rule{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:6px 0 10px}
+.rule div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:15px}
+.rule b{color:var(--green)}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.keys span{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+@media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}.rule{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+
+.state{max-width:640px;margin:12vh auto;padding:24px;text-align:center}
+.draftbar{position:relative;z-index:30;background:#ffc23d;color:#2b1d00;font-weight:600;font-size:15px;text-align:center;padding:8px 14px}
+</style>
+</head>
+<body>
+<div class="draftbar" id="draftbar" hidden></div>
+<div id="app" hidden>
+<div class="flag"><i></i><b></b></div>
+<header class="band"><div class="wrap hero" id="hero">
+  <div>
+    <a class="back" id="back" href="../worksheets.html">← All worksheets</a>
+    <div class="kick" id="kick"></div>
+    <h1 id="title"></h1>
+    <div class="lo" id="lo"></div>
+    <div class="formula" id="formula" hidden></div>
+    <div class="tip" id="tipline" hidden></div>
+    <div class="keys" id="keys" aria-label="Keywords"></div>
+    <div class="tip calc-tip">Need a calculator? Tap <b>Calculator</b> at the bottom right. <a href="#" data-calc-video>▶ Watch how to use it</a></div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 7A2"></div>
+    </div>
+  </div>
+  <div class="scene" id="scene" hidden></div>
+</div></header>
+<div class="bar"><div class="wrap"><b id="sc">Score 0</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <div id="parts"></div>
+  <section class="result" id="res">
+    <h2>My result</h2>
+    <p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0</div>
+    <div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div>
+  </section>
+  <footer><p id="foot">Write every step in your notebook as well.</p></footer>
+</div></main>
+</div>
+<div class="state" id="state"><p class="tip">Loading the worksheet…</p></div>
+<!--@@LATE@@-->
+<script>
+/*@@QRLIB@@*/
+</script>
+<script>
+{
+const API="@@STATS_URL@@";
+const G='#00843D',R='#C8102E',B_='#1f6fd1',INK='currentColor';
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmtN=v=>{const s=String(Math.round(v*1000)/1000);return s.replace('-','−')};
+const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
+const ST=`<style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.big{font:700 26px Lexend,sans-serif;fill:${INK}}.sm{font:600 12px Lexend,sans-serif;fill:${INK};opacity:.75}.gr{fill:${G}}.rd{fill:${R}}.bl{fill:${B_}}</style>`;
+const box=`<rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>`;
+let uid=0;
+const $=id=>document.getElementById(id);
+const P=new URLSearchParams(location.search), ID=(P.get('id')||'').toLowerCase(), MODE=P.get('preview')?'preview':P.get('draft')?'draft':'live';
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}}, ssGet=k=>{try{return sessionStorage.getItem(k)}catch(e){return null}};
+
+/* ---- everything shown comes from data: keep only simple formatting, never scripts or links ---- */
+const TXT_OK=new Set(['B','STRONG','I','EM','SUB','SUP','BR','SPAN','U']);
+function clean(html){
+  const t=document.createElement('template');t.innerHTML=String(html==null?'':html);
+  (function walk(n){[...n.childNodes].forEach(c=>{
+    if(c.nodeType===1){if(/^(SCRIPT|STYLE|TEMPLATE|IFRAME|OBJECT|SVG|MATH)$/.test(c.tagName)){c.remove();return;}walk(c);if(!TXT_OK.has(c.tagName)){c.replaceWith(...c.childNodes);}else{[...c.attributes].forEach(a=>c.removeAttribute(a.name));}}
+    else if(c.nodeType!==3)c.remove();});})(t.content);
+  return t.innerHTML;
+}
+const SVG_OK=new Set(['svg','g','path','rect','circle','ellipse','line','polyline','polygon','text','tspan','defs','lineargradient','radialgradient','stop','clippath','title','desc','use','pattern']);
+const SVG_ATTR=/^(viewbox|width|height|x|y|x1|x2|y1|y2|cx|cy|r|rx|ry|d|points|fill|fill-opacity|fill-rule|stroke|stroke-width|stroke-opacity|stroke-linecap|stroke-linejoin|stroke-dasharray|opacity|transform|font-family|font-size|font-weight|text-anchor|dominant-baseline|id|offset|stop-color|stop-opacity|gradientunits|gradienttransform|clip-path|clippathunits|role|aria-label|xmlns|href|preserveaspectratio|letter-spacing|patternunits)$/;
+function cleanSvg(svg){
+  const doc=new DOMParser().parseFromString(String(svg||''),'image/svg+xml'), root=doc.documentElement;
+  if(!root||root.nodeName.toLowerCase()!=='svg'||doc.querySelector('parsererror'))return '';
+  (function walk(n){[...n.children].forEach(c=>{
+    if(!SVG_OK.has(c.nodeName.toLowerCase())){c.remove();return;}
+    [...c.attributes].forEach(a=>{const k=a.name.toLowerCase(),v=a.value;
+      if(!SVG_ATTR.test(k.replace(/^xlink:/,''))||/javascript:|data:|url\((?!#)/i.test(v)||((k==='href'||k==='xlink:href')&&!v.startsWith('#')))c.removeAttribute(a.name);});
+    walk(c);});})({children:[root]});
+  return new XMLSerializer().serializeToString(root);
+}
+const plain=s=>{const d=document.createElement('div');d.innerHTML=clean(s);return d.textContent;};
+
+function draw(o){
+  if(!o)return '';
+  if(o.type==='plot')return plot(o);
+  if(o.type==='svg')return cleanSvg(o.svg);
+  if(o.type==='card'){const rows=(o.rows||[]).slice(0,5),h=196,step=h/(rows.length+1);
+    return `<svg viewBox="0 0 380 236" role="img" aria-label="${esc(rows.map(r=>r[0]).join(', '))}">${ST}${box}${flagIcon(26,34,.8)}`+
+      rows.map((r,i)=>`<text x="190" y="${Math.round(30+step*(i+1)+8)}" text-anchor="middle" class="${['big','l','sm'].includes(r[1])?r[1]:'l'}">${esc(r[0])}</text>`).join('')+'</svg>';}
+  return '';
+}
+// a coordinate grid with lines, labelled points and rise/run arrows
+function plot(o){
+  const W=380,H=262,L=52,Rr=362,T=o.yl?40:22,Bt=210,id='c'+(++uid);
+  const sx=v=>L+(v-o.x0)*(Rr-L)/(o.x1-o.x0), sy=v=>Bt-(v-o.y0)*(Bt-T)/(o.y1-o.y0);
+  const gx=o.gx||1, gy=o.gy||1, lx=o.lx||gx, ly=o.ly||gy;
+  let g='';
+  for(let x=Math.ceil(o.x0/gx)*gx;x<=o.x1+1e-9;x+=gx)g+=`<line x1="${sx(x)}" y1="${T}" x2="${sx(x)}" y2="${Bt}" stroke="${INK}" stroke-opacity=".12"/>`;
+  for(let y=Math.ceil(o.y0/gy)*gy;y<=o.y1+1e-9;y+=gy)g+=`<line x1="${L}" y1="${sy(y)}" x2="${Rr}" y2="${sy(y)}" stroke="${INK}" stroke-opacity=".12"/>`;
+  const ax=sx(Math.max(o.x0,Math.min(o.x1,0))), ay=sy(Math.max(o.y0,Math.min(o.y1,0)));
+  g+=`<line x1="${L}" y1="${ay}" x2="${Rr}" y2="${ay}" stroke="${INK}" stroke-width="2"/><line x1="${ax}" y1="${T}" x2="${ax}" y2="${Bt}" stroke="${INK}" stroke-width="2"/>`;
+  for(let x=Math.ceil(o.x0/lx)*lx;x<=o.x1+1e-9;x+=lx)if(Math.abs(x)>1e-9)g+=`<text x="${sx(x)}" y="${ay+16}" text-anchor="middle" class="sm">${fmtN(x)}</text>`;
+  for(let y=Math.ceil(o.y0/ly)*ly;y<=o.y1+1e-9;y+=ly)if(Math.abs(y)>1e-9)g+=`<text x="${ax-7}" y="${sy(y)+4}" text-anchor="end" class="sm">${fmtN(y)}</text>`;
+  g+=`<clipPath id="${id}"><rect x="${L}" y="${T}" width="${Rr-L}" height="${Bt-T}"/></clipPath>`;
+  (o.lines||[]).filter(Boolean).forEach(([a,b,c,lab])=>{c=c||G;
+    let p1,p2;
+    if(a[0]===b[0]){p1=[sx(a[0]),T];p2=[sx(a[0]),Bt];}
+    else{const m=(b[1]-a[1])/(b[0]-a[0]),y=x=>a[1]+m*(x-a[0]),pad=(o.x1-o.x0);p1=[sx(o.x0-pad),sy(y(o.x0-pad))];p2=[sx(o.x1+pad),sy(y(o.x1+pad))];}
+    g+=`<line clip-path="url(#${id})" x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;
+    if(lab){const lxp=a[0]===b[0]?sx(a[0])+8:sx(o.x1)-6, lyp=a[0]===b[0]?T+16:sy(a[1]+(b[1]-a[1])/(b[0]-a[0])*(o.x1-a[0]))+(b[1]<a[1]?-8:16);
+      g+=`<text x="${lxp}" y="${Math.max(T+14,Math.min(Bt-6,lyp))}" text-anchor="${a[0]===b[0]?'start':'end'}" style="font:700 15px Lexend,sans-serif;fill:${c}">${esc(lab)}</text>`;}});
+  if(o.rr){const [a,b]=[o.rr.a,o.rr.b],X1=sx(a[0]),Y1=sy(a[1]),X2=sx(b[0]),Y2=sy(b[1]),up=Y2<Y1;
+    g+=`<path d="M${X1} ${Y1}H${X2-(X2>X1?9:-9)}" stroke="${B_}" stroke-width="3.5"/><path d="M${X2} ${Y1}l${X2>X1?-11:11} -6v12z" fill="${B_}"/>`;
+    g+=`<path d="M${X2} ${Y1}V${Y2+(up?9:-9)}" stroke="${R}" stroke-width="3.5"/><path d="M${X2} ${Y2}l-6 ${up?11:-11}h12z" fill="${R}"/>`;
+    g+=`<text x="${(X1+X2)/2}" y="${Y1+(up?20:-10)}" text-anchor="middle" style="font:700 14px Lexend,sans-serif;fill:${B_}">${esc(o.rr.run)}</text>`;
+    g+=`<text x="${X2+8}" y="${(Y1+Y2)/2+5}" style="font:700 14px Lexend,sans-serif;fill:${R}">${esc(o.rr.rise)}</text>`;}
+  const ln=(o.lines||[]).find(Boolean)||(o.rr?[o.rr.a,o.rr.b]:null), up=ln?((ln[1][1]-ln[0][1])*(ln[1][0]-ln[0][0])>=0):true;
+  (o.pts||[]).forEach(([x,y,t,pos])=>{const X=sx(x),Y=sy(y),w=String(t||'').length*8.2;
+    g+=`<circle cx="${X}" cy="${Y}" r="6.5" fill="${INK}" stroke="#fff" stroke-width="2.5"/>`;
+    if(!t)return;
+    // uphill line: the free corners are up-left and down-right; downhill: up-right and down-left
+    let left=up, above=true;
+    if(left&&X-10-w<L){left=false;above=false;} else if(!left&&X+10+w>W-2){left=true;above=false;}
+    if(pos==='below')above=false;
+    if(above&&Y-12<T+4)above=false; if(!above&&Y+20>Bt-2)above=true;
+    g+=`<text x="${X+(left?-10:10)}" y="${Y+(above?-10:20)}" text-anchor="${left?'end':'start'}" style="font:700 14px Lexend,sans-serif;fill:${INK}">${esc(t)}</text>`;});
+  if(o.xl)g+=`<text x="${Rr}" y="${Bt+38}" text-anchor="end" class="l">${esc(o.xl)}</text>`;
+  if(o.yl)g+=`<text x="${L-44}" y="${T-20}" class="l">${esc(o.yl)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graph">${ST}${g}</svg>`;
+}
+
+
+
+async function load(){
+  if(!/^w[a-z0-9]{8}$/.test(ID))throw new Error('notfound');
+  if(MODE==='preview'){const j=lsGet('omega-preview:'+ID);if(!j)throw new Error('nopreview');let o={};try{o=JSON.parse(j)}catch(e){}return o.json?Object.assign({status:'preview'},o):{json:j,status:'preview'};}
+  const post=b=>fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(b)}).then(r=>r.json());
+  let r;
+  if(MODE==='draft'){
+    const key=ssGet('ais-admin-key')||lsGet('ais-admin-key'); let me=null;try{me=JSON.parse(lsGet('ais-teacher')||'null')}catch(e){}
+    if(me&&me.s)r=await post({a:'build-get',s:me.s,id:ID});
+    if((!r||!r.ok)&&key)r=await post({a:'admin',key,op:'build-get',id:ID});
+  }else r=await (await fetch(API+'?a=wsget&id='+ID)).json();
+  if(!r||!r.ok||!r.build||!r.build.json)throw new Error(r&&r.error==='notfound'?'notfound':'denied');
+  return r.build;
+}
+function fail(e){$('state').innerHTML='<h1 style="font-size:28px">Worksheet not available</h1><p class="tip">'+
+  ({notfound:'This worksheet is not published (yet). Check the link with your teacher.',denied:'Log in on the teacher page (or open the admin page) first, then open this preview again.',nopreview:'Open the preview again from the Worksheet builder.'}[e.message]||'Could not reach the school server. Check your internet connection and reload.')+
+  '</p><p><a class="back" href="../worksheets.html">← All worksheets</a></p>';}
+
+load().then(b=>{
+  const W=JSON.parse(b.json);
+  const grade=String(b.grade||W.grade||''), code=String(b.code||W.code||''), title=String(b.title||W.title||'Worksheet');
+  const fullTitle=(code?code+' ':'')+title;
+  document.title=fullTitle+' · Omega Worksheets';
+  if(MODE!=='live'){$('draftbar').hidden=false;$('draftbar').textContent=MODE==='preview'?'Preview of your unsaved changes · not live':'Draft preview · not live yet ('+(b.status||'draft')+')';}
+  $('back').href='../worksheets.html'+(grade?'#grade-'+grade:'');
+  $('kick').textContent=W.kicker||('Grade '+grade+(b.module?' · '+b.module:''));
+  $('title').textContent=fullTitle;
+  $('lo').innerHTML=(W.lo?'<b>LO:</b> '+clean(W.lo):'')+(W.standard?'<br><span class="tip">Standard: '+esc(W.standard)+'</span>':'');$('lo').hidden=!W.lo&&!W.standard;
+  if(W.formula){$('formula').hidden=false;$('formula').innerHTML=clean(W.formula);}
+  if(W.tip){$('tipline').hidden=false;$('tipline').innerHTML=clean(W.tip);}
+  $('keys').innerHTML=(W.keywords||[]).slice(0,8).map(k=>'<span>'+esc(k)+'</span>').join('');
+  const hero=W.hero&&W.hero.svg?cleanSvg(W.hero.svg):'';
+  if(hero){$('scene').hidden=false;$('scene').innerHTML=hero;}else $('hero').style.gridTemplateColumns='minmax(0,1fr)';
+  if(W.footer)$('foot').textContent=W.footer;
+  const parts={};
+  $('parts').innerHTML=W.parts.map(p=>{parts[p.id]=String(p.name||p.id);return `<section class="part"><h2>Part ${esc(p.id)} · ${esc(p.name||'')}</h2>${p.intro?`<p class="mut">${clean(p.intro)}</p>`:''}<div id="part-${esc(p.id)}"></div></section>`;}).join('');
+  const Q=W.questions.map((q,i)=>({id:String(q.id||('q'+(i+1))).replace(/[^\w-]/g,''),p:String(q.part),kind:q.kind,opts:(q.options||[]).map(String),ans:q.kind==='num'?Number(q.answer):String(q.answer),
+    tol:Number(q.tol)>0?Number(q.tol):0.01,unit:q.unit?String(q.unit):'',t:clean(q.text),hint:clean(q.hint||'Read the question again carefully.'),steps:(q.steps||[]).map(clean),d:q.draw}));
+  const KEY='omega-ws:'+ID+(MODE==='live'?'':':'+MODE);let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+  S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+  const parse=s=>{s=String(s).trim().replace(/[−–]/g,'-').replace(/,/g,'.').replace(/[^0-9.\/\-]/g,'');if(!s)return NaN;if(s.includes('/')){const[a,c]=s.split('/').map(Number);return c?a/c:NaN}return Number(s)};
+  let n=0;
+  for(const q of Q){
+    n++;const host=$('part-'+q.p);if(!host)continue;
+    const box=document.createElement('article');box.className='q';box.id='q-'+q.id;
+    const ctl=q.kind==='pick'
+      ?`<div class="pick">${q.opts.map(o=>`<button type="button" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`
+      :`<div class="row"><input inputmode="text" aria-label="Answer for question ${n}" placeholder="Your answer${q.unit?' ('+esc(q.unit)+')':''}"><button type="button" class="chk">Check</button></div>`;
+    const pic=draw(q.d);
+    box.innerHTML=`<div><h3><span class="num">${n}</span>Question ${n}</h3><p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div>${pic?`<div>${pic}</div>`:''}`;
+    if(!pic)box.style.gridTemplateColumns='minmax(0,1fr)';
+    host.appendChild(box);
+    const fb=box.querySelector('.fb'),st=S.q[q.id]||(S.q[q.id]={done:false,tries:0,v:''});
+    const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg};
+    const stepsHtml=(part)=>{if(!q.steps.length)return '';const L=part?q.steps.slice(0,-1).concat(['Now finish this last step yourself.']):q.steps;return `<ol class="steps">${L.map(s=>`<li>${s}</li>`).join('')}</ol>`};
+    const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+    const judge=ok=>{
+      if(ok){st.done=true;win()}
+      else{st.tries++;show(false,st.tries<2||!q.steps.length||q.kind==='pick'?`<b>Not yet.</b> Hint: ${q.hint}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(true)}`)}
+      save();score();
+    };
+    if(q.kind==='pick'){
+      box.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
+        if(st.done)return;const ok=b.dataset.o===q.ans;b.classList.add(ok?'ok':'no');judge(ok);
+        if(ok)box.querySelectorAll('.pick button').forEach(x=>x.disabled=true)}));
+      if(st.done){box.querySelectorAll('.pick button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.ans)x.classList.add('ok')});win()}
+    }else{
+      const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+      const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+        if(isNaN(v)){show(false,'Type a number first, like 3, −2 or 3/4.');return}
+        const ok=Math.abs(v-q.ans)<=q.tol;judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+      btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+      if(st.done){inp.disabled=true;btn.disabled=true;win()}
+    }
+  }
+  function score(){
+    const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length,tot=Q.length;
+    $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+    $('lv').textContent=got===tot?'All done – amazing!':got>=tot*0.7?'Nearly there!':got>=tot*0.3?'Good progress!':'Let’s start!';
+    $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${esc(parts[k])}</div>`}).join('');
+    const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+    $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · ${fullTitle} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+    document.dispatchEvent(new Event('ais-ws-change'));
+  }
+  $('nm').value=S.nm||'';$('cl').value=S.cl||'';
+  window.AISWS={id:'w-'+ID,title:fullTitle,grade,parts,
+    get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
+  ['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+  $('copy').addEventListener('click',async()=>{
+    const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
+    const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – ${fullTitle} – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
+    try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
+  });
+  let armed=false;
+  $('reset').addEventListener('click',()=>{
+    if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+    S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
+  });
+  score();
+  $('state').remove();$('app').hidden=false;
+  // now start the shared extras (City Missions game, QR code, Send to my teacher) for this worksheet
+  const late=$('ws-late');
+  if(late&&MODE==='live'){   // drafts and previews never send results
+    [...late.content.childNodes].forEach(nd=>{
+      if(nd.nodeName==='SCRIPT'){const s=document.createElement('script');s.textContent=nd.textContent;document.body.appendChild(s);}
+      else document.body.appendChild(nd.cloneNode(true));
+    });
+    const url=location.origin+location.pathname+'?id='+ID;
+    const img=document.querySelector('.gm-qr-box img'),u=$('gm-qr-url');
+    if(u)u.textContent=url;
+    if(img&&window.qrcode){const q=qrcode(0,'H');q.addData(url);q.make();img.src=q.createDataURL(10,8);}
+  }
+}).catch(fail);
+}
+</script>
+</body>
+</html>

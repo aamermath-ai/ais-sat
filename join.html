@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-hggYX6l1Mus38wpc3lfOkHmXbGtikCHYudhyyerB2Vw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-YiH44Mue0EWTDvZJBNXjsUkwUCbCUN6i2WPv/DvO+Lg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Join your class on Omega with the code from your teacher. The last word in math.">
@@ -348,6 +348,20 @@ const GRADES=[
         {code:"10.14",ws:"g12-calc-10-14",title:"Finding Taylor or Maclaurin Series for a Function",sub:"5 questions \u00b7 hints and worked steps",file:"worksheets/g12-calculus-10-14.html"},
         {code:"10.15",ws:"g12-calc-10-15",title:"Representing Functions as a Power Series",sub:"5 questions \u00b7 hints and worked steps",file:"worksheets/g12-calculus-10-15.html"}]}]}]}
 ];
+/* Worksheets made with the Worksheet builder (approved on admin.html) are added at run time from the school's
+   Apps Script (?a=wslist). They all open on worksheets/w.html?id=…  */
+function mergeLive(list){
+  const num=c=>String(c).split(".").map(Number);
+  (list||[]).forEach(w=>{
+    const g=GRADES.find(x=>x.id===String(w.grade));if(!g)return;
+    const tn=w.term||"Term 1",mn=w.module||"Worksheets";
+    let t=g.terms.find(x=>x.name===tn);if(!t){t={name:tn,modules:[]};g.terms.push(t);g.terms.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));}
+    let m=t.modules.find(x=>x.name===mn);if(!m){m={name:mn,topic:w.topic||"",items:[]};t.modules.push(m);t.modules.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));}
+    const file="worksheets/w.html?id="+w.id;if(m.items.some(i=>i.file===file))return;
+    m.items.push({code:String(w.code),ws:"w-"+w.id,title:String(w.title),sub:(w.n?w.n+" questions":"Questions")+" with hints and worked steps",file,dyn:true});
+    m.items.sort((a,b)=>{const x=num(a.code),y=num(b.code);return (x[0]-y[0])||((x[1]||0)-(y[1]||0));});
+  });
+}
 
 const WS={};GRADES.forEach(g=>g.terms.forEach(t=>t.modules.forEach(m=>m.items.forEach(it=>{if(it.ws)WS[it.ws]=Object.assign({grade:g.id},it);}))));
 const Q=new URLSearchParams(location.search), qW=String(Q.get("w")||""), qK=String(Q.get("k")||"").replace(/[^A-Za-z0-9 .\-]/g,"").slice(0,12);
@@ -376,7 +390,7 @@ function show(r){
   let meta="Grade "+r.grade+" · Code "+r.code;
   if(r.due){const d=new Date(r.due+"T12:00:00");if(!isNaN(d))meta+=" · Due "+d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});}
   $("j-meta").textContent=meta;
-  $("j-start").href=r.file+"?"+new URLSearchParams(r.offline&&r.cls?{c:r.code,k:r.cls}:{c:r.code}).toString();
+  $("j-start").href=r.file+(r.file.includes("?")?"&":"?")+new URLSearchParams(r.offline&&r.cls?{c:r.code,k:r.cls}:{c:r.code}).toString();
   $("j-start").focus();
 }
 let lastCode="";

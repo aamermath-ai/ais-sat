@@ -29,6 +29,7 @@ var HEAD = ['received', 'date', 'type', 'device', 'mode', 'questions', 'correct'
 var TYPES = ['visit', 'tab', 'set'];
 
 // ---- security limits
+var MAX_UPLOAD_BODY = 21000000;   // a 15 MB file becomes about 20 MB as base64
 var MAX_BODY = 4000;            // bytes per request; events are ~200, worksheet results ~800, Google sign-in tokens ~1200
 var MAX_PER_DEVICE_HOUR = 120;  // a student generates well under 30 events an hour
 var MAX_PER_DAY = 20000;        // whole-site cap per day, to stop anyone flooding the sheet
@@ -62,7 +63,8 @@ function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
     var body = (e && e.postData && e.postData.contents) || '';
-    if (body.length > MAX_BODY) return out_({ ok: false });
+    var big = /^\{"a":"build-(new|save)"/.test(body.slice(0, 20));   // contributor upload (file) or saved worksheet draft
+    if (body.length > (big ? MAX_UPLOAD_BODY : MAX_BODY)) return out_({ ok: false, error: big ? 'The file is too big (max 15 MB).' : '' });
     var d = JSON.parse(body || '{}');
     if (d.a) return out_(teacherApi_(d));   // teacher sign-in and dashboard (teacher.html)
     if (d.t === 'ws') return out_(worksheetSubmit_(d, lock));   // a student sends a worksheet score
@@ -100,6 +102,8 @@ function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.a === 'config') return out_({ ok: true, v: 3, owners: list_('OWNER_EMAILS').length > 0, clientId: prop_('GOOGLE_CLIENT_ID') });
   if (p.a === 'join') return out_(joinInfo_(p.c));
+  if (p.a === 'wslist') return out_(liveList_());
+  if (p.a === 'wsget') return out_(liveGet_(p.id));
   var key = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
   if (!key) return out_({ ok: false, error: 'ADMIN_KEY is not set in Project Settings → Script properties.' });
   if (key.length < MIN_KEY_LENGTH) return out_({ ok: false, error: 'For security, ADMIN_KEY must be at least ' + MIN_KEY_LENGTH + ' characters. Make it longer in Script properties.' });
@@ -196,7 +200,7 @@ function worksheetSubmit_(d, lock) {
 // Teachers: Sign in with Google, approval, dashboard data
 // ======================================================================================================
 var T_SHEET = 'Teachers';
-var T_HEAD = ['email', 'name', 'status', 'requested', 'lastLogin'];
+var T_HEAD = ['email', 'name', 'status', 'requested', 'lastLogin', 'grades'];   // grades: worksheet contributor, e.g. "6,7"
 var SESSION_DAYS = 7;
 var MAX_LOGINS_PER_HOUR = 300;
 
@@ -296,9 +300,10 @@ function teacherApi_(d) {
   if (statusOf_(email) !== 'approved') return { ok: false, error: 'session' };
   if (count_(cache, 'tapi:' + email, 3600) > 600) return { ok: false, error: 'Too many requests. Try again later.' };
   if (d.a === 'data') return worksheetData_(email);
+  if (/^build-/.test(String(d.a))) return buildApi_(email, d);
   if (d.a === 'assign') {   // create a class code for a worksheet
     var ws = String(d.ws || ''), file = String(d.file || ''), cls = plain_(d.cls, 12).toUpperCase();
-    if (!/^[a-z0-9][a-z0-9\-]{2,60}$/.test(ws) || !/^worksheets\/[a-z0-9\-]+\.html$/.test(file) || !cls) return { ok: false, error: 'Choose a worksheet and type the class.' };
+    if (!/^[a-z0-9][a-z0-9\-]{2,60}$/.test(ws) || !/^worksheets\/([a-z0-9\-]+\.html|w\.html\?id=w[a-z0-9]{8})$/.test(file) || !cls) return { ok: false, error: 'Choose a worksheet and type the class.' };
     var due = /^\d{4}-\d{2}-\d{2}$/.test(String(d.due)) ? String(d.due) : '';
     var me2 = teachers_(), mi = findTeacher_(me2, email), tname = mi >= 0 ? unplain_(me2.rows[mi][1]) : email;
     var lock3 = LockService.getScriptLock(); lock3.waitLock(10000);
@@ -352,7 +357,7 @@ function worksheetData_(email) {
   });
   var own = isOwner_(email);
   var asg = assignments_().filter(function (a) { return own || a.email === email; });
-  var res = { ok: true, email: email, owner: own, rows: out, assignments: asg };
+  var res = { ok: true, email: email, owner: own, rows: out, assignments: asg, grades: gradesOf_(email) };
   if (res.owner) {
     res.teachers = teachers_().rows.map(function (r) {
       return { email: String(r[0]), name: unplain_(r[1]), status: String(r[2]),
@@ -435,7 +440,7 @@ function verifyCode_(raw, code) {
   var t = teachers_(), i = findTeacher_(t, email), name = email;
   if (i >= 0) { name = unplain_(t.rows[i][1]) || email; t.sh.getRange(i + 2, 5).setValue(new Date()); }
   else if (isOwner_(email)) { t.sh.appendRow([email, email.split('@')[0], 'approved', new Date(), new Date()]); name = email.split('@')[0]; }
-  return { ok: true, status: 'approved', email: email, name: name, owner: isOwner_(email), session: makeSession_(email) };
+  return { ok: true, status: 'approved', email: email, name: name, owner: isOwner_(email), grades: gradesOf_(email), session: makeSession_(email) };
 }
 function requestAccess_(raw, nm) {
   var email = cleanEmail_(raw), name = plain_(nm, 60);
@@ -493,6 +498,14 @@ function adminTeachers_(d) {
   var err = adminError_(d.key);
   if (err) return { ok: false, error: err };
   var op = String(d.op || 'list'), mailNote = '';
+  if (/^build/.test(op)) return adminBuilds_(op, d);
+  if (op === 'grades') {
+    var ge = cleanEmail_(d.email), gl = cleanGrades_(d.grades);
+    var tg = teachers_(), gi = findTeacher_(tg, ge);
+    if (gi < 0) return { ok: false, error: 'Teacher not found.' };
+    tg.sh.getRange(gi + 2, 6).setValue("'" + gl);
+    op = 'list';
+  }
   if (op === 'add' || op === 'set') {
     var email = cleanEmail_(d.email);
     if (!email) return { ok: false, error: 'Type a valid email address.' };
@@ -514,7 +527,178 @@ function adminTeachers_(d) {
   }
   var list = teachers_().rows.map(function (r) {
     return { email: String(r[0]), name: unplain_(r[1]), status: String(r[2]),
-      requested: r[3] instanceof Date ? r[3].toISOString() : '', lastLogin: r[4] instanceof Date ? r[4].toISOString() : '' };
+      requested: r[3] instanceof Date ? r[3].toISOString() : '', lastLogin: r[4] instanceof Date ? r[4].toISOString() : '', grades: unplain_(r[5]) };
   });
   return { ok: true, teachers: list, owners: list_('OWNER_EMAILS'), mail: mailNote };
+}
+
+
+// ======================================================================================================
+// Worksheet builder: contributors upload a lesson file → a Claude session builds a draft → contributor edits →
+// owner approves on admin.html → the worksheet is live at worksheets/w.html?id=…
+// Files: Drive folder "Omega uploads" (uploads) and "Omega drafts" (drafts written by Claude, named <id>.json).
+// ======================================================================================================
+var B_SHEET = 'Builds';
+var B_HEAD = ['id', 'created', 'email', 'name', 'grade', 'term', 'module', 'topic', 'code', 'title', 'notes', 'fileId', 'fileName', 'status', 'json', 'feedback', 'updated'];
+var GRADES_OK = ['6', '7', '8', '9', '10', '11', '12'];
+var UPLOAD_TYPES = { 'application/pdf': 1, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 1, 'application/msword': 1,
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 1, 'application/vnd.ms-powerpoint': 1, 'image/png': 1, 'image/jpeg': 1 };
+var MAX_WS_JSON = 250000;
+
+function cleanGrades_(v) { return String(v || '').split(',').map(function (x) { return x.trim(); }).filter(function (x) { return GRADES_OK.indexOf(x) >= 0; }).join(','); }
+function gradesOf_(email) {
+  if (isOwner_(email)) return GRADES_OK.join(',');
+  var t = teachers_(), i = findTeacher_(t, email);
+  return i < 0 ? '' : cleanGrades_(unplain_(t.rows[i][5]));
+}
+function canGrade_(email, grade) { return gradesOf_(email).split(',').indexOf(String(grade)) >= 0; }
+function folder_(name) {
+  var it = DriveApp.getFoldersByName(name);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(name);
+}
+function builds_() {
+  var sh = tab_(B_SHEET, B_HEAD), last = sh.getLastRow();
+  var rows = last > 1 ? sh.getRange(2, 1, last - 1, B_HEAD.length).getValues() : [];
+  return { sh: sh, rows: rows };
+}
+function bRow_(r, withJson) {
+  var o = { id: String(r[0]), created: r[1] instanceof Date ? r[1].toISOString() : '', email: String(r[2]), name: unplain_(r[3]), grade: unplain_(r[4]),
+    term: unplain_(r[5]), module: unplain_(r[6]), topic: unplain_(r[7]), code: unplain_(r[8]), title: unplain_(r[9]), notes: unplain_(r[10]),
+    fileName: unplain_(r[12]), status: String(r[13]), feedback: unplain_(r[15]), updated: r[16] instanceof Date ? r[16].toISOString() : '' };
+  if (withJson) o.json = String(r[14] || '');
+  return o;
+}
+function findBuild_(b, id) { for (var i = 0; i < b.rows.length; i++) if (String(b.rows[i][0]) === id) return i; return -1; }
+
+// Checks the shape of a worksheet (the page also cleans all text before showing it)
+function validWs_(text) {
+  if (!text || text.length > MAX_WS_JSON) return null;
+  var w; try { w = JSON.parse(text); } catch (e) { return null; }
+  if (!w || typeof w !== 'object' || !Array.isArray(w.questions) || !Array.isArray(w.parts)) return null;
+  if (w.questions.length < 1 || w.questions.length > 40 || w.parts.length < 1 || w.parts.length > 8) return null;
+  for (var i = 0; i < w.questions.length; i++) {
+    var q = w.questions[i];
+    if (!q || typeof q.text !== 'string' || ['pick', 'num'].indexOf(q.kind) < 0 || typeof q.part !== 'string') return null;
+    if (q.kind === 'pick' && (!Array.isArray(q.options) || q.options.length < 2 || q.options.indexOf(q.answer) < 0)) return null;
+    if (q.kind === 'num' && !isFinite(Number(q.answer))) return null;
+  }
+  return w;
+}
+// Drafts written by a Claude session into "Omega drafts" become ready for the contributor
+function importDrafts_() {
+  var it = DriveApp.getFoldersByName('Omega drafts'); if (!it.hasNext()) return;
+  var lock = LockService.getScriptLock(); if (!lock.tryLock(5000)) return;
+  try {
+    var b = null;
+    while (it.hasNext()) {
+      var files = it.next().getFiles();
+      while (files.hasNext()) {
+        var f = files.next(), m = /^(w[a-z0-9]{8})\.json$/.exec(f.getName());
+        if (!m) continue;
+        b = b || builds_();
+        var i = findBuild_(b, m[1]); if (i < 0) continue;
+        var text = f.getBlob().getDataAsString('UTF-8');
+        if (!validWs_(text)) { f.setName('invalid-' + f.getName()); continue; }
+        b.sh.getRange(i + 2, 14, 1, 4).setValues([['draft', text, b.rows[i][15], new Date()]]);
+        f.setName('imported-' + f.getName());
+        try { MailApp.sendEmail(String(b.rows[i][2]), 'Omega: your worksheet draft is ready – ' + unplain_(b.rows[i][9]),
+          'Your worksheet "' + unplain_(b.rows[i][8]) + ' ' + unplain_(b.rows[i][9]) + '" is ready to check.\n\nOpen ' + siteUrl_().replace('teacher.html', 'build.html') +
+          ', preview it, fix anything you need, and press "Send for approval".\n\nOmega · The last word in math'); } catch (e) { mailError_(e); }
+      }
+    }
+  } finally { try { lock.releaseLock(); } catch (x) {} }
+}
+function buildApi_(email, d) {
+  var cache = CacheService.getScriptCache();
+  if (d.a === 'build-new') {
+    if (count_(cache, 'up:' + email + ':' + new Date().toISOString().slice(0, 10), 86400) > 30) return { ok: false, error: 'Upload limit reached for today.' };
+    var grade = String(d.grade || '');
+    if (!canGrade_(email, grade)) return { ok: false, error: 'You do not have access to Grade ' + grade + '.' };
+    var mime = String(d.mime || ''), title = plain_(d.title, 90), code = plain_(d.code, 12);
+    if (!UPLOAD_TYPES[mime]) return { ok: false, error: 'Upload a PDF, Word or PowerPoint file.' };
+    if (!title || !code) return { ok: false, error: 'Type the lesson number and title.' };
+    var bytes; try { bytes = Utilities.base64Decode(String(d.data || '')); } catch (e) { return { ok: false, error: 'The file could not be read.' }; }
+    if (!bytes.length || bytes.length > 15 * 1048576) return { ok: false, error: 'The file is empty or bigger than 15 MB.' };
+    var id = 'w' + newCode_().toLowerCase() + newCode_().toLowerCase().slice(0, 2);
+    var name = plain_(d.fileName, 80).replace(/^'/, '') || 'lesson';
+    var file = folder_('Omega uploads').createFile(Utilities.newBlob(bytes, mime, id + ' · Grade ' + grade + ' · ' + code + ' ' + title + ' · ' + name));
+    var t = teachers_(), ti = findTeacher_(t, email);
+    tab_(B_SHEET, B_HEAD).appendRow([id, new Date(), email, ti >= 0 ? unplain_(t.rows[ti][1]) : email, "'" + grade, plain_(d.term, 30), plain_(d.module, 40), plain_(d.topic, 60),
+      "'" + code.replace(/^'/, ''), title, plain_(d.notes, 600), file.getId(), name, 'queued', '', '', new Date()]);
+    try { var to = list_('OWNER_EMAILS').join(','); if (to) MailApp.sendEmail(to, 'Omega: new worksheet upload – Grade ' + grade + ' ' + code + ' ' + title,
+      (ti >= 0 ? unplain_(t.rows[ti][1]) : email) + ' uploaded "' + name + '" for Grade ' + grade + ', ' + code + ' ' + title + '.\n\nIt is in the queue (Drive folder "Omega uploads", request ' + id + '). Ask Claude to build the queued worksheets.'); } catch (e) { mailError_(e); }
+    return buildList_(email, id);
+  }
+  if (d.a === 'build-list') { importDrafts_(); return buildList_(email); }
+  var b = builds_(), i = findBuild_(b, String(d.id || ''));
+  if (i < 0) return { ok: false, error: 'Worksheet request not found.' };
+  var r = b.rows[i];
+  if (!canGrade_(email, unplain_(r[4]))) return { ok: false, error: 'You do not have access to this grade.' };
+  var st = String(r[13]);
+  if (d.a === 'build-get') return { ok: true, build: bRow_(r, true) };
+  if (d.a === 'build-save') {
+    if (['draft', 'changes'].indexOf(st) < 0) return { ok: false, error: 'This worksheet cannot be edited now (' + st + ').' };
+    var text = String(d.json || '');
+    if (!validWs_(text)) return { ok: false, error: 'Something in the worksheet is not complete: every question needs text, and the correct answer must be one of the options.' };
+    b.sh.getRange(i + 2, 15).setValue(text); b.sh.getRange(i + 2, 17).setValue(new Date());
+    return { ok: true, saved: true };
+  }
+  if (d.a === 'build-submit') {
+    if (['draft', 'changes'].indexOf(st) < 0) return { ok: false, error: 'This worksheet cannot be sent now (' + st + ').' };
+    b.sh.getRange(i + 2, 14).setValue('submitted'); b.sh.getRange(i + 2, 17).setValue(new Date());
+    try { var to2 = list_('OWNER_EMAILS').join(','); if (to2) MailApp.sendEmail(to2, 'Omega: worksheet waiting for approval – Grade ' + unplain_(r[4]) + ' ' + unplain_(r[8]) + ' ' + unplain_(r[9]),
+      unplain_(r[3]) + ' sent a worksheet for approval. Open admin.html → Worksheet requests to preview and approve it.'); } catch (e) { mailError_(e); }
+    return buildList_(email);
+  }
+  if (d.a === 'build-cancel') {
+    if (['queued', 'draft', 'changes'].indexOf(st) < 0) return { ok: false, error: 'This worksheet cannot be cancelled now.' };
+    b.sh.getRange(i + 2, 14).setValue('cancelled'); b.sh.getRange(i + 2, 17).setValue(new Date());
+    return buildList_(email);
+  }
+  return { ok: false };
+}
+function buildList_(email, created) {
+  var g = gradesOf_(email).split(','), b = builds_();
+  var list = b.rows.filter(function (r) { return g.indexOf(unplain_(r[4])) >= 0 && String(r[13]) !== 'cancelled'; }).map(function (r) { return bRow_(r, false); });
+  return { ok: true, grades: g.join(','), builds: list, created: created || '' };
+}
+function adminBuilds_(op, d) {
+  if (op === 'builds') { importDrafts_(); return { ok: true, builds: builds_().rows.map(function (r) { return bRow_(r, false); }) }; }
+  var b = builds_(), i = findBuild_(b, String(d.id || ''));
+  if (i < 0) return { ok: false, error: 'Worksheet request not found.' };
+  var r = b.rows[i];
+  if (op === 'build-get') return { ok: true, build: bRow_(r, true) };
+  if (op === 'build-approve' || op === 'build-changes' || op === 'build-unpublish') {
+    var to = op === 'build-approve' ? 'live' : op === 'build-changes' ? 'changes' : 'draft';
+    if (to === 'live' && !validWs_(String(r[14] || ''))) return { ok: false, error: 'This request has no complete worksheet yet.' };
+    b.sh.getRange(i + 2, 14, 1, 4).setValues([[to, r[14], op === 'build-changes' ? plain_(d.feedback, 600) : r[15], new Date()]]);
+    CacheService.getScriptCache().remove('wslist');
+    try {
+      if (op === 'build-approve') MailApp.sendEmail(String(r[2]), 'Omega: your worksheet is live – ' + unplain_(r[8]) + ' ' + unplain_(r[9]),
+        'Great work! "' + unplain_(r[8]) + ' ' + unplain_(r[9]) + '" is now live on the Worksheets page for Grade ' + unplain_(r[4]) + '.\n\nOmega · The last word in math');
+      if (op === 'build-changes') MailApp.sendEmail(String(r[2]), 'Omega: changes requested – ' + unplain_(r[8]) + ' ' + unplain_(r[9]),
+        'Please update your worksheet "' + unplain_(r[8]) + ' ' + unplain_(r[9]) + '":\n\n' + plain_(d.feedback, 600) + '\n\nOpen ' + siteUrl_().replace('teacher.html', 'build.html') + ' to edit it.\n\nOmega · The last word in math');
+    } catch (e) { mailError_(e); }
+    return { ok: true, builds: builds_().rows.map(function (x) { return bRow_(x, false); }) };
+  }
+  return { ok: false };
+}
+// public: live worksheets for the Worksheets page and the teachers' Assign list
+function liveList_() {
+  var cache = CacheService.getScriptCache(), c = cache.get('wslist');
+  if (c) return JSON.parse(c);
+  var list = builds_().rows.filter(function (r) { return String(r[13]) === 'live'; }).map(function (r) {
+    var w = validWs_(String(r[14] || '')) || {};
+    return { id: String(r[0]), grade: unplain_(r[4]), term: unplain_(r[5]), module: unplain_(r[6]), topic: unplain_(r[7]), code: unplain_(r[8]), title: unplain_(r[9]),
+      n: (w.questions || []).length };
+  });
+  var res = { ok: true, worksheets: list };
+  try { cache.put('wslist', JSON.stringify(res), 300); } catch (e) {}
+  return res;
+}
+function liveGet_(id) {
+  id = String(id || ''); if (!/^w[a-z0-9]{8}$/.test(id)) return { ok: false };
+  var b = builds_(), i = findBuild_(b, id);
+  if (i < 0 || String(b.rows[i][13]) !== 'live') return { ok: false, error: 'notfound' };
+  return { ok: true, build: bRow_(b.rows[i], true) };
 }

@@ -144,3 +144,17 @@ const GRADES=[
         {code:"10.14",ws:"g12-calc-10-14",title:"Finding Taylor or Maclaurin Series for a Function",sub:"5 questions \u00b7 hints and worked steps",file:"worksheets/g12-calculus-10-14.html"},
         {code:"10.15",ws:"g12-calc-10-15",title:"Representing Functions as a Power Series",sub:"5 questions \u00b7 hints and worked steps",file:"worksheets/g12-calculus-10-15.html"}]}]}]}
 ];
+/* Worksheets made with the Worksheet builder (approved on admin.html) are added at run time from the school's
+   Apps Script (?a=wslist). They all open on worksheets/w.html?id=…  */
+function mergeLive(list){
+  const num=c=>String(c).split(".").map(Number);
+  (list||[]).forEach(w=>{
+    const g=GRADES.find(x=>x.id===String(w.grade));if(!g)return;
+    const tn=w.term||"Term 1",mn=w.module||"Worksheets";
+    let t=g.terms.find(x=>x.name===tn);if(!t){t={name:tn,modules:[]};g.terms.push(t);g.terms.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));}
+    let m=t.modules.find(x=>x.name===mn);if(!m){m={name:mn,topic:w.topic||"",items:[]};t.modules.push(m);t.modules.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));}
+    const file="worksheets/w.html?id="+w.id;if(m.items.some(i=>i.file===file))return;
+    m.items.push({code:String(w.code),ws:"w-"+w.id,title:String(w.title),sub:(w.n?w.n+" questions":"Questions")+" with hints and worked steps",file,dyn:true});
+    m.items.sort((a,b)=>{const x=num(a.code),y=num(b.code);return (x[0]-y[0])||((x[1]||0)-(y[1]||0));});
+  });
+}

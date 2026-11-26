@@ -121,6 +121,9 @@ a.row:hover{background:var(--fill)}
 </div>
 
 <script>
+/*@@QRLIB@@*/
+</script>
+<script>
 (function(){
 "use strict";
 const $=id=>document.getElementById(id);
@@ -153,7 +156,7 @@ function render(){
     t.modules.forEach(m=>{
       h+='<div class="list"><div class="row wsmod"><span class="grow"><span class="t">'+esc(m.name)+'</span><br><span class="d">'+esc(m.topic)+'</span></span></div>'+
         m.items.map(it=>'<div class="row wsitem"><a class="wslink" href="'+esc(it.file)+'"><span class="chip l2">'+esc(it.code)+'</span><span class="grow"><span class="t">'+esc(it.title)+'</span><br><span class="d">'+esc(it.sub)+'</span></span><svg class="ico" aria-hidden="true"><use href="#i-chev"/></svg></a>'+
-          '<button type="button" class="wsqr" data-file="'+esc(it.file)+'" data-title="'+esc(it.code+' '+it.title)+'" aria-label="Show QR code for '+esc(it.code+' '+it.title)+'"><img src="'+esc(it.file.replace(/^worksheets\//,"worksheets/qr/").replace(/\.html$/,".svg"))+'" alt=""><span>QR</span></button></div>').join("")+'</div>';
+          '<button type="button" class="wsqr" data-file="'+esc(it.file)+'" data-title="'+esc(it.code+' '+it.title)+'" aria-label="Show QR code for '+esc(it.code+' '+it.title)+'"><img src="'+esc(it.dyn?qrData(new URL(it.file,location.href).href):it.file.replace(/^worksheets\//,"worksheets/qr/").replace(/\.html$/,".svg"))+'" alt=""><span>QR</span></button></div>').join("")+'</div>';
     });
     h+='</div>';
   });
@@ -169,5 +172,8 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")$("qrm").hidden=true
 $("qrm-copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("qrm-url").textContent);$("qrm-copy").textContent="Copied!";}catch(e){$("qrm-copy").textContent="Copy did not work";}setTimeout(()=>$("qrm-copy").textContent="Copy link",1800);});
 window.addEventListener("hashchange",()=>{const h=fromHash();if(h){grade=h;render();}});
 render();
+/* worksheets made with the Worksheet builder (approved on the admin page) */
+function qrData(url){try{const q=qrcode(0,"M");q.addData(url);q.make();return q.createDataURL(6,2);}catch(e){return "";}}
+fetch("@@STATS_URL@@?a=wslist").then(r=>r.json()).then(r=>{if(r&&r.ok&&r.worksheets&&r.worksheets.length){mergeLive(r.worksheets);grade=fromHash()||grade;render();}}).catch(()=>{});
 })();
 </script>
