@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4.1 Relations and Functions – Eid Al Etihad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Same system as 3.1, 3.2 and 2.2: UAE flag colours, Lexend, stacked question cards with hints and worked steps.
+   IDEA: "one input, one output" — mapping diagrams, tables and the vertical line test
+   Lesson: 4.1 Relations and Functions (LO, standards F.IF.A.1 and F.IF.A.2, I Do / We Do / You Do examples) */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a);--blue:light-dark(#1f6fd1,#6fb2ff)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.formula{font-size:26px;font-weight:700;color:var(--green);margin:4px 0}
+.formula small{font-size:18px;color:var(--mut);font-weight:600}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:260px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line);text-align:left}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:2px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.calc-tip{margin-top:6px}.calc-tip a{color:var(--green);font-weight:600}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+.rule{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:6px 0 10px}
+.rule div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:15px}
+.rule b{color:var(--green)}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.keys span{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+@media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}.rule{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><b></b></div>
+
+<header class="band"><div class="wrap hero">
+  <div>
+    <a class="back" href="../worksheets.html#grade-9">← All worksheets</a>
+    <div class="kick">Grade 9 Algebra 1 · Module 4 · Eid Al Etihad edition</div>
+    <h1>4.1 Relations and Functions</h1>
+    <div class="lo"><b>LO:</b> I can tell if a relation is a function, find its domain and range, and use function notation f(x).<br>
+      <span class="tip">Standards: F.IF.A.1, F.IF.A.2 · In simple words: a function gives ONE output for every input.</span></div>
+    <div class="formula">Function: 1 input → 1 output <small>(outputs may repeat)</small></div>
+    <div class="tip"><b>Domain</b> = all the x-values (inputs). <b>Range</b> = all the y-values (outputs). Write a repeated number only <b>once</b>.</div>
+    <div class="keys" aria-label="Keywords"><span>relation</span><span>domain</span><span>range</span><span>function</span><span>vertical line test</span><span>f(x)</span></div>
+    <div class="tip calc-tip">Need a calculator? Tap <b>Calculator</b> at the bottom right. <a href="#" data-calc-video>▶ Watch how to use it</a></div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 9B4"></div>
+    </div>
+  </div>
+  <div class="scene" aria-label="A mapping diagram for f(x) = 2x + 1. Inputs 1, 2 and 3 each have one arrow, to 3, 5 and 7. A green badge says one input, one output: function. A UAE flag flies beside it.">
+    <svg viewBox="0 0 640 400" role="img">
+      <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6fbfd"/></linearGradient>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#15191c"/></marker></defs>
+      <rect width="640" height="400" fill="url(#sk)"/>
+      <circle cx="590" cy="58" r="28" fill="#ffd34d"/>
+      <!-- Dubai-style skyline, original simple shapes -->
+      <g fill="#9fb4c3"><rect x="430" y="250" width="34" height="122"/><rect x="470" y="210" width="28" height="162"/><path d="M512 372V150l12-70 12 70v222z"/><rect x="548" y="230" width="30" height="142"/><rect x="584" y="270" width="40" height="102"/></g>
+      <g transform="translate(600 120)"><rect x="-2" y="0" width="4" height="150" fill="#59636b"/><rect x="2" y="0" width="12" height="27" fill="#C8102E"/><rect x="14" y="0" width="34" height="9" fill="#00843D"/><rect x="14" y="9" width="34" height="9" fill="#fff"/><rect x="14" y="18" width="34" height="9" fill="#111"/></g>
+      <rect x="0" y="372" width="640" height="28" fill="#e9dcbc"/>
+      <g font-family="Lexend,sans-serif" font-weight="700">
+        <text x="200" y="48" text-anchor="middle" font-size="24" fill="#00843D">f(x) = 2x + 1</text>
+        <text x="110" y="88" text-anchor="middle" font-size="15" fill="#15191c">input x</text>
+        <text x="290" y="88" text-anchor="middle" font-size="15" fill="#15191c">output f(x)</text>
+        <ellipse cx="110" cy="210" rx="48" ry="108" fill="#fff" stroke="#1f6fd1" stroke-width="4"/>
+        <ellipse cx="290" cy="210" rx="48" ry="108" fill="#fff" stroke="#E07B00" stroke-width="4"/>
+        <g font-size="30" text-anchor="middle" fill="#15191c"><text x="110" y="150">1</text><text x="110" y="220">2</text><text x="110" y="290">3</text>
+          <text x="290" y="150">3</text><text x="290" y="220">5</text><text x="290" y="290">7</text></g>
+        <g stroke="#15191c" stroke-width="4" marker-end="url(#ah)"><path d="M132 140H262"/><path d="M132 210H262"/><path d="M132 280H262"/></g>
+        <rect x="76" y="330" width="250" height="34" rx="12" fill="#00843D"/><text x="201" y="353" text-anchor="middle" font-size="16" fill="#fff">1 input → 1 output ✓ function</text>
+      </g>
+    </svg>
+  </div>
+</div></header>
+
+<div class="bar"><div class="wrap"><b id="sc">Score 0 / 15</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <section class="part"><h2>Part A · Domain and range</h2>
+    <div class="rule"><div><b>Relation</b> set of (x, y) pairs</div><div><b>Domain</b> all x (inputs)</div><div><b>Range</b> all y (outputs)</div><div><b>Repeats</b> write once</div></div>
+    <p class="mut">Warm-up. Look at the ordered pairs. Tap or type the correct answer.</p><div id="A"></div></section>
+  <section class="part"><h2>Part B · Mapping diagrams</h2><p class="mut">Each arrow goes from an input to its output. A function has <b>only one arrow from each input</b>. Two inputs can point to the same output.</p><div id="B"></div></section>
+  <section class="part"><h2>Part C · Tables and ordered pairs</h2><p class="mut">Look at the x column. If an x-value repeats with a <b>different</b> y-value, it is <b>not</b> a function.</p><div id="C"></div></section>
+  <section class="part"><h2>Part D · Vertical line test</h2><p class="mut">Move a vertical line (a ruler) across the graph. If it ever touches the graph at <b>2 or more points</b>, it is <b>not</b> a function.</p><div id="D"></div></section>
+  <section class="part"><h2>Part E · Function notation f(x)</h2><p class="mut">f(x) is read “f of x”. To find f(3), put 3 in place of x and work it out. Use brackets for negative numbers.</p><div id="E"></div></section>
+
+  <section class="result" id="res">
+    <h2>My result</h2>
+    <p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0 / 15</div>
+    <div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div>
+  </section>
+  <footer><p>Graphs are drawn on a grid. Prices are for practice only. Write every step in your notebook as well.</p></footer>
+</div></main>
+
+<script>
+{
+const G='#00843D',R='#C8102E',B_='#1f6fd1',INK='currentColor';
+const FN=['Function','Not a function'];
+const par=(f,a,b,n=60)=>Array.from({length:n+1},(_,i)=>{const t=a+(b-a)*i/n;return f(t)});
+const Q=[
+ {p:'A',id:'a1',kind:'pick',opts:['{1, 2, 3}','{4, 6, 8}','{1, 2, 3, 4, 6, 8}'],ans:'{1, 2, 3}',t:'What is the <b>domain</b> of the relation {(1, 4), (2, 6), (3, 8)}?',d:{k:'card',rows:[['{(1, 4), (2, 6), (3, 8)}','big'],['domain = all the x-values','l'],['(the first number in each pair)','sm']]},hint:'The domain is the inputs: the FIRST number in each pair (x, y).',steps:['Pairs: (1, 4), (2, 6), (3, 8)','The x-values are 1, 2 and 3','Domain = {1, 2, 3}']},
+ {p:'A',id:'a2',kind:'pick',opts:['{0, 1, 2, 3, 4, 5}','{2, 3, 4, 5, 7}','{0, 1, 2, 3, 4, 5, 7}'],ans:'{0, 1, 2, 3, 4, 5}',t:'What is the <b>range</b> of {(5, 2), (4, 1), (3, 0), (2, 5), (7, 4), (4, 3)}?',d:{k:'card',rows:[['{(5, 2), (4, 1), (3, 0),','l'],['(2, 5), (7, 4), (4, 3)}','l'],['range = all the y-values','l']]},hint:'The range is the outputs: the SECOND number in each pair. Write them from smallest to largest.',steps:['The y-values are 2, 1, 0, 5, 4, 3','In order: 0, 1, 2, 3, 4, 5','Range = {0, 1, 2, 3, 4, 5}']},
+ {p:'A',id:'a3',t:'How many numbers are in the <b>domain</b> of {(1, 6), (8, 4), (2, 6), (5, 4), (3, 9), (2, 7)}?',unit:'numbers',ans:5,tol:.01,d:{k:'card',rows:[['{(1, 6), (8, 4), (2, 6),','l'],['(5, 4), (3, 9), (2, 7)}','l'],['a repeated x is written once','sm']]},hint:'List the x-values. The number 2 appears twice, but you write it only once.',steps:['x-values: 1, 8, 2, 5, 3, 2','2 repeats, so write it once','Domain = {1, 2, 3, 5, 8}: 5 numbers']},
+ {p:'B',id:'b1',kind:'pick',opts:FN,ans:'Function',t:'Is this relation a function?',d:{k:'map',dom:[1,2,3],rng:[4,6,8],pairs:[[1,4],[2,6],[3,8]]},hint:'Count the arrows leaving each input. Is there any input with two arrows?',steps:['1 → 4, 2 → 6, 3 → 8','Every input has exactly one arrow','So it is a function ✓']},
+ {p:'B',id:'b2',kind:'pick',opts:FN,ans:'Function',t:'Two inputs go to the same output. Is this relation a function?',d:{k:'map',dom:[1,2,3],rng:[5,7],pairs:[[1,5],[2,5],[3,7]]},hint:'The rule is about the INPUTS. Does any input have two arrows? Two inputs sharing an output is allowed.',steps:['1 → 5, 2 → 5, 3 → 7','Each input still has only ONE arrow','Outputs may repeat, so it is a function ✓']},
+ {p:'B',id:'b3',kind:'pick',opts:['2','3','4','5'],ans:'4',t:'This relation is <b>not</b> a function. Which input breaks the rule?',d:{k:'map',dom:[2,3,4,5,7],rng:[0,1,2,3,4,5],pairs:[[5,2],[4,1],[3,0],[2,5],[7,4],[4,3]]},hint:'Find the input that has TWO arrows leaving it.',steps:['Pairs: (5, 2), (4, 1), (3, 0), (2, 5), (7, 4), (4, 3)','Input 4 has two arrows: 4 → 1 and 4 → 3','One input, two outputs: not a function']},
+ {p:'C',id:'c1',kind:'pick',opts:FN,ans:'Function',t:'Is the relation in this table a function?',d:{k:'table',rows:[[0,7],[2,2],[4,'−3'],[3,5],[1,1]]},hint:'Look down the x column. Does any x-value appear twice?',steps:['x-values: 0, 2, 4, 3, 1','No x-value repeats','Each input has one output: function ✓']},
+ {p:'C',id:'c2',kind:'pick',opts:FN,ans:'Not a function',t:'Is the relation in this table a function?',d:{k:'table',rows:[[2,4],[0,2],[3,1],[2,5],[1,7]],hl:2},hint:'Look down the x column. x = 2 appears twice. Are its y-values the same?',steps:['x = 2 gives y = 4 and y = 5','Same input, two different outputs','So it is NOT a function']},
+ {p:'C',id:'c3',kind:'pick',opts:['Sara is right: not a function','Sara is wrong: it is a function'],ans:'Sara is wrong: it is a function',t:'Sara says <b>{(1, 5), (2, 5), (3, 5)}</b> is NOT a function because 5 repeats. Is she right?',d:{k:'card',rows:[['{(1, 5), (2, 5), (3, 5)}','big'],['Sara: “5 repeats, so NOT a function”','l'],['Check the INPUTS, not the outputs','sm']]},hint:'Repeated OUTPUTS are fine. Only a repeated INPUT with different outputs breaks the rule.',steps:['Inputs 1, 2, 3: none repeats','Each input has one output (5)','Outputs may repeat, so it IS a function. Sara is wrong']},
+ {p:'D',id:'d1',kind:'pick',opts:FN,ans:'Function',t:'Use the vertical line test. Is this graph a function?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lx:2,ly:2,curves:[[par(t=>[t,t*t-2],-2.6,2.6)]],vl:1.2,hits:[[1.2,1.44-2]]},hint:'The red dashed line is one vertical line. Imagine moving it left and right. Does it ever touch the curve twice?',steps:['Every vertical line touches this U-shaped curve only once','So each x has only one y','It passes the test: function ✓']},
+ {p:'D',id:'d2',kind:'pick',opts:FN,ans:'Not a function',t:'Use the vertical line test. Is this graph a function?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lx:2,ly:2,curves:[[par(t=>[t*t-2,t],-2.6,2.6)]],vl:1,hits:[[1,Math.sqrt(3)],[1,-Math.sqrt(3)]]},hint:'Count the red dots where the vertical line touches the curve.',steps:['The vertical line x = 1 touches the curve at 2 points','So x = 1 has two y-values','It fails the test: NOT a function']},
+ {p:'D',id:'d3',kind:'pick',opts:FN,ans:'Not a function',t:'Is a <b>circle</b> the graph of a function?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lx:2,ly:2,curves:[[par(t=>[3*Math.cos(t),3*Math.sin(t)],0,2*Math.PI,90)]],vl:-1,hits:[[-1,Math.sqrt(8)],[-1,-Math.sqrt(8)]]},hint:'Put a vertical line through the middle of the circle. How many times does it touch?',steps:['A vertical line through the circle touches it at a top point and a bottom point','2 points for one x-value','It fails the test: NOT a function']},
+ {p:'E',id:'e1',t:'f(x) = 2x + 1. Find <b>f(3)</b>.',ans:7,tol:.01,d:{k:'card',rows:[['f(x) = 2x + 1','big'],['f(3) = 2(3) + 1','l'],['= ?','l']]},hint:'Put 3 in place of x: 2 × 3 + 1.',steps:['f(3) = 2(3) + 1','= 6 + 1','= 7. So the point (3, 7) is on the graph']},
+ {p:'E',id:'e2',t:'g(x) = 3x − 4. Find <b>g(−2)</b>.',ans:-10,tol:.01,d:{k:'card',rows:[['g(x) = 3x − 4','big'],['g(−2) = 3(−2) − 4','l'],['= ?','l']]},hint:'3 × (−2) = −6. Then −6 − 4.',steps:['g(−2) = 3(−2) − 4','= −6 − 4','= −10']},
+ {p:'E',id:'e3',t:'🇦🇪 For Eid Al Etihad, a shop sells UAE flags. The cost is <b>C(n) = 8n + 15</b> AED for n flags (AED 15 is delivery). Find <b>C(4)</b>.',unit:'AED',ans:47,tol:.01,d:{k:'card',rows:[['C(n) = 8n + 15','big'],['n = number of flags','l'],['C(4) = cost of 4 flags','sm']]},hint:'Put 4 in place of n: 8 × 4 + 15.',steps:['C(4) = 8(4) + 15','= 32 + 15','= AED 47. Meaning: 4 flags with delivery cost AED 47']}
+];
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmtN=v=>{const s=String(Math.round(v*1000)/1000);return s.replace('-','−')};
+const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
+const ST=`<style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.big{font:700 26px Lexend,sans-serif;fill:${INK}}.sm{font:600 12px Lexend,sans-serif;fill:${INK};opacity:.75}.gr{fill:${G}}.rd{fill:${R}}.bl{fill:${B_}}</style>`;
+const box=`<rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>`;
+let uid=0;
+
+function draw(o){
+  if(o.k==='plot')return plot(o);
+  if(o.k==='map')return mapDiag(o);
+  if(o.k==='table')return tableDiag(o);
+  if(o.k==='formula')return `<svg viewBox="0 0 380 236" role="img" aria-label="Slope formula with the two points">${ST}${box}${flagIcon(26,34,.8)}
+    <text x="214" y="56" text-anchor="middle" class="l">(x₁, y₁) = (${o.x1}, ${o.y1})   (x₂, y₂) = (${o.x2}, ${o.y2})</text>
+    <text x="70" y="140" text-anchor="middle" class="big">m =</text>
+    <text x="226" y="118" text-anchor="middle" class="big"><tspan class="rd">${o.y2}</tspan> − <tspan class="rd">${o.y1.startsWith('−')?'('+o.y1+')':o.y1}</tspan></text>
+    <line x1="120" y1="132" x2="332" y2="132" stroke="currentColor" stroke-width="2.5"/>
+    <text x="226" y="166" text-anchor="middle" class="big"><tspan class="bl">${o.x2}</tspan> − <tspan class="bl">${o.x1.startsWith('−')?'('+o.x1+')':o.x1}</tspan></text>
+    <text x="190" y="204" text-anchor="middle" class="sm">rise on top (red) · run underneath (blue)</text></svg>`;
+  if(o.k==='error')return `<svg viewBox="0 0 380 236" role="img" aria-label="Julia's work: m = (4 − 3) ÷ (−2 − 1) = −1/3, marked wrong">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${R}" fill-opacity=".07" stroke="${R}" stroke-width="2"/>
+    <text x="30" y="56" class="l">Julia’s work</text><text x="350" y="56" text-anchor="end" style="font:700 26px Lexend,sans-serif;fill:${R}">✗</text>
+    <text x="190" y="104" text-anchor="middle" class="big">m = (4 − 3) ÷ (−2 − 1)</text>
+    <text x="190" y="146" text-anchor="middle" class="big">m = 1 ÷ (−3) = −1/3</text>
+    <text x="190" y="190" text-anchor="middle" class="l" style="fill:${R}">Which values should be on top?</text></svg>`;
+  if(o.k==='card'){const ys=o.rows.length===4?[78,120,154,188]:[96,140,184];return `<svg viewBox="0 0 380 236" role="img" aria-label="${esc(o.rows.map(r=>r[0]).join(', '))}">${ST}${box}${flagIcon(26,34,.8)}
+    ${o.rows.map((r,i)=>`<text x="190" y="${ys[i]}" text-anchor="middle" class="${r[1]}">${esc(r[0])}</text>`).join('')}</svg>`;}
+  return '';
+}
+// mapping diagram: inputs on the left, outputs on the right, one arrow per pair
+function mapDiag(o){
+  const W=380,H=236,id='m'+(++uid),gap=Math.min(34,150/Math.max(o.dom.length,o.rng.length)),cy=128;
+  const ys=n=>Array.from({length:n},(_,i)=>cy-(n-1)*gap/2+i*gap);
+  const yd=ys(o.dom.length),yr=ys(o.rng.length),h=Math.max(o.dom.length,o.rng.length)*gap/2+24;
+  let g=`<defs><marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="${INK}"/></marker></defs>`;
+  g+=`<text x="100" y="22" text-anchor="middle" class="l">Domain (x)</text><text x="280" y="22" text-anchor="middle" class="l">Range (y)</text>`;
+  g+=`<ellipse cx="100" cy="${cy}" rx="34" ry="${h}" fill="${B_}" fill-opacity=".08" stroke="${B_}" stroke-width="2.5"/>`;
+  g+=`<ellipse cx="280" cy="${cy}" rx="34" ry="${h}" fill="#E07B00" fill-opacity=".08" stroke="#E07B00" stroke-width="2.5"/>`;
+  o.dom.forEach((v,i)=>g+=`<text x="100" y="${yd[i]+6}" text-anchor="middle" class="l" style="font-size:18px">${fmtN(v)}</text>`);
+  o.rng.forEach((v,i)=>g+=`<text x="280" y="${yr[i]+6}" text-anchor="middle" class="l" style="font-size:18px">${fmtN(v)}</text>`);
+  o.pairs.forEach(([a,b])=>{const y1=yd[o.dom.indexOf(a)],y2=yr[o.rng.indexOf(b)];
+    g+=`<line x1="116" y1="${y1}" x2="262" y2="${y2}" stroke="${INK}" stroke-width="2.5" marker-end="url(#${id})"/>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapping diagram: ${o.pairs.map(([a,b])=>a+' to '+b).join(', ')}">${ST}${g}</svg>`;
+}
+// table of values with an x column and a y column
+function tableDiag(o){
+  const W=380,cw=92,rh=30,x0=(W-2*cw)/2,y0=14,H=y0+rh*(o.rows.length+1)+14;
+  let g=`<rect x="${x0}" y="${y0}" width="${2*cw}" height="${rh}" fill="${G}"/>`;
+  g+=`<text x="${x0+cw/2}" y="${y0+21}" text-anchor="middle" style="font:700 17px Lexend,sans-serif;fill:#fff">x</text><text x="${x0+1.5*cw}" y="${y0+21}" text-anchor="middle" style="font:700 17px Lexend,sans-serif;fill:#fff">y</text>`;
+  o.rows.forEach((r,i)=>{const y=y0+rh*(i+1);
+    g+=`<rect x="${x0}" y="${y}" width="${2*cw}" height="${rh}" fill="${INK}" fill-opacity="${i%2?.06:0}" stroke="${INK}" stroke-opacity=".25"/><line x1="${x0+cw}" y1="${y}" x2="${x0+cw}" y2="${y+rh}" stroke="${INK}" stroke-opacity=".25"/>`;
+    r.forEach((v,j)=>g+=`<text x="${x0+cw/2+j*cw}" y="${y+21}" text-anchor="middle" class="l" style="font-size:17px">${esc(v)}</text>`);});
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Table: ${o.rows.map(r=>'x '+r[0]+', y '+r[1]).join('; ')}">${ST}${g}</svg>`;
+}
+// a coordinate grid with lines, labelled points and rise/run arrows
+function plot(o){
+  const W=380,H=262,L=52,Rr=362,T=o.yl?40:22,Bt=210,id='c'+(++uid);
+  const sx=v=>L+(v-o.x0)*(Rr-L)/(o.x1-o.x0), sy=v=>Bt-(v-o.y0)*(Bt-T)/(o.y1-o.y0);
+  const gx=o.gx||1, gy=o.gy||1, lx=o.lx||gx, ly=o.ly||gy;
+  let g='';
+  for(let x=Math.ceil(o.x0/gx)*gx;x<=o.x1+1e-9;x+=gx)g+=`<line x1="${sx(x)}" y1="${T}" x2="${sx(x)}" y2="${Bt}" stroke="${INK}" stroke-opacity=".12"/>`;
+  for(let y=Math.ceil(o.y0/gy)*gy;y<=o.y1+1e-9;y+=gy)g+=`<line x1="${L}" y1="${sy(y)}" x2="${Rr}" y2="${sy(y)}" stroke="${INK}" stroke-opacity=".12"/>`;
+  const ax=sx(Math.max(o.x0,Math.min(o.x1,0))), ay=sy(Math.max(o.y0,Math.min(o.y1,0)));
+  g+=`<line x1="${L}" y1="${ay}" x2="${Rr}" y2="${ay}" stroke="${INK}" stroke-width="2"/><line x1="${ax}" y1="${T}" x2="${ax}" y2="${Bt}" stroke="${INK}" stroke-width="2"/>`;
+  for(let x=Math.ceil(o.x0/lx)*lx;x<=o.x1+1e-9;x+=lx)if(Math.abs(x)>1e-9)g+=`<text x="${sx(x)}" y="${ay+16}" text-anchor="middle" class="sm">${fmtN(x)}</text>`;
+  for(let y=Math.ceil(o.y0/ly)*ly;y<=o.y1+1e-9;y+=ly)if(Math.abs(y)>1e-9)g+=`<text x="${ax-7}" y="${sy(y)+4}" text-anchor="end" class="sm">${fmtN(y)}</text>`;
+  g+=`<clipPath id="${id}"><rect x="${L}" y="${T}" width="${Rr-L}" height="${Bt-T}"/></clipPath>`;
+  (o.lines||[]).filter(Boolean).forEach(([a,b,c,lab])=>{c=c||G;
+    let p1,p2;
+    if(a[0]===b[0]){p1=[sx(a[0]),T];p2=[sx(a[0]),Bt];}
+    else{const m=(b[1]-a[1])/(b[0]-a[0]),y=x=>a[1]+m*(x-a[0]),pad=(o.x1-o.x0);p1=[sx(o.x0-pad),sy(y(o.x0-pad))];p2=[sx(o.x1+pad),sy(y(o.x1+pad))];}
+    g+=`<line clip-path="url(#${id})" x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;
+    if(lab){const lxp=a[0]===b[0]?sx(a[0])+8:sx(o.x1)-6, lyp=a[0]===b[0]?T+16:sy(a[1]+(b[1]-a[1])/(b[0]-a[0])*(o.x1-a[0]))+(b[1]<a[1]?-8:16);
+      g+=`<text x="${lxp}" y="${Math.max(T+14,Math.min(Bt-6,lyp))}" text-anchor="${a[0]===b[0]?'start':'end'}" style="font:700 15px Lexend,sans-serif;fill:${c}">${esc(lab)}</text>`;}});
+  (o.curves||[]).forEach(([pts,c])=>{g+=`<polyline clip-path="url(#${id})" points="${pts.map(([x,y])=>sx(x).toFixed(1)+','+sy(y).toFixed(1)).join(' ')}" fill="none" stroke="${c||B_}" stroke-width="4" stroke-linejoin="round"/>`;});
+  if(o.vl!==undefined){g+=`<line x1="${sx(o.vl)}" y1="${T}" x2="${sx(o.vl)}" y2="${Bt}" stroke="${R}" stroke-width="3" stroke-dasharray="8 6"/>`;(o.hits||[]).forEach(([x,y])=>{g+=`<circle cx="${sx(x)}" cy="${sy(y)}" r="7" fill="${R}" stroke="#fff" stroke-width="2.5"/>`;});}
+  if(o.rr){const [a,b]=[o.rr.a,o.rr.b],X1=sx(a[0]),Y1=sy(a[1]),X2=sx(b[0]),Y2=sy(b[1]),up=Y2<Y1;
+    g+=`<path d="M${X1} ${Y1}H${X2-(X2>X1?9:-9)}" stroke="${B_}" stroke-width="3.5"/><path d="M${X2} ${Y1}l${X2>X1?-11:11} -6v12z" fill="${B_}"/>`;
+    g+=`<path d="M${X2} ${Y1}V${Y2+(up?9:-9)}" stroke="${R}" stroke-width="3.5"/><path d="M${X2} ${Y2}l-6 ${up?11:-11}h12z" fill="${R}"/>`;
+    g+=`<text x="${(X1+X2)/2}" y="${Y1+(up?20:-10)}" text-anchor="middle" style="font:700 14px Lexend,sans-serif;fill:${B_}">${esc(o.rr.run)}</text>`;
+    g+=`<text x="${X2+8}" y="${(Y1+Y2)/2+5}" style="font:700 14px Lexend,sans-serif;fill:${R}">${esc(o.rr.rise)}</text>`;}
+  const ln=(o.lines||[]).find(Boolean)||(o.rr?[o.rr.a,o.rr.b]:null), up=ln?((ln[1][1]-ln[0][1])*(ln[1][0]-ln[0][0])>=0):true;
+  (o.pts||[]).forEach(([x,y,t,pos])=>{const X=sx(x),Y=sy(y),w=String(t||'').length*8.2;
+    g+=`<circle cx="${X}" cy="${Y}" r="6.5" fill="${INK}" stroke="#fff" stroke-width="2.5"/>`;
+    if(!t)return;
+    // uphill line: the free corners are up-left and down-right; downhill: up-right and down-left
+    let left=up, above=true;
+    if(left&&X-10-w<L){left=false;above=false;} else if(!left&&X+10+w>W-2){left=true;above=false;}
+    if(pos==='below')above=false;
+    if(above&&Y-12<T+4)above=false; if(!above&&Y+20>Bt-2)above=true;
+    g+=`<text x="${X+(left?-10:10)}" y="${Y+(above?-10:20)}" text-anchor="${left?'end':'start'}" style="font:700 14px Lexend,sans-serif;fill:${INK}">${esc(t)}</text>`;});
+  if(o.xl)g+=`<text x="${Rr}" y="${Bt+38}" text-anchor="end" class="l">${esc(o.xl)}</text>`;
+  if(o.yl)g+=`<text x="${L-44}" y="${T-20}" class="l">${esc(o.yl)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graph">${ST}${g}</svg>`;
+}
+
+const KEY='relfun41-uae';let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const parse=s=>{s=String(s).trim().replace(/[−–]/g,'-').replace(/,/g,'.').replace(/[^0-9.\/\-]/g,'');if(!s)return NaN;if(s.includes('/')){const[a,b]=s.split('/').map(Number);return b?a/b:NaN}return Number(s)};
+
+let n=0;
+for(const q of Q){
+  n++;const box=document.createElement('article');box.className='q';box.id='q-'+q.id;
+  const ctl=q.kind==='pick'
+    ?`<div class="pick">${q.opts.map(o=>`<button type="button" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`
+    :`<div class="row"><input inputmode="text" aria-label="Answer for question ${n}" placeholder="Your answer${q.unit?' ('+q.unit+')':''}"><button type="button" class="chk">Check</button></div>`;
+  box.innerHTML=`<div><h3><span class="num">${n}</span>Question ${n}</h3><p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div><div>${draw(q.d)}</div>`;
+  $(q.p).appendChild(box);
+  const fb=box.querySelector('.fb'),st=S.q[q.id]||(S.q[q.id]={done:false,tries:0,v:''});
+  const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg};
+  const stepsHtml=(part)=>{if(!q.steps)return '';const L=part?q.steps.slice(0,-1).concat(['Now finish this last step yourself.']):q.steps;return `<ol class="steps">${L.map(s=>`<li>${s}</li>`).join('')}</ol>`};
+  const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+  const judge=ok=>{
+    if(ok){st.done=true;win()}
+    else{st.tries++;show(false,st.tries<2||!q.steps||q.kind==='pick'?`<b>Not yet.</b> Hint: ${q.hint}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(true)}`)}
+    save();score();
+  };
+  if(q.kind==='pick'){
+    box.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
+      if(st.done)return;const ok=b.dataset.o===q.ans;b.classList.add(ok?'ok':'no');judge(ok);
+      if(ok)box.querySelectorAll('.pick button').forEach(x=>x.disabled=true)}));
+    if(st.done){box.querySelectorAll('.pick button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.ans)x.classList.add('ok')});win()}
+  }else{
+    const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+    const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+      if(isNaN(v)){show(false,'Type a number first, like 7 or −3.');return}
+      const ok=Math.abs(v-q.ans)<=q.tol;judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+    btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+    if(st.done){inp.disabled=true;btn.disabled=true;win()}
+  }
+}
+
+const parts={A:'Domain and range',B:'Mapping diagrams',C:'Tables',D:'Vertical line test',E:'Function notation'};
+function score(){
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length,tot=Q.length;
+  $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+  $('lv').textContent=got===tot?'All done – amazing!':got>=11?'Nearly there!':got>=5?'Good progress!':'Let’s start!';
+  $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
+  const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+  $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 4.1 Relations and Functions · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
+}
+$('nm').value=S.nm||'';$('cl').value=S.cl||'';
+window.AISWS={id:'g9-algebra-4-1',title:'4.1 Relations and Functions',grade:'9',parts,
+  get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
+['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+$('copy').addEventListener('click',async()=>{
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 4.1 Relations and Functions (Eid Al Etihad) – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
+  try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
+  catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
+});
+let armed=false;
+$('reset').addEventListener('click',()=>{
+  if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+  S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
+});
+score();
+}
+</script>
+</body>
+</html>
