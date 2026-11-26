@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.2 Slopes of Lines and Rates of Change – Eid Al Etihad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Same system as 3.1 and 2.2: UAE flag colours, Lexend, stacked question cards with hints and worked steps.
+   IDEA: "how steep?" — rise and run arrows on a grid, next to the Jebel Jais mountain road
+   Lesson: 3.2 Slopes of Lines and Rates of Change (LO, standard F.IF.B.6, I Do / We Do / You Do examples) */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a);--blue:light-dark(#1f6fd1,#6fb2ff)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.formula{font-size:26px;font-weight:700;color:var(--green);margin:4px 0}
+.formula small{font-size:18px;color:var(--mut);font-weight:600}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:260px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line);text-align:left}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:2px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.calc-tip{margin-top:6px}.calc-tip a{color:var(--green);font-weight:600}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+.rule{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:6px 0 10px}
+.rule div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:15px}
+.rule b{color:var(--green)}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.keys span{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+@media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}.rule{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><b></b></div>
+
+<header class="band"><div class="wrap hero">
+  <div>
+    <a class="back" href="../worksheets.html#grade-9">← All worksheets</a>
+    <div class="kick">Grade 9 Algebra 1 · Module 3 · Eid Al Etihad edition</div>
+    <h1>3.2 Slopes of Lines and Rates of Change</h1>
+    <div class="lo"><b>LO:</b> I can calculate, use, and interpret the slope of a line given any two points on the line.<br>
+      <span class="tip">Standard: F.IF.B.6 · In simple words: I can find how steep a line is and say what the number means.</span></div>
+    <div class="formula">m = rise ÷ run = <span style="white-space:nowrap">(y₂ − y₁) ÷ (x₂ − x₁)</span></div>
+    <div class="tip">Read every line from <b>left to right</b>. Subtract in the <b>same order</b> (point 2 − point 1). Units of a rate: <b>y-units per x-unit</b>.</div>
+    <div class="keys" aria-label="Keywords"><span>slope</span><span>rise</span><span>run</span><span>rate of change</span><span>Δ = change in</span></div>
+    <div class="tip calc-tip">Need a calculator? Tap <b>Calculator</b> at the bottom right. <a href="#" data-calc-video>▶ Watch how to use it</a></div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 9B4"></div>
+    </div>
+  </div>
+  <div class="scene" aria-label="A line through A(1, 2) and B(4, 8) on a grid. A blue arrow shows run = 3 and a red arrow shows rise = 6, so the slope is 6 ÷ 3 = 2. Beside it, the Jebel Jais mountain road climbs with a UAE flag at the top.">
+    <svg viewBox="0 0 640 400" role="img">
+      <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6fbfd"/></linearGradient></defs>
+      <rect width="640" height="400" fill="url(#sk)"/>
+      <circle cx="590" cy="58" r="28" fill="#ffd34d"/>
+      <!-- Jebel Jais: mountain with a zig-zag road and a flag at the top -->
+      <path d="M418 372 L520 150 L560 112 L640 260 L640 372Z" fill="#c9a77c"/>
+      <path d="M470 372 L548 196 L560 112 L600 196 L640 300 L640 372Z" fill="#b38a5c"/>
+      <path d="M452 360 L560 336 L490 306 L578 280 L516 250 L584 226 L540 198 L572 176 L556 146" fill="none" stroke="#5b4a3a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M452 360 L560 336 L490 306 L578 280 L516 250 L584 226 L540 198 L572 176 L556 146" fill="none" stroke="#f3e6c8" stroke-width="1.5" stroke-dasharray="6 6"/>
+      <g transform="translate(560 112)"><rect x="-2" y="-46" width="4" height="46" fill="#59636b"/><rect x="2" y="-46" width="9" height="21" fill="#C8102E"/><rect x="11" y="-46" width="27" height="7" fill="#00843D"/><rect x="11" y="-39" width="27" height="7" fill="#fff"/><rect x="11" y="-32" width="27" height="7" fill="#111"/></g>
+      <rect x="0" y="372" width="640" height="28" fill="#e9dcbc"/>
+      <!-- grid: 1 unit = 36 px, origin at (60, 340) -->
+      <g stroke="#9fb7c6" stroke-width="1" opacity=".75">
+        <path d="M96 40V340M132 40V340M168 40V340M204 40V340M240 40V340M276 40V340M312 40V340M348 40V340M384 40V340"/>
+        <path d="M60 304H400M60 268H400M60 232H400M60 196H400M60 160H400M60 124H400M60 88H400M60 52H400"/>
+      </g>
+      <path d="M48 340H410M60 352V34" stroke="#15191c" stroke-width="2.5" fill="none"/>
+      <path d="M410 340l-10-5v10zM60 34l-5 10h10z" fill="#15191c"/>
+      <g font-family="Lexend,sans-serif" font-size="13" fill="#15191c"><text x="404" y="360">x</text><text x="68" y="40">y</text>
+        <text x="92" y="358">1</text><text x="128" y="358">2</text><text x="164" y="358">3</text><text x="200" y="358">4</text><text x="236" y="358">5</text>
+        <text x="44" y="309">1</text><text x="44" y="237">3</text><text x="44" y="165">5</text><text x="44" y="93">7</text></g>
+      <line x1="60" y1="340" x2="210" y2="40" stroke="#00843D" stroke-width="5" stroke-linecap="round"/>
+      <path d="M96 268H198" stroke="#1f6fd1" stroke-width="4"/><path d="M204 268l-12-6v12z" fill="#1f6fd1"/>
+      <path d="M204 268V60" stroke="#C8102E" stroke-width="4"/><path d="M204 52l-6 12h12z" fill="#C8102E"/>
+      <circle cx="96" cy="268" r="8" fill="#15191c" stroke="#fff" stroke-width="3"/><circle cx="204" cy="52" r="8" fill="#15191c" stroke="#fff" stroke-width="3"/>
+      <g font-family="Lexend,sans-serif" font-weight="700" font-size="16">
+        <text x="104" y="292" fill="#15191c">A (1, 2)</text><text x="216" y="58" fill="#15191c">B (4, 8)</text>
+        <rect x="112" y="276" width="0" height="0"/>
+        <text x="150" y="258" text-anchor="middle" fill="#1f6fd1">run = 3</text>
+        <text x="214" y="170" fill="#C8102E">rise = 6</text>
+        <rect x="236" y="96" width="156" height="40" rx="12" fill="#00843D"/><text x="314" y="123" text-anchor="middle" fill="#fff" font-size="19">m = 6 ÷ 3 = 2</text>
+      </g>
+    </svg>
+  </div>
+</div></header>
+
+<div class="bar"><div class="wrap"><b id="sc">Score 0 / 15</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <section class="part"><h2>Part A · Types of slope</h2>
+    <div class="rule"><div><b>Positive</b> ↗ uphill</div><div><b>Negative</b> ↘ downhill</div><div><b>Zero</b> → flat (horizontal)</div><div><b>Undefined</b> ↑ vertical</div></div>
+    <p class="mut">Warm-up. Read each line from left to right. Tap the correct answer.</p><div id="A"></div></section>
+  <section class="part"><h2>Part B · Rise and run</h2><p class="mut"><b>Rise</b> = change in y (up +, down −). <b>Run</b> = change in x (right +, left −). Type one number or a fraction like 11/7.</p><div id="B"></div></section>
+  <section class="part"><h2>Part C · Use the slope formula</h2><p class="mut">m = (y₂ − y₁) ÷ (x₂ − x₁). Label the points first and keep the same order on top and bottom.</p><div id="C"></div></section>
+  <section class="part"><h2>Part D · Think about slope</h2><p class="mut">Steepness is the <b>size</b> of the number. Direction is the <b>sign</b> (+ or −).</p><div id="D"></div></section>
+  <section class="part"><h2>Part E · Rate of change in the UAE</h2><p class="mut">Rate of change = change in y ÷ change in x. Always say what it means, with units.</p><div id="E"></div></section>
+
+  <section class="result" id="res">
+    <h2>My result</h2>
+    <p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0 / 15</div>
+    <div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div>
+  </section>
+  <footer><p>Graphs are drawn on a grid. Prices and distances are for practice only. Write every step in your notebook as well.</p></footer>
+</div></main>
+
+<script>
+{
+const G='#00843D',R='#C8102E',B_='#1f6fd1',INK='currentColor';
+const TYPES=['Positive','Negative','Zero','Undefined'];
+const Q=[
+ {p:'A',id:'a1',kind:'pick',opts:TYPES,ans:'Positive',t:'Read this line from left to right. What type of slope does it have?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lines:[[[-3,-2],[3,2]]]},hint:'Move your finger along the line from left to right. Does it go up (uphill) or down (downhill)?',steps:['From left to right, the line goes up: uphill ↗','Uphill lines have a positive slope']},
+ {p:'A',id:'a2',kind:'pick',opts:TYPES,ans:'Negative',t:'What type of slope does this line have?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lines:[[[-2,3],[2,-3]]]},hint:'Read from left to right. Downhill ↘ means the y-values get smaller.',steps:['From left to right, the line goes down: downhill ↘','Downhill lines have a negative slope']},
+ {p:'A',id:'a3',kind:'pick',opts:['y = 3','x = 2','y = x','y = −x'],ans:'x = 2',t:'Which line has an <b>undefined</b> slope?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lines:[[[0,3],[1,3],G,'y = 3'],[[2,0],[2,1],R,'x = 2']]},hint:'Undefined means vertical: the run (change in x) is 0, and you cannot divide by 0. A horizontal line has slope 0.',steps:['x = 2 is a vertical line: every point has x = 2, so the run is 0','Rise ÷ 0 cannot be worked out, so the slope is undefined','(y = 3 is horizontal: rise 0, so its slope is 0)']},
+ {p:'B',id:'b1',t:'Count on the grid. What is the <b>rise</b> from A(1, 2) to B(4, 8)?',unit:'units',ans:6,tol:.01,d:{k:'plot',x0:0,x1:6,y0:0,y1:9,lines:[[[1,2],[4,8]]],pts:[[1,2,'A'],[4,8,'B']],rr:{a:[1,2],b:[4,8],rise:'rise = ?',run:'run'}},hint:'Rise is how many units UP from A to B. Count the squares, or work out 8 − 2.',steps:['Rise = y₂ − y₁','Rise = 8 − 2 = 6 units up']},
+ {p:'B',id:'b2',t:'Now find the <b>slope</b> of the line through A(1, 2) and B(4, 8).',ans:2,tol:.01,d:{k:'plot',x0:0,x1:6,y0:0,y1:9,lines:[[[1,2],[4,8]]],pts:[[1,2,'A'],[4,8,'B']],rr:{a:[1,2],b:[4,8],rise:'rise = 6',run:'run = ?'}},hint:'Run = 4 − 1. Then slope = rise ÷ run.',steps:['Rise = 8 − 2 = 6','Run = 4 − 1 = 3','m = rise ÷ run = 6 ÷ 3 = 2']},
+ {p:'B',id:'b3',t:'Find the slope of the line through <b>(−3, −6)</b> and <b>(4, 5)</b>.',ans:11/7,tol:.01,d:{k:'plot',x0:-5,x1:6,y0:-8,y1:7,lx:2,ly:2,lines:[[[-3,-6],[4,5]]],pts:[[-3,-6,'(−3, −6)'],[4,5,'(4, 5)']],rr:{a:[-3,-6],b:[4,5],rise:'rise',run:'run'}},hint:'Rise = 5 − (−6). Subtracting a negative is the same as adding.',steps:['Label: (x₁, y₁) = (−3, −6) and (x₂, y₂) = (4, 5)','Rise = 5 − (−6) = 5 + 6 = 11','Run = 4 − (−3) = 4 + 3 = 7','m = 11/7 (about 1.57). Check: the line goes uphill, so the slope is positive ✓']},
+ {p:'C',id:'c1',t:'Find the slope through <b>(4, 2)</b> and <b>(−2, 1)</b>. You can type a fraction.',ans:1/6,tol:.006,d:{k:'formula',x1:'4',y1:'2',x2:'−2',y2:'1'},hint:'Rise = 1 − 2 and run = −2 − 4. Keep the same order on top and bottom.',steps:['Rise = 1 − 2 = −1','Run = −2 − 4 = −6','m = −1 ÷ (−6) = 1/6 (negative ÷ negative = positive)']},
+ {p:'C',id:'c2',t:'Julia found the slope between <b>(3, 1)</b> and <b>(4, −2)</b> and got −1/3. Find her mistake. What is the <b>correct</b> slope?',ans:-3,tol:.01,d:{k:'error'},hint:'Julia did run ÷ rise. Slope is rise ÷ run: the change in y goes on top.',steps:['Julia put the x-values on top: that is run ÷ rise ✗','Rise = −2 − 1 = −3 and run = 4 − 3 = 1','m = −3 ÷ 1 = −3']},
+ {p:'C',id:'c3',t:'Find the slope through <b>(−2, 5)</b> and <b>(3, −5)</b>.',ans:-2,tol:.01,d:{k:'formula',x1:'−2',y1:'5',x2:'3',y2:'−5'},hint:'Rise = −5 − 5. Run = 3 − (−2).',steps:['Rise = −5 − 5 = −10','Run = 3 − (−2) = 3 + 2 = 5','m = −10 ÷ 5 = −2. Check: downhill, so negative ✓']},
+ {p:'D',id:'d1',kind:'pick',opts:['(4, 2)','(2, 4)','(4, −4)'],ans:'(4, 2)',t:'A line has slope <b>3/5</b> and passes through <b>(−1, −1)</b>. Which point is also on the line?',d:{k:'plot',x0:-4,x1:5,y0:-3,y1:4,pts:[[-1,-1,'(−1, −1)','below'],[4,2,'?']],rr:{a:[-1,-1],b:[4,2],rise:'up 3',run:'right 5'}},hint:'Slope 3/5 means rise 3, run 5. Start at (−1, −1), go RIGHT 5 and UP 3.',steps:['Start at (−1, −1)','Right 5: x = −1 + 5 = 4. Up 3: y = −1 + 3 = 2','The point (4, 2) is on the line ✓']},
+ {p:'D',id:'d2',kind:'pick',opts:['Louise: slope 2 is steeper','Martha: they are equally steep','Neither of them'],ans:'Martha: they are equally steep',t:'Louise says a line with slope <b>2</b> is steeper than a line with slope <b>−2</b>. Martha says they are equally steep: one goes up and one goes down. Who is correct?',d:{k:'plot',x0:-3,x1:3,y0:-4,y1:4,lines:[[[0,0],[1,2],G,'m = 2'],[[0,0],[1,-2],R,'m = −2']]},hint:'Steepness is the size of the number (ignore the sign). The sign only tells you the direction.',steps:['Size: 2 and −2 are both 2 away from 0, so the lines are equally steep','Direction: 2 goes up, −2 goes down','Martha is correct']},
+ {p:'D',id:'d3',kind:'pick',opts:['rise 3, run −3','rise 3, run 3','rise −2, run −2'],ans:'rise 3, run −3',t:'Which rise and run give a slope of <b>−1</b>?',d:{k:'card',rows:[['m = rise ÷ run = −1','big'],['3 ÷ (−3) = ?','l'],['3 ÷ 3 = ?','l'],['−2 ÷ (−2) = ?','l']]},hint:'Work out each one. You need a positive ÷ a negative (or a negative ÷ a positive).',steps:['3 ÷ (−3) = −1 ✓','3 ÷ 3 = 1 and −2 ÷ (−2) = 1, so they do not work','Other pairs also work, like rise −1, run 1']},
+ {p:'E',id:'e1',t:'🚕 Dubai taxi: a <b>2 km</b> trip costs <b>AED 17</b>. A <b>10 km</b> trip costs <b>AED 31</b>. Find the rate of change.',unit:'AED per km',ans:1.75,tol:.01,d:{k:'plot',x0:0,x1:12,y0:0,y1:36,gx:1,gy:4,lx:2,ly:8,lines:[[[2,17],[10,31]]],pts:[[2,17,'(2, 17)'],[10,31,'(10, 31)']],xl:'distance (km)',yl:'cost (AED)'},hint:'Use the points (2, 17) and (10, 31). Rate = change in cost ÷ change in distance.',steps:['Change in cost = 31 − 17 = AED 14','Change in distance = 10 − 2 = 8 km','Rate = 14 ÷ 8 = AED 1.75 per km','Meaning: the fare goes up AED 1.75 for every 1 km you travel']},
+ {p:'E',id:'e2',t:'⛰️ On National Day a family drives up the <b>Jebel Jais</b> road. At <b>km 3</b> the height is <b>400 m</b>. At <b>km 9</b> it is <b>1,000 m</b>. Find the rate of change of the height.',unit:'metres per km',ans:100,tol:.01,d:{k:'plot',x0:0,x1:10,y0:0,y1:1200,gx:1,gy:100,lx:2,ly:200,lines:[[[3,400],[9,1000]]],pts:[[3,400,'(3, 400)'],[9,1000,'(9, 1000)']],xl:'distance (km)',yl:'height (m)'},hint:'Points (3, 400) and (9, 1000). Rate = change in height ÷ change in distance.',steps:['Change in height = 1000 − 400 = 600 m','Change in distance = 9 − 3 = 6 km','Rate = 600 ÷ 6 = 100 m per km','Meaning: the road climbs 100 m for every 1 km you drive']},
+ {p:'E',id:'e3',t:'⛽ A car drives to the Eid Al Etihad parade. After <b>40 km</b> the tank has <b>45 litres</b>. After <b>340 km</b> it has <b>21 litres</b>. Find the slope (litres per km).',unit:'litres per km',ans:-0.08,tol:.001,d:{k:'plot',x0:0,x1:400,y0:0,y1:50,gx:50,gy:5,lx:100,ly:10,lines:[[[40,45],[340,21]],null],pts:[[40,45,'(40, 45)'],[340,21,'(340, 21)']],xl:'distance (km)',yl:'fuel (L)'},hint:'Rise = 21 − 45 (fuel goes down, so it is negative). Run = 340 − 40.',steps:['Rise = 21 − 45 = −24 litres','Run = 340 − 40 = 300 km','m = −24 ÷ 300 = −0.08 litres per km','Meaning: the car uses 0.08 litres for every 1 km. Negative: the fuel goes DOWN']}
+];
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmtN=v=>{const s=String(Math.round(v*1000)/1000);return s.replace('-','−')};
+const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
+const ST=`<style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.big{font:700 26px Lexend,sans-serif;fill:${INK}}.sm{font:600 12px Lexend,sans-serif;fill:${INK};opacity:.75}.gr{fill:${G}}.rd{fill:${R}}.bl{fill:${B_}}</style>`;
+const box=`<rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>`;
+let uid=0;
+
+function draw(o){
+  if(o.k==='plot')return plot(o);
+  if(o.k==='formula')return `<svg viewBox="0 0 380 236" role="img" aria-label="Slope formula with the two points">${ST}${box}${flagIcon(26,34,.8)}
+    <text x="214" y="56" text-anchor="middle" class="l">(x₁, y₁) = (${o.x1}, ${o.y1})   (x₂, y₂) = (${o.x2}, ${o.y2})</text>
+    <text x="70" y="140" text-anchor="middle" class="big">m =</text>
+    <text x="226" y="118" text-anchor="middle" class="big"><tspan class="rd">${o.y2}</tspan> − <tspan class="rd">${o.y1.startsWith('−')?'('+o.y1+')':o.y1}</tspan></text>
+    <line x1="120" y1="132" x2="332" y2="132" stroke="currentColor" stroke-width="2.5"/>
+    <text x="226" y="166" text-anchor="middle" class="big"><tspan class="bl">${o.x2}</tspan> − <tspan class="bl">${o.x1.startsWith('−')?'('+o.x1+')':o.x1}</tspan></text>
+    <text x="190" y="204" text-anchor="middle" class="sm">rise on top (red) · run underneath (blue)</text></svg>`;
+  if(o.k==='error')return `<svg viewBox="0 0 380 236" role="img" aria-label="Julia's work: m = (4 − 3) ÷ (−2 − 1) = −1/3, marked wrong">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${R}" fill-opacity=".07" stroke="${R}" stroke-width="2"/>
+    <text x="30" y="56" class="l">Julia’s work</text><text x="350" y="56" text-anchor="end" style="font:700 26px Lexend,sans-serif;fill:${R}">✗</text>
+    <text x="190" y="104" text-anchor="middle" class="big">m = (4 − 3) ÷ (−2 − 1)</text>
+    <text x="190" y="146" text-anchor="middle" class="big">m = 1 ÷ (−3) = −1/3</text>
+    <text x="190" y="190" text-anchor="middle" class="l" style="fill:${R}">Which values should be on top?</text></svg>`;
+  if(o.k==='card'){const ys=o.rows.length===4?[78,120,154,188]:[96,140,184];return `<svg viewBox="0 0 380 236" role="img" aria-label="${esc(o.rows.map(r=>r[0]).join(', '))}">${ST}${box}${flagIcon(26,34,.8)}
+    ${o.rows.map((r,i)=>`<text x="190" y="${ys[i]}" text-anchor="middle" class="${r[1]}">${esc(r[0])}</text>`).join('')}</svg>`;}
+  return '';
+}
+// a coordinate grid with lines, labelled points and rise/run arrows
+function plot(o){
+  const W=380,H=262,L=52,Rr=362,T=o.yl?40:22,Bt=210,id='c'+(++uid);
+  const sx=v=>L+(v-o.x0)*(Rr-L)/(o.x1-o.x0), sy=v=>Bt-(v-o.y0)*(Bt-T)/(o.y1-o.y0);
+  const gx=o.gx||1, gy=o.gy||1, lx=o.lx||gx, ly=o.ly||gy;
+  let g='';
+  for(let x=Math.ceil(o.x0/gx)*gx;x<=o.x1+1e-9;x+=gx)g+=`<line x1="${sx(x)}" y1="${T}" x2="${sx(x)}" y2="${Bt}" stroke="${INK}" stroke-opacity=".12"/>`;
+  for(let y=Math.ceil(o.y0/gy)*gy;y<=o.y1+1e-9;y+=gy)g+=`<line x1="${L}" y1="${sy(y)}" x2="${Rr}" y2="${sy(y)}" stroke="${INK}" stroke-opacity=".12"/>`;
+  const ax=sx(Math.max(o.x0,Math.min(o.x1,0))), ay=sy(Math.max(o.y0,Math.min(o.y1,0)));
+  g+=`<line x1="${L}" y1="${ay}" x2="${Rr}" y2="${ay}" stroke="${INK}" stroke-width="2"/><line x1="${ax}" y1="${T}" x2="${ax}" y2="${Bt}" stroke="${INK}" stroke-width="2"/>`;
+  for(let x=Math.ceil(o.x0/lx)*lx;x<=o.x1+1e-9;x+=lx)if(Math.abs(x)>1e-9)g+=`<text x="${sx(x)}" y="${ay+16}" text-anchor="middle" class="sm">${fmtN(x)}</text>`;
+  for(let y=Math.ceil(o.y0/ly)*ly;y<=o.y1+1e-9;y+=ly)if(Math.abs(y)>1e-9)g+=`<text x="${ax-7}" y="${sy(y)+4}" text-anchor="end" class="sm">${fmtN(y)}</text>`;
+  g+=`<clipPath id="${id}"><rect x="${L}" y="${T}" width="${Rr-L}" height="${Bt-T}"/></clipPath>`;
+  (o.lines||[]).filter(Boolean).forEach(([a,b,c,lab])=>{c=c||G;
+    let p1,p2;
+    if(a[0]===b[0]){p1=[sx(a[0]),T];p2=[sx(a[0]),Bt];}
+    else{const m=(b[1]-a[1])/(b[0]-a[0]),y=x=>a[1]+m*(x-a[0]),pad=(o.x1-o.x0);p1=[sx(o.x0-pad),sy(y(o.x0-pad))];p2=[sx(o.x1+pad),sy(y(o.x1+pad))];}
+    g+=`<line clip-path="url(#${id})" x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;
+    if(lab){const lxp=a[0]===b[0]?sx(a[0])+8:sx(o.x1)-6, lyp=a[0]===b[0]?T+16:sy(a[1]+(b[1]-a[1])/(b[0]-a[0])*(o.x1-a[0]))+(b[1]<a[1]?-8:16);
+      g+=`<text x="${lxp}" y="${Math.max(T+14,Math.min(Bt-6,lyp))}" text-anchor="${a[0]===b[0]?'start':'end'}" style="font:700 15px Lexend,sans-serif;fill:${c}">${esc(lab)}</text>`;}});
+  if(o.rr){const [a,b]=[o.rr.a,o.rr.b],X1=sx(a[0]),Y1=sy(a[1]),X2=sx(b[0]),Y2=sy(b[1]),up=Y2<Y1;
+    g+=`<path d="M${X1} ${Y1}H${X2-(X2>X1?9:-9)}" stroke="${B_}" stroke-width="3.5"/><path d="M${X2} ${Y1}l${X2>X1?-11:11} -6v12z" fill="${B_}"/>`;
+    g+=`<path d="M${X2} ${Y1}V${Y2+(up?9:-9)}" stroke="${R}" stroke-width="3.5"/><path d="M${X2} ${Y2}l-6 ${up?11:-11}h12z" fill="${R}"/>`;
+    g+=`<text x="${(X1+X2)/2}" y="${Y1+(up?20:-10)}" text-anchor="middle" style="font:700 14px Lexend,sans-serif;fill:${B_}">${esc(o.rr.run)}</text>`;
+    g+=`<text x="${X2+8}" y="${(Y1+Y2)/2+5}" style="font:700 14px Lexend,sans-serif;fill:${R}">${esc(o.rr.rise)}</text>`;}
+  const ln=(o.lines||[]).find(Boolean)||(o.rr?[o.rr.a,o.rr.b]:null), up=ln?((ln[1][1]-ln[0][1])*(ln[1][0]-ln[0][0])>=0):true;
+  (o.pts||[]).forEach(([x,y,t,pos])=>{const X=sx(x),Y=sy(y),w=String(t||'').length*8.2;
+    g+=`<circle cx="${X}" cy="${Y}" r="6.5" fill="${INK}" stroke="#fff" stroke-width="2.5"/>`;
+    if(!t)return;
+    // uphill line: the free corners are up-left and down-right; downhill: up-right and down-left
+    let left=up, above=true;
+    if(left&&X-10-w<L){left=false;above=false;} else if(!left&&X+10+w>W-2){left=true;above=false;}
+    if(pos==='below')above=false;
+    if(above&&Y-12<T+4)above=false; if(!above&&Y+20>Bt-2)above=true;
+    g+=`<text x="${X+(left?-10:10)}" y="${Y+(above?-10:20)}" text-anchor="${left?'end':'start'}" style="font:700 14px Lexend,sans-serif;fill:${INK}">${esc(t)}</text>`;});
+  if(o.xl)g+=`<text x="${Rr}" y="${Bt+38}" text-anchor="end" class="l">${esc(o.xl)}</text>`;
+  if(o.yl)g+=`<text x="${L-44}" y="${T-20}" class="l">${esc(o.yl)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graph">${ST}${g}</svg>`;
+}
+
+const KEY='slope32-uae';let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const parse=s=>{s=String(s).trim().replace(/[−–]/g,'-').replace(/,/g,'.').replace(/[^0-9.\/\-]/g,'');if(!s)return NaN;if(s.includes('/')){const[a,b]=s.split('/').map(Number);return b?a/b:NaN}return Number(s)};
+
+let n=0;
+for(const q of Q){
+  n++;const box=document.createElement('article');box.className='q';box.id='q-'+q.id;
+  const ctl=q.kind==='pick'
+    ?`<div class="pick">${q.opts.map(o=>`<button type="button" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`
+    :`<div class="row"><input inputmode="text" aria-label="Answer for question ${n}" placeholder="Your answer${q.unit?' ('+q.unit+')':''}"><button type="button" class="chk">Check</button></div>`;
+  box.innerHTML=`<div><h3><span class="num">${n}</span>Question ${n}</h3><p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div><div>${draw(q.d)}</div>`;
+  $(q.p).appendChild(box);
+  const fb=box.querySelector('.fb'),st=S.q[q.id]||(S.q[q.id]={done:false,tries:0,v:''});
+  const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg};
+  const stepsHtml=(part)=>{if(!q.steps)return '';const L=part?q.steps.slice(0,-1).concat(['Now finish this last step yourself.']):q.steps;return `<ol class="steps">${L.map(s=>`<li>${s}</li>`).join('')}</ol>`};
+  const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+  const judge=ok=>{
+    if(ok){st.done=true;win()}
+    else{st.tries++;show(false,st.tries<2||!q.steps||q.kind==='pick'?`<b>Not yet.</b> Hint: ${q.hint}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(true)}`)}
+    save();score();
+  };
+  if(q.kind==='pick'){
+    box.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
+      if(st.done)return;const ok=b.dataset.o===q.ans;b.classList.add(ok?'ok':'no');judge(ok);
+      if(ok)box.querySelectorAll('.pick button').forEach(x=>x.disabled=true)}));
+    if(st.done){box.querySelectorAll('.pick button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.ans)x.classList.add('ok')});win()}
+  }else{
+    const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+    const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+      if(isNaN(v)){show(false,'Type a number first, like 3, −2 or 11/7.');return}
+      const ok=Math.abs(v-q.ans)<=q.tol;judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+    btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+    if(st.done){inp.disabled=true;btn.disabled=true;win()}
+  }
+}
+
+const parts={A:'Types of slope',B:'Rise and run',C:'Slope formula',D:'Think about slope',E:'Rate of change'};
+function score(){
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length,tot=Q.length;
+  $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+  $('lv').textContent=got===tot?'All done – amazing!':got>=11?'Nearly there!':got>=5?'Good progress!':'Let’s start!';
+  $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
+  const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+  $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 3.2 Slopes of Lines and Rates of Change · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
+}
+$('nm').value=S.nm||'';$('cl').value=S.cl||'';
+window.AISWS={id:'g9-algebra-3-2',title:'3.2 Slopes of Lines and Rates of Change',grade:'9',parts,
+  get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
+['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+$('copy').addEventListener('click',async()=>{
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 3.2 Slopes of Lines and Rates of Change (Eid Al Etihad) – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
+  try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
+  catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
+});
+let armed=false;
+$('reset').addEventListener('click',()=>{
+  if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+  S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
+});
+score();
+}
+</script>
+</body>
+</html>

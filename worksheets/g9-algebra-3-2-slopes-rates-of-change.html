@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-dmeSpooat4efpKppQD9XeCUYR76YJtAjgE2r9Djc6OQ=' 'sha256-HtaF8mAJ9FE0CxQHIMIFh0FlXOsLj5VaaCTVwlJsxVY=' 'sha256-TJlrrDvlNSl4WHEzLB4UM/vPfrIPqHit4RRXJ7eCIVU=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.2 Slopes of Lines and Rates of Change – Eid Al Etihad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Same system as 3.1 and 2.2: UAE flag colours, Lexend, stacked question cards with hints and worked steps.
+   IDEA: "how steep?" — rise and run arrows on a grid, next to the Jebel Jais mountain road
+   Lesson: 3.2 Slopes of Lines and Rates of Change (LO, standard F.IF.B.6, I Do / We Do / You Do examples) */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1311);--ink:light-dark(#15191c,#eef2ef);--mut:light-dark(#56616a,#a3b0a9);
+--card:light-dark(#f4f8f5,#161e1a);--line:light-dark(#dbe4de,#2b3631);
+--green:light-dark(#00843D,#35b86f);--red:light-dark(#C8102E,#ff5d70);--soft:light-dark(#e3f3ea,#173325);
+--bad:light-dark(#fde8eb,#3a1a20);--sky:light-dark(#e8f3f9,#13212a);--blue:light-dark(#1f6fd1,#6fb2ff)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Lexend,system-ui,sans-serif;overflow-x:clip}
+.flag{display:grid;grid-template-columns:1fr 3fr;height:14px}.flag i{background:var(--red)}
+.flag b{background:linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1040px;margin:auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h2{font-size:26px;line-height:1.2;margin:0 0 4px}h3{font-size:17px;margin:0}
+.kick{color:var(--green);font-weight:600}.mut{color:var(--mut)}
+.lo{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.formula{font-size:26px;font-weight:700;color:var(--green);margin:4px 0}
+.formula small{font-size:18px;color:var(--mut);font-weight:600}
+.scene{background:var(--sky);border-radius:18px;overflow:hidden}.scene svg{display:block;width:100%;height:auto}
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-top:14px}
+label{font-size:14px;color:var(--mut);display:block}
+input{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{flex:1 1 160px;height:12px;background:var(--line);border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .4s}
+.part{margin-top:34px}.part p{margin:4px 0 14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.q.done{border-color:var(--green);box-shadow:inset 6px 0 0 var(--green)}
+.q svg{width:100%;height:auto;max-height:260px;display:block;margin:auto}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:15px;margin-right:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input{flex:1 1 140px;width:auto}
+button{font:inherit;font-size:16px;min-height:44px;padding:8px 18px;border-radius:10px;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--green)}button:disabled{opacity:.55;cursor:default}.pick button.ok:disabled{opacity:1}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pick button{background:transparent;color:var(--ink);border-color:var(--line);text-align:left}
+.pick button.ok{background:var(--green);border-color:var(--green);color:#fff}.pick button.no{border-color:var(--red);color:var(--red)}
+.fb{margin-top:10px;border-radius:10px;padding:0}.fb:not(:empty){padding:10px 12px}
+.fb.ok{background:var(--soft)}.fb.no{background:var(--bad)}
+.steps{margin:8px 0 0;padding-left:22px}.steps li{margin:2px 0}
+.tip{font-size:15px;color:var(--mut)}
+.result{background:var(--soft);border-radius:18px;padding:22px;margin-top:34px}
+.big{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);line-height:1}
+.sides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.sides div{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:15px}
+footer{font-size:14px;color:var(--mut)}
+.calc-tip{margin-top:6px}.calc-tip a{color:var(--green);font-weight:600}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:600;text-decoration:none}.back:hover{text-decoration:underline}
+.rule{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:6px 0 10px}
+.rule div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:15px}
+.rule b{color:var(--green)}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.keys span{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+@media(max-width:760px){.hero,.q{grid-template-columns:minmax(0,1fr)}.who,.sides{grid-template-columns:minmax(0,1fr)}.rule{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.meter div{transition:none}}
+</style>
+</head>
+<body>
+<div class="flag"><i></i><b></b></div>
+
+<header class="band"><div class="wrap hero">
+  <div>
+    <a class="back" href="../worksheets.html#grade-9">← All worksheets</a>
+    <div class="kick">Grade 9 Algebra 1 · Module 3 · Eid Al Etihad edition</div>
+    <h1>3.2 Slopes of Lines and Rates of Change</h1>
+    <div class="lo"><b>LO:</b> I can calculate, use, and interpret the slope of a line given any two points on the line.<br>
+      <span class="tip">Standard: F.IF.B.6 · In simple words: I can find how steep a line is and say what the number means.</span></div>
+    <div class="formula">m = rise ÷ run = <span style="white-space:nowrap">(y₂ − y₁) ÷ (x₂ − x₁)</span></div>
+    <div class="tip">Read every line from <b>left to right</b>. Subtract in the <b>same order</b> (point 2 − point 1). Units of a rate: <b>y-units per x-unit</b>.</div>
+    <div class="keys" aria-label="Keywords"><span>slope</span><span>rise</span><span>run</span><span>rate of change</span><span>Δ = change in</span></div>
+    <div class="tip calc-tip">Need a calculator? Tap <b>Calculator</b> at the bottom right. <a href="#" data-calc-video>▶ Watch how to use it</a></div>
+    <div class="who">
+      <div><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="First and last name"></div>
+      <div><label for="cl">Class</label><input id="cl" placeholder="e.g. 9B4"></div>
+    </div>
+  </div>
+  <div class="scene" aria-label="A line through A(1, 2) and B(4, 8) on a grid. A blue arrow shows run = 3 and a red arrow shows rise = 6, so the slope is 6 ÷ 3 = 2. Beside it, the Jebel Jais mountain road climbs with a UAE flag at the top.">
+    <svg viewBox="0 0 640 400" role="img">
+      <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6fbfd"/></linearGradient></defs>
+      <rect width="640" height="400" fill="url(#sk)"/>
+      <circle cx="590" cy="58" r="28" fill="#ffd34d"/>
+      <!-- Jebel Jais: mountain with a zig-zag road and a flag at the top -->
+      <path d="M418 372 L520 150 L560 112 L640 260 L640 372Z" fill="#c9a77c"/>
+      <path d="M470 372 L548 196 L560 112 L600 196 L640 300 L640 372Z" fill="#b38a5c"/>
+      <path d="M452 360 L560 336 L490 306 L578 280 L516 250 L584 226 L540 198 L572 176 L556 146" fill="none" stroke="#5b4a3a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M452 360 L560 336 L490 306 L578 280 L516 250 L584 226 L540 198 L572 176 L556 146" fill="none" stroke="#f3e6c8" stroke-width="1.5" stroke-dasharray="6 6"/>
+      <g transform="translate(560 112)"><rect x="-2" y="-46" width="4" height="46" fill="#59636b"/><rect x="2" y="-46" width="9" height="21" fill="#C8102E"/><rect x="11" y="-46" width="27" height="7" fill="#00843D"/><rect x="11" y="-39" width="27" height="7" fill="#fff"/><rect x="11" y="-32" width="27" height="7" fill="#111"/></g>
+      <rect x="0" y="372" width="640" height="28" fill="#e9dcbc"/>
+      <!-- grid: 1 unit = 36 px, origin at (60, 340) -->
+      <g stroke="#9fb7c6" stroke-width="1" opacity=".75">
+        <path d="M96 40V340M132 40V340M168 40V340M204 40V340M240 40V340M276 40V340M312 40V340M348 40V340M384 40V340"/>
+        <path d="M60 304H400M60 268H400M60 232H400M60 196H400M60 160H400M60 124H400M60 88H400M60 52H400"/>
+      </g>
+      <path d="M48 340H410M60 352V34" stroke="#15191c" stroke-width="2.5" fill="none"/>
+      <path d="M410 340l-10-5v10zM60 34l-5 10h10z" fill="#15191c"/>
+      <g font-family="Lexend,sans-serif" font-size="13" fill="#15191c"><text x="404" y="360">x</text><text x="68" y="40">y</text>
+        <text x="92" y="358">1</text><text x="128" y="358">2</text><text x="164" y="358">3</text><text x="200" y="358">4</text><text x="236" y="358">5</text>
+        <text x="44" y="309">1</text><text x="44" y="237">3</text><text x="44" y="165">5</text><text x="44" y="93">7</text></g>
+      <line x1="60" y1="340" x2="210" y2="40" stroke="#00843D" stroke-width="5" stroke-linecap="round"/>
+      <path d="M96 268H198" stroke="#1f6fd1" stroke-width="4"/><path d="M204 268l-12-6v12z" fill="#1f6fd1"/>
+      <path d="M204 268V60" stroke="#C8102E" stroke-width="4"/><path d="M204 52l-6 12h12z" fill="#C8102E"/>
+      <circle cx="96" cy="268" r="8" fill="#15191c" stroke="#fff" stroke-width="3"/><circle cx="204" cy="52" r="8" fill="#15191c" stroke="#fff" stroke-width="3"/>
+      <g font-family="Lexend,sans-serif" font-weight="700" font-size="16">
+        <text x="104" y="292" fill="#15191c">A (1, 2)</text><text x="216" y="58" fill="#15191c">B (4, 8)</text>
+        <rect x="112" y="276" width="0" height="0"/>
+        <text x="150" y="258" text-anchor="middle" fill="#1f6fd1">run = 3</text>
+        <text x="214" y="170" fill="#C8102E">rise = 6</text>
+        <rect x="236" y="96" width="156" height="40" rx="12" fill="#00843D"/><text x="314" y="123" text-anchor="middle" fill="#fff" font-size="19">m = 6 ÷ 3 = 2</text>
+      </g>
+    </svg>
+  </div>
+</div></header>
+
+<div class="bar"><div class="wrap"><b id="sc">Score 0 / 15</b><div class="meter"><div id="mt"></div></div><span class="tip" id="lv">Let’s start!</span></div></div>
+
+<main class="band" style="padding-top:8px"><div class="wrap">
+  <section class="part"><h2>Part A · Types of slope</h2>
+    <div class="rule"><div><b>Positive</b> ↗ uphill</div><div><b>Negative</b> ↘ downhill</div><div><b>Zero</b> → flat (horizontal)</div><div><b>Undefined</b> ↑ vertical</div></div>
+    <p class="mut">Warm-up. Read each line from left to right. Tap the correct answer.</p><div id="A"></div></section>
+  <section class="part"><h2>Part B · Rise and run</h2><p class="mut"><b>Rise</b> = change in y (up +, down −). <b>Run</b> = change in x (right +, left −). Type one number or a fraction like 11/7.</p><div id="B"></div></section>
+  <section class="part"><h2>Part C · Use the slope formula</h2><p class="mut">m = (y₂ − y₁) ÷ (x₂ − x₁). Label the points first and keep the same order on top and bottom.</p><div id="C"></div></section>
+  <section class="part"><h2>Part D · Think about slope</h2><p class="mut">Steepness is the <b>size</b> of the number. Direction is the <b>sign</b> (+ or −).</p><div id="D"></div></section>
+  <section class="part"><h2>Part E · Rate of change in the UAE</h2><p class="mut">Rate of change = change in y ÷ change in x. Always say what it means, with units.</p><div id="E"></div></section>
+
+  <section class="result" id="res">
+    <h2>My result</h2>
+    <p class="mut" id="who">Write your name at the top.</p>
+    <div class="big" id="big">0 / 15</div>
+    <div class="sides" id="brk"></div>
+    <div class="row"><button id="copy">Copy my result</button><button class="ghost" id="reset">Start again</button></div>
+    <p class="tip" id="cmsg">When you finish, send your result to your teacher, or copy it / take a screenshot for Microsoft Teams.</p>
+    <div id="ais-report"></div>
+  </section>
+  <footer><p>Graphs are drawn on a grid. Prices and distances are for practice only. Write every step in your notebook as well.</p></footer>
+</div></main>
+
+<script>
+{
+const G='#00843D',R='#C8102E',B_='#1f6fd1',INK='currentColor';
+const TYPES=['Positive','Negative','Zero','Undefined'];
+const Q=[
+ {p:'A',id:'a1',kind:'pick',opts:TYPES,ans:'Positive',t:'Read this line from left to right. What type of slope does it have?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lines:[[[-3,-2],[3,2]]]},hint:'Move your finger along the line from left to right. Does it go up (uphill) or down (downhill)?',steps:['From left to right, the line goes up: uphill ↗','Uphill lines have a positive slope']},
+ {p:'A',id:'a2',kind:'pick',opts:TYPES,ans:'Negative',t:'What type of slope does this line have?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lines:[[[-2,3],[2,-3]]]},hint:'Read from left to right. Downhill ↘ means the y-values get smaller.',steps:['From left to right, the line goes down: downhill ↘','Downhill lines have a negative slope']},
+ {p:'A',id:'a3',kind:'pick',opts:['y = 3','x = 2','y = x','y = −x'],ans:'x = 2',t:'Which line has an <b>undefined</b> slope?',d:{k:'plot',x0:-4,x1:4,y0:-4,y1:4,lines:[[[0,3],[1,3],G,'y = 3'],[[2,0],[2,1],R,'x = 2']]},hint:'Undefined means vertical: the run (change in x) is 0, and you cannot divide by 0. A horizontal line has slope 0.',steps:['x = 2 is a vertical line: every point has x = 2, so the run is 0','Rise ÷ 0 cannot be worked out, so the slope is undefined','(y = 3 is horizontal: rise 0, so its slope is 0)']},
+ {p:'B',id:'b1',t:'Count on the grid. What is the <b>rise</b> from A(1, 2) to B(4, 8)?',unit:'units',ans:6,tol:.01,d:{k:'plot',x0:0,x1:6,y0:0,y1:9,lines:[[[1,2],[4,8]]],pts:[[1,2,'A'],[4,8,'B']],rr:{a:[1,2],b:[4,8],rise:'rise = ?',run:'run'}},hint:'Rise is how many units UP from A to B. Count the squares, or work out 8 − 2.',steps:['Rise = y₂ − y₁','Rise = 8 − 2 = 6 units up']},
+ {p:'B',id:'b2',t:'Now find the <b>slope</b> of the line through A(1, 2) and B(4, 8).',ans:2,tol:.01,d:{k:'plot',x0:0,x1:6,y0:0,y1:9,lines:[[[1,2],[4,8]]],pts:[[1,2,'A'],[4,8,'B']],rr:{a:[1,2],b:[4,8],rise:'rise = 6',run:'run = ?'}},hint:'Run = 4 − 1. Then slope = rise ÷ run.',steps:['Rise = 8 − 2 = 6','Run = 4 − 1 = 3','m = rise ÷ run = 6 ÷ 3 = 2']},
+ {p:'B',id:'b3',t:'Find the slope of the line through <b>(−3, −6)</b> and <b>(4, 5)</b>.',ans:11/7,tol:.01,d:{k:'plot',x0:-5,x1:6,y0:-8,y1:7,lx:2,ly:2,lines:[[[-3,-6],[4,5]]],pts:[[-3,-6,'(−3, −6)'],[4,5,'(4, 5)']],rr:{a:[-3,-6],b:[4,5],rise:'rise',run:'run'}},hint:'Rise = 5 − (−6). Subtracting a negative is the same as adding.',steps:['Label: (x₁, y₁) = (−3, −6) and (x₂, y₂) = (4, 5)','Rise = 5 − (−6) = 5 + 6 = 11','Run = 4 − (−3) = 4 + 3 = 7','m = 11/7 (about 1.57). Check: the line goes uphill, so the slope is positive ✓']},
+ {p:'C',id:'c1',t:'Find the slope through <b>(4, 2)</b> and <b>(−2, 1)</b>. You can type a fraction.',ans:1/6,tol:.006,d:{k:'formula',x1:'4',y1:'2',x2:'−2',y2:'1'},hint:'Rise = 1 − 2 and run = −2 − 4. Keep the same order on top and bottom.',steps:['Rise = 1 − 2 = −1','Run = −2 − 4 = −6','m = −1 ÷ (−6) = 1/6 (negative ÷ negative = positive)']},
+ {p:'C',id:'c2',t:'Julia found the slope between <b>(3, 1)</b> and <b>(4, −2)</b> and got −1/3. Find her mistake. What is the <b>correct</b> slope?',ans:-3,tol:.01,d:{k:'error'},hint:'Julia did run ÷ rise. Slope is rise ÷ run: the change in y goes on top.',steps:['Julia put the x-values on top: that is run ÷ rise ✗','Rise = −2 − 1 = −3 and run = 4 − 3 = 1','m = −3 ÷ 1 = −3']},
+ {p:'C',id:'c3',t:'Find the slope through <b>(−2, 5)</b> and <b>(3, −5)</b>.',ans:-2,tol:.01,d:{k:'formula',x1:'−2',y1:'5',x2:'3',y2:'−5'},hint:'Rise = −5 − 5. Run = 3 − (−2).',steps:['Rise = −5 − 5 = −10','Run = 3 − (−2) = 3 + 2 = 5','m = −10 ÷ 5 = −2. Check: downhill, so negative ✓']},
+ {p:'D',id:'d1',kind:'pick',opts:['(4, 2)','(2, 4)','(4, −4)'],ans:'(4, 2)',t:'A line has slope <b>3/5</b> and passes through <b>(−1, −1)</b>. Which point is also on the line?',d:{k:'plot',x0:-4,x1:5,y0:-3,y1:4,pts:[[-1,-1,'(−1, −1)','below'],[4,2,'?']],rr:{a:[-1,-1],b:[4,2],rise:'up 3',run:'right 5'}},hint:'Slope 3/5 means rise 3, run 5. Start at (−1, −1), go RIGHT 5 and UP 3.',steps:['Start at (−1, −1)','Right 5: x = −1 + 5 = 4. Up 3: y = −1 + 3 = 2','The point (4, 2) is on the line ✓']},
+ {p:'D',id:'d2',kind:'pick',opts:['Louise: slope 2 is steeper','Martha: they are equally steep','Neither of them'],ans:'Martha: they are equally steep',t:'Louise says a line with slope <b>2</b> is steeper than a line with slope <b>−2</b>. Martha says they are equally steep: one goes up and one goes down. Who is correct?',d:{k:'plot',x0:-3,x1:3,y0:-4,y1:4,lines:[[[0,0],[1,2],G,'m = 2'],[[0,0],[1,-2],R,'m = −2']]},hint:'Steepness is the size of the number (ignore the sign). The sign only tells you the direction.',steps:['Size: 2 and −2 are both 2 away from 0, so the lines are equally steep','Direction: 2 goes up, −2 goes down','Martha is correct']},
+ {p:'D',id:'d3',kind:'pick',opts:['rise 3, run −3','rise 3, run 3','rise −2, run −2'],ans:'rise 3, run −3',t:'Which rise and run give a slope of <b>−1</b>?',d:{k:'card',rows:[['m = rise ÷ run = −1','big'],['3 ÷ (−3) = ?','l'],['3 ÷ 3 = ?','l'],['−2 ÷ (−2) = ?','l']]},hint:'Work out each one. You need a positive ÷ a negative (or a negative ÷ a positive).',steps:['3 ÷ (−3) = −1 ✓','3 ÷ 3 = 1 and −2 ÷ (−2) = 1, so they do not work','Other pairs also work, like rise −1, run 1']},
+ {p:'E',id:'e1',t:'🚕 Dubai taxi: a <b>2 km</b> trip costs <b>AED 17</b>. A <b>10 km</b> trip costs <b>AED 31</b>. Find the rate of change.',unit:'AED per km',ans:1.75,tol:.01,d:{k:'plot',x0:0,x1:12,y0:0,y1:36,gx:1,gy:4,lx:2,ly:8,lines:[[[2,17],[10,31]]],pts:[[2,17,'(2, 17)'],[10,31,'(10, 31)']],xl:'distance (km)',yl:'cost (AED)'},hint:'Use the points (2, 17) and (10, 31). Rate = change in cost ÷ change in distance.',steps:['Change in cost = 31 − 17 = AED 14','Change in distance = 10 − 2 = 8 km','Rate = 14 ÷ 8 = AED 1.75 per km','Meaning: the fare goes up AED 1.75 for every 1 km you travel']},
+ {p:'E',id:'e2',t:'⛰️ On National Day a family drives up the <b>Jebel Jais</b> road. At <b>km 3</b> the height is <b>400 m</b>. At <b>km 9</b> it is <b>1,000 m</b>. Find the rate of change of the height.',unit:'metres per km',ans:100,tol:.01,d:{k:'plot',x0:0,x1:10,y0:0,y1:1200,gx:1,gy:100,lx:2,ly:200,lines:[[[3,400],[9,1000]]],pts:[[3,400,'(3, 400)'],[9,1000,'(9, 1000)']],xl:'distance (km)',yl:'height (m)'},hint:'Points (3, 400) and (9, 1000). Rate = change in height ÷ change in distance.',steps:['Change in height = 1000 − 400 = 600 m','Change in distance = 9 − 3 = 6 km','Rate = 600 ÷ 6 = 100 m per km','Meaning: the road climbs 100 m for every 1 km you drive']},
+ {p:'E',id:'e3',t:'⛽ A car drives to the Eid Al Etihad parade. After <b>40 km</b> the tank has <b>45 litres</b>. After <b>340 km</b> it has <b>21 litres</b>. Find the slope (litres per km).',unit:'litres per km',ans:-0.08,tol:.001,d:{k:'plot',x0:0,x1:400,y0:0,y1:50,gx:50,gy:5,lx:100,ly:10,lines:[[[40,45],[340,21]],null],pts:[[40,45,'(40, 45)'],[340,21,'(340, 21)']],xl:'distance (km)',yl:'fuel (L)'},hint:'Rise = 21 − 45 (fuel goes down, so it is negative). Run = 340 − 40.',steps:['Rise = 21 − 45 = −24 litres','Run = 340 − 40 = 300 km','m = −24 ÷ 300 = −0.08 litres per km','Meaning: the car uses 0.08 litres for every 1 km. Negative: the fuel goes DOWN']}
+];
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmtN=v=>{const s=String(Math.round(v*1000)/1000);return s.replace('-','−')};
+const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
+const ST=`<style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.big{font:700 26px Lexend,sans-serif;fill:${INK}}.sm{font:600 12px Lexend,sans-serif;fill:${INK};opacity:.75}.gr{fill:${G}}.rd{fill:${R}}.bl{fill:${B_}}</style>`;
+const box=`<rect x="10" y="20" width="360" height="196" rx="18" fill="${G}" fill-opacity=".08" stroke="${G}" stroke-width="2"/>`;
+let uid=0;
+
+function draw(o){
+  if(o.k==='plot')return plot(o);
+  if(o.k==='formula')return `<svg viewBox="0 0 380 236" role="img" aria-label="Slope formula with the two points">${ST}${box}${flagIcon(26,34,.8)}
+    <text x="214" y="56" text-anchor="middle" class="l">(x₁, y₁) = (${o.x1}, ${o.y1})   (x₂, y₂) = (${o.x2}, ${o.y2})</text>
+    <text x="70" y="140" text-anchor="middle" class="big">m =</text>
+    <text x="226" y="118" text-anchor="middle" class="big"><tspan class="rd">${o.y2}</tspan> − <tspan class="rd">${o.y1.startsWith('−')?'('+o.y1+')':o.y1}</tspan></text>
+    <line x1="120" y1="132" x2="332" y2="132" stroke="currentColor" stroke-width="2.5"/>
+    <text x="226" y="166" text-anchor="middle" class="big"><tspan class="bl">${o.x2}</tspan> − <tspan class="bl">${o.x1.startsWith('−')?'('+o.x1+')':o.x1}</tspan></text>
+    <text x="190" y="204" text-anchor="middle" class="sm">rise on top (red) · run underneath (blue)</text></svg>`;
+  if(o.k==='error')return `<svg viewBox="0 0 380 236" role="img" aria-label="Julia's work: m = (4 − 3) ÷ (−2 − 1) = −1/3, marked wrong">${ST}
+    <rect x="10" y="20" width="360" height="196" rx="18" fill="${R}" fill-opacity=".07" stroke="${R}" stroke-width="2"/>
+    <text x="30" y="56" class="l">Julia’s work</text><text x="350" y="56" text-anchor="end" style="font:700 26px Lexend,sans-serif;fill:${R}">✗</text>
+    <text x="190" y="104" text-anchor="middle" class="big">m = (4 − 3) ÷ (−2 − 1)</text>
+    <text x="190" y="146" text-anchor="middle" class="big">m = 1 ÷ (−3) = −1/3</text>
+    <text x="190" y="190" text-anchor="middle" class="l" style="fill:${R}">Which values should be on top?</text></svg>`;
+  if(o.k==='card'){const ys=o.rows.length===4?[78,120,154,188]:[96,140,184];return `<svg viewBox="0 0 380 236" role="img" aria-label="${esc(o.rows.map(r=>r[0]).join(', '))}">${ST}${box}${flagIcon(26,34,.8)}
+    ${o.rows.map((r,i)=>`<text x="190" y="${ys[i]}" text-anchor="middle" class="${r[1]}">${esc(r[0])}</text>`).join('')}</svg>`;}
+  return '';
+}
+// a coordinate grid with lines, labelled points and rise/run arrows
+function plot(o){
+  const W=380,H=262,L=52,Rr=362,T=o.yl?40:22,Bt=210,id='c'+(++uid);
+  const sx=v=>L+(v-o.x0)*(Rr-L)/(o.x1-o.x0), sy=v=>Bt-(v-o.y0)*(Bt-T)/(o.y1-o.y0);
+  const gx=o.gx||1, gy=o.gy||1, lx=o.lx||gx, ly=o.ly||gy;
+  let g='';
+  for(let x=Math.ceil(o.x0/gx)*gx;x<=o.x1+1e-9;x+=gx)g+=`<line x1="${sx(x)}" y1="${T}" x2="${sx(x)}" y2="${Bt}" stroke="${INK}" stroke-opacity=".12"/>`;
+  for(let y=Math.ceil(o.y0/gy)*gy;y<=o.y1+1e-9;y+=gy)g+=`<line x1="${L}" y1="${sy(y)}" x2="${Rr}" y2="${sy(y)}" stroke="${INK}" stroke-opacity=".12"/>`;
+  const ax=sx(Math.max(o.x0,Math.min(o.x1,0))), ay=sy(Math.max(o.y0,Math.min(o.y1,0)));
+  g+=`<line x1="${L}" y1="${ay}" x2="${Rr}" y2="${ay}" stroke="${INK}" stroke-width="2"/><line x1="${ax}" y1="${T}" x2="${ax}" y2="${Bt}" stroke="${INK}" stroke-width="2"/>`;
+  for(let x=Math.ceil(o.x0/lx)*lx;x<=o.x1+1e-9;x+=lx)if(Math.abs(x)>1e-9)g+=`<text x="${sx(x)}" y="${ay+16}" text-anchor="middle" class="sm">${fmtN(x)}</text>`;
+  for(let y=Math.ceil(o.y0/ly)*ly;y<=o.y1+1e-9;y+=ly)if(Math.abs(y)>1e-9)g+=`<text x="${ax-7}" y="${sy(y)+4}" text-anchor="end" class="sm">${fmtN(y)}</text>`;
+  g+=`<clipPath id="${id}"><rect x="${L}" y="${T}" width="${Rr-L}" height="${Bt-T}"/></clipPath>`;
+  (o.lines||[]).filter(Boolean).forEach(([a,b,c,lab])=>{c=c||G;
+    let p1,p2;
+    if(a[0]===b[0]){p1=[sx(a[0]),T];p2=[sx(a[0]),Bt];}
+    else{const m=(b[1]-a[1])/(b[0]-a[0]),y=x=>a[1]+m*(x-a[0]),pad=(o.x1-o.x0);p1=[sx(o.x0-pad),sy(y(o.x0-pad))];p2=[sx(o.x1+pad),sy(y(o.x1+pad))];}
+    g+=`<line clip-path="url(#${id})" x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;
+    if(lab){const lxp=a[0]===b[0]?sx(a[0])+8:sx(o.x1)-6, lyp=a[0]===b[0]?T+16:sy(a[1]+(b[1]-a[1])/(b[0]-a[0])*(o.x1-a[0]))+(b[1]<a[1]?-8:16);
+      g+=`<text x="${lxp}" y="${Math.max(T+14,Math.min(Bt-6,lyp))}" text-anchor="${a[0]===b[0]?'start':'end'}" style="font:700 15px Lexend,sans-serif;fill:${c}">${esc(lab)}</text>`;}});
+  if(o.rr){const [a,b]=[o.rr.a,o.rr.b],X1=sx(a[0]),Y1=sy(a[1]),X2=sx(b[0]),Y2=sy(b[1]),up=Y2<Y1;
+    g+=`<path d="M${X1} ${Y1}H${X2-(X2>X1?9:-9)}" stroke="${B_}" stroke-width="3.5"/><path d="M${X2} ${Y1}l${X2>X1?-11:11} -6v12z" fill="${B_}"/>`;
+    g+=`<path d="M${X2} ${Y1}V${Y2+(up?9:-9)}" stroke="${R}" stroke-width="3.5"/><path d="M${X2} ${Y2}l-6 ${up?11:-11}h12z" fill="${R}"/>`;
+    g+=`<text x="${(X1+X2)/2}" y="${Y1+(up?20:-10)}" text-anchor="middle" style="font:700 14px Lexend,sans-serif;fill:${B_}">${esc(o.rr.run)}</text>`;
+    g+=`<text x="${X2+8}" y="${(Y1+Y2)/2+5}" style="font:700 14px Lexend,sans-serif;fill:${R}">${esc(o.rr.rise)}</text>`;}
+  const ln=(o.lines||[]).find(Boolean)||(o.rr?[o.rr.a,o.rr.b]:null), up=ln?((ln[1][1]-ln[0][1])*(ln[1][0]-ln[0][0])>=0):true;
+  (o.pts||[]).forEach(([x,y,t,pos])=>{const X=sx(x),Y=sy(y),w=String(t||'').length*8.2;
+    g+=`<circle cx="${X}" cy="${Y}" r="6.5" fill="${INK}" stroke="#fff" stroke-width="2.5"/>`;
+    if(!t)return;
+    // uphill line: the free corners are up-left and down-right; downhill: up-right and down-left
+    let left=up, above=true;
+    if(left&&X-10-w<L){left=false;above=false;} else if(!left&&X+10+w>W-2){left=true;above=false;}
+    if(pos==='below')above=false;
+    if(above&&Y-12<T+4)above=false; if(!above&&Y+20>Bt-2)above=true;
+    g+=`<text x="${X+(left?-10:10)}" y="${Y+(above?-10:20)}" text-anchor="${left?'end':'start'}" style="font:700 14px Lexend,sans-serif;fill:${INK}">${esc(t)}</text>`;});
+  if(o.xl)g+=`<text x="${Rr}" y="${Bt+38}" text-anchor="end" class="l">${esc(o.xl)}</text>`;
+  if(o.yl)g+=`<text x="${L-44}" y="${T-20}" class="l">${esc(o.yl)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graph">${ST}${g}</svg>`;
+}
+
+const KEY='slope32-uae';let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.q=S.q||{};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const parse=s=>{s=String(s).trim().replace(/[−–]/g,'-').replace(/,/g,'.').replace(/[^0-9.\/\-]/g,'');if(!s)return NaN;if(s.includes('/')){const[a,b]=s.split('/').map(Number);return b?a/b:NaN}return Number(s)};
+
+let n=0;
+for(const q of Q){
+  n++;const box=document.createElement('article');box.className='q';box.id='q-'+q.id;
+  const ctl=q.kind==='pick'
+    ?`<div class="pick">${q.opts.map(o=>`<button type="button" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`
+    :`<div class="row"><input inputmode="text" aria-label="Answer for question ${n}" placeholder="Your answer${q.unit?' ('+q.unit+')':''}"><button type="button" class="chk">Check</button></div>`;
+  box.innerHTML=`<div><h3><span class="num">${n}</span>Question ${n}</h3><p>${q.t}</p>${ctl}<div class="fb" aria-live="polite"></div></div><div>${draw(q.d)}</div>`;
+  $(q.p).appendChild(box);
+  const fb=box.querySelector('.fb'),st=S.q[q.id]||(S.q[q.id]={done:false,tries:0,v:''});
+  const show=(ok,msg)=>{fb.className='fb '+(ok?'ok':'no');fb.innerHTML=msg};
+  const stepsHtml=(part)=>{if(!q.steps)return '';const L=part?q.steps.slice(0,-1).concat(['Now finish this last step yourself.']):q.steps;return `<ol class="steps">${L.map(s=>`<li>${s}</li>`).join('')}</ol>`};
+  const win=()=>{box.classList.add('done');show(true,'<b>Correct! Well done.</b>'+stepsHtml())};
+  const judge=ok=>{
+    if(ok){st.done=true;win()}
+    else{st.tries++;show(false,st.tries<2||!q.steps||q.kind==='pick'?`<b>Not yet.</b> Hint: ${q.hint}`:`<b>Not yet.</b> Follow these steps, then try again:${stepsHtml(true)}`)}
+    save();score();
+  };
+  if(q.kind==='pick'){
+    box.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
+      if(st.done)return;const ok=b.dataset.o===q.ans;b.classList.add(ok?'ok':'no');judge(ok);
+      if(ok)box.querySelectorAll('.pick button').forEach(x=>x.disabled=true)}));
+    if(st.done){box.querySelectorAll('.pick button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.ans)x.classList.add('ok')});win()}
+  }else{
+    const inp=box.querySelector('input'),btn=box.querySelector('.chk');inp.value=st.v||'';
+    const go=()=>{if(st.done)return;st.v=inp.value;const v=parse(inp.value);
+      if(isNaN(v)){show(false,'Type a number first, like 3, −2 or 11/7.');return}
+      const ok=Math.abs(v-q.ans)<=q.tol;judge(ok);if(ok){inp.disabled=true;btn.disabled=true}};
+    btn.addEventListener('click',go);inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+    if(st.done){inp.disabled=true;btn.disabled=true;win()}
+  }
+}
+
+const parts={A:'Types of slope',B:'Rise and run',C:'Slope formula',D:'Think about slope',E:'Rate of change'};
+function score(){
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length,tot=Q.length;
+  $('sc').textContent=`Score ${got} / ${tot}`;$('mt').style.width=(got/tot*100)+'%';$('big').textContent=`${got} / ${tot}`;
+  $('lv').textContent=got===tot?'All done – amazing!':got>=11?'Nearly there!':got>=5?'Good progress!':'Let’s start!';
+  $('brk').innerHTML=Object.keys(parts).map(k=>{const qs=Q.filter(q=>q.p===k);const g=qs.filter(q=>S.q[q.id]&&S.q[q.id].done).length;return `<div><b>${g} / ${qs.length}</b><br>${parts[k]}</div>`}).join('');
+  const nm=($('nm').value||'').trim(),cl=($('cl').value||'').trim();
+  $('who').textContent=nm?`${nm}${cl?' · '+cl:''} · 3.2 Slopes of Lines and Rates of Change · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`:'Write your name at the top.';
+  document.dispatchEvent(new Event('ais-ws-change'));
+}
+$('nm').value=S.nm||'';$('cl').value=S.cl||'';
+window.AISWS={id:'g9-algebra-3-2',title:'3.2 Slopes of Lines and Rates of Change',grade:'9',parts,
+  get:()=>({name:$('nm').value,cls:$('cl').value,items:Q.map(q=>{const s=S.q[q.id]||{};return q.p+(s.done?1:0)+Math.min(9,s.tries||0)})})};
+['nm','cl'].forEach(id=>$(id).addEventListener('input',()=>{S[id]=$(id).value;save();score()}));
+$('copy').addEventListener('click',async()=>{
+  const got=Q.filter(q=>S.q[q.id]&&S.q[q.id].done).length;
+  const txt=`${($('nm').value||'Name').trim()} – ${($('cl').value||'Class').trim()} – 3.2 Slopes of Lines and Rates of Change (Eid Al Etihad) – Score ${got}/${Q.length}${window.AIS_GAME?' – '+window.AIS_GAME.summary():''} – ${new Date().toLocaleDateString('en-GB')}`;
+  try{await navigator.clipboard.writeText(txt);$('cmsg').textContent='Copied! Paste it in Microsoft Teams.'}
+  catch(e){$('cmsg').textContent='Copy did not work here. Take a screenshot of this box instead.'}
+});
+let armed=false;
+$('reset').addEventListener('click',()=>{
+  if(!armed){armed=true;$('reset').textContent='Tap again to clear all answers';setTimeout(()=>{armed=false;$('reset').textContent='Start again'},4000);return}
+  S={q:{},nm:$('nm').value,cl:$('cl').value};save();location.reload();
+});
+score();
+}
+</script>
+<!-- ===== AIS worksheet kit: City Missions game + QR code. source/build.py adds it to every worksheet.
+     qr/g9-algebra-3-2-slopes-rates-of-change.svg = this worksheet's QR image, https://aamermath-ai.github.io/ais-sat/worksheets/g9-algebra-3-2-slopes-rates-of-change.html = its public address.
+     Content rules: original artwork only (no game brands), no violence, weapons, crime, gambling or chance-based rewards,
+     respectful use of the UAE flag and landmarks, nothing personal sent anywhere (progress stays in this browser). ===== -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+<style>
+.gm-hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
+.gm-chip{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:4px 12px;border-radius:999px;background:#17112b;color:#fff;font:600 14px/1 Lexend,system-ui,sans-serif;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.gm-chip b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:17px;letter-spacing:.03em}
+.gm-rank b{background:linear-gradient(90deg,#ffd166,#ff8a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gm-xpbar{width:58px;height:7px;border-radius:9px;background:rgba(255,255,255,.18);overflow:hidden}
+.gm-xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd166,#ff5fa2);transition:width .5s}
+.gm-combo{background:#3a1030}.gm-combo b{color:#ff8fc8}
+.gm-combo.hot{animation:gmPulse .6s ease}
+.gm-ib{width:36px;height:36px;min-height:36px;padding:0;border-radius:50%;border:0;background:#17112b;color:#fff;display:inline-grid;place-items:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.gm-ib svg{width:18px;height:18px}
+.gm-ib:focus-visible,.gm-btn:focus-visible,.gm-node:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
+/* city map */
+.gm-map{position:relative;margin-top:26px;border-radius:22px;overflow:hidden;color:#fff;
+  background:linear-gradient(180deg,#1b1240 0%,#5a1f5c 46%,#e0644a 82%,#ffb15a 100%);box-shadow:0 18px 40px rgba(40,10,60,.25)}
+.gm-map svg.sky{position:absolute;inset:auto 0 0 0;width:100%;height:62%;opacity:.55}
+.gm-map-h{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;padding:18px 20px 0}
+.gm-map-h small{display:block;font:700 12px/1.2 Lexend,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ffd166}
+.gm-map-h h2{margin:2px 0 0;font:400 30px/1 Anton,Impact,sans-serif;letter-spacing:.02em;color:#fff}
+.gm-map-h span{font:600 14px Lexend,sans-serif;color:#ffe3c2}
+.gm-nodes{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(118px,1fr);gap:6px;padding:46px 16px 18px;overflow-x:auto;scrollbar-width:thin}
+.gm-nodes::before{content:"";position:absolute;left:70px;right:70px;top:84px;height:6px;border-radius:6px;background:repeating-linear-gradient(90deg,#ffe9b0 0 18px,transparent 18px 30px),rgba(0,0,0,.35)}
+.gm-node{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;border:0;background:none;color:#fff;cursor:pointer;padding:0 4px;min-height:0;font:inherit}
+.gm-dot{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#2a1d4d;border:3px solid rgba(255,255,255,.55);font:400 22px Anton,Impact,sans-serif;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.gm-node.now .gm-dot{background:#ff5fa2;border-color:#fff;animation:gmPulse 1.6s ease-in-out infinite}
+.gm-node.won .gm-dot{background:#00a651;border-color:#d8ffe8}
+.gm-node .nm{font:700 14px/1.2 Lexend,sans-serif}
+.gm-node .ms{font:500 12px/1.25 Lexend,sans-serif;color:#ffe3c2;max-width:130px}
+.gm-node .st{font-size:15px;letter-spacing:2px;color:#ffd166;min-height:18px}
+.gm-car{position:absolute;top:-34px;left:50%;width:46px;height:26px;transform:translateX(-50%)}
+.gm-mbadge{display:inline-flex;align-items:center;gap:8px;margin-bottom:6px;padding:5px 12px;border-radius:999px;background:#17112b;color:#ffd166;font:400 15px/1 Anton,Impact,sans-serif;letter-spacing:.06em}
+.gm-mbadge.won{background:#00843D;color:#fff}
+/* floating rewards */
+.gm-pop{position:absolute;z-index:40;pointer-events:none;font:400 30px/1 Anton,Impact,sans-serif;letter-spacing:.03em;color:#ffb000;-webkit-text-stroke:1.5px #3a1030;text-shadow:0 3px 0 #3a1030;animation:gmUp 1.3s ease-out forwards;white-space:nowrap}
+.gm-pop small{display:block;font-size:17px;color:#ff5fa2;-webkit-text-stroke:1px #3a1030;margin-top:4px}
+.gm-shake{animation:gmShake .35s ease}
+/* stingers */
+.gm-stinger{position:fixed;inset:0;z-index:85;display:grid;place-items:center;pointer-events:auto;background:radial-gradient(60% 50% at 50% 50%,rgba(20,8,40,.55),rgba(20,8,40,.2) 70%,transparent);cursor:pointer}
+.gm-stinger div{text-align:center;transform:skew(-8deg);animation:gmIn .5s cubic-bezier(.2,1.4,.4,1)}
+.gm-stinger h2{margin:0;font:400 clamp(46px,11vw,110px)/.95 Anton,Impact,sans-serif;letter-spacing:.02em;
+  background:linear-gradient(180deg,#fff6c9 0%,#ffd166 45%,#ff8a3d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 5px 0 #3a1030) drop-shadow(0 12px 24px rgba(0,0,0,.45))}
+.gm-stinger p{margin:10px 0 0;font:700 clamp(17px,3.4vw,26px)/1.3 Lexend,sans-serif;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.gm-stinger .stars{font-size:clamp(30px,6vw,52px);letter-spacing:8px;color:#ffd166;text-shadow:0 3px 0 #3a1030}
+.gm-stinger .stars i{font-style:normal;color:rgba(255,255,255,.35)}
+.gm-toast{position:fixed;left:50%;top:76px;z-index:80;transform:translateX(-50%);padding:10px 20px;border-radius:999px;background:#17112b;color:#fff;font:400 20px/1 Anton,Impact,sans-serif;letter-spacing:.05em;box-shadow:0 12px 30px rgba(0,0,0,.3);animation:gmToast 1.8s ease forwards;pointer-events:none;white-space:nowrap}
+.gm-toast b{color:#ffd166;font-weight:400}
+#gm-confetti{position:fixed;inset:0;z-index:84;pointer-events:none}
+/* start screen */
+.gm-start{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:24px 16px;overflow-y:auto;color:#fff;text-align:center;
+  background:linear-gradient(180deg,#140c33 0%,#4a1a5a 45%,#d35a47 80%,#ffad55 100%)}
+.gm-start svg.sky{position:absolute;inset:auto 0 0 0;width:100%;height:46%;opacity:.6}
+.gm-start-in{position:relative;max-width:720px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.gm-start small{font:700 13px/1.3 Lexend,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#ffd166}
+.gm-start h1{margin:0;font:400 clamp(54px,12vw,112px)/.92 Anton,Impact,sans-serif;letter-spacing:.01em;transform:skew(-6deg);
+  background:linear-gradient(180deg,#fff 0%,#ffe0a3 50%,#ff9a52 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 0 #2a0f3a)}
+.gm-start h2{margin:0;font:700 clamp(20px,4vw,28px)/1.25 Lexend,sans-serif;color:#fff;text-wrap:balance}
+.gm-start ul{margin:4px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left;width:100%}
+.gm-start li{background:rgba(20,8,40,.55);border-radius:14px;padding:10px 12px;font:500 15px/1.35 Lexend,sans-serif}
+.gm-start li b{color:#ffd166}
+.gm-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.gm-btn{min-height:56px;padding:0 30px;border:0;border-radius:999px;cursor:pointer;font:400 26px/1 Anton,Impact,sans-serif;letter-spacing:.06em;color:#2a0f3a;background:linear-gradient(180deg,#fff2b8,#ffc04d);box-shadow:0 6px 0 #a3511c,0 14px 30px rgba(0,0,0,.35)}
+.gm-btn.alt{font:700 16px/1 Lexend,sans-serif;letter-spacing:0;color:#fff;background:rgba(20,8,40,.6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.gm-btn:active{transform:translateY(3px)}
+.gm-back{color:#ffe3c2;font:600 15px/1 Lexend,sans-serif;min-height:44px;display:inline-flex;align-items:center}.gm-back[hidden]{display:none}
+/* QR modal */
+.gm-qr{position:fixed;inset:0;z-index:96;display:grid;place-items:center;padding:16px;background:rgba(10,6,24,.78)}
+.gm-qr-card{width:min(520px,100%);background:#fff;color:#15191c;border-radius:26px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.gm-qr-card h2{margin:0;font:700 22px/1.25 Lexend,sans-serif}
+.gm-qr-card p{margin:0;font:500 15px/1.4 Lexend,sans-serif;color:#56616a}
+.gm-qr-box{position:relative;width:min(380px,78vw);aspect-ratio:1;border-radius:20px;padding:10px;background:#fff;box-shadow:inset 0 0 0 4px #00843D}
+.gm-qr-box img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.gm-qr-badge{position:absolute;left:50%;top:50%;width:19%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:12px;background:#fff;padding:7%;display:grid}
+.gm-qr-badge i{display:block;border-radius:4px;background:linear-gradient(90deg,#C8102E 0 25%,transparent 25%),linear-gradient(#00843D 0 33.3%,#fff 33.3% 66.6%,#111 66.6%);box-shadow:inset 0 0 0 1px #d0d6da}
+.gm-qr-url{font:600 13px/1.3 ui-monospace,Menlo,monospace;color:#15191c;overflow-wrap:anywhere;background:#f1f5f3;border-radius:10px;padding:8px 10px;width:100%}
+.gm-qr-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.gm-qr-row button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #00843D;background:#00843D;color:#fff;font:600 15px/1 Lexend,sans-serif;cursor:pointer}
+.gm-qr-row button.ghost{background:#fff;color:#00843D}
+.gm-who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:10px;width:100%;text-align:left}
+.gm-who label{display:flex;flex-direction:column;gap:5px;font:600 14px Lexend,sans-serif;color:#ffe3c2}
+.gm-who label b{color:#ff8a8a}
+.gm-who input{font:500 16px Lexend,sans-serif;min-height:46px;padding:8px 12px;border-radius:12px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.95);color:#15191c;width:100%}
+.gm-who.light label{color:#3a434a}.gm-who.light label b{color:#C8102E}.gm-who.light input{border-color:#cfd8d3;background:#fff}
+.gm-who input.bad{border-color:#ff4d6d;box-shadow:0 0 0 3px rgba(255,77,109,.25)}
+.gm-need-msg{margin:0;font:700 15px Lexend,sans-serif;color:#ffd0d0}.gm-qr-card .gm-need-msg{color:#C8102E}
+.req-star{color:#C8102E;font-weight:700}
+input.gm-missing{border-color:#C8102E!important;box-shadow:0 0 0 3px rgba(200,16,46,.18)}
+@media(max-width:600px){.gm-who{grid-template-columns:minmax(0,1fr)}}
+[hidden].gm-start,[hidden].gm-qr,[hidden].gm-stinger{display:none!important}
+@keyframes gmPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes gmUp{0%{opacity:0;transform:translateY(10px) scale(.7)}15%{opacity:1;transform:translateY(0) scale(1.08)}75%{opacity:1}100%{opacity:0;transform:translateY(-46px) scale(1)}}
+@keyframes gmShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
+@keyframes gmIn{from{opacity:0;transform:skew(-8deg) scale(.6)}}
+@keyframes gmToast{0%{opacity:0;transform:translate(-50%,-10px)}12%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-10px)}}
+@media(max-width:600px){.gm-start ul{grid-template-columns:minmax(0,1fr)}.gm-map-h h2{font-size:24px}.gm-chip{min-height:32px;font-size:13px;padding:3px 10px}.gm-chip b{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.gm-node.now .gm-dot,.gm-combo.hot,.gm-shake{animation:none}.gm-pop{animation-duration:.01s}.gm-stinger div{animation:none}}
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="gm-sky" viewBox="0 0 1000 200" preserveAspectRatio="none"><path fill="#1a0b2e" d="M0 200V150h40v-30h30v30h25V95h35v55h20v-40h28v40h30V70h22v-25l6-20 6 20v25h22v80h40V120h30v30h26V40h12l8-38 8 38h12v110h30v-60h40v60h22v-35h30v35h40V80h28v70h30v-48h36v48h26V60h10l6-25 6 25h10v90h34v-30h30v30h40v-56h32v56h26v-40h30v40h40V200z"/></symbol>
+  <symbol id="gm-carsym" viewBox="0 0 46 26"><path d="M6 14l6-8h18l8 8h4a3 3 0 0 1 3 3v3H1v-3a3 3 0 0 1 3-3z" fill="#ffd166" stroke="#2a0f3a" stroke-width="2"/><path d="M14 8h7v6h-11zM24 8h5l5 6h-10z" fill="#bfe7ff"/><circle cx="12" cy="21" r="4" fill="#2a0f3a"/><circle cx="34" cy="21" r="4" fill="#2a0f3a"/></symbol>
+  <symbol id="gm-i-snd" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="gm-i-mute" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="gm-qrsym" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM16 16h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2zM6.5 6.5h1v1h-1zM16.5 6.5h1v1h-1zM6.5 16.5h1v1h-1z" fill="currentColor"/></symbol>
+</svg>
+<div class="gm-start" id="gm-start" hidden role="dialog" aria-modal="true" aria-labelledby="gm-start-t">
+  <svg class="sky" aria-hidden="true"><use href="#gm-sky"/></svg>
+  <div class="gm-start-in">
+    <small>Omega Worksheets · Eid Al Etihad edition</small>
+    <h1 id="gm-start-t">City Missions</h1>
+    <h2 id="gm-start-topic"></h2>
+    <ul>
+      <li><b>Missions:</b> each part is a mission in a Dubai district. Finish it to unlock the next one.</li>
+      <li><b>XP:</b> +100 for a correct answer, <b>+50</b> if it is your first try.</li>
+      <li><b>Combo:</b> right answers in a row give bonus XP. A wrong answer resets it.</li>
+      <li><b>Ranks:</b> Rookie → Explorer → Navigator → Pro → City Legend.</li>
+    </ul>
+    <div class="gm-who"><label><span>Your name <b>*</b></span><input id="gm-nm" autocomplete="name" placeholder="First and last name" required></label><label><span>Class <b>*</b></span><input id="gm-cl" placeholder="e.g. 9B4" required></label></div>
+    <p class="gm-need-msg" id="gm-start-msg" hidden>Write your name and class to start.</p>
+    <div class="gm-btns"><button class="gm-btn" id="gm-go" type="button">▶ START</button><button class="gm-btn alt" type="button" data-gm-qr>Show QR code</button></div>
+    <a class="gm-back" id="gm-back" hidden>← All worksheets</a>
+  </div>
+</div>
+<div class="gm-qr" id="gm-qr" hidden role="dialog" aria-modal="true" aria-labelledby="gm-qr-t">
+  <div class="gm-qr-card">
+    <h2 id="gm-qr-t"></h2>
+    <p>Scan with your phone camera to start</p>
+    <div class="gm-qr-box"><img src="qr/g9-algebra-3-2-slopes-rates-of-change.svg" alt="QR code for this worksheet"><span class="gm-qr-badge" aria-hidden="true"><i></i></span></div>
+    <div class="gm-qr-url" id="gm-qr-url">https://aamermath-ai.github.io/ais-sat/worksheets/g9-algebra-3-2-slopes-rates-of-change.html</div>
+    <div class="gm-qr-row"><button type="button" id="gm-qr-copy">Copy link</button><button type="button" class="ghost" id="gm-qr-x">Close</button></div>
+  </div>
+</div>
+<div class="gm-qr" id="gm-need" hidden role="dialog" aria-modal="true" aria-labelledby="gm-need-t">
+  <div class="gm-qr-card">
+    <h2 id="gm-need-t">Before you finish ✍️</h2>
+    <p id="gm-need-p">Your teacher needs your name and class to see your result.</p>
+    <div class="gm-who light"><label><span>Your name <b>*</b></span><input id="gm-nm2" autocomplete="name" placeholder="First and last name" required></label><label><span>Class <b>*</b></span><input id="gm-cl2" placeholder="e.g. 9B4" required></label></div>
+    <p class="gm-need-msg" id="gm-need-msg" hidden>Please fill in both boxes.</p>
+    <div class="gm-qr-row"><button type="button" id="gm-need-ok">Save</button></div>
+  </div>
+</div>
+<div class="gm-stinger" id="gm-stinger" hidden aria-live="polite"><div id="gm-stinger-in"></div></div>
+<script>
+{
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const parts=[...document.querySelectorAll("section.part")].filter(p=>p.querySelector(".q"));
+const qs=[...document.querySelectorAll("article.q")];
+if(parts.length&&qs.length){
+const DISTRICTS=["Al Fahidi","Dubai Creek","Downtown","Dubai Marina","Burj Khalifa","Global Village","Hatta","Jebel Jais"];
+const RANKS=["Rookie","Explorer","Navigator","Pro","City Legend"];
+const KEY="ais-game:"+location.pathname;
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const title=((document.querySelector("h1")||{}).textContent||"Worksheet").trim();
+let G={xp:0,combo:0,best:0,q:{},won:{},sound:true};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==="object")G=Object.assign(G,s);}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}};
+const isDone=q=>q.classList.contains("done");
+// the worksheet's "Start again" clears its answers: clear the game too
+if(!qs.some(isDone)&&Object.keys(G.q).length){G={xp:0,combo:0,best:0,q:{},won:{},sound:G.sound};save();}
+// answers restored by the worksheet but unknown to the game (e.g. older progress): count them at base XP
+qs.forEach(q=>{if(isDone(q)&&!(G.q[q.id]&&G.q[q.id].award)){G.q[q.id]={tries:0,award:100};G.xp+=100;}});
+const maxXP=qs.length*150;
+const rankOf=xp=>Math.min(RANKS.length-1,Math.floor(xp/maxXP*RANKS.length+1e-9));
+const partQs=p=>[...p.querySelectorAll("article.q")];
+const partName=p=>{const h=p.querySelector("h2");const t=h?h.textContent:"";return (t.split("·")[1]||t).trim();};
+const starsFor=p=>{const l=partQs(p);const f=l.filter(q=>G.q[q.id]&&G.q[q.id].tries===0).length/l.length;return f===1?3:f>=.5?2:1;};
+parts.forEach((p,i)=>{if(partQs(p).every(isDone))G.won[i]=G.won[i]||starsFor(p);});
+save();
+
+/* ---- sound (Web Audio, can be muted) ---- */
+let ac=null;
+function tone(seq){if(!G.sound)return;try{if(!ac){const A=window.AudioContext||window.webkitAudioContext;if(!A)return;ac=new A();}if(ac.state==="suspended")ac.resume();
+  const t0=ac.currentTime+.01;seq.forEach(([f,d,len,v,type])=>{const o=ac.createOscillator(),g=ac.createGain();o.type=type||"triangle";o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,t0+d);g.gain.exponentialRampToValueAtTime(v||.08,t0+d+.015);g.gain.exponentialRampToValueAtTime(.0001,t0+d+len);o.connect(g);g.connect(ac.destination);o.start(t0+d);o.stop(t0+d+len+.05);});}catch(e){}}
+const SFX={ok:[[784,0,.12],[1175,.08,.22]],combo:[[880,0,.1],[1175,.07,.1],[1568,.14,.22]],no:[[220,0,.18,.06,"sine"],[185,.12,.22,.05,"sine"]],
+  mission:[[523,0,.16],[659,.12,.16],[784,.24,.16],[1047,.36,.4],[1319,.5,.5]],rank:[[392,0,.14],[523,.12,.14],[659,.24,.14],[784,.36,.3],[1047,.5,.6]],start:[[659,0,.1],[988,.08,.22]]};
+
+/* ---- HUD in the score bar ---- */
+const bar=document.querySelector(".bar .wrap")||document.body;
+const hud=document.createElement("div");hud.className="gm-hud";
+hud.innerHTML='<span class="gm-chip gm-rank" title="Rank"><span aria-hidden="true">🏅</span><b id="gm-rank"></b></span>'+
+  '<span class="gm-chip" title="Experience points"><b id="gm-xp">0</b> XP<span class="gm-xpbar"><i id="gm-xpbar"></i></span></span>'+
+  '<span class="gm-chip gm-combo" id="gm-combo" title="Combo">COMBO <b id="gm-combo-n">×0</b></span>'+
+  '<button class="gm-ib" type="button" id="gm-snd" aria-label="Sound"></button>'+
+  '<button class="gm-ib" type="button" data-gm-qr aria-label="Show QR code"><svg aria-hidden="true"><use href="#gm-qrsym"/></svg></button>';
+bar.appendChild(hud);
+function hudUpdate(){
+  $("gm-rank").textContent=RANKS[rankOf(G.xp)];
+  $("gm-xp").textContent=G.xp.toLocaleString("en");
+  const r=rankOf(G.xp),lo=r*maxXP/RANKS.length,hi=(r+1)*maxXP/RANKS.length;
+  $("gm-xpbar").style.width=(r===RANKS.length-1?100:Math.max(0,Math.min(100,(G.xp-lo)/(hi-lo)*100)))+"%";
+  $("gm-combo-n").textContent="×"+G.combo;
+  const s=$("gm-snd");s.innerHTML='<svg aria-hidden="true"><use href="#gm-i-'+(G.sound?"snd":"mute")+'"/></svg>';s.setAttribute("aria-label",G.sound?"Sound on":"Sound off");
+}
+$("gm-snd").addEventListener("click",()=>{G.sound=!G.sound;save();hudUpdate();if(G.sound)tone(SFX.ok);});
+
+/* ---- city map + mission badges ---- */
+const map=document.createElement("section");map.className="gm-map";map.setAttribute("aria-label","City map of your missions");
+parts[0].parentNode.insertBefore(map,parts[0]);
+parts.forEach((p,i)=>{p.id=p.id||"gm-mission-"+(i+1);const b=document.createElement("div");b.className="gm-mbadge";b.id="gm-badge-"+i;
+  const h=p.querySelector("h2");p.insertBefore(b,h);});
+function mapUpdate(){
+  const cur=parts.findIndex((p,i)=>!G.won[i]);const done=Object.keys(G.won).length;
+  map.innerHTML='<svg class="sky" aria-hidden="true"><use href="#gm-sky"/></svg>'+
+    '<div class="gm-map-h"><div><small>City map · '+esc(title)+'</small><h2>'+(cur<0?"All districts unlocked":"Mission "+(cur+1)+": "+esc(DISTRICTS[cur%DISTRICTS.length]))+'</h2></div><span>'+done+' / '+parts.length+' missions · '+G.xp.toLocaleString("en")+' XP</span></div>'+
+    '<div class="gm-nodes">'+parts.map((p,i)=>{const won=G.won[i],now=i===cur;
+      return '<button type="button" class="gm-node'+(won?" won":"")+(now?" now":"")+'" data-i="'+i+'" aria-label="Mission '+(i+1)+': '+esc(DISTRICTS[i%DISTRICTS.length])+(won?", complete":"")+'">'+
+        (now?'<svg class="gm-car" aria-hidden="true"><use href="#gm-carsym"/></svg>':'')+
+        '<span class="gm-dot">'+(won?"✓":i+1)+'</span><span class="nm">'+esc(DISTRICTS[i%DISTRICTS.length])+'</span><span class="ms">'+esc(partName(p))+'</span>'+
+        '<span class="st">'+(won?"★".repeat(won)+"☆".repeat(3-won):"")+'</span></button>';}).join("")+'</div>';
+  parts.forEach((p,i)=>{const b=$("gm-badge-"+i);b.className="gm-mbadge"+(G.won[i]?" won":"");b.textContent="MISSION "+(i+1)+" · "+DISTRICTS[i%DISTRICTS.length].toUpperCase()+(G.won[i]?"  ✓":"");});
+}
+map.addEventListener("click",e=>{const n=e.target.closest(".gm-node");if(!n)return;const p=parts[+n.dataset.i];
+  const y=p.getBoundingClientRect().top+scrollY-90;scrollTo({top:y,behavior:REDUCED?"auto":"smooth"});});
+
+/* ---- effects ---- */
+function pop(q,text,sub){const r=q.getBoundingClientRect();const el=document.createElement("div");el.className="gm-pop";
+  el.innerHTML=esc(text)+(sub?"<small>"+esc(sub)+"</small>":"");el.style.left=(r.left+scrollX+Math.min(r.width-180,r.width*.55))+"px";el.style.top=(r.top+scrollY+18)+"px";
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1400);}
+function toast(html){const t=document.createElement("div");t.className="gm-toast";t.setAttribute("role","status");t.innerHTML=html;document.body.appendChild(t);setTimeout(()=>t.remove(),1900);}
+let stT=null;
+function stinger(html,ms){const s=$("gm-stinger");$("gm-stinger-in").innerHTML=html;s.hidden=false;clearTimeout(stT);stT=setTimeout(()=>s.hidden=true,ms||2600);}
+$("gm-stinger").addEventListener("click",()=>{$("gm-stinger").hidden=true;});
+function confetti(){if(REDUCED)return;const c=document.createElement("canvas");c.id="gm-confetti";document.body.appendChild(c);
+  const x=c.getContext("2d");const W=c.width=innerWidth,H=c.height=innerHeight;const col=["#C8102E","#00843D","#ffffff","#111111","#ffd166"];
+  const P=Array.from({length:160},()=>({x:Math.random()*W,y:-20-Math.random()*H*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,s:6+Math.random()*7,r:Math.random()*6,c:col[Math.floor(Math.random()*col.length)]}));
+  const t0=performance.now();(function f(t){x.clearRect(0,0,W,H);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.05;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.strokeStyle="rgba(0,0,0,.25)";x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);x.strokeRect(-p.s/2,-p.s/3,p.s,p.s*.66);x.restore();});
+    if(t-t0<3200)requestAnimationFrame(f);else c.remove();})(t0);}
+
+/* ---- answers: watch each question's feedback box ---- */
+function onCorrect(q){
+  const st=G.q[q.id]||(G.q[q.id]={tries:0});if(st.award)return;
+  const before=rankOf(G.xp);
+  G.combo=st.tries===0?G.combo+1:1;G.best=Math.max(G.best,G.combo);
+  const bonus=st.tries===0?50:0,cb=G.combo>1?Math.min(50,10*(G.combo-1)):0;
+  st.award=100+bonus+cb;G.xp+=st.award;save();
+  pop(q,"+"+st.award+" XP",bonus?"FIRST TRY!"+(cb?" COMBO ×"+G.combo:""):(cb?"COMBO ×"+G.combo:""));
+  if(G.combo>=3){const c=$("gm-combo");c.classList.remove("hot");void c.offsetWidth;c.classList.add("hot");tone(SFX.combo);}else tone(SFX.ok);
+  const pi=parts.findIndex(p=>p.contains(q));
+  if(pi>=0&&!G.won[pi]&&partQs(parts[pi]).every(isDone)){
+    G.won[pi]=starsFor(parts[pi]);save();
+    const all=parts.every((p,i)=>G.won[i]);
+    setTimeout(()=>{
+      if(all){tone(SFX.rank);confetti();
+        stinger('<h2>All missions<br>complete</h2><p>Rank: '+esc(RANKS[rankOf(G.xp)])+' · '+G.xp.toLocaleString("en")+' XP · best combo ×'+G.best+'</p>',4200);}
+      else{tone(SFX.mission);
+        stinger('<h2>Mission complete</h2><div class="stars">'+"★".repeat(G.won[pi])+'<i>'+"★".repeat(3-G.won[pi])+'</i></div><p>'+esc(DISTRICTS[pi%DISTRICTS.length])+' done · next stop: '+esc(DISTRICTS[(pi+1)%DISTRICTS.length])+'</p>');}
+      mapUpdate();
+    },650);
+  }
+  const after=rankOf(G.xp);
+  if(after>before)setTimeout(()=>{toast('RANK UP · <b>'+esc(RANKS[after])+'</b>');tone(SFX.rank);},1500);
+  hudUpdate();mapUpdate();resultUpdate();checkWho();
+}
+function onWrong(q){const st=G.q[q.id]||(G.q[q.id]={tries:0});if(st.award)return;st.tries++;G.combo=0;save();
+  q.classList.remove("gm-shake");void q.offsetWidth;q.classList.add("gm-shake");tone(SFX.no);hudUpdate();}
+qs.forEach(q=>{const fb=q.querySelector(".fb");if(!fb)return;
+  new MutationObserver(()=>{if(isDone(q))onCorrect(q);else if(fb.classList.contains("no")&&/^Not yet/.test(fb.textContent))onWrong(q);})
+    .observe(fb,{attributes:true,attributeFilter:["class"],childList:true});});
+
+/* ---- result card ---- */
+const res=$("res");let rs=null;
+if(res){rs=document.createElement("div");rs.className="sides";rs.style.marginTop="10px";const row=res.querySelector(".row");res.insertBefore(rs,row);}
+function resultUpdate(){if(!rs)return;const stars=Object.values(G.won).reduce((a,b)=>a+b,0);
+  rs.innerHTML='<div><b>🏅 '+esc(RANKS[rankOf(G.xp)])+'</b><br>City Missions rank</div><div><b>'+G.xp.toLocaleString("en")+' XP</b><br>Best combo ×'+G.best+'</div><div><b>★ '+stars+' / '+parts.length*3+'</b><br>Mission stars</div>';}
+window.AIS_GAME={summary:()=>"City Missions: "+RANKS[rankOf(G.xp)]+", "+G.xp+" XP"};
+
+/* ---- start screen and QR ---- */
+/* ---- name and class are required ---- */
+const nm=$("nm"),cl=$("cl");
+const okName=()=>!!(nm&&nm.value.trim().length>=2), okClass=()=>!!(cl&&cl.value.trim().length>=1);
+const haveWho=()=>!nm||!cl||(okName()&&okClass());
+function setWho(n,c){[[nm,n],[cl,c]].forEach(([el,v])=>{if(el&&v!==undefined&&el.value!==v){el.value=v;el.dispatchEvent(new Event("input",{bubbles:true}));}});markWho();}
+function markWho(){if(nm){nm.required=true;nm.classList.toggle("gm-missing",!okName());}if(cl){cl.required=true;cl.classList.toggle("gm-missing",!okClass());}}
+[nm,cl].forEach(el=>{if(!el)return;const lab=document.querySelector('label[for="'+el.id+'"]');if(lab&&!lab.querySelector(".req-star"))lab.insertAdjacentHTML("beforeend",' <span class="req-star">*</span>');el.addEventListener("input",markWho);});
+markWho();
+if(nm)$("gm-nm").value=nm.value;if(cl)$("gm-cl").value=cl.value;
+const needEl=$("gm-need");let needShown=false;
+function askWho(msg){if(!nm||!cl||haveWho())return false;$("gm-need-p").textContent=msg;$("gm-nm2").value=nm.value;$("gm-cl2").value=cl.value;$("gm-need-msg").hidden=true;
+  needEl.hidden=false;setTimeout(()=>{try{(nm.value.trim()?$("gm-cl2"):$("gm-nm2")).focus();}catch(e){}},50);return true;}
+$("gm-need-ok").addEventListener("click",()=>{const n=$("gm-nm2").value.trim(),c=$("gm-cl2").value.trim();
+  $("gm-nm2").classList.toggle("bad",n.length<2);$("gm-cl2").classList.toggle("bad",!c);
+  if(n.length<2||!c){$("gm-need-msg").hidden=false;return;}setWho(n,c);needEl.hidden=true;toast("SAVED · <b>"+esc(n)+"</b>");});
+["gm-nm2","gm-cl2"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")$("gm-need-ok").click();}));
+/* remind when 2 questions are left, again when everything is done, and before copying the result */
+function checkWho(){if(haveWho())return;const left=qs.filter(q=>!isDone(q)).length;
+  if(left===0)setTimeout(()=>askWho("You finished! Write your name and class so your teacher can see your result."),4400);
+  else if(left<=2&&!needShown){needShown=true;setTimeout(()=>askWho("Almost done! Write your name and class before you finish."),2800);}}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#ais-report .ar-send");if(b&&!haveWho()){e.stopImmediatePropagation();e.preventDefault();askWho("Write your name and class so your teacher knows whose result this is.");}},true);
+const copyBtn=$("copy");if(copyBtn)copyBtn.addEventListener("click",e=>{if(!haveWho()){e.stopImmediatePropagation();e.preventDefault();askWho("Write your name and class first, then copy your result.");}},true);
+const startEl=$("gm-start");
+const backA=document.querySelector("a.back");if(backA){$("gm-back").href=backA.getAttribute("href");$("gm-back").hidden=false;}
+$("gm-start-topic").textContent=title+" · "+parts.length+" missions · "+qs.length+" questions";
+let seen=false;try{seen=sessionStorage.getItem(KEY+":start")==="1";}catch(e){}
+if((!qs.some(isDone)&&!seen)||(!haveWho()&&!qs.some(isDone))){startEl.hidden=false;document.documentElement.style.overflow="hidden";setTimeout(()=>{try{(haveWho()?$("gm-go"):($("gm-nm").value.trim()?$("gm-cl"):$("gm-nm"))).focus();}catch(e){}},50);}
+["gm-nm","gm-cl"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")$("gm-go").click();}));
+$("gm-go").addEventListener("click",()=>{
+  const n=$("gm-nm").value.trim(),c=$("gm-cl").value.trim();
+  $("gm-nm").classList.toggle("bad",n.length<2);$("gm-cl").classList.toggle("bad",!c);
+  if(n.length<2||!c){$("gm-start-msg").hidden=false;try{(n.length<2?$("gm-nm"):$("gm-cl")).focus();}catch(e){}return;}
+  setWho(n,c);startEl.hidden=true;document.documentElement.style.overflow="";try{sessionStorage.setItem(KEY+":start","1");}catch(e){}
+  tone(SFX.start);toast('MISSION 1 · <b>'+esc(DISTRICTS[0].toUpperCase())+'</b>');const f=parts[0].querySelector("button,input");if(f)try{f.focus({preventScroll:true});}catch(e){}});
+const qrEl=$("gm-qr");$("gm-qr-t").textContent=title;
+function openQR(){qrEl.hidden=false;try{$("gm-qr-x").focus();}catch(e){}}
+function closeQR(){qrEl.hidden=true;}
+document.querySelectorAll("[data-gm-qr]").forEach(b=>b.addEventListener("click",openQR));
+$("gm-qr-x").addEventListener("click",closeQR);qrEl.addEventListener("click",e=>{if(e.target===qrEl)closeQR();});
+$("gm-qr-copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("gm-qr-url").textContent.trim());$("gm-qr-copy").textContent="Copied!";}catch(e){$("gm-qr-copy").textContent="Copy did not work";}setTimeout(()=>$("gm-qr-copy").textContent="Copy link",1800);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!qrEl.hidden)closeQR();needEl.hidden=true;$("gm-stinger").hidden=true;}});
+
+hudUpdate();mapUpdate();resultUpdate();
+}
+}
+</script>
+<!-- ===== Omega Worksheets: "Send to my teacher" (source/build.py adds this to every worksheet in source/worksheets/) =====
+     A worksheet joins in with three small additions (see HANDOVER.md, "Adding a worksheet"):
+       1. <div id="ais-report"></div> inside its result box
+       2. window.AISWS={id,title,grade,parts,get} once its questions are set up
+       3. document.dispatchEvent(new Event("ais-ws-change")) at the end of its score() function -->
+<style>
+#ais-report{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line,#ccd)}
+#ais-report .ar-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#ais-report .ar-send{display:inline-flex;align-items:center;gap:8px}
+#ais-report .ar-send svg{width:18px;height:18px;flex:none}
+#ais-report .ar-msg{margin:8px 0 0;font-size:14px;color:var(--mut,#667)}
+#ais-report .ar-msg.ok{color:var(--green,#1e8e4a);font-weight:600}
+#ais-report .ar-msg.err{color:var(--red,#c62e3a)}
+#ais-report .ar-fine{margin:6px 0 0;font-size:12.5px;color:var(--mut,#667)}
+#ais-report .ar-live{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--mut,#667)}
+#ais-report .ar-live i{width:8px;height:8px;border-radius:50%;background:var(--green,#1e8e4a)}
+.ar-class{position:relative;z-index:4;display:flex;align-items:center;justify-content:center;gap:8px 10px;flex-wrap:wrap;padding:7px 14px;
+  background:#0b7a5a;color:#fff;font:600 14px/1.35 Lexend,"Nunito",system-ui,sans-serif;text-align:center}
+.ar-class b{font-weight:800}
+@media (max-width:600px){.ar-class{font-size:13px}.ar-class .ar-long{display:none}}
+.ar-class .ar-code{font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;background:rgba(255,255,255,.18);padding:5px 8px;border-radius:8px}
+.ar-class .ar-dot{width:9px;height:9px;border-radius:50%;background:#7CF2C0;box-shadow:0 0 0 4px rgba(124,242,192,.25)}
+input.ar-locked{background:rgba(11,122,90,.08)!important;font-weight:700}
+</style>
+<script>
+(function(){
+"use strict";
+var URL_="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec", W=window.AISWS, box=document.getElementById("ais-report");
+if(!W||!box||!URL_)return;
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function devId(){var d=lsGet("ais-dev");if(!d||!/^[a-z0-9]{6,16}$/.test(d)){var A="abcdefghijklmnopqrstuvwxyz0123456789";try{d=Array.from(crypto.getRandomValues(new Uint8Array(12)),function(x){return A[x%36];}).join("");}catch(e){d=(Math.random().toString(36).slice(2)+"000000000000").slice(0,12);}lsSet("ais-dev",d);}return d;}
+function today(){var t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");}
+var SENT="ais-ws-sent:"+W.id, ASG="ais-ws-class:"+W.id, sending=false, again=false, timer=0, retryT=0, lastBody="";
+var asg=null; try{asg=JSON.parse(lsGet(ASG)||"null");}catch(e){asg=null;}
+box.innerHTML='<div class="ar-row"><button type="button" class="ar-send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Send to my teacher</span></button><span class="ar-live" hidden><i></i>Updates automatically</span></div>'+
+  '<p class="ar-msg" aria-live="polite"></p><p class="ar-fine">Sends your name, class and score for this worksheet to your math teacher.</p>';
+var btn=box.querySelector(".ar-send"), msg=box.querySelector(".ar-msg"), live=box.querySelector(".ar-live");
+function say(t,c){msg.textContent=t;msg.className="ar-msg"+(c?" "+c:"");}
+function payload(){
+  var g=W.get(); return {t:"ws",asg:asg?asg.code:"",d:devId(),date:today(),ws:W.id,title:W.title,grade:W.grade,name:String(g.name||"").trim(),cls:String(g.cls||"").trim(),
+    items:g.items.join(","),parts:Object.keys(W.parts).map(function(k){return k+":"+W.parts[k];}).join("|")};
+}
+function send(manual){
+  var p=payload();
+  if(p.name.length<2||!p.cls){if(manual)say("Write your name and class at the top first.","err");return;}
+  var body=JSON.stringify(p); if(!manual&&body===lastBody)return;
+  if(sending){again=true;return;}
+  sending=true; btn.disabled=true; if(manual)say("Sending…");
+  fetch(URL_,{method:"POST",headers:{"Content-Type":"text/plain"},body:body}).then(function(r){return r.json();}).then(function(r){
+    if(!r||!r.ok)throw new Error(r&&r.error||"no");
+    lastBody=body; lsSet(SENT,"1"); live.hidden=false;
+    if(asg&&r.asg!==asg.code){asg=null;try{localStorage.removeItem(ASG);}catch(x){}var bar=document.getElementById("ar-class");if(bar)bar.remove();}
+    var t=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+    say("Sent ✓ "+r.score+" / "+r.total+" at "+t+". Your teacher will see new answers automatically.","ok");
+    btn.querySelector("span").textContent="Send again";
+  }).catch(function(e){
+    say(e&&e.message==="name"?"Write your name and class at the top first.":"Could not send yet. We will keep trying – or press the button to try again.","err");
+    // try again by itself in 20 seconds (the school server can be slow, or the Wi-Fi may drop for a moment)
+    if(!(e&&e.message==="name")){lastBody="";clearTimeout(retryT);retryT=setTimeout(function(){send(false);},20000);}
+  }).then(function(){sending=false;btn.disabled=false;if(again){again=false;send(false);}});
+}
+btn.addEventListener("click",function(){send(true);});
+// once a student has sent this worksheet, later answers are sent automatically (a few seconds after each change)
+document.addEventListener("ais-ws-change",function(){if(lsGet(SENT)!=="1")return;clearTimeout(timer);timer=setTimeout(function(){send(false);},2500);});
+if(lsGet(SENT)==="1"){live.hidden=false;btn.querySelector("span").textContent="Send again";}
+
+/* ---- joined with a class code (join.html?c=CODE opens this worksheet with ?c=CODE) ----
+   The class comes from the teacher's code, and answers are sent automatically. */
+function e(t){return String(t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function joined(a){
+  asg=a; lsSet(ASG,JSON.stringify(a)); lsSet(SENT,"1"); live.hidden=false;
+  var old=document.getElementById("ar-class"); if(old)old.remove();
+  var bar=document.createElement("div"); bar.id="ar-class"; bar.className="ar-class"; bar.setAttribute("role","status");
+  bar.innerHTML='<span class="ar-dot" aria-hidden="true"></span><span>You joined <b>'+e(a.teacher)+'’s class '+e(a.cls)+'</b>. Your answers go to your teacher automatically.</span><span class="ar-code">'+e(a.code)+'</span>';
+  document.body.insertBefore(bar,document.body.firstChild);
+  ["cl","gm-cl","gm-cl2"].forEach(function(id){var el=document.getElementById(id);if(!el)return;
+    if(el.value!==a.cls){el.value=a.cls;el.dispatchEvent(new Event("input",{bubbles:true}));}el.readOnly=true;el.classList.add("ar-locked");el.title="Set by your teacher’s class code";});
+  btn.querySelector("span").textContent="Send now";
+  say("Connected to "+a.teacher+"’s class "+a.cls+". Write your name, then just answer – your teacher sees your progress.","ok");
+  send(false);
+}
+var qc=(new URLSearchParams(location.search).get("c")||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+var qk=(new URLSearchParams(location.search).get("k")||"").replace(/[^A-Za-z0-9 .\-]/g,"").slice(0,12);
+function lookup(n){
+  return fetch(URL_+"?a=join&c="+qc+"&_="+Date.now(),{cache:"no-store"}).then(function(r){return r.text();}).then(function(t){return JSON.parse(t);})
+    .catch(function(x){if(n>0)return new Promise(function(ok){setTimeout(ok,1500);}).then(function(){return lookup(n-1);});throw x;});
+}
+if(qc.length===6&&(!asg||asg.code!==qc)){
+  lookup(2).then(function(r){
+    if(r&&r.ok&&r.ws===W.id)joined({code:r.code,cls:r.cls,teacher:r.teacher||"Your teacher",due:r.due||""});
+    else if(r&&r.error==="closed")say("This class code is closed. Ask your teacher for a new one.","err");
+  }).catch(function(){
+    // school server not reachable: still use the class from the teacher's link; answers are sent when it works
+    if(qk)joined({code:qc,cls:qk,teacher:"Your teacher",due:""});
+  });
+}else if(asg)joined(asg);
+})();
+</script>
+<!-- ===== AIS scientific calculator: shared by every page (source/build.py adds it before </body>; ../ = path to the site root) ===== -->
+<style>
+/* Flat, compact design in the site's own palette. Dark (Night/Dark themes) by default; light when the page is in Light mode. */
+.sc,.sc-fab{--sc-bg:#0d1324;--sc-bg2:#121a30;--sc-line:rgba(150,190,255,.14);--sc-ink:#eef3ff;--sc-mut:#8d9bbd;--sc-key:#18213a;--sc-key2:#1f2a47;
+  --sc-sci:transparent;--sc-acc:#3dbbff;--sc-acc-ink:#06121f;--sc-acc-soft:rgba(61,187,255,.14);--sc-green:#7cf2c0;--sc-green-soft:rgba(124,242,192,.10);--sc-warm:#ffb454}
+:root[data-theme="light"] .sc,:root[data-theme="light"] .sc-fab{--sc-bg:#ffffff;--sc-bg2:#f4f6fb;--sc-line:rgba(20,35,70,.12);--sc-ink:#10172a;--sc-mut:#66708a;--sc-key:#f2f4f9;--sc-key2:#e8ecf4;
+  --sc-acc:#0a6cf0;--sc-acc-ink:#ffffff;--sc-acc-soft:rgba(10,108,240,.10);--sc-green:#0f8a55;--sc-green-soft:rgba(15,138,85,.09);--sc-warm:#c25e00}
+@media (prefers-color-scheme:light){:root:not([data-theme]) .sc,:root:not([data-theme]) .sc-fab{--sc-bg:#ffffff;--sc-bg2:#f4f6fb;--sc-line:rgba(20,35,70,.12);--sc-ink:#10172a;--sc-mut:#66708a;--sc-key:#f2f4f9;--sc-key2:#e8ecf4;
+  --sc-acc:#0a6cf0;--sc-acc-ink:#ffffff;--sc-acc-soft:rgba(10,108,240,.10);--sc-green:#0f8a55;--sc-green-soft:rgba(15,138,85,.09);--sc-warm:#c25e00}}
+.sc-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(var(--sc-lift,0px) + max(16px,env(safe-area-inset-bottom,0px)));z-index:60;display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 16px 0 12px;
+  border:1px solid var(--sc-line);border-radius:12px;background:var(--sc-bg);color:var(--sc-ink);font:600 14px/1 "Plus Jakarta Sans",Lexend,Inter,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
+.sc-fab i{display:grid;place-items:center;color:var(--sc-acc)}
+.sc-fab svg{width:20px;height:20px}
+.sc-fab svg rect,.sc-fab svg path{stroke:currentColor}
+.sc-fab:hover{border-color:var(--sc-acc)}
+.sc-fab:focus-visible,.sc .k:focus-visible,.sc-tb:focus-visible,.sc-vid button:focus-visible{outline:2px solid var(--sc-acc);outline-offset:2px}
+.sc-fab[aria-expanded=true]{display:none}
+html.exam .sc-fab,html.exam .sc,html.solo-dx .sc-fab,html.solo-dx .sc,body:has(.sheet:not([hidden])) .sc-fab,body:has(.gate:not([hidden])) .sc-fab{display:none!important}
+.sc{position:fixed;z-index:70;right:max(16px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);width:336px;max-height:calc(100vh - 24px);overflow-y:auto;display:flex;flex-direction:column;gap:10px;
+  background:var(--sc-bg);color:var(--sc-ink);border:1px solid var(--sc-line);border-radius:18px;padding:12px;box-shadow:0 24px 60px rgba(0,0,0,.35);
+  font-family:"Plus Jakarta Sans",Lexend,Inter,system-ui,-apple-system,sans-serif;user-select:none;-webkit-user-select:none;scrollbar-width:none;outline:none;text-align:left;letter-spacing:0}
+.sc>*{flex-shrink:0}
+.sc button,.sc-fab,.sc-vid button{min-height:0;box-shadow:none;text-transform:none;letter-spacing:0}   /* never squeeze the display: the panel scrolls instead */
+.sc[hidden],.sc-hist[hidden],.sc-vid[hidden]{display:none!important}
+.sc *{box-sizing:border-box}
+.sc-top{display:flex;align-items:center;gap:6px}
+.sc-tb{height:32px;min-width:32px;border-radius:9px;border:1px solid var(--sc-line);background:transparent;color:var(--sc-ink);font-family:inherit;font-size:12.5px;font-weight:600;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px}
+.sc-tb:hover{background:var(--sc-key)}
+.sc-tb svg{width:15px;height:15px}
+.sc-tb.on{background:var(--sc-acc-soft);color:var(--sc-acc);border-color:var(--sc-acc)}
+.sc-top .sp{flex:1}
+.sc-disp{background:var(--sc-bg2);border:1px solid var(--sc-line);border-radius:12px;padding:10px 12px 8px;text-align:right;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;min-height:96px}
+.sc-mode{align-self:flex-start;font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--sc-acc);white-space:pre}
+.sc-expr{font-size:14px;color:var(--sc-mut);white-space:nowrap;overflow-x:auto;scrollbar-width:none;min-height:20px;font-variant-numeric:tabular-nums}
+.sc-expr::-webkit-scrollbar{display:none}
+.sc-res{font-size:40px;font-weight:600;line-height:1.25;min-height:50px;white-space:nowrap;overflow:hidden;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sc-pad{position:relative}
+.sc-sci{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--sc-line)}
+.sc-std{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.sc .k{border:0;border-radius:9px;color:var(--sc-ink);cursor:pointer;font-family:inherit;display:grid;place-items:center;padding:0;margin:0;transition:background-color .12s,color .12s,transform .08s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap}
+.sc-sci .k{height:30px;background:var(--sc-sci);color:var(--sc-mut);font-size:12.5px;font-weight:600}
+.sc-sci .k:hover{background:var(--sc-key);color:var(--sc-ink)}
+.sc-sci .k.x{color:var(--sc-green);background:var(--sc-green-soft)}
+.sc-std .k{height:44px;background:var(--sc-key);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.sc-std .k:hover{background:var(--sc-key2)}
+.sc .k.fn{background:transparent;border:1px solid var(--sc-line);color:var(--sc-warm);font-size:16px}
+.sc .k.op{background:var(--sc-acc-soft);color:var(--sc-acc);font-size:21px}
+.sc .k.op:hover{background:var(--sc-acc);color:var(--sc-acc-ink)}
+.sc .k[data-k="eq"]{background:var(--sc-acc);color:var(--sc-acc-ink)}
+.sc .k.on{background:var(--sc-acc);color:var(--sc-acc-ink)}
+.sc .k:active,.sc .k.hit{transform:scale(.96);background:var(--sc-acc-soft);color:var(--sc-acc)}
+.sc .k[data-k="eq"]:active,.sc .k[data-k="eq"].hit{background:var(--sc-acc);color:var(--sc-acc-ink);filter:brightness(1.12)}
+.sc-hist{position:absolute;inset:0;background:var(--sc-bg);display:flex;flex-direction:column;gap:8px;z-index:2}
+.sc-hist-h{display:flex;align-items:center;justify-content:space-between;padding:2px 2px;color:var(--sc-mut);font-size:12.5px;font-weight:600}
+.sc-hist ul{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:6px}
+.sc-hist li button{width:100%;text-align:right;border:1px solid var(--sc-line);border-radius:10px;background:var(--sc-bg2);color:var(--sc-ink);padding:8px 12px;cursor:pointer;font-family:inherit}
+.sc-hist li small{display:block;color:var(--sc-mut);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-hist li b{font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
+.sc-hist .none{color:var(--sc-mut);text-align:center;padding:30px 10px;font-size:13px}
+.sc-note{margin:0 2px;font-size:11.5px;color:var(--sc-mut);text-align:center;line-height:1.4}
+.sc-spacer{height:72px}
+.sc-vid{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:20px}
+.sc-vid>div{width:min(960px,100%);display:flex;flex-direction:column;gap:12px}
+.sc-vid video{width:100%;border-radius:14px;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.sc-vid p{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0;color:#fff;font:600 16px/1.3 "Plus Jakarta Sans",Lexend,Inter,system-ui,sans-serif}
+.sc-vid button{border:1px solid rgba(255,255,255,.25);border-radius:10px;background:transparent;color:#fff;min-height:40px;padding:0 16px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer}
+@media (min-width:1100px){body.sc-open{padding-right:364px}}
+@media (max-height:760px) and (min-width:701px){.sc-disp{min-height:84px}.sc-res{font-size:34px;min-height:44px}.sc-std .k{height:38px}.sc-sci .k{height:27px}.sc-note{display:none}}
+@media (max-width:700px){
+  .sc{left:0;right:0;bottom:0;top:auto;transform:none;width:auto;max-height:86vh;border-radius:18px 18px 0 0;border-bottom:0;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));gap:6px}
+  .sc-tb{height:30px;min-width:30px}
+  .sc-disp{min-height:64px;padding:6px 10px 4px}.sc-res{font-size:28px;min-height:36px}.sc-expr{font-size:12.5px;min-height:16px}
+  .sc-sci{gap:2px;margin-bottom:5px;padding-bottom:5px}.sc-sci .k{height:25px;font-size:12px}
+  .sc-std{gap:5px}.sc-std .k{height:37px;font-size:18px}.sc .k.op{font-size:20px}
+  .sc-note{display:none}
+  body.sc-open{padding-bottom:86vh}
+}
+@media (max-width:700px) and (max-height:700px){
+  .sc-sci .k{height:22px;font-size:11.5px}.sc-std .k{height:34px}.sc-disp{min-height:58px}
+}
+@media (prefers-reduced-motion:no-preference){.sc{animation:scIn .18s ease-out}@keyframes scIn{from{opacity:0;transform:translateY(calc(-50% + 8px))}}}
+@media (prefers-reduced-motion:no-preference) and (max-width:700px){.sc{animation:scUp .2s ease-out}@keyframes scUp{from{opacity:0;transform:translateY(16px)}}}
+</style>
+<div class="sc-spacer" aria-hidden="true"></div>
+<button class="sc-fab" id="sc-fab" type="button" aria-controls="sc-panel" aria-expanded="false"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 7.5h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></i>Calculator</button>
+<section class="sc" id="sc-panel" hidden role="dialog" aria-label="Scientific calculator" tabindex="-1">
+  <div class="sc-top">
+    <button class="sc-tb" id="sc-histbtn" type="button" aria-label="History" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <button class="sc-tb" id="sc-howbtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>How to use</button>
+    <span class="sp"></span>
+    <button class="sc-tb" id="sc-close" type="button" aria-label="Close calculator">✕</button>
+  </div>
+  <div class="sc-disp"><span class="sc-mode" id="sc-mode">DEG</span><div class="sc-expr" id="sc-expr"></div><div class="sc-res" id="sc-res" aria-live="polite">0</div></div>
+  <div class="sc-pad">
+    <div class="sc-sci" id="sc-sci"></div>
+    <div class="sc-std" id="sc-std"></div>
+    <div class="sc-hist" id="sc-hist" hidden><div class="sc-hist-h"><span>History · tap one to use it</span><button class="sc-tb" id="sc-histclr" type="button">Clear</button></div><ul id="sc-histlist"></ul></div>
+  </div>
+  <p class="sc-note">Keyboard works too · <b>2nd</b> + tan gives tan⁻¹ · S⇔D shows a fraction</p>
+</section>
+<div class="sc-vid" id="sc-vid" hidden role="dialog" aria-modal="true" aria-label="How to use the calculator"><div>
+  <p><span>How to use the calculator</span><button type="button" id="sc-vidclose">Close ✕</button></p>
+  <video id="sc-video" controls playsinline preload="none" poster="../assets/calculator-howto.jpg"></video>
+</div></div>
+<script>
+{
+"use strict";
+const ROOT="../";
+const el=id=>document.getElementById(id);
+const panel=el("sc-panel"),fab=el("sc-fab"),exprEl=el("sc-expr"),resEl=el("sc-res"),modeEl=el("sc-mode");
+let tokens=[],ans=null,justEval=false,err=false,lastExpr="",deg=true,second=false,mem=0,preview="0",fracView=false;
+const BIN=["+","−","×","÷","^","C","P"],POST=["²","³","⁻¹","!","%","°"];
+const bad=()=>{throw new Error("math");};
+const toR=x=>deg?x*Math.PI/180:x, fromR=x=>deg?x*180/Math.PI:x, snap=v=>Math.abs(v)<1e-13?0:v;
+const FUNS={
+  "sin(":x=>snap(Math.sin(toR(x))),"cos(":x=>snap(Math.cos(toR(x))),
+  "tan(":x=>{const r=toR(x);if(Math.abs(Math.cos(r))<1e-12)bad();return snap(Math.tan(r));},
+  "sin⁻¹(":x=>(x<-1||x>1)?bad():fromR(Math.asin(x)),"cos⁻¹(":x=>(x<-1||x>1)?bad():fromR(Math.acos(x)),"tan⁻¹(":x=>fromR(Math.atan(x)),
+  "sinh(":Math.sinh,"cosh(":Math.cosh,"tanh(":Math.tanh,
+  "sinh⁻¹(":Math.asinh,"cosh⁻¹(":x=>x<1?bad():Math.acosh(x),"tanh⁻¹(":x=>(x<=-1||x>=1)?bad():Math.atanh(x),
+  "ln(":x=>x<=0?bad():Math.log(x),"log(":x=>x<=0?bad():Math.log10(x),"log₂(":x=>x<=0?bad():Math.log2(x),
+  "√(":x=>x<0?bad():Math.sqrt(x),"∛(":Math.cbrt,"e^(":Math.exp,"10^(":x=>Math.pow(10,x),"2^(":x=>Math.pow(2,x),"Abs(":Math.abs
+};
+const isFn=t=>typeof t==="string"&&Object.prototype.hasOwnProperty.call(FUNS,t);
+const isDigit=t=>typeof t==="string"&&/^[0-9.]$/.test(t);
+const isVal=t=>typeof t==="object"&&t!==null;
+const last=()=>tokens[tokens.length-1];
+const opener=t=>t===undefined||BIN.includes(t)||t==="("||isFn(t);
+
+/* ---- evaluation: lexer + recursive-descent parser (no eval) ---- */
+function lex(ts){
+  const out=[];let i=0;
+  while(i<ts.length){
+    const t=ts[i];
+    if(isDigit(t)){
+      let s="";while(i<ts.length&&isDigit(ts[i]))s+=ts[i++];
+      if(ts[i]==="E"){s+="e";i++;if(ts[i]==="−"||ts[i]==="+"){s+=ts[i]==="−"?"-":"+";i++;}let k="";while(i<ts.length&&isDigit(ts[i]))k+=ts[i++];if(!k||k.includes("."))bad();s+=k;}
+      const n=Number(s);if(isNaN(n))bad();out.push({t:"n",v:n});continue;
+    }
+    i++;
+    if(isVal(t))out.push({t:"n",v:t.v});
+    else if(t==="π")out.push({t:"n",v:Math.PI});
+    else if(t==="e")out.push({t:"n",v:Math.E});
+    else if(BIN.includes(t))out.push({t:"o",v:t});
+    else if(POST.includes(t))out.push({t:"p",v:t});
+    else if(isFn(t))out.push({t:"f",v:t});
+    else if(t==="("||t===")")out.push({t:t});
+    else bad();
+  }
+  return out;
+}
+function fact(n){if(n<0||n>170||!Number.isInteger(n))bad();let r=1;for(let k=2;k<=n;k++)r*=k;return r;}
+function perm(n,r){if(!Number.isInteger(n)||!Number.isInteger(r)||r<0||n<0||r>n)bad();let v=1;for(let k=0;k<r;k++)v*=n-k;return v;}
+function comb(n,r){if(!Number.isInteger(n)||!Number.isInteger(r)||r<0||n<0||r>n)bad();r=Math.min(r,n-r);let v=1;for(let k=1;k<=r;k++)v=v*(n-r+k)/k;return Math.round(v);}
+function pw(b,e){
+  if(b<0&&!Number.isInteger(e)){const q=1/e,r=Math.round(q);if(Math.abs(q-r)<1e-9&&Math.abs(r)%2===1)return -Math.pow(-b,e);bad();}
+  return Math.pow(b,e);
+}
+function evaluate(ts){
+  if(!ts.length)return null;
+  const L=lex(ts);let i=0;
+  const peek=()=>L[i], starts=x=>x&&(x.t==="n"||x.t==="f"||x.t==="(");
+  const isOp=(x,o)=>x&&x.t==="o"&&x.v===o;
+  function expr(){let v=term();while(isOp(peek(),"+")||isOp(peek(),"−")){const o=L[i++].v,r=term();v=o==="+"?v+r:v-r;}return v;}
+  function term(){let v=unary();for(;;){const p=peek();
+      if(isOp(p,"×")||isOp(p,"÷")){i++;const r=unary();if(p.v==="÷"){if(r===0)bad();v=v/r;}else v=v*r;}
+      else if(starts(p))v=v*unary();
+      else break;}
+    return v;}
+  function unary(){if(isOp(peek(),"−")){i++;return -unary();}if(isOp(peek(),"+")){i++;return unary();}return power();}
+  function power(){let b=post();
+    while(isOp(peek(),"C")||isOp(peek(),"P")){const o=L[i++].v,r=post();b=o==="C"?comb(b,r):perm(b,r);}
+    if(isOp(peek(),"^")){i++;return pw(b,unary());}return b;}
+  function post(){let v=prim();while(peek()&&peek().t==="p"){const o=L[i++].v;
+      if(o==="²")v=v*v;else if(o==="³")v=v*v*v;else if(o==="⁻¹"){if(v===0)bad();v=1/v;}else if(o==="%")v=v/100;else if(o==="°")v=deg?v:v*Math.PI/180;else v=fact(v);}
+    return v;}
+  function prim(){const p=L[i++];if(!p)bad();
+    if(p.t==="n")return p.v;
+    if(p.t==="f"){if(!peek()||peek().t===")")bad();const a=expr();if(peek()&&peek().t===")")i++;return FUNS[p.v](a);}
+    if(p.t==="("){const a=expr();if(peek()&&peek().t===")")i++;return a;}
+    bad();}
+  const v=expr();if(i<L.length||!isFinite(v))bad();return v;
+}
+function fmt(v){
+  if(Object.is(v,-0))v=0;const a=Math.abs(v);let s;
+  if(a!==0&&(a>=1e12||a<1e-7))s=v.toExponential(9).replace(/\.?0+e/,"e").replace("e+","e").replace("e","E");
+  else s=String(parseFloat(v.toPrecision(12)));
+  return s.replace("-","−");
+}
+function frac(v){   // best fraction with denominator up to 10000, or null
+  if(!isFinite(v)||Number.isInteger(v))return null;
+  let h1=1,h0=0,k1=0,k0=1,x=v;
+  for(let n=0;n<40;n++){const a=Math.floor(x);[h1,h0]=[a*h1+h0,h1];[k1,k0]=[a*k1+k0,k1];
+    if(k1>10000)return null;
+    if(Math.abs(v-h1/k1)<1e-9*Math.max(1,Math.abs(v)))return (h1<0?"−":"")+Math.abs(h1)+"/"+k1;
+    const f=x-a;if(f<1e-12)break;x=1/f;}
+  return null;
+}
+const disp=t=>isVal(t)?t.d:t;
+const depth=()=>tokens.reduce((d,t)=>d+(t==="("||isFn(t)?1:t===")"?-1:0),0);
+
+/* ---- history (kept in this browser only) ---- */
+let hist=[];try{hist=JSON.parse(localStorage.getItem("ais-calc-hist"))||[];if(!Array.isArray(hist))hist=[];}catch(e){hist=[];}
+hist=hist.filter(h=>h&&typeof h.e==="string"&&typeof h.r==="string"&&typeof h.v==="number").slice(0,30);
+const saveHist=()=>{try{localStorage.setItem("ais-calc-hist",JSON.stringify(hist.slice(0,30)));}catch(e){}};
+
+/* ---- key actions ---- */
+function clearAll(){tokens=[];justEval=false;err=false;preview="0";fracView=false;}
+function fresh(){if(justEval){tokens=[];justEval=false;err=false;}fracView=false;}
+function fromAns(){if(justEval){tokens=err||ans===null?[]:[{d:"Ans",v:ans}];justEval=false;err=false;}fracView=false;}
+function op(o){
+  fromAns();const L=last();
+  if(!tokens.length){if(o==="−")tokens.push("−");else if(ans!==null)tokens.push({d:"Ans",v:ans},o);return;}
+  if(L==="E"){if(o==="−")tokens.push("−");return;}
+  if(BIN.includes(L)){
+    const P=tokens[tokens.length-2];
+    if(L==="−"&&(tokens.length===1||opener(P)||P==="E"))return;   // a minus sign that belongs to the next number
+    if(o==="−"&&L!=="−"){tokens.push("−");return;}
+    tokens[tokens.length-1]=o;return;
+  }
+  if(L==="("||isFn(L)){if(o==="−")tokens.push("−");return;}
+  tokens.push(o);
+}
+function postfix(p){fromAns();if(opener(last())||last()==="E")return;tokens.push(p);}
+function fn(f){fresh();tokens.push(f);}
+function negate(){
+  fromAns();
+  let j=tokens.length;while(j>0&&(isDigit(tokens[j-1])||isVal(tokens[j-1])))j--;
+  if(j===tokens.length){if(opener(last()))tokens.push("−");return;}
+  const p=tokens[j-1];
+  if(p==="−"){if(j-1===0||opener(tokens[j-2]))tokens.splice(j-1,1);else tokens[j-1]="+";}
+  else if(p==="+")tokens[j-1]="−";
+  else tokens.splice(j,0,"−");
+}
+function equals(){
+  if(justEval||!tokens.length)return;
+  let v=null;try{v=evaluate(tokens);}catch(e){v=null;}
+  for(let n=depth();n>0;n--)tokens.push(")");
+  lastExpr=tokens.map(disp).join("")+" =";
+  if(v===null){err=true;}else{ans=v;err=false;hist.unshift({e:lastExpr,r:fmt(v),v:v});hist=hist.slice(0,30);saveHist();}
+  justEval=true;
+}
+function cur(){if(justEval)return err?null:ans;try{return evaluate(tokens);}catch(e){return null;}}
+const SECOND_KEYS=["ex","ln","sin","cos","tan","sinh","cosh","tanh"];
+function press(k){
+  if(/^[0-9]$/.test(k)){fresh();tokens.push(k);}
+  else switch(k){
+    case "dot":{fresh();let j=tokens.length;while(j>0&&isDigit(tokens[j-1]))j--;const run=tokens.slice(j);if(run.includes(".")||tokens[j-1]==="E")break;if(!run.length)tokens.push("0");tokens.push(".");break;}
+    case "add":op("+");break;case "sub":op("−");break;case "mul":op("×");break;case "div":op("÷");break;case "xy":op("^");break;
+    case "ncr":op("C");break;case "npr":op("P");break;
+    case "x2":postfix("²");break;case "x3":postfix("³");break;case "inv":postfix("⁻¹");break;case "fact":postfix("!");break;case "pct":postfix("%");break;case "deg":postfix("°");break;
+    case "yroot":fromAns();if(opener(last()))break;tokens.push("^","(","1","÷");break;
+    case "ex":fn(second?"2^(":"e^(");break;case "10x":fn("10^(");break;
+    case "sqrt":fn("√(");break;case "cbrt":fn("∛(");break;case "abs":fn("Abs(");break;
+    case "ln":fn(second?"log₂(":"ln(");break;case "log":fn("log(");break;
+    case "sin":case "cos":case "tan":case "sinh":case "cosh":case "tanh":fn(k+(second?"⁻¹":"")+"(");break;
+    case "e":fresh();tokens.push("e");break;case "pi":fresh();tokens.push("π");break;
+    case "ans":if(ans!==null){fresh();tokens.push({d:"Ans",v:ans});}break;
+    case "EE":{if(justEval)break;let j=tokens.length;while(j>0&&isDigit(tokens[j-1]))j--;if(j===tokens.length||tokens[j-1]==="E")break;tokens.push("E");break;}
+    case "rand":{fresh();const r=+Math.random().toFixed(8);tokens.push({d:fmt(r),v:r});break;}
+    case "(":fresh();tokens.push("(");break;
+    case ")":if(!justEval&&depth()>0&&!opener(last())&&last()!=="E")tokens.push(")");break;
+    case "neg":negate();break;
+    case "back":if(justEval)clearAll();else{tokens.pop();fracView=false;}break;
+    case "ac":clearAll();break;
+    case "eq":equals();fracView=false;break;
+    case "sd":if(!justEval)equals();if(justEval&&!err)fracView=!fracView;break;
+    case "2nd":second=!second;break;
+    case "rad":deg=!deg;break;
+    case "mc":mem=0;break;
+    case "m+":{const v=cur();if(v!==null)mem+=v;break;}
+    case "m−":{const v=cur();if(v!==null)mem-=v;break;}
+    case "mr":fresh();tokens.push({d:fmt(mem),v:mem});break;
+  }
+  if(second&&SECOND_KEYS.includes(k))second=false;   // like SHIFT: 2nd works for one key
+  relabel();update();
+}
+
+/* ---- keys and display ---- */
+const SCI=[["(","("],[")",")"],["mc","mc"],["m+","m+"],["m−","m−"],["mr","mr"],
+  ["2nd","2nd"],["x2","x²"],["x3","x³"],["xy","xʸ"],["ex","eˣ","2ˣ"],["10x","10ˣ"],
+  ["inv","1/x"],["sqrt","²√x"],["cbrt","³√x"],["yroot","ʸ√x"],["ln","ln","log₂"],["log","log₁₀"],
+  ["fact","x!"],["sin","sin","sin⁻¹"],["cos","cos","cos⁻¹"],["tan","tan","tan⁻¹"],["e","e"],["EE","EE"],
+  ["rand","Rand"],["sinh","sinh","sinh⁻¹"],["cosh","cosh","cosh⁻¹"],["tanh","tanh","tanh⁻¹"],["pi","π"],["rad","Rad"],
+  ["sd","S⇔D","","x"],["ncr","nCr","","x"],["npr","nPr","","x"],["abs","|x|","","x"],["deg","°","","x"],["ans","Ans","","x"]];
+const STD=[["back","⌫","fn","Backspace"],["ac","AC","fn","All clear"],["pct","%","fn","Percent"],["div","÷","op","Divide"],
+  ["7","7"],["8","8"],["9","9"],["mul","×","op","Multiply"],["4","4"],["5","5"],["6","6"],["sub","−","op","Minus"],
+  ["1","1"],["2","2"],["3","3"],["add","+","op","Plus"],["neg","±","","Change sign"],["0","0"],["dot",".","","Decimal point"],["eq","=","op","Equals"]];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ARIA={sd:"Fraction or decimal",ncr:"Combinations n C r",npr:"Permutations n P r",abs:"Absolute value",deg:"Degrees symbol",ans:"Last answer",inv:"Reciprocal",yroot:"y-th root",fact:"Factorial"};
+el("sc-sci").innerHTML=SCI.map(([k,l,,c])=>'<button type="button" class="k '+(c||"")+'" data-k="'+esc(k)+'" aria-label="'+esc(ARIA[k]||l)+'">'+esc(l)+'</button>').join("");
+el("sc-std").innerHTML=STD.map(([k,l,c,a])=>'<button type="button" class="k '+(c||"")+'" data-k="'+esc(k)+'" aria-label="'+esc(a||l)+'">'+esc(l)+'</button>').join("");
+function relabel(){
+  SCI.forEach(([k,l,l2])=>{const b=panel.querySelector('[data-k="'+k+'"]');if(!b)return;
+    const t=k==="rad"?(deg?"Rad":"Deg"):(second&&l2?l2:l);if(b.textContent!==t){b.textContent=t;b.setAttribute("aria-label",k==="rad"?"Switch to "+(deg?"radians":"degrees"):(ARIA[k]||t));}});
+  panel.querySelector('[data-k="2nd"]').classList.toggle("on",second);
+}
+function update(){
+  exprEl.textContent=justEval?lastExpr:tokens.map(disp).join("");
+  exprEl.scrollLeft=exprEl.scrollWidth;
+  let big;
+  if(justEval)big=err?"Error":(fracView&&frac(ans))||fmt(ans);
+  else if(!tokens.length)big="0";
+  else{try{const v=evaluate(tokens);big=v===null?"0":fmt(v);preview=big;}catch(e){big=preview;}}
+  resEl.textContent=big;
+  const base=innerWidth<=700?28:(innerHeight<=760?34:40);resEl.style.fontSize=Math.max(18,Math.min(base,base*11/Math.max(11,big.length)))+"px";
+  modeEl.textContent=(deg?"DEG":"RAD")+(second?"  ·  2nd":"")+(mem!==0?"  ·  M":"")+(fracView&&justEval?"  ·  fraction":"");
+}
+function flash(k){const b=panel.querySelector('[data-k="'+k+'"]');if(!b)return;b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),110);}
+panel.querySelector(".sc-pad").addEventListener("click",e=>{const b=e.target.closest(".k");if(!b)return;press(b.dataset.k);if(e.detail>0){try{panel.focus({preventScroll:true});}catch(_){}}});
+
+/* history panel */
+const histEl=el("sc-hist"),histBtn=el("sc-histbtn");
+function renderHist(){el("sc-histlist").innerHTML=hist.length?hist.map((h,i)=>'<li><button type="button" data-h="'+i+'"><small>'+esc(h.e)+'</small><b>'+esc(h.r)+'</b></button></li>').join(""):'<li class="none">No calculations yet. Press = and they appear here.</li>';}
+function showHist(on){histEl.hidden=!on;histBtn.classList.toggle("on",on);histBtn.setAttribute("aria-pressed",on);if(on)renderHist();}
+histBtn.addEventListener("click",()=>showHist(histEl.hidden));
+el("sc-histclr").addEventListener("click",()=>{hist=[];saveHist();renderHist();});
+el("sc-histlist").addEventListener("click",e=>{const b=e.target.closest("[data-h]");if(!b)return;const h=hist[+b.dataset.h];if(!h)return;fresh();tokens.push({d:h.r,v:h.v});showHist(false);update();});
+
+/* how-to video */
+const vid=el("sc-vid"),video=el("sc-video");
+function openVideo(){if(!video.getAttribute("src"))video.src=ROOT+"assets/calculator-howto.mp4";vid.hidden=false;const p=video.play();if(p&&p.catch)p.catch(()=>{});try{el("sc-vidclose").focus();}catch(e){}}
+function closeVideo(){try{video.pause();}catch(e){}vid.hidden=true;}
+el("sc-howbtn").addEventListener("click",openVideo);
+el("sc-vidclose").addEventListener("click",closeVideo);
+vid.addEventListener("click",e=>{if(e.target===vid)closeVideo();});
+document.querySelectorAll("[data-calc-video]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openVideo();}));
+
+/* open / close, and keep the button above a phone tab bar */
+function openCalc(){panel.hidden=false;fab.setAttribute("aria-expanded","true");document.body.classList.add("sc-open");update();try{panel.focus({preventScroll:true});}catch(e){}}
+function closeCalc(){panel.hidden=true;showHist(false);fab.setAttribute("aria-expanded","false");document.body.classList.remove("sc-open");try{fab.focus({preventScroll:true});}catch(e){}}
+fab.addEventListener("click",openCalc);
+el("sc-close").addEventListener("click",closeCalc);
+document.querySelectorAll("[data-calc-open]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();panel.hidden?openCalc():closeCalc();}));
+function lift(){const t=document.querySelector(".tabbar");let h=0;if(t){const r=t.getBoundingClientRect();if(getComputedStyle(t).display!=="none"&&r.height>0)h=Math.max(0,innerHeight-r.top)+8;}
+  fab.style.setProperty("--sc-lift",h?Math.max(0,h-16)+"px":"0px");}
+addEventListener("resize",lift);lift();
+const KEYMAP={"+":"add","-":"sub","*":"mul","x":"mul","/":"div","^":"xy",".":"dot",",":"dot","(":"(",")":")","!":"fact","%":"pct","Enter":"eq","=":"eq","Backspace":"back","Delete":"ac","p":"pi","s":"sin","c":"cos","t":"tan"};
+document.addEventListener("keydown",e=>{
+  if(!vid.hidden&&e.key==="Escape"){closeVideo();return;}
+  if(panel.hidden||e.ctrlKey||e.metaKey||e.altKey)return;
+  const tg=e.target,tag=tg&&tg.tagName;
+  if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT")return;
+  if(e.key==="Escape"){e.preventDefault();if(!histEl.hidden)showHist(false);else closeCalc();return;}
+  if(e.key==="Enter"&&tag==="BUTTON")return;
+  const k=/^[0-9]$/.test(e.key)?e.key:KEYMAP[e.key];
+  if(!k)return;
+  e.preventDefault();press(k);flash(k);
+});
+relabel();update();
+}
+</script>
+</body>
+</html>

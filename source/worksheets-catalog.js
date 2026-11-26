@@ -11,7 +11,8 @@ const GRADES=[
       {name:"Module 2",topic:"Equations in One Variable",items:[
         {code:"2.2",ws:"g9-algebra-2-2",title:"Solve Multi-step Linear Equations",sub:"Eid Al Etihad edition · 15 questions with hints and worked steps",file:"worksheets/g9-algebra-2-2-multi-step-equations.html"}]},
       {name:"Module 3",topic:"Linear Equations",items:[
-        {code:"3.1",ws:"g9-algebra-3-1",title:"Linear Equations in Standard Form",sub:"Quiz · Eid Al Etihad edition · 14 questions with hints and worked steps",file:"worksheets/g9-algebra-3-1-linear-equations-standard-form.html"}]}]}]},
+        {code:"3.1",ws:"g9-algebra-3-1",title:"Linear Equations in Standard Form",sub:"Quiz · Eid Al Etihad edition · 14 questions with hints and worked steps",file:"worksheets/g9-algebra-3-1-linear-equations-standard-form.html"},
+        {code:"3.2",ws:"g9-algebra-3-2",title:"Slopes of Lines and Rates of Change",sub:"Eid Al Etihad edition · 15 questions with hints and worked steps",file:"worksheets/g9-algebra-3-2-slopes-rates-of-change.html"}]}]}]},
   {id:"10",name:"Grade 10",course:"Geometry",terms:[
     {name:"Term 1",modules:[
       {name:"Module 13",topic:"Trigonometry with Right Triangles",items:[
