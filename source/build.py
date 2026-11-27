@@ -79,10 +79,11 @@ def csp(html, connect, frames, referrer, scripts="", styles="", fonts=""):
     return html.replace('<meta charset="utf-8">\n','<meta charset="utf-8">\n'+meta,1)
 GS="https://script.google.com https://script.googleusercontent.com"
 calc_widget=open(S+'/calculator.html').read()   # the shared scientific calculator (button + panel + how-to video)
-fx_widget=open(S+'/omega-fx.html').read()   # Omega theme: WebGL particle surfaces (SAT, ACT, Worksheets)
+fx_widget=open(S+'/omega-fx.html').read()
 def add_fx(html):
     i=html.rfind('</body>'); assert i>0
-    return html[:i]+fx_widget+html[i:]
+    fb=open(S+'/feedback.html').read().replace('@@STATS_URL@@',re.search(r'const STATS_URL="([^"]*)"',open(S+'/emir.html').read()).group(1))
+    return html[:i]+fx_widget+fb+html[i:]
 def add_calc(html, root):
     i=html.rfind('</body>'); assert i>0
     return html[:i]+calc_widget.replace('@@ROOT@@',root)+html[i:]

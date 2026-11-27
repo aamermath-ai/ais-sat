@@ -25,6 +25,13 @@
 //     TEACHER_DOMAINS  – optional, comma-separated email domains approved automatically (e.g. a school domain)
 //     SESSION_SECRET   – created automatically; do not share
 //
+// Feedback (added later, same script):
+// - Anyone presses the Feedback button (SAT, ACT, Worksheets, home screen), writes their name, stars (1–5) and a message.
+//   It goes to the "Feedback" tab and is emailed to FEEDBACK_EMAIL (or OWNER_EMAILS, or the script owner's account).
+// - In admin.html → Feedback, the owner approves a review: it then shows on the home screen with the name and stars.
+//   Concerns, and feedback whose writer did not tick "show on the website", are never shown publicly.
+//     FEEDBACK_EMAIL   – optional: where feedback emails go (comma-separated)
+//
 var SHEET_NAME = 'Events';
 var HEAD = ['received', 'date', 'type', 'device', 'mode', 'questions', 'correct', 'hard', 'minutes', 'math', 'rw', 'tab'];
 var TYPES = ['visit', 'tab', 'set'];
@@ -69,6 +76,7 @@ function doPost(e) {
     var d = JSON.parse(body || '{}');
     if (d.a) return out_(teacherApi_(d));   // teacher sign-in and dashboard (teacher.html)
     if (d.t === 'ws') return out_(worksheetSubmit_(d, lock));   // a student sends a worksheet score
+    if (d.t === 'fb') return out_(feedbackSubmit_(d, lock));    // feedback form (any page)
     var t = text_(d.t, 10);
     if (TYPES.indexOf(t) < 0 || !/^\d{4}-\d{2}-\d{2}$/.test(String(d.date)) || !dateOk_(String(d.date))) return out_({ ok: false });
     var dev = String(d.d || '');
@@ -105,6 +113,7 @@ function doGet(e) {
   if (p.a === 'join') return out_(joinInfo_(p.c));
   if (p.a === 'wslist') return out_(liveList_());
   if (p.a === 'wsget') return out_(liveGet_(p.id));
+  if (p.a === 'fblist') return out_(feedbackPublic_());
   var key = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
   if (!key) return out_({ ok: false, error: 'ADMIN_KEY is not set in Project Settings → Script properties.' });
   if (key.length < MIN_KEY_LENGTH) return out_({ ok: false, error: 'For security, ADMIN_KEY must be at least ' + MIN_KEY_LENGTH + ' characters. Make it longer in Script properties.' });
@@ -553,6 +562,7 @@ function adminTeachers_(d) {
     op = 'list';
   }
   if (op === 'prorequests') return { ok: true, requests: proRequests_() };
+  if (op === 'feedback' || /^fb-/.test(op)) return adminFeedback_(op, d);
   if (op === 'grades') {
     var ge = cleanEmail_(d.email), gl = cleanGrades_(d.grades);
     var tg = teachers_(), gi = findTeacher_(tg, ge);
@@ -794,4 +804,71 @@ function proRequests_() {
   return (last > 1 ? sh.getRange(2, 1, last - 1, P_HEAD.length).getValues() : []).reverse().slice(0, 100).map(function (r) {
     return { received: r[0] instanceof Date ? r[0].toISOString() : '', name: unplain_(r[1]), email: String(r[2]), school: unplain_(r[3]), teachers: +r[4] || 0, message: unplain_(r[5]) };
   });
+}
+
+// ---------------- Feedback: form on every page → email + admin.html → approved reviews on the home screen ----------------
+var FB_HEAD = ['id', 'received', 'name', 'role', 'class', 'stars', 'kind', 'message', 'public', 'page', 'status', 'updated', 'device'];
+var FB_ROLES = ['Student', 'Parent', 'Teacher', 'Other'], FB_KINDS = ['feedback', 'concern', 'idea'];
+var MAX_FB_PER_DEVICE_HOUR = 5, MAX_FB_PER_DAY = 300;
+function fbSheet_() { var sh = tab_('Feedback', FB_HEAD); return { sh: sh, rows: sh.getLastRow() > 1 ? sh.getRange(2, 1, sh.getLastRow() - 1, FB_HEAD.length).getValues() : [] }; }
+function fbText_(v, max) {   // free text: keep line breaks, strip markup and control characters
+  var t = String(v == null ? '' : v).replace(/\r/g, '').replace(/[\u0000-\u0009\u000b-\u001f\u007f<>`\\]/g, '').replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim().slice(0, max);
+  return /^[=+\-@]/.test(t) ? "'" + t : t;
+}
+function fbRow_(r) {
+  return { id: String(r[0]), received: r[1] instanceof Date ? r[1].toISOString() : String(r[1]), name: unplain_(r[2]), role: unplain_(r[3]), cls: unplain_(r[4]),
+    stars: Number(r[5]) || 0, kind: String(r[6]), message: unplain_(r[7]), pub: String(r[8]) === 'yes', page: String(r[9]), status: String(r[10]),
+    updated: r[11] instanceof Date ? r[11].toISOString() : String(r[11]) };
+}
+function feedbackSubmit_(d, lock) {
+  var dev = String(d.d || '');
+  if (!/^[a-z0-9]{6,16}$/.test(dev)) return { ok: false, error: 'Please reload the page and try again.' };
+  var name = plain_(d.name, 50), msg = fbText_(d.message, 1200), stars = Math.round(Number(d.stars));
+  var role = FB_ROLES.indexOf(String(d.role)) >= 0 ? String(d.role) : 'Other', kind = FB_KINDS.indexOf(String(d.kind)) >= 0 ? String(d.kind) : 'feedback';
+  if (name.replace(/^'/, '').length < 2) return { ok: false, error: 'Please write your name.' };
+  if (msg.replace(/^'/, '').length < 5) return { ok: false, error: 'Please write a short message.' };
+  if (!(stars >= 1 && stars <= 5)) stars = 0;
+  if (kind === 'feedback' && !stars) return { ok: false, error: 'Please choose 1 to 5 stars.' };
+  var cache = CacheService.getScriptCache();
+  if (count_(cache, 'fbdev:' + dev, 3600) > MAX_FB_PER_DEVICE_HOUR) return { ok: false, error: 'Thank you! You have sent several messages already. Please try again in an hour.' };
+  if (count_(cache, 'fbday:' + new Date().toISOString().slice(0, 10), 86400) > MAX_FB_PER_DAY) return { ok: false, error: 'We are receiving a lot of messages today. Please try again tomorrow.' };
+  var pub = kind === 'feedback' && d.pub === true ? 'yes' : 'no', id = 'f' + Utilities.getUuid().replace(/-/g, '').slice(0, 10);
+  var page = text_(d.page, 20), cls = plain_(d.cls, 20);
+  lock.waitLock(10000);
+  try { fbSheet_().sh.appendRow([id, new Date(), name, role, cls, stars || '', kind, msg, pub, page, 'pending', new Date(), dev]); }
+  finally { try { lock.releaseLock(); } catch (x) {} }
+  try {
+    var to = prop_('FEEDBACK_EMAIL') || list_('OWNER_EMAILS').join(',') || Session.getEffectiveUser().getEmail();
+    var star = stars ? new Array(stars + 1).join('★') + new Array(6 - stars).join('☆') + ' ' : '';
+    var label = kind === 'concern' ? 'Concern' : kind === 'idea' ? 'Idea' : 'Feedback';
+    if (to) MailApp.sendEmail(to, 'Omega ' + label.toLowerCase() + ': ' + star + 'from ' + unplain_(name),
+      label + ' from ' + unplain_(name) + ' (' + role + (cls ? ', ' + unplain_(cls) : '') + ')\n' + (star ? 'Rating: ' + star + '\n' : '') + 'Page: ' + page + '\n\n' + unplain_(msg) + '\n\n' +
+      (pub === 'yes' ? 'They agreed to show it on the website. To publish it, open admin.html → Feedback and press Approve.' : 'This message is private: it will not be shown on the website.') +
+      '\n\nOmega · The last word in math');
+  } catch (e) { mailError_(e); }
+  return { ok: true };
+}
+function feedbackPublic_() {   // approved reviews for the home screen (no emails, classes or device IDs)
+  var cache = CacheService.getScriptCache(), c = cache.get('fblist');
+  if (c) return JSON.parse(c);
+  var list = fbSheet_().rows.filter(function (r) { return String(r[10]) === 'approved' && String(r[8]) === 'yes'; }).map(function (r) {
+    var x = fbRow_(r); return { name: x.name, role: x.role, stars: x.stars, message: x.message, date: x.received.slice(0, 10) };
+  }).reverse().slice(0, 40);
+  var res = { ok: true, reviews: list };
+  try { cache.put('fblist', JSON.stringify(res), 300); } catch (e) {}
+  return res;
+}
+function adminFeedback_(op, d) {
+  var f = fbSheet_();
+  if (op === 'fb-approve' || op === 'fb-hide' || op === 'fb-delete') {
+    var id = String(d.id || ''), i = -1;
+    for (var k = 0; k < f.rows.length; k++) if (String(f.rows[k][0]) === id) { i = k; break; }
+    if (i < 0) return { ok: false, error: 'Message not found.' };
+    if (op === 'fb-approve' && String(f.rows[i][8]) !== 'yes') return { ok: false, error: 'This message is private: the writer did not agree to show it on the website.' };
+    if (op === 'fb-delete') f.sh.deleteRow(i + 2);
+    else f.sh.getRange(i + 2, 11, 1, 2).setValues([[op === 'fb-approve' ? 'approved' : 'hidden', new Date()]]);
+    CacheService.getScriptCache().remove('fblist');
+    f = fbSheet_();
+  }
+  return { ok: true, feedback: f.rows.map(fbRow_).reverse() };
 }

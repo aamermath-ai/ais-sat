@@ -172,6 +172,16 @@ You need Python 3 (free) on any computer.
 - **Student data:** nothing personal is collected. The optional usage statistics (section 7) are anonymous; students should be told about them. If the school later wants teachers to see student progress, that needs logins and a database (a larger project).
 - **Accessibility:** the site works on phones, tablets and computers. It supports keyboard use, light/dark modes and reduced motion.
 
+## Feedback, reviews and "Coming soon"
+
+- **Feedback button (every SAT, ACT and Worksheets page):** the glowing round button above the Calculator. Students, parents and teachers choose **Feedback** (with 1–5 stars), **Idea** or **Concern**, write their name (class optional) and a message.
+- **Where it goes:** the "Feedback" tab of the statistics Google Sheet, and an email to `FEEDBACK_EMAIL` (Script property; comma-separated), or `OWNER_EMAILS`, or the Google account that owns the script.
+- **Approving:** `admin.html` → **Feedback**. **Approve** shows a review on the home screen ("What our community says") with the name and stars, within 5 minutes. **Hide** takes it off; **Delete** removes it. Only *Feedback* whose writer ticked "Show my review… on the website" can be approved; concerns, ideas and private feedback are never shown publicly.
+- **Limits:** 5 messages per device per hour and 300 per day for the whole site; text is cleaned of markup before it is saved or shown.
+- **Files:** `source/feedback.html` (button, form, review wall; added to the pages by `build.py`), `source/analytics/Code.gs` (`feedbackSubmit_`, `feedbackPublic_`, `adminFeedback_`), `source/admin.html` (Feedback card).
+- **After changing Code.gs:** paste it into Apps Script, then **Deploy → Manage deployments → Edit → Version: New version → Deploy** (same web-app URL).
+- **Coming soon:** the home screen lists MAP Growth, CAT4 and PISA interventions and practice sets as "In development". Edit or remove the `<section class="soon">` block in `source/emir.html` when they launch.
+
 ## ACT preparation (act.html)
 
 Opening the site shows a welcome screen once per visit, where students choose **SAT** or **ACT**; each side links to the other.

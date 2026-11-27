@@ -1,0 +1,157 @@
+<!-- Feedback (source/feedback.html, added to the SAT, ACT and Worksheets pages by build.py).
+     Floating button → form (name, stars, message) → Apps Script (Code.gs feedbackSubmit_) → email + admin.html.
+     Approved reviews are listed on the home screen (#fbk-wall in source/emir.html). -->
+<style>
+.fbk-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:76px;z-index:61;display:flex;align-items:center;height:54px;padding:0;border:0;background:none;cursor:pointer;color:#fff;font:600 .92rem/1 var(--f-ui,system-ui)}
+.fbk-fab .fb-orb{position:relative;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex:none;isolation:isolate}
+.fbk-fab .fb-orb::before{content:"";position:absolute;inset:0;border-radius:50%;z-index:-2;background:conic-gradient(from 0deg,#3FE6C1,#43C3E6,#8C8DFF,#FFD27A,#3FE6C1);animation:fbspin 6s linear infinite;box-shadow:0 0 22px rgba(63,230,193,.45),0 10px 30px rgba(40,60,160,.45)}
+.fbk-fab .fb-orb::after{content:"";position:absolute;inset:2.5px;border-radius:50%;z-index:-1;background:radial-gradient(circle at 35% 30%,#1c2448,#080a18 70%)}
+.fbk-fab svg{width:26px;height:26px;filter:drop-shadow(0 0 6px rgba(63,230,193,.6))}
+.fbk-fab .fb-lab{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;margin-right:0;padding:9px 0;border-radius:999px;background:rgba(8,10,24,.82);border:1px solid rgba(160,200,255,.18);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:max-width .35s ease,opacity .25s,padding .35s,margin .35s;order:-1}
+.fbk-fab:hover .fb-lab,.fbk-fab:focus-visible .fb-lab{max-width:160px;opacity:1;padding:9px 14px;margin-right:8px}
+.fbk-fab:focus-visible{outline:none}.fbk-fab:focus-visible .fb-orb{outline:3px solid #3FE6C1;outline-offset:3px}
+@keyframes fbspin{to{transform:rotate(360deg)}}
+html.exam .fbk-fab,html.solo-dx .fbk-fab{display:none!important}
+.fbk{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;background:rgba(3,4,10,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow-y:auto}
+.fbk[hidden]{display:none!important}
+.fbk-card{position:relative;width:min(540px,100%);border-radius:26px;padding:26px 24px 22px;color:#EEF2FF;
+  background:radial-gradient(90% 60% at 0% 0%,rgba(63,230,193,.16),transparent 60%),radial-gradient(80% 60% at 100% 100%,rgba(124,125,255,.20),transparent 60%),rgba(12,14,30,.94);
+  border:1px solid rgba(170,190,255,.18);box-shadow:0 30px 80px rgba(0,0,0,.55);font-family:var(--f-ui,system-ui);animation:fbup .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes fbup{from{opacity:0;transform:translateY(16px) scale(.98)}}
+.fbk-card h2{margin:0;font-family:var(--f-display,system-ui);font-weight:400;font-size:1.65rem;letter-spacing:-.03em;line-height:1.1;color:#fff}
+.fbk-sub{margin:6px 0 16px;color:#AEB6D6;font-size:.95rem}
+.fbk-x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.07);color:#C9CEE8;font-size:20px;line-height:1;cursor:pointer}
+.fbk-x:hover{background:rgba(255,255,255,.15);color:#fff}
+.fbk-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:14px;background:rgba(140,150,255,.10);margin-bottom:16px}
+.fbk-seg button,.fbk-chips button{border:0;border-radius:10px;padding:10px 6px;background:none;color:#C9CEE8;font:600 .9rem var(--f-ui,system-ui);cursor:pointer;min-height:40px}
+.fbk-seg button[aria-pressed="true"]{background:rgba(63,230,193,.18);color:#fff;box-shadow:0 0 0 1px rgba(140,240,215,.35) inset}
+.fbk-stars{display:flex;align-items:center;gap:6px;margin:2px 0 4px}
+.fbk-stars button{width:46px;height:46px;border:0;background:none;padding:2px;cursor:pointer;color:rgba(200,210,255,.22);transition:transform .15s,color .15s}
+.fbk-stars button:hover{transform:scale(1.12)}
+.fbk-stars button.on{color:#FFD27A;filter:drop-shadow(0 0 8px rgba(255,210,122,.55))}
+.fbk-stars svg{width:100%;height:100%}
+.fbk-slab{min-height:1.3em;font-size:.86rem;color:#FFD27A;margin-bottom:12px}
+.fbk label.fl{display:block;font-size:.8rem;font-weight:600;color:#AEB6D6;margin:0 0 6px}
+.fbk-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px;margin-bottom:12px}
+.fbk input[type=text],.fbk textarea{width:100%;box-sizing:border-box;border-radius:12px;border:1px solid rgba(170,190,255,.20);background:rgba(255,255,255,.05);color:#fff;font:16px/1.45 var(--f-ui,system-ui);padding:11px 13px}
+.fbk input[type=text]:focus,.fbk textarea:focus{outline:none;border-color:#3FE6C1;box-shadow:0 0 0 3px rgba(63,230,193,.18)}
+.fbk textarea{min-height:120px;resize:vertical}
+.fbk-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.fbk-chips button{flex:1 1 auto;border:1px solid rgba(170,190,255,.18);border-radius:999px;padding:8px 12px;min-height:38px}
+.fbk-chips button[aria-pressed="true"]{background:rgba(124,125,255,.24);border-color:rgba(160,170,255,.5);color:#fff}
+.fbk-cnt{text-align:right;font-size:.74rem;color:#8E94B8;margin:4px 0 10px}
+.fbk-pub{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:#C9CEE8;margin-bottom:14px;cursor:pointer}
+.fbk-pub input{width:20px;height:20px;margin:1px 0 0;accent-color:#3FE6C1;flex:none}
+.fbk-priv{font-size:.86rem;color:#AEB6D6;margin:0 0 14px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.05)}
+.fbk-err{color:#FF8FA3;font-size:.88rem;margin:0 0 10px}
+.fbk-go{width:100%;min-height:50px;border:0;border-radius:14px;cursor:pointer;font:700 1rem var(--f-ui,system-ui);color:#040B14;background:linear-gradient(120deg,#3FE6C1,#43C3E6 48%,#8C8DFF);box-shadow:0 10px 30px rgba(63,180,220,.35)}
+.fbk-go:disabled{opacity:.6;cursor:wait}
+.fbk-done{text-align:center;padding:18px 6px 6px}
+.fbk-done .ok{width:74px;height:74px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#3FE6C1,#1f9e86);box-shadow:0 0 40px rgba(63,230,193,.5)}
+.fbk-done .ok svg{width:38px;height:38px}
+.fbk-done p{color:#C9CEE8;margin:8px 0 18px}
+@media (max-width:520px){.fbk{padding:0;place-items:end stretch}.fbk-card{width:100%;border-radius:24px 24px 0 0;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}.fbk-row{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.fbk-fab .fb-orb::before,.fbk-card{animation:none}}
+</style>
+<button class="fbk-fab" id="fbk-fab" type="button" aria-label="Feedback: share your thoughts" data-fbk-open>
+  <span class="fb-lab">Feedback</span>
+  <span class="fb-orb"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 6.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v6.5a3 3 0 0 1-3 3H11l-4.2 3.4c-.5.4-1.3 0-1.3-.6V16a3 3 0 0 1-1-2.3z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 6.6l1.05 2.13 2.35.34-1.7 1.66.4 2.34L12 12l-2.1 1.07.4-2.34-1.7-1.66 2.35-.34z" fill="#FFD27A"/></svg></span>
+</button>
+<div class="fbk" id="fbk" hidden role="dialog" aria-modal="true" aria-labelledby="fbk-t">
+  <div class="fbk-card">
+    <button class="fbk-x" type="button" id="fbk-x" aria-label="Close">×</button>
+    <form id="fbk-form" novalidate>
+      <h2 id="fbk-t">Share your thoughts</h2>
+      <p class="fbk-sub">Tell us what you love, what to improve, or anything that worries you. Every message is read.</p>
+      <div class="fbk-seg" id="fbk-kind" role="group" aria-label="Type of message"><button type="button" data-v="feedback" aria-pressed="true">Feedback</button><button type="button" data-v="idea" aria-pressed="false">Idea</button><button type="button" data-v="concern" aria-pressed="false">Concern</button></div>
+      <div id="fbk-rate"><label class="fl" id="fbk-sl">Your rating</label><div class="fbk-stars" id="fbk-stars" role="radiogroup" aria-labelledby="fbk-sl"></div><div class="fbk-slab" id="fbk-slab"></div></div>
+      <div class="fbk-row"><div><label class="fl" for="fbk-name">Your name</label><input type="text" id="fbk-name" maxlength="50" autocomplete="name" placeholder="e.g. Sara Ahmed"></div>
+        <div><label class="fl" for="fbk-cls">Class <span style="font-weight:400">(optional)</span></label><input type="text" id="fbk-cls" maxlength="20" placeholder="e.g. 9B4"></div></div>
+      <label class="fl">I am a</label>
+      <div class="fbk-chips" id="fbk-role" role="group" aria-label="I am a"><button type="button" data-v="Student" aria-pressed="true">Student</button><button type="button" data-v="Parent" aria-pressed="false">Parent</button><button type="button" data-v="Teacher" aria-pressed="false">Teacher</button><button type="button" data-v="Other" aria-pressed="false">Other</button></div>
+      <label class="fl" for="fbk-msg" id="fbk-ml">Your message</label>
+      <textarea id="fbk-msg" maxlength="1200" placeholder="What do you think of Omega?"></textarea>
+      <div class="fbk-cnt" id="fbk-cnt">0 / 1200</div>
+      <label class="fbk-pub" id="fbk-publ"><input type="checkbox" id="fbk-pub" checked><span>Show my review, name and stars on the Omega website after it is approved</span></label>
+      <p class="fbk-priv" id="fbk-priv" hidden>Concerns go privately to the site owner and are never shown on the website.</p>
+      <p class="fbk-err" id="fbk-err" hidden></p>
+      <button class="fbk-go" id="fbk-go" type="submit">Send</button>
+    </form>
+    <div class="fbk-done" id="fbk-done" hidden>
+      <div class="ok"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#04110E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2 id="fbk-thx">Thank you!</h2>
+      <p id="fbk-thx2">Your message has been sent.</p>
+      <button class="fbk-go" type="button" id="fbk-close2">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const URL_="@@STATS_URL@@";
+  const $=id=>document.getElementById(id);
+  const ls={get:k=>{try{return localStorage.getItem(k);}catch(e){return null;}},set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}}};
+  function dev(){let d=ls.get("ais-dev");if(!d||!/^[a-z0-9]{6,16}$/.test(d)){const A="abcdefghijklmnopqrstuvwxyz0123456789";try{d=Array.from(crypto.getRandomValues(new Uint8Array(12)),x=>A[x%36]).join("");}catch(e){d=(Math.random().toString(36).slice(2)+"000000000000").slice(0,12);}ls.set("ais-dev",d);}return d;}
+  const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.75 5.57 6.15.9-4.45 4.33 1.05 6.12L12 16.83l-5.5 2.89 1.05-6.12L3.1 9.27l6.15-.9z"/></svg>';
+  const SLAB=["","Needs a lot of work","Could be better","Good","Very good","I love it!"];
+  let kind="feedback",role=ls.get("omega-fb-role")||"Student",stars=0,lastFocus=null;
+  const fab=$("fbk-fab"),box=$("fbk");
+  /* sit just above the Calculator button (which itself moves above the phone tab bar) */
+  function place(){const c=document.getElementById("sc-fab");let b=16,r=16;
+    if(c&&getComputedStyle(c).display!=="none"){const q=c.getBoundingClientRect();if(q.height){b=innerHeight-q.top+12;r=innerWidth-q.right;}}
+    fab.style.bottom=b+"px";fab.style.right=Math.max(12,r)+"px";}
+  place();addEventListener("resize",place);setInterval(place,1500);
+  $("fbk-stars").innerHTML=[1,2,3,4,5].map(n=>'<button type="button" role="radio" aria-checked="false" aria-label="'+n+' star'+(n>1?"s":"")+'" data-n="'+n+'">'+STAR+'</button>').join("");
+  function paint(h){const v=h||stars;$("fbk-stars").querySelectorAll("button").forEach(b=>{const n=+b.dataset.n;b.classList.toggle("on",n<=v);b.setAttribute("aria-checked",n===stars);});$("fbk-slab").textContent=SLAB[v]||"";}
+  $("fbk-stars").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;stars=+b.dataset.n;paint();});
+  $("fbk-stars").addEventListener("mouseover",e=>{const b=e.target.closest("button");if(b)paint(+b.dataset.n);});
+  $("fbk-stars").addEventListener("mouseleave",()=>paint());
+  function setKind(k){kind=k;$("fbk-kind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===k));
+    $("fbk-rate").hidden=k==="concern";$("fbk-publ").hidden=k!=="feedback";$("fbk-priv").hidden=k!=="concern";
+    $("fbk-ml").textContent=k==="concern"?"Tell us what worries you":k==="idea"?"Your idea":"Your message";
+    $("fbk-msg").placeholder=k==="concern"?"Describe the problem. Only the site owner will read this.":k==="idea"?"What should we add or change?":"What do you think of Omega?";}
+  $("fbk-kind").addEventListener("click",e=>{const b=e.target.closest("button");if(b)setKind(b.dataset.v);});
+  function setRole(r){role=r;$("fbk-role").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===r));}
+  $("fbk-role").addEventListener("click",e=>{const b=e.target.closest("button");if(b)setRole(b.dataset.v);});
+  $("fbk-msg").addEventListener("input",()=>{$("fbk-cnt").textContent=$("fbk-msg").value.length+" / 1200";});
+  function err(m){$("fbk-err").textContent=m||"";$("fbk-err").hidden=!m;}
+  function open(k){lastFocus=document.activeElement;box.hidden=false;document.documentElement.style.overflow="hidden";
+    $("fbk-form").hidden=false;$("fbk-done").hidden=true;err("");if(k)setKind(k);
+    $("fbk-name").value=$("fbk-name").value||ls.get("omega-fb-name")||"";$("fbk-cls").value=$("fbk-cls").value||ls.get("omega-fb-cls")||"";setRole(role);
+    setTimeout(()=>($("fbk-name").value?$("fbk-stars").querySelector("button"):$("fbk-name")).focus(),60);}
+  function close(){box.hidden=true;document.documentElement.style.overflow="";try{lastFocus&&lastFocus.focus();}catch(e){}}
+  document.addEventListener("click",e=>{const o=e.target.closest&&e.target.closest("[data-fbk-open]");if(o){e.preventDefault();open(o.dataset.fbkOpen||"");}});
+  $("fbk-x").addEventListener("click",close);$("fbk-close2").addEventListener("click",close);
+  box.addEventListener("click",e=>{if(e.target===box)close();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!box.hidden)close();});
+  $("fbk-form").addEventListener("submit",async e=>{e.preventDefault();err("");
+    const name=$("fbk-name").value.trim(),msg=$("fbk-msg").value.trim(),cls=$("fbk-cls").value.trim();
+    if(name.length<2){err("Please write your name.");$("fbk-name").focus();return;}
+    if(kind==="feedback"&&!stars){err("Please choose 1 to 5 stars.");return;}
+    if(msg.length<5){err("Please write a short message.");$("fbk-msg").focus();return;}
+    if(!URL_){err("Feedback is not switched on for this site yet.");return;}
+    ls.set("omega-fb-name",name);ls.set("omega-fb-cls",cls);ls.set("omega-fb-role",role);
+    const page=/act(\.html)?$/.test(location.pathname)?"act":/worksheets/.test(location.pathname)?"worksheets":(location.hash||"#home").slice(1)||"home";
+    const go=$("fbk-go");go.disabled=true;go.textContent="Sending…";
+    try{const r=await fetch(URL_,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({t:"fb",d:dev(),name,cls,role,kind,stars:kind==="concern"?0:stars,message:msg,pub:kind==="feedback"&&$("fbk-pub").checked,page})});
+      const j=await r.json();
+      if(!j||!j.ok){err((j&&j.error)||"Your message could not be sent. Please try again in a minute.");return;}
+      $("fbk-form").hidden=true;$("fbk-done").hidden=false;$("fbk-thx").textContent="Thank you, "+name.split(" ")[0]+"!";
+      $("fbk-thx2").textContent=kind==="concern"?"Your concern was sent privately to the site owner.":kind==="feedback"&&$("fbk-pub").checked?"Your review was sent. Once it is approved it will appear on the Omega home screen.":"Your message was sent to the site owner.";
+      $("fbk-msg").value="";$("fbk-cnt").textContent="0 / 1200";stars=0;paint();$("fbk-close2").focus();
+    }catch(x){err("Your message could not be sent. Check your connection and try again.");}
+    finally{go.disabled=false;go.textContent="Send";}});
+  /* approved reviews on the home screen */
+  const wall=$("fbk-wall");
+  if(wall&&URL_)fetch(URL_+"?a=fblist").then(r=>r.json()).then(j=>{const L=(j&&j.ok&&j.reviews)||[];if(!L.length)return;
+    const list=$("fbk-list");list.textContent="";
+    L.forEach(v=>{const c=document.createElement("figure");c.className="rv";
+      const s=document.createElement("div");s.className="rv-s";s.setAttribute("aria-label",v.stars+" out of 5 stars");s.innerHTML=[1,2,3,4,5].map(n=>'<i class="'+(n<=v.stars?"on":"")+'">'+STAR+'</i>').join("");
+      const q=document.createElement("blockquote");q.textContent=v.message;
+      const f=document.createElement("figcaption");const ini=document.createElement("span");ini.className="rv-a";ini.textContent=(String(v.name||"?").trim()[0]||"?").toUpperCase();
+      const who=document.createElement("span");const b=document.createElement("b");b.textContent=v.name;const r=document.createElement("small");r.textContent=v.role;who.append(b,r);f.append(ini,who);
+      c.append(s,q,f);list.append(c);});
+    const n=L.length,avg=L.reduce((a,v)=>a+(+v.stars||0),0)/n;$("fbk-avg").textContent=avg.toFixed(1)+" ★ average from "+n+" review"+(n>1?"s":"");
+    wall.hidden=false;}).catch(()=>{});
+})();
+</script>
