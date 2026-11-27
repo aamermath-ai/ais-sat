@@ -33,6 +33,37 @@ A free Digital SAT practice website for students of the American International S
   2. Run **testEmail** once: Google asks for the new **Drive** permission (the script saves uploads to your Drive). Click Allow.
   3. Deploy a **New version**.
 
+## Free and Pro plans
+
+- **Students** always use everything for free.
+- **Free plan (any teacher):**
+  - teacher login;
+  - up to **2 open class codes** with a QR code and link;
+  - each student's **score** and the score distribution.
+- **Pro plan:**
+  - unlimited class codes;
+  - Share to Teams and the board view with live joining;
+  - question analysis, Re-teach flags, results by part and class, right-first-time;
+  - CSV download;
+  - the **Worksheet builder**.
+- **The server enforces Pro**, not just the page: the class-code limit, the question-by-question data and the builder.
+- **Giving Pro:**
+  - **One teacher:** tick **Pro** on their row in `admin.html`.
+  - **A whole school:** add its email domain to the `PRO_DOMAINS` script property, e.g. `aisschool.net` (comma-separated for several).
+  - Owners (`OWNER_EMAILS`) are always Pro.
+- **Requests:** schools ask for Pro with the form on `teacher.html`. Requests appear on `admin.html` → **Pro requests**, and owners get an email.
+- **Payment:** there is none on the site. Agree the price with the school, then switch Pro on.
+
+## Hosting
+
+- **Now:** GitHub Pages (`aamermath-ai.github.io/ais-sat`). GitHub does not allow Pages to be used to run a business or SaaS, so move before charging schools.
+- **Recommended:** **Cloudflare Pages**, free with unlimited bandwidth. It connects to this GitHub repository and redeploys on every push.
+  - Build command: none.
+  - Output folder: `/`.
+- **After a move:**
+  1. Set `SITE_URL` in `source/build.py` (or the `OMEGA_SITE_URL` environment variable) to the new address and rebuild, so QR codes point there.
+  2. Add a `SITE_URL` script property in Apps Script, so links in emails point there.
+
 ## Brand: Omega
 
 - **Name:** Omega. The sections are **Omega SAT**, **Omega ACT** and **Omega Worksheets**.
@@ -96,7 +127,6 @@ source/                  EVERYTHING NEEDED TO EDIT AND REBUILD THE SITE
   admin.html             source of the usage dashboard
   analytics/Code.gs      the statistics backend (Google Apps Script)
   logo-512.png, logo-180.png
-  media/night_walk_original.mp4   the original background clip
 ```
 
 ## 4. How to make changes
@@ -119,7 +149,7 @@ You need Python 3 (free) on any computer.
 
 **University and scholarship data:** it is the `const UNIS=[...]` list in `source/emir.html`. It was checked in November 2026 and **should be reviewed every year** (for example each September), because score ranges, testing policies, scholarships and deadlines change.
 
-**Background video:** to replace it, re-encode the new clip into `night-720.mp4`, `night-1080.mp4` and `night-poster.jpg` (for example with ffmpeg), put them in `source/nightwalk/`, then rebuild.
+**Night theme:** a starry night sky drawn with CSS only (no video), in `source/emir.html` (`.nightbg`).
 
 ## 5. Moving it to the school (options)
 
@@ -136,7 +166,6 @@ You need Python 3 (free) on any computer.
   - The Desmos Speed Trainer (sceptrell.github.io) is embedded with an iframe. Consider asking its author for permission and crediting them.
   - The Desmos calculator is embedded from desmos.com. For an official, high-traffic school site, Desmos offers an API with a free key for educational use, which is the recommended way to embed it.
   - Fonts load from Google Fonts.
-- **Background video:** confirm the school has the right to use the *Night Walk* clip publicly.
 - **Questions:** all questions are original practice items written to College Board's published Digital SAT specifications. They are not official SAT questions. "SAT" is a registered trademark of College Board, which is not affiliated with this website. The README explains that the questions are original. Before launch, add a one-line notice to the site saying the SAT is a College Board trademark and that College Board is not affiliated with the site.
 - **University and scholarship information** is a guide for students. Every card links to the official website, and the page tells students to confirm details there.
 - **Student data:** nothing personal is collected. The optional usage statistics (section 7) are anonymous; students should be told about them. If the school later wants teachers to see student progress, that needs logins and a database (a larger project).

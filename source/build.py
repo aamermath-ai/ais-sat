@@ -24,11 +24,7 @@ json.dump(qs,open(OUT+'/questions.json','w'),ensure_ascii=False,separators=(',',
 shutil.copy(S+'/logo-512.png',OUT+'/logo.png'); shutil.copy(S+'/logo-180.png',OUT+'/apple-touch-icon.png')
 shutil.copy(S+'/brand/omega-favicon.svg',OUT+'/favicon.svg')   # Omega logo (source/brand/)
 os.makedirs(OUT+'/assets',exist_ok=True)
-# background video files: copied only if a re-encoded set exists in source/nightwalk (see HANDOVER.md);
-# otherwise the ones already in assets/ are kept
-for f in ('night-720.mp4','night-1080.mp4','night-poster.jpg'):
-    p=os.path.join(S,'nightwalk',f)
-    if os.path.exists(p): shutil.copy(p,OUT+'/assets/'+f)
+# (the Night theme no longer uses a background video: it is drawn with CSS)
 src=open(S+'/emir.html').read()
 a=src.index('/* ---------- boot ---------- */'); b=src.index('})();\n</script>')
 src=src[:a]+'''/* ---------- boot (standalone: questions.json + progress in this browser) ---------- */
@@ -114,7 +110,7 @@ ws=head.replace('content="Omega SAT: free adaptive Digital SAT practice','conten
 open(OUT+'/worksheets.html','w').write(csp(add_fx(add_calc(ws,'')), GS, None, "strict-origin-when-cross-origin"))   # GS: lists worksheets made with the builder
 report=open(S+'/ws-report.html').read().replace('@@STATS_URL@@',STATS_URL)   # "Send to my teacher" on every worksheet
 os.makedirs(OUT+'/worksheets',exist_ok=True)
-SITE_URL='https://aamermath-ai.github.io/ais-sat/'   # public address of the site, used in the worksheet QR codes
+SITE_URL=os.environ.get('OMEGA_SITE_URL','https://aamermath-ai.github.io/ais-sat/')   # public address of the site (worksheet QR codes). Moving host? Change it here, or set OMEGA_SITE_URL
 kit=open(S+'/worksheet-kit.html').read()             # City Missions game + QR code, added to every worksheet
 os.makedirs(OUT+'/worksheets/qr',exist_ok=True)
 try: import segno                                    # pip install segno  (only needed to make new QR codes)

@@ -111,6 +111,11 @@ a.btnl{font:inherit;font-weight:700;border-radius:999px;background:var(--fill);c
       <p class="tmsg" id="t-msg" hidden></p>
       <div class="trows" id="t-list"></div>
     </div>
+    <div class="card" id="prs" style="margin-bottom:16px" hidden>
+      <div class="row" style="justify-content:space-between"><h2>Pro requests</h2><span class="note" id="pr-count"></span></div>
+      <p class="note">Schools that asked about Omega Pro on the teacher page. Reply by email. To give a whole school Pro, add its email domain to the <code>PRO_DOMAINS</code> script property (e.g. <code>aisschool.net</code>); to give one teacher Pro, tick <b>Pro</b> on their row above.</p>
+      <div class="trows" id="pr-list"></div>
+    </div>
     <div class="card" id="builds" style="margin-bottom:16px">
       <div class="row" style="justify-content:space-between"><h2>Worksheet requests</h2><span class="note" id="b-count"></span></div>
       <p class="note">Contributors upload lesson files for their grades. Uploads wait in the queue until a Claude session builds the drafts (ask Claude to “build the queued worksheets”). The contributor checks the draft and sends it to you. Preview it, then <b>Approve</b> to make it live, or <b>Request changes</b>.</p>
@@ -162,7 +167,7 @@ async function load(){
     if(j.ok&&!j.days)j=await (await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since))).json();   // older Code.gs without POST statistics
     if(!j.ok)throw new Error(j.error||"The script refused the request.");
     ls.set("ais-admin-url",url); keySet(key,$("remember").checked); idle();
-    data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers(); loadBuilds();
+    data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers(); loadBuilds(); loadPro();
   }catch(e){showErr(e.message&&e.message!=="Failed to fetch"?e.message:"Could not reach the script. Check the address and that it is deployed with access “Anyone”.");}
   $("go").textContent="Show statistics";
 }
@@ -235,7 +240,7 @@ function renderTeachers(){
     const acts=t.status==="pending"?btn("approved","Approve")+btn("removed","Decline",1):t.status==="approved"?btn("removed","Remove",1):btn("approved","Restore",1);
     const label={approved:"Can log in",pending:"Asked to join",removed:"Removed"}[t.status]||t.status;
     return '<div class="trow"><div><b>'+esc(t.name||t.email)+'</b><span class="em">'+esc(t.email)+' · last login: '+esc(when(t.lastLogin))+'</span></div><span class="pill '+esc(t.status)+'">'+label+'</span><div class="acts">'+acts+'</div>'+
-      (t.status==="approved"?'<div class="gr" data-e="'+esc(t.email)+'"><span>Can build worksheets for:</span>'+["6","7","8","9","10","11","12"].map(g=>'<label><input type="checkbox" value="'+g+'"'+((t.grades||"").split(",").includes(g)?" checked":"")+'>'+g+'</label>').join("")+'</div>':'')+'</div>';}).join("")
+      (t.status==="approved"?'<div class="gr" data-e="'+esc(t.email)+'"><label title="Omega Pro for this teacher"><input type="checkbox" data-plan'+(t.plan==="pro"?" checked":"")+'><b>Pro</b></label><span style="margin-left:6px">Can build worksheets for:</span>'+["6","7","8","9","10","11","12"].map(g=>'<label><input type="checkbox" value="'+g+'"'+((t.grades||"").split(",").includes(g)?" checked":"")+'>'+g+'</label>').join("")+'</div>':'')+'</div>';}).join("")
     :'<p class="note" style="padding:12px 0">No teachers yet. Add the first one above.</p>';
 }
 $("t-add").addEventListener("click",async()=>{
@@ -252,10 +257,19 @@ $("t-add").addEventListener("click",async()=>{
 });
 $("t-email").addEventListener("keydown",e=>{if(e.key==="Enter")$("t-add").click();});
 $("t-list").addEventListener("change",async e=>{const box=e.target.closest(".gr");if(!box)return;
-  const grades=[...box.querySelectorAll("input:checked")].map(i=>i.value).join(",");box.style.opacity=.5;
+  if(e.target.hasAttribute("data-plan")){box.style.opacity=.5;
+    try{const r=await tapi({op:"plan",email:box.dataset.e,plan:e.target.checked?"pro":"free"});if(!r.ok){tmsg(r.error||"Could not update.","err");return;}
+      teachers=r.teachers;renderTeachers();tmsg(box.dataset.e+(e.target.checked?" now has Omega Pro.":" is now on the Free plan."),"ok");}
+    catch(x){tmsg("Could not reach the script.","err");}finally{box.style.opacity="";}return;}
+  const grades=[...box.querySelectorAll("input:checked:not([data-plan])")].map(i=>i.value).join(",");box.style.opacity=.5;
   try{const r=await tapi({op:"grades",email:box.dataset.e,grades});if(!r.ok){tmsg(r.error||"Could not update.","err");return;}
     teachers=r.teachers;renderTeachers();tmsg(grades?"Saved: "+box.dataset.e+" can build worksheets for Grade "+grades.split(",").join(", ")+".":"Saved: "+box.dataset.e+" cannot build worksheets.","ok");}
   catch(x){tmsg("Could not reach the script.","err");}finally{box.style.opacity="";}});
+/* ---- Omega Pro requests ---- */
+async function loadPro(){try{const r=await tapi({op:"prorequests"});if(!r.ok||!r.requests){$("prs").hidden=true;return;}
+  $("prs").hidden=!r.requests.length;$("pr-count").textContent=r.requests.length+(r.requests.length===1?" request":" requests");
+  $("pr-list").innerHTML=r.requests.map(q=>'<div class="brow"><div><b>'+esc(q.school)+'</b><span class="em">'+esc(q.name)+' · <a href="mailto:'+esc(q.email)+'">'+esc(q.email)+'</a>'+(q.teachers?' · about '+q.teachers+' teachers':'')+' · '+esc(when(q.received))+(q.message?'<br>'+esc(q.message):'')+'</span></div></div>').join("");}
+  catch(e){$("prs").hidden=true;}}
 /* ---- worksheet requests (Worksheet builder) ---- */
 let builds=[];
 function bmsg(t,c){const m=$("b-msg");m.hidden=!t;m.textContent=t||"";m.className="tmsg"+(c?" "+c:"");}

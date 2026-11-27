@@ -20,6 +20,7 @@
 //   Owners add teachers (or approve requests) on teacher.html. Emails in TEACHER_DOMAINS are approved automatically.
 //   Script properties used:
 //     OWNER_EMAILS     – optional: emails that can also manage teachers from teacher.html (admin.html can always do it with ADMIN_KEY)
+//     PRO_DOMAINS      – optional: email domains whose teachers all get Omega Pro (a school licence), e.g. aisschool.net
 //     GOOGLE_CLIENT_ID – optional, only for the older "Sign in with Google" button
 //     TEACHER_DOMAINS  – optional, comma-separated email domains approved automatically (e.g. a school domain)
 //     SESSION_SECRET   – created automatically; do not share
@@ -206,7 +207,15 @@ function worksheetSubmit_(d, lock) {
 // Teachers: Sign in with Google, approval, dashboard data
 // ======================================================================================================
 var T_SHEET = 'Teachers';
-var T_HEAD = ['email', 'name', 'status', 'requested', 'lastLogin', 'grades'];   // grades: worksheet contributor, e.g. "6,7"
+var T_HEAD = ['email', 'name', 'status', 'requested', 'lastLogin', 'grades', 'plan'];   // grades: worksheet contributor, e.g. "6,7"; plan: "pro" or empty (free)
+// ---- Free and Pro plans. Students are always free. Pro: set per teacher on admin.html, or for whole email domains in PRO_DOMAINS.
+var FREE_OPEN_CODES = 2;   // Free plan: open class codes at a time
+function planOf_(email) {
+  email = String(email || '').toLowerCase();
+  if (isOwner_(email) || list_('PRO_DOMAINS').indexOf(email.split('@')[1]) >= 0) return 'pro';
+  var t = teachers_(), i = findTeacher_(t, email);
+  return i >= 0 && String(t.rows[i][6]).toLowerCase() === 'pro' ? 'pro' : 'free';
+}
 var SESSION_DAYS = 7;
 var MAX_LOGINS_PER_HOUR = 300;
 
@@ -300,17 +309,23 @@ function teacherApi_(d) {
   if (d.a === 'code') return sendCode_(d.email);
   if (d.a === 'verify') return verifyCode_(d.email, d.code);
   if (d.a === 'request') return requestAccess_(d.email, d.name);
+  if (d.a === 'pro-request') return proRequest_(d);
   // everything below needs a valid session of an approved teacher
   var email = readSession_(d.s);
   if (!email) return { ok: false, error: 'session' };
   if (statusOf_(email) !== 'approved') return { ok: false, error: 'session' };
   if (count_(cache, 'tapi:' + email, 3600) > 600) return { ok: false, error: 'Too many requests. Try again later.' };
   if (d.a === 'data') return worksheetData_(email);
-  if (/^build-/.test(String(d.a))) return buildApi_(email, d);
+  if (/^build-/.test(String(d.a))) {
+    if (planOf_(email) !== 'pro') return { ok: false, error: 'The Worksheet builder is part of Omega Pro.', pro: true };
+    return buildApi_(email, d);
+  }
   if (d.a === 'assign') {   // create a class code for a worksheet
     var ws = String(d.ws || ''), file = String(d.file || ''), cls = plain_(d.cls, 12).toUpperCase();
     if (!/^[a-z0-9][a-z0-9\-]{2,60}$/.test(ws) || !/^worksheets\/([a-z0-9\-]+\.html|w\.html\?id=w[a-z0-9]{8})$/.test(file) || !cls) return { ok: false, error: 'Choose a worksheet and type the class.' };
     var due = /^\d{4}-\d{2}-\d{2}$/.test(String(d.due)) ? String(d.due) : '';
+    if (planOf_(email) !== 'pro' && assignments_().filter(function (a) { return a.email === email && a.status === 'open'; }).length >= FREE_OPEN_CODES)
+      return { ok: false, error: 'The Free plan has ' + FREE_OPEN_CODES + ' open class codes at a time. Close one, or upgrade to Omega Pro for unlimited class codes.', pro: true };
     var me2 = teachers_(), mi = findTeacher_(me2, email), tname = mi >= 0 ? unplain_(me2.rows[mi][1]) : email;
     var lock3 = LockService.getScriptLock(); lock3.waitLock(10000);
     try {
@@ -368,7 +383,9 @@ function worksheetData_(email) {
     asg.forEach(function (a) { codes[a.code] = 1; classes[a.cls] = 1; });
     out = out.filter(function (r) { return r.asg ? codes[r.asg] === 1 : classes[r.cls] === 1; });
   }
-  var res = { ok: true, email: email, owner: own, rows: out, assignments: asg, grades: gradesOf_(email) };
+  var plan = planOf_(email);
+  if (plan !== 'pro') out = out.map(function (r) { r.items = ''; r.first = 0; r.parts = ''; return r; });   // question-by-question analysis is Pro
+  var res = { ok: true, email: email, owner: own, plan: plan, rows: out, assignments: asg, grades: plan === 'pro' ? gradesOf_(email) : '' };
   if (res.owner) {
     res.teachers = teachers_().rows.map(function (r) {
       return { email: String(r[0]), name: unplain_(r[1]), status: String(r[2]),
@@ -378,7 +395,7 @@ function worksheetData_(email) {
   return res;
 }
 
-function siteUrl_() { return 'https://aamermath-ai.github.io/ais-sat/teacher.html'; }
+function siteUrl_() { return (prop_('SITE_URL') || 'https://aamermath-ai.github.io/ais-sat/').replace(/\/?$/, '/') + 'teacher.html'; }   // SITE_URL script property: the site's address after a move
 // Turns a MailApp error into a plain message for the website (and writes it to Apps Script → Executions)
 function mailError_(e) {
   var m = String(e && e.message || e);
@@ -465,7 +482,7 @@ function verifyCode_(raw, code) {
   var t = teachers_(), i = findTeacher_(t, email), name = email;
   if (i >= 0) { name = unplain_(t.rows[i][1]) || email; t.sh.getRange(i + 2, 5).setValue(new Date()); }
   else if (isOwner_(email)) { t.sh.appendRow([email, email.split('@')[0], 'approved', new Date(), new Date()]); name = email.split('@')[0]; }
-  return { ok: true, status: 'approved', email: email, name: name, owner: isOwner_(email), grades: gradesOf_(email), session: makeSession_(email) };
+  return { ok: true, status: 'approved', email: email, name: name, owner: isOwner_(email), plan: planOf_(email), grades: gradesOf_(email), session: makeSession_(email) };
 }
 function requestAccess_(raw, nm) {
   var email = cleanEmail_(raw), name = plain_(nm, 60);
@@ -529,6 +546,13 @@ function adminTeachers_(d) {
   var op = String(d.op || 'list'), mailNote = '';
   if (op === 'stats') return stats_(d.since);
   if (/^build/.test(op)) return adminBuilds_(op, d);
+  if (op === 'plan') {
+    var pe = cleanEmail_(d.email), tp = teachers_(), pi = findTeacher_(tp, pe);
+    if (pi < 0) return { ok: false, error: 'Teacher not found.' };
+    tp.sh.getRange(pi + 2, 7).setValue(d.plan === 'pro' ? 'pro' : '');
+    op = 'list';
+  }
+  if (op === 'prorequests') return { ok: true, requests: proRequests_() };
   if (op === 'grades') {
     var ge = cleanEmail_(d.email), gl = cleanGrades_(d.grades);
     var tg = teachers_(), gi = findTeacher_(tg, ge);
@@ -557,7 +581,7 @@ function adminTeachers_(d) {
   }
   var list = teachers_().rows.map(function (r) {
     return { email: String(r[0]), name: unplain_(r[1]), status: String(r[2]),
-      requested: r[3] instanceof Date ? r[3].toISOString() : '', lastLogin: r[4] instanceof Date ? r[4].toISOString() : '', grades: unplain_(r[5]) };
+      requested: r[3] instanceof Date ? r[3].toISOString() : '', lastLogin: r[4] instanceof Date ? r[4].toISOString() : '', grades: unplain_(r[5]), plan: planOf_(String(r[0])) };
   });
   return { ok: true, teachers: list, owners: list_('OWNER_EMAILS'), mail: mailNote };
 }
@@ -745,4 +769,29 @@ function liveGet_(id) {
   var b = builds_(), i = findBuild_(b, id);
   if (i < 0 || String(b.rows[i][13]) !== 'live') return { ok: false, error: 'notfound' };
   return { ok: true, build: bRow_(b.rows[i], true) };
+}
+
+
+// ---------------- Omega Pro requests (plans section on teacher.html) ----------------
+var P_SHEET = 'ProRequests';
+var P_HEAD = ['received', 'name', 'email', 'school', 'teachers', 'message'];
+function proRequest_(d) {
+  var email = cleanEmail_(d.email), name = plain_(d.name, 60), school = plain_(d.school, 90);
+  if (!email || name.length < 2 || school.length < 2) return { ok: false, error: 'Type your name, school and email.' };
+  var cache = CacheService.getScriptCache();
+  if (count_(cache, 'proreq:' + new Date().toISOString().slice(0, 13), 3600) > 30) return { ok: false, error: 'Too many requests right now. Try again later.' };
+  if (count_(cache, 'proreq:' + email, 86400) > 3) return { ok: true };
+  tab_(P_SHEET, P_HEAD).appendRow([new Date(), name, email, school, num_(d.teachers, 5000), plain_(d.message, 600)]);
+  try {
+    var to = list_('OWNER_EMAILS').join(',');
+    if (to) MailApp.sendEmail(to, 'Omega Pro request – ' + school, name + ' (' + email + ') from ' + school + ' asked about Omega Pro' +
+      (num_(d.teachers, 5000) ? ' for about ' + num_(d.teachers, 5000) + ' teachers' : '') + '.\n\n' + plain_(d.message, 600) + '\n\nSee admin.html → Pro requests.');
+  } catch (e) { mailError_(e); }
+  return { ok: true };
+}
+function proRequests_() {
+  var sh = tab_(P_SHEET, P_HEAD), last = sh.getLastRow();
+  return (last > 1 ? sh.getRange(2, 1, last - 1, P_HEAD.length).getValues() : []).reverse().slice(0, 100).map(function (r) {
+    return { received: r[0] instanceof Date ? r[0].toISOString() : '', name: unplain_(r[1]), email: String(r[2]), school: unplain_(r[3]), teachers: +r[4] || 0, message: unplain_(r[5]) };
+  });
 }

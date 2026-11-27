@@ -32,6 +32,28 @@ body:not(.signed-out) .lp{display:none}
 .addt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto;gap:10px;align-items:end;margin-bottom:14px}
 .addt .field input{padding:10px 12px}
 @media (max-width:640px){.addt{grid-template-columns:minmax(0,1fr)}}
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:900px;margin:0 auto;width:100%}
+.plan{border-radius:18px;padding:20px;background:var(--surface,#fff);border:2px solid var(--line);display:flex;flex-direction:column;gap:12px;color:var(--ink)}
+.lp .plan{background:var(--lp-card);border-color:var(--lp-line);color:var(--lp-ink);box-shadow:0 5px 0 var(--lp-line)}
+.plan.pro{border-color:#7a5cff;box-shadow:0 5px 0 #4b33c7}
+.plan-h{display:flex;align-items:baseline;gap:10px}.plan-h b{font:800 26px/1 Nunito,var(--f-display,system-ui),sans-serif}.plan-h span{opacity:.7;font-weight:700}
+.plan.pro .plan-h b{background:linear-gradient(100deg,#3BF0A0,#3DBBFF 55%,#9580FF);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.plan ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:15px}
+.pro-cta{appearance:none;border:0;border-radius:12px;padding:12px 18px;font:800 16px Nunito,system-ui,sans-serif;color:#fff;cursor:pointer;background:linear-gradient(100deg,#12a37f,#1d8fe0 55%,#7a5cff);box-shadow:0 4px 0 #3a2a9a}
+.pro-badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.04em}
+.pro-badge.pro{color:#fff;background:linear-gradient(100deg,#12a37f,#1d8fe0 55%,#7a5cff)}.pro-badge.free{background:var(--fill);color:var(--ink-2)}
+.locked{position:relative;overflow:hidden;min-height:230px}
+.locked>*:not(.lockov){filter:blur(5px);opacity:.45;pointer-events:none;user-select:none}
+.lockov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:16px;z-index:2}
+.lockov b{font-size:1.05rem}.lockov span{font-size:.86rem;color:var(--muted);max-width:340px}
+.btn.prolock{opacity:.75}.btn.prolock::after{content:" · Pro";font-size:.78em;font-weight:800}
+.upm{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;background:rgba(5,8,16,.6);overflow-y:auto}
+.upm-in{width:min(860px,100%);background:var(--surface,#fff);color:var(--ink);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:16px;max-height:calc(100dvh - 32px);overflow:auto}
+body.signed-out .upm-in{background:var(--lp-bg,#fff);color:var(--lp-ink,#2f3640);font-family:Nunito,system-ui,sans-serif}
+.upm-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.upm-form input,.upm-form textarea{font:inherit;font-size:.95rem;padding:10px 12px;border-radius:12px;border:1px solid var(--line,#dfe3e8);background:transparent;color:inherit;width:100%}
+.upm-form textarea{grid-column:1/-1;min-height:70px}
+@media (max-width:700px){.plans,.upm-form{grid-template-columns:minmax(0,1fr)}}
 .lp-small{font-size:14px;color:var(--lp-mut);font-weight:700;text-align:center;max-width:440px}
 .lp-small a{color:var(--lp-brand-d)}
 /* assign + share */
@@ -202,10 +224,36 @@ body:not(.signed-out) .lp{display:none}
     <div class="lp-step"><i>2</i><div><b>Pick a worksheet and class</b><span>You get a class code and a QR code in one click.</span></div></div>
     <div class="lp-step"><i>3</i><div><b>Share it in Teams or on the board</b><span>Students scan and join. Their scores arrive live in your dashboard.</span></div></div>
   </section>
+  <section style="padding:10px clamp(16px,5vw,64px) 44px" id="plans" aria-label="Plans">
+    <h2 style="text-align:center;font:800 30px/1.2 Nunito,sans-serif;margin:0 0 18px">Free for every teacher. Pro for your school.</h2>
+    <div class="plans">
+  <div class="plan">
+    <div class="plan-h"><b>Free</b><span>for every teacher</span></div>
+    <ul>
+      <li>Students: all SAT, ACT and worksheet practice, always free</li>
+      <li>Teacher login with an email code</li>
+      <li>Up to 2 open class codes, with QR code and link</li>
+      <li>Each student’s score and the score distribution</li>
+    </ul>
+  </div>
+  <div class="plan pro">
+    <div class="plan-h"><b>Pro</b><span>school licence</span></div>
+    <ul>
+      <li><b>Everything in Free</b>, plus:</li>
+      <li>Unlimited class codes</li>
+      <li>Share to Microsoft Teams and the board view with live joining</li>
+      <li>Question analysis, Re-teach flags, results by part and class, right-first-time</li>
+      <li>CSV download of results</li>
+      <li>Worksheet builder: your lessons turned into worksheets</li>
+    </ul>
+    <button class="pro-cta" type="button" data-upgrade>Request Pro for your school</button>
+  </div>
+</div>
+  </section>
   <footer class="lp-foot"><span>The last word in math · From algebra to calculus</span>
     <span class="lp-theme" id="lp-theme" role="group" aria-label="Appearance"><button data-v="light" aria-pressed="false">Light</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="dark" aria-pressed="false">Dark</button></span></footer>
 </div>
-<div class="nightbg" id="nightbg" aria-hidden="true"><video id="nightvid" muted loop playsinline preload="none" disablepictureinpicture></video><div class="veil"></div></div>
+<div class="nightbg" id="nightbg" aria-hidden="true"><div class="veil"></div></div>
 <div class="app">
   <aside class="side" aria-label="Omega Worksheets">
     <div class="brand">
@@ -240,7 +288,7 @@ body:not(.signed-out) .lp{display:none}
       <div id="t-in" hidden style="display:flex;flex-direction:column;gap:22px">
         <article class="card tuser">
           <span class="avatar" id="t-av" aria-hidden="true"></span>
-          <div class="who"><b id="t-name"></b><span>Username: <span id="t-email"></span></span></div>
+          <div class="who"><b id="t-name"></b><span class="pro-badge free" id="t-plan" hidden></span><span>Username: <span id="t-email"></span></span></div>
           <button class="btn small plain" id="t-refresh">Refresh</button>
           <button class="btn small plain" id="t-out-btn">Sign out</button>
         </article>
@@ -309,6 +357,43 @@ body:not(.signed-out) .lp{display:none}
   </nav>
 </div>
 <div class="tip2" id="tip2" role="tooltip"></div>
+<div class="upm" id="upm" hidden role="dialog" aria-modal="true" aria-labelledby="upm-t">
+  <div class="upm-in">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><h2 id="upm-t" style="margin:0;font-size:1.4rem">Omega Pro for your school</h2><p class="note" id="upm-why" style="margin:4px 0 0">Everything teachers need to run worksheets with their classes.</p></div><button class="iconbtn" id="upm-x" type="button" aria-label="Close">✕</button></div>
+    <div class="plans">
+  <div class="plan">
+    <div class="plan-h"><b>Free</b><span>for every teacher</span></div>
+    <ul>
+      <li>Students: all SAT, ACT and worksheet practice, always free</li>
+      <li>Teacher login with an email code</li>
+      <li>Up to 2 open class codes, with QR code and link</li>
+      <li>Each student’s score and the score distribution</li>
+    </ul>
+  </div>
+  <div class="plan pro">
+    <div class="plan-h"><b>Pro</b><span>school licence</span></div>
+    <ul>
+      <li><b>Everything in Free</b>, plus:</li>
+      <li>Unlimited class codes</li>
+      <li>Share to Microsoft Teams and the board view with live joining</li>
+      <li>Question analysis, Re-teach flags, results by part and class, right-first-time</li>
+      <li>CSV download of results</li>
+      <li>Worksheet builder: your lessons turned into worksheets</li>
+    </ul>
+    
+  </div>
+</div>
+    <div><b>Request Pro</b> <span class="note">· we’ll reply by email with the price for your school</span></div>
+    <form class="upm-form" id="upm-form" novalidate>
+      <input id="upm-name" placeholder="Your name" autocomplete="name">
+      <input id="upm-email" type="email" placeholder="Your email" autocomplete="email">
+      <input id="upm-school" placeholder="School name">
+      <input id="upm-n" type="number" min="1" placeholder="Number of teachers (about)">
+      <textarea id="upm-msg" placeholder="Anything else? (optional)"></textarea>
+      <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="pro-cta" type="submit">Send request</button><span class="note" id="upm-msgline"></span></div>
+    </form>
+  </div>
+</div>
 <div class="modal2" id="share" hidden role="dialog" aria-modal="true" aria-labelledby="sh-t">
   <div class="share">
     <div class="share-h"><div><h2 id="sh-t"></h2><p id="sh-sub"></p></div><button class="iconbtn" id="sh-x" type="button" aria-label="Close">✕</button></div>
@@ -454,7 +539,7 @@ async function load(){
     const r=await api({a:"data",s:me.s});
     if(!r.ok){if(r.error==="session"){me=null;lsDel(SESS);openLogin(lsGet("ais-teacher-email")||"");msg("Please log in again.");}else alert(r.error||"Could not load results.");return;}
     data=r; me.owner=!!r.owner; me.grades=r.grades||""; lsSet(SESS,JSON.stringify(me)); render();
-    $("t-builder").hidden=!me.grades;if(me.grades)$("t-builder-g").textContent="Upload a lesson file and turn it into a worksheet · Grades "+me.grades.split(",").join(", ")+".";
+    $("t-builder").hidden=!me.grades||!(r.plan===undefined||r.plan==="pro");planUI();if(me.grades)$("t-builder-g").textContent="Upload a lesson file and turn it into a worksheet · Grades "+me.grades.split(",").join(", ")+".";
   }catch(e){$("t-empty").hidden=false;$("t-dash").hidden=true;$("t-empty-txt").textContent="Could not reach the school server. Check your connection and press Refresh.";}
   finally{$("t-refresh").disabled=false;}
 }
@@ -465,6 +550,31 @@ function enter(){
   load();
 }
 $("t-refresh").addEventListener("click",load);
+
+/* ---------- Free and Pro ---------- */
+const isPro=()=>!data||data.plan===undefined||data.plan==="pro";   // older school server (no plans yet): everything stays on
+function upgrade(why){$("upm").hidden=false;if(why)$("upm-why").textContent=why+" is part of Omega Pro.";
+  if(me){$("upm-name").value=$("upm-name").value||me.name||"";$("upm-email").value=$("upm-email").value||me.email||"";}
+  $("upm-msgline").textContent="";setTimeout(()=>$("upm-school").focus(),30);}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-upgrade]");if(b){e.preventDefault();upgrade(b.dataset.upgrade||"");}});
+$("upm-x").addEventListener("click",()=>{$("upm").hidden=true;});
+$("upm").addEventListener("click",e=>{if(e.target.id==="upm")$("upm").hidden=true;});
+$("upm-form").addEventListener("submit",async e=>{e.preventDefault();
+  const body={a:"pro-request",name:$("upm-name").value.trim(),email:$("upm-email").value.trim(),school:$("upm-school").value.trim(),teachers:$("upm-n").value,message:$("upm-msg").value.trim()};
+  if(body.name.length<2||!/^\S+@\S+\.\S+$/.test(body.email)||body.school.length<2){$("upm-msgline").textContent="Please type your name, email and school.";return;}
+  $("upm-msgline").textContent="Sending…";
+  try{const r=await api(body);$("upm-msgline").textContent=r.ok?"Thank you! We’ll email you soon.":(r.error||"Could not send. Please try again.");}
+  catch(x){$("upm-msgline").textContent="Could not reach the school server. Please try again.";}});
+function lockCard(el,why,line){if(!el||el.classList.contains("locked"))return;el.classList.add("locked");
+  const o=document.createElement("div");o.className="lockov";o.innerHTML='<span class="pro-badge pro">PRO</span><b>'+esc(why)+'</b><span>'+esc(line)+'</span><button class="btn small" type="button" data-upgrade="'+esc(why)+'">See Omega Pro</button>';el.appendChild(o);}
+function planUI(){
+  const pro=isPro(),b=$("t-plan");
+  if(data&&data.plan!==undefined){b.hidden=false;b.className="pro-badge "+(pro?"pro":"free");b.textContent=pro?"PRO":"FREE PLAN";}
+  $("t-csv").classList.toggle("prolock",!pro);$("sh-teams").classList.toggle("prolock",!pro);$("sh-present").classList.toggle("prolock",!pro);
+  if(!pro){$("t-builder").hidden=true;
+    lockCard($("c-part").closest(".card"),"Results by part and class","See which parts of the worksheet each class found hard.");
+    lockCard($("c-q").closest(".card"),"Question analysis","Right first time vs after hints for every question, with Re-teach flags.");}
+}
 
 /* ---------- class codes: assign a worksheet, share by QR / link / Microsoft Teams ---------- */
 /*@@GRADES@@*/
@@ -487,7 +597,7 @@ $("a-go").addEventListener("click",async()=>{
   $("a-go").disabled=true;amsg("Creating your class code…");
   try{
     const r=await api({a:"assign",s:me.s,ws:o.value,file:o.dataset.file,title:o.dataset.title,grade:o.dataset.grade,cls,due:$("a-due").value});
-    if(!r.ok){amsg(r.error||"Could not create the class code.","err");return;}
+    if(!r.ok){amsg(r.error||"Could not create the class code.","err");if(r.pro)upgrade("Unlimited class codes");return;}
     amsg("");$("a-cls").value="";$("a-due").value="";data=r;pendingSel="a:"+r.created;lsSet("ais-t-sel",pendingSel);render();
     openShare((r.assignments||[]).find(a=>a.code===r.created));
   }catch(e){amsg("Could not reach the school server. Please try again.","err");}
@@ -523,7 +633,7 @@ $("share").addEventListener("click",e=>{if(e.target===$("share"))closeShare();})
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!$("present").hidden)closePresent();else if(!$("share").hidden)closeShare();}});
 // Microsoft "Share to Teams": opens Teams' own share window, where the teacher picks the class team and
 // posts the link in a channel or creates a Teams Assignment (Teams for Education).
-$("sh-teams").addEventListener("click",()=>{if(!cur)return;
+$("sh-teams").addEventListener("click",()=>{if(!cur)return;if(!isPro()){upgrade("Share to Microsoft Teams");return;}
   const url=joinUrl(cur), due=cur.due?" by "+new Date(cur.due+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}):"";
   const p=new URLSearchParams({href:url,preview:"true",
     msgText:("Maths worksheet "+cur.title+" for "+cur.cls+due+". Tap the link and write your name. Class code: "+cur.code).slice(0,200),
@@ -544,7 +654,7 @@ $("sh-dl").addEventListener("click",()=>{if(!cur)return;
   img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);});
 // projector view: big QR + code, and names appear as students join
 let prTimer=0;
-$("sh-present").addEventListener("click",()=>{if(!cur)return;closeShare();
+$("sh-present").addEventListener("click",()=>{if(!cur)return;if(!isPro()){upgrade("The board view with live joining");return;}closeShare();
   $("pr-t").textContent=cur.cls+" · "+cur.title;$("pr-qr").innerHTML=qrSvg(joinUrl(cur));
   $("pr-url").textContent=SITE.replace(/^https?:\/\//,"")+"join.html";$("pr-code").textContent=cur.code;
   $("present").hidden=false;try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{});}catch(e){}
@@ -609,7 +719,7 @@ function render(){
     ["Students",rows.length,"",cls?"in "+cls:classes.length+(classes.length===1?" class":" classes")],
     ["Average score",Math.round(avg*100),"%",(avg*total).toFixed(1)+" of "+total+" questions"],
     ["Finished",fin,"/ "+rows.length,"answered every question"],
-    ["Right first time",pct(first,right),"%","of correct answers, no hints"]].map(([k,v,u,s])=>
+    isPro()?["Right first time",pct(first,right),"%","of correct answers, no hints"]:["Right first time","Pro","","question detail is part of Omega Pro"]].map(([k,v,u,s])=>
     '<div class="stat"><span class="k">'+k+'</span><span class="v">'+v+'<small>'+esc(u)+'</small></span><span class="s">'+esc(s)+'</span></div>').join("")+
     (help?'':'');
   // ---- score distribution
@@ -617,6 +727,8 @@ function render(){
   const mx=Math.max(...cnt,1);
   $("c-dist").innerHTML='<div class="cdist">'+cnt.map((c,i)=>'<div class="c" data-tip="Score '+i+' / '+total+': '+c+(c===1?" student":" students")+'"><i style="height:'+(c/mx*100)+'%"></i>'+(c?'<em style="bottom:calc('+(c/mx*100)+'% + 3px)">'+c+'</em>':'')+'</div>').join("")+'</div>'+
     '<div class="cx">'+cnt.map((c,i)=>'<span>'+(total>16&&i%2?"":i)+'</span>').join("")+'</div><p class="cap">Score (questions right) · '+(help?help+(help===1?" student":" students")+" below 50%":"no one below 50%")+'</p>';
+  planUI();
+  if(!isPro()){renderTable(rows,total);return;}   // Free: scores only (the server sends no question detail)
   // ---- by part
   const parts=[...new Set(its[0].map(x=>x.p))];
   const bar=(l,a,b,tip,cls2)=>'<div class="r'+(cls2||"")+'" data-tip="'+esc(tip)+'"><span class="l">'+l+'</span><span class="tr"><i style="width:'+a+'%"></i>'+(b?'<i class="soft" style="width:'+b+'%"></i>':'')+'</span><span class="v">'+(a+b)+'%</span></div>';
@@ -644,10 +756,11 @@ function renderTable(rows,total){
   R=R.slice().sort((a,b)=>{const x=key(a),y=key(b);return (x<y?-1:x>y?1:0)*sortDir;});
   $("t-scount").textContent=R.length+(R.length===1?" student":" students");
   const th=(k,l,n)=>'<th'+(n?' class="n"':'')+' aria-sort="'+(sortBy===k?(sortDir>0?"ascending":"descending"):"none")+'"><button data-k="'+k+'">'+l+(sortBy===k?(sortDir>0?" ↑":" ↓"):"")+'</button></th>';
-  $("t-table").innerHTML='<thead><tr>'+th("name","Student")+th("cls","Class")+th("score","Score",1)+'<th>Questions</th>'+th("first","First time",1)+'<th>Status</th>'+th("at","Last update")+'</tr></thead><tbody>'+
+  const PRO=isPro();
+  $("t-table").innerHTML='<thead><tr>'+th("name","Student")+th("cls","Class")+th("score","Score",1)+(PRO?'<th>Questions</th>'+th("first","First time",1):'')+'<th>Status</th>'+th("at","Last update")+'</tr></thead><tbody>'+
     (R.length?R.map(r=>{const s=status(r),it=parseItems(r);return '<tr><td>'+esc(r.name)+'</td><td>'+esc(r.cls)+'</td><td class="n"><span class="mini"><i style="width:'+pct(r.score,r.total)+'%"></i></span>'+r.score+' / '+r.total+'</td>'+
-      '<td><span class="qdots" aria-label="'+it.filter(x=>x.done).length+' questions right">'+it.map((x,i)=>'<i class="'+(x.done?(x.tries?"h":"f"):"")+'" title="Q'+(i+1)+': '+(x.done?(x.tries?"right after "+x.tries+(x.tries===1?" wrong try":" wrong tries"):"right first time"):"not yet")+'"></i>').join("")+'</span></td>'+
-      '<td class="n">'+r.first+'</td><td><span class="st '+s[0]+'"><svg aria-hidden="true"><use href="#'+s[2]+'"/></svg>'+s[1]+'</span></td><td>'+esc(when(r.at))+'</td></tr>';}).join("")
+      (PRO?'<td><span class="qdots" aria-label="'+it.filter(x=>x.done).length+' questions right">'+it.map((x,i)=>'<i class="'+(x.done?(x.tries?"h":"f"):"")+'" title="Q'+(i+1)+': '+(x.done?(x.tries?"right after "+x.tries+(x.tries===1?" wrong try":" wrong tries"):"right first time"):"not yet")+'"></i>').join("")+'</span></td>'+
+      '<td class="n">'+r.first+'</td>':'')+'<td><span class="st '+s[0]+'"><svg aria-hidden="true"><use href="#'+s[2]+'"/></svg>'+s[1]+'</span></td><td>'+esc(when(r.at))+'</td></tr>';}).join("")
       :'<tr><td colspan="7" class="empty">No students match.</td></tr>')+'</tbody>';
 }
 function when(iso){const d=new Date(iso);if(isNaN(d))return "";const t=new Date();const same=d.toDateString()===t.toDateString();
@@ -658,7 +771,7 @@ $("t-search").addEventListener("input",()=>renderTable(lastRows,lastTotal));
 $("f-ws").addEventListener("change",()=>{lsSet("ais-t-sel",$("f-ws").value);$("f-cls").value="";render();});
 $("f-cls").addEventListener("change",render);
 $("f-per").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;per=b.dataset.v;document.querySelectorAll("#f-per button").forEach(x=>x.setAttribute("aria-pressed",x===b));render();});
-$("t-csv").addEventListener("click",()=>{
+$("t-csv").addEventListener("click",e=>{if(!isPro()){e.stopImmediatePropagation();upgrade("CSV download");return;}
   const ws=$("f-ws").selectedOptions[0]?$("f-ws").selectedOptions[0].textContent.replace(/[·]/g," "):"worksheet";
   const q=s=>{s=String(s);if(/^[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};
   const head=["Student","Class","Score","Total","Percent","Right first time"].concat(lastRows[0]?parseItems(lastRows[0]).map((x,i)=>"Q"+(i+1)):[]).concat(["Last update"]);
