@@ -1,0 +1,29 @@
+# Cloudflare Pages: extra security and caching headers (GitHub Pages ignores this file).
+# Each page also has its own Content-Security-Policy <meta> tag (see source/build.py).
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Strict-Transport-Security: max-age=31536000
+
+# question banks change only when the site is rebuilt: cache for an hour, then check for a new version
+/questions.json
+  Cache-Control: public, max-age=3600, must-revalidate
+/act-questions.json
+  Cache-Control: public, max-age=3600, must-revalidate
+/data/*
+  Cache-Control: public, max-age=3600, must-revalidate
+# pictures, the calculator video, logos: cache for a week
+/assets/*
+  Cache-Control: public, max-age=604800
+/worksheets/qr/*
+  Cache-Control: public, max-age=604800
+
+# private pages are never stored by browsers or shared caches
+/admin.html
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+/build.html
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow

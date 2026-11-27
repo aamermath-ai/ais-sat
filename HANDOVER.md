@@ -57,6 +57,7 @@ A free Digital SAT practice website for students of the American International S
 ## Hosting
 
 - **Now:** GitHub Pages (`aamermath-ai.github.io/ais-sat`). GitHub does not allow Pages to be used to run a business or SaaS, so move before charging schools.
+- `_headers` (repository root) adds security and caching headers on Cloudflare Pages.
 - **Recommended:** **Cloudflare Pages**, free with unlimited bandwidth. It connects to this GitHub repository and redeploys on every push.
   - Build command: none.
   - Output folder: `/`.
