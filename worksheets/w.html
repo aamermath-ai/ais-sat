@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-dgUULrEt5cErrfKIHaNaSNrp+NQ+3w5fTElcEANn+qk=' 'sha256-TJlrrDvlNSl4WHEzLB4UM/vPfrIPqHit4RRXJ7eCIVU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-XOexzzaVTgzy+wBjUYACrYk621yIeuE4rnbWeSnFsX0=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-dgUULrEt5cErrfKIHaNaSNrp+NQ+3w5fTElcEANn+qk=' 'sha256-TJlrrDvlNSl4WHEzLB4UM/vPfrIPqHit4RRXJ7eCIVU=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-hwjPF+hdpDjy1MY3vvWmiqwJBm/7r6M1RfnK3w1KyQI=' 'sha256-eF4Nc+B7VbcGkAjLb/GhTdei3un41c4a62KZ16LG/Xo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Omega Worksheet</title>
@@ -2832,7 +2832,7 @@ var qrcode = function() {
 {
 const API="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec";
 const G='#00843D',R='#C8102E',B_='#1f6fd1',INK='currentColor';
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtN=v=>{const s=String(Math.round(v*1000)/1000);return s.replace('-','−')};
 const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
 const ST=`<style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.big{font:700 26px Lexend,sans-serif;fill:${INK}}.sm{font:600 12px Lexend,sans-serif;fill:${INK};opacity:.75}.gr{fill:${G}}.rd{fill:${R}}.bl{fill:${B_}}</style>`;

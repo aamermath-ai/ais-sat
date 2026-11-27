@@ -110,7 +110,13 @@ function doGet(e) {
   var cache = CacheService.getScriptCache();
   if (Number(cache.get('badkeys') || 0) >= MAX_BAD_KEYS) return out_({ ok: false, error: 'Too many wrong keys. Statistics are locked for 15 minutes.' });
   if (!sameKey_(p.key, key)) { count_(cache, 'badkeys', 900); return out_({ ok: false, error: 'Wrong admin key.' }); }
-  var since = /^\d{4}-\d{2}-\d{2}$/.test(String(p.since)) ? String(p.since) : '0000-00-00';
+  return out_(stats_(p.since));
+}
+
+// Daily totals for admin.html. Called by POST {a:'admin', op:'stats'} (the key stays out of web addresses and logs);
+// the old GET ?key= address above still works until every copy of admin.html is updated.
+function stats_(sinceRaw) {
+  var since = /^\d{4}-\d{2}-\d{2}$/.test(String(sinceRaw)) ? String(sinceRaw) : '0000-00-00';
   var sh = sheet_(), last = sh.getLastRow();
   var rows = last > 1 ? sh.getRange(2, 1, last - 1, HEAD.length).getValues() : [];
   var days = {}, devices = {}, tabs = {}, modes = {}, total = { questions: 0, correct: 0, hard: 0, sets: 0, minutes: 0, math: 0, rw: 0 };
@@ -134,8 +140,8 @@ function doGet(e) {
   var list = Object.keys(days).sort().map(function (k) {
     var d = days[k]; return { date: d.date, visitors: Object.keys(d.visitors).length, questions: d.questions, correct: d.correct, sets: d.sets, minutes: d.minutes };
   });
-  return out_({ ok: true, since: since, firstDate: firstDate, days: list, uniqueVisitors: Object.keys(devices).length,
-    allTimeVisitors: Object.keys(allDevices).length, totals: total, tabs: tabs, modes: modes, events: rows.length });
+  return { ok: true, since: since, firstDate: firstDate, days: list, uniqueVisitors: Object.keys(devices).length,
+    allTimeVisitors: Object.keys(allDevices).length, totals: total, tabs: tabs, modes: modes, events: rows.length };
 }
 
 
@@ -357,6 +363,11 @@ function worksheetData_(email) {
   });
   var own = isOwner_(email);
   var asg = assignments_().filter(function (a) { return own || a.email === email; });
+  if (!own) {   // a teacher sees only their own students: results from their class codes, plus results typed in for a class they made a code for
+    var codes = {}, classes = {};
+    asg.forEach(function (a) { codes[a.code] = 1; classes[a.cls] = 1; });
+    out = out.filter(function (r) { return r.asg ? codes[r.asg] === 1 : classes[r.cls] === 1; });
+  }
   var res = { ok: true, email: email, owner: own, rows: out, assignments: asg, grades: gradesOf_(email) };
   if (res.owner) {
     res.teachers = teachers_().rows.map(function (r) {
@@ -402,6 +413,14 @@ function notifyApproved_(email, name) {
 
 // ---------------- email login codes (works with any email: Gmail, Outlook/Microsoft, school) ----------------
 var CODE_MINUTES = 10, CODE_TRIES = 5, CODES_PER_EMAIL_15MIN = 4, CODES_PER_HOUR = 200;
+// Account lockout: 5 wrong codes (across all codes sent) lock that email for 15 minutes; 15 wrong in 6 hours lock it for 6 hours.
+var BAD_CODES_15MIN = 5, BAD_CODES_6H = 15;
+function codeLocked_(email) {
+  var c = CacheService.getScriptCache();
+  if (Number(c.get('otpbad6:' + email) || 0) >= BAD_CODES_6H) return 'Too many wrong codes for this email. Login is locked for 6 hours. Ask the site owner if you need help.';
+  if (Number(c.get('otpbad:' + email) || 0) >= BAD_CODES_15MIN) return 'Too many wrong codes. Login for this email is locked for 15 minutes.';
+  return '';
+}
 function cleanEmail_(v) {
   var e = String(v || '').trim().toLowerCase();
   return /^[^\s@<>"'(),;:\\]{1,64}@[a-z0-9.\-]{1,190}\.[a-z]{2,}$/.test(e) ? e : '';
@@ -414,6 +433,8 @@ function sendCode_(raw) {
   var st = statusOf_(email);
   if (st === 'none') return { ok: true, status: 'none' };
   if (st !== 'approved') return { ok: true, status: st };
+  var locked = codeLocked_(email);
+  if (locked) return { ok: false, error: locked };
   if (count_(cache, 'codemail:' + email, 900) > CODES_PER_EMAIL_15MIN) return { ok: false, error: 'We already sent you several codes. Check your inbox (and junk folder), or try again in 15 minutes.' };
   var code = String(100000 + parseInt(Utilities.getUuid().replace(/-/g, '').slice(0, 12), 16) % 900000);   // getUuid uses a secure random source
   cache.put('otp:' + email, JSON.stringify({ h: sign_('otp|' + email + '|' + code), n: 0 }), CODE_MINUTES * 60);
@@ -427,10 +448,14 @@ function verifyCode_(raw, code) {
   var email = cleanEmail_(raw); code = String(code || '').replace(/\D/g, '');
   if (!email || code.length !== 6) return { ok: false, error: 'Type the 6-digit code from the email.' };
   var cache = CacheService.getScriptCache(), key = 'otp:' + email, o = null;
+  var locked = codeLocked_(email);
+  if (locked) { cache.remove(key); return { ok: false, error: locked }; }
   try { o = JSON.parse(cache.get(key) || 'null'); } catch (e) { o = null; }
   if (!o) return { ok: false, error: 'This code has expired. Press "Send a new code".' };
   if (!sameKey_(o.h, sign_('otp|' + email + '|' + code))) {
     o.n++;
+    count_(cache, 'otpbad:' + email, 900); count_(cache, 'otpbad6:' + email, 21600);
+    if (codeLocked_(email)) { cache.remove(key); return { ok: false, error: codeLocked_(email) }; }
     if (o.n >= CODE_TRIES) { cache.remove(key); return { ok: false, error: 'Too many wrong codes. Press "Send a new code".' }; }
     cache.put(key, JSON.stringify(o), CODE_MINUTES * 60);
     return { ok: false, error: 'That code is not right. Check the email and try again.' };
@@ -466,7 +491,11 @@ function requestAccess_(raw, nm) {
 var A_SHEET = 'Assignments';
 var A_HEAD = ['code', 'worksheet', 'file', 'title', 'grade', 'class', 'teacher', 'teacherName', 'created', 'due', 'status'];
 var CODE_ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';   // no 0/O or 1/I/L, so codes are easy to read aloud
-function newCode_() { var c = ''; for (var i = 0; i < 6; i++) c += CODE_ABC.charAt(Math.floor(Math.random() * CODE_ABC.length)); return c; }
+function newCode_() {   // secure random (getUuid), not Math.random, so class codes and worksheet IDs cannot be predicted
+  var c = '', hex = Utilities.getUuid().replace(/-/g, '');
+  for (var i = 0; i < 6; i++) c += CODE_ABC.charAt(parseInt(hex.slice(i * 4, i * 4 + 4), 16) % CODE_ABC.length);
+  return c;
+}
 function assignments_() {
   var sh = tab_(A_SHEET, A_HEAD), last = sh.getLastRow();
   var rows = last > 1 ? sh.getRange(2, 1, last - 1, A_HEAD.length).getValues() : [];
@@ -498,6 +527,7 @@ function adminTeachers_(d) {
   var err = adminError_(d.key);
   if (err) return { ok: false, error: err };
   var op = String(d.op || 'list'), mailNote = '';
+  if (op === 'stats') return stats_(d.since);
   if (/^build/.test(op)) return adminBuilds_(op, d);
   if (op === 'grades') {
     var ge = cleanEmail_(d.email), gl = cleanGrades_(d.grades);
@@ -544,6 +574,17 @@ var GRADES_OK = ['6', '7', '8', '9', '10', '11', '12'];
 var UPLOAD_TYPES = { 'application/pdf': 1, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 1, 'application/msword': 1,
   'application/vnd.openxmlformats-officedocument.presentationml.presentation': 1, 'application/vnd.ms-powerpoint': 1, 'image/png': 1, 'image/jpeg': 1 };
 var MAX_WS_JSON = 250000;
+// The browser says what type a file is; check the file's first bytes so a renamed file of another type is refused.
+function magicOk_(bytes, mime) {
+  var h = []; for (var i = 0; i < 8 && i < bytes.length; i++) h.push((bytes[i] + 256) % 256);
+  var starts = function (sig) { for (var k = 0; k < sig.length; k++) if (h[k] !== sig[k]) return false; return true; };
+  if (mime === 'application/pdf') return starts([0x25, 0x50, 0x44, 0x46]);                         // %PDF
+  if (mime === 'image/png') return starts([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+  if (mime === 'image/jpeg') return starts([0xFF, 0xD8, 0xFF]);
+  if (/openxmlformats/.test(mime)) return starts([0x50, 0x4B, 0x03, 0x04]);                          // .docx / .pptx (zip)
+  if (mime === 'application/msword' || mime === 'application/vnd.ms-powerpoint') return starts([0xD0, 0xCF, 0x11, 0xE0]);   // old .doc / .ppt
+  return false;
+}
 
 function cleanGrades_(v) { return String(v || '').split(',').map(function (x) { return x.trim(); }).filter(function (x) { return GRADES_OK.indexOf(x) >= 0; }).join(','); }
 function gradesOf_(email) {
@@ -619,6 +660,7 @@ function buildApi_(email, d) {
     if (!title || !code) return { ok: false, error: 'Type the lesson number and title.' };
     var bytes; try { bytes = Utilities.base64Decode(String(d.data || '')); } catch (e) { return { ok: false, error: 'The file could not be read.' }; }
     if (!bytes.length || bytes.length > 15 * 1048576) return { ok: false, error: 'The file is empty or bigger than 15 MB.' };
+    if (!magicOk_(bytes, mime)) return { ok: false, error: 'This file is not a real PDF, Word, PowerPoint or image file.' };
     var id = 'w' + newCode_().toLowerCase() + newCode_().toLowerCase().slice(0, 2);
     var name = plain_(d.fileName, 80).replace(/^'/, '') || 'lesson';
     var file = folder_('Omega uploads').createFile(Utilities.newBlob(bytes, mime, id + ' · Grade ' + grade + ' · ' + code + ' ' + title + ' · ' + name));
@@ -636,6 +678,8 @@ function buildApi_(email, d) {
   if (!canGrade_(email, unplain_(r[4]))) return { ok: false, error: 'You do not have access to this grade.' };
   var st = String(r[13]);
   if (d.a === 'build-get') return { ok: true, build: bRow_(r, true) };
+  // changing a request: only the teacher who uploaded it (or an owner), not every contributor for that grade
+  if (String(r[2]).toLowerCase() !== email && !isOwner_(email)) return { ok: false, error: 'Only the teacher who uploaded this worksheet can change it.' };
   if (d.a === 'build-save') {
     if (['draft', 'changes'].indexOf(st) < 0) return { ok: false, error: 'This worksheet cannot be edited now (' + st + ').' };
     var text = String(d.json || '');

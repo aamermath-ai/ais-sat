@@ -148,7 +148,7 @@ const TAB={"guide":"SAT guide","act-home":"ACT · Home","act-practice":"ACT · P
 let range=30, data=null;
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const fmt=n=>Number(n||0).toLocaleString();
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 $("url").value=ls.get("ais-admin-url")||"https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec"; $("key").value=keyGet(); $("remember").checked=!!ls.get("ais-admin-key");
 async function load(){
@@ -157,8 +157,9 @@ async function load(){
   const since=new Date(); since.setDate(since.getDate()-(range-1));
   $("go").textContent="Loading…";
   try{
-    const r=await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since));
-    const j=await r.json();
+    // POST keeps the admin key out of web addresses and server logs
+    let j=await (await fetch(url,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({a:"admin",key,op:"stats",since:iso(since)})})).json();
+    if(j.ok&&!j.days)j=await (await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since))).json();   // older Code.gs without POST statistics
     if(!j.ok)throw new Error(j.error||"The script refused the request.");
     ls.set("ais-admin-url",url); keySet(key,$("remember").checked); idle();
     data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers(); loadBuilds();

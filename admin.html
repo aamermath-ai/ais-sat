@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-PFfeC7AGN3UAZqq4y28G64Tk7lkuNOc3MmSYj8g77YA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-s4XVvodZ2D5D01mwg/vDuixBlXp7W9XSjjCfkZ7KxZE='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -150,7 +150,7 @@ const TAB={"guide":"SAT guide","act-home":"ACT · Home","act-practice":"ACT · P
 let range=30, data=null;
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const fmt=n=>Number(n||0).toLocaleString();
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 $("url").value=ls.get("ais-admin-url")||"https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec"; $("key").value=keyGet(); $("remember").checked=!!ls.get("ais-admin-key");
 async function load(){
@@ -159,8 +159,9 @@ async function load(){
   const since=new Date(); since.setDate(since.getDate()-(range-1));
   $("go").textContent="Loading…";
   try{
-    const r=await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since));
-    const j=await r.json();
+    // POST keeps the admin key out of web addresses and server logs
+    let j=await (await fetch(url,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({a:"admin",key,op:"stats",since:iso(since)})})).json();
+    if(j.ok&&!j.days)j=await (await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since))).json();   // older Code.gs without POST statistics
     if(!j.ok)throw new Error(j.error||"The script refused the request.");
     ls.set("ais-admin-url",url); keySet(key,$("remember").checked); idle();
     data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers(); loadBuilds();

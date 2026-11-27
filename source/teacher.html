@@ -580,7 +580,7 @@ function render(){
   const codes=(data.assignments||[]).slice().sort((a,b)=>a.created<b.created?1:-1);
   const fws=$("f-ws"),prev=pendingSel||fws.value||lsGet("ais-t-sel");pendingSel="";
   fws.innerHTML=(codes.length?'<optgroup label="My class codes">'+codes.map(a=>'<option value="a:'+esc(a.code)+'">'+esc(a.cls+" · "+a.title+" · "+a.code)+(a.status==="open"?"":" (closed)")+'</option>').join("")+'</optgroup>':"")+
-    (wsList.length?'<optgroup label="All students, by worksheet">'+wsList.map(w=>'<option value="w:'+esc(w.id)+'">Grade '+esc(w.grade)+' · '+esc(w.title)+'</option>').join("")+'</optgroup>':"");
+    (wsList.length?'<optgroup label="'+(data.owner?"All students":"My students")+', by worksheet">'+wsList.map(w=>'<option value="w:'+esc(w.id)+'">Grade '+esc(w.grade)+' · '+esc(w.title)+'</option>').join("")+'</optgroup>':"");
   if([...fws.options].some(o=>o.value===prev))fws.value=prev;
   $("t-filters").hidden=!fws.options.length;
   if(!fws.options.length){$("t-dash").hidden=true;$("t-empty").hidden=false;

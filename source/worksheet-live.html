@@ -115,7 +115,7 @@ footer{font-size:14px;color:var(--mut)}
 {
 const API="@@STATS_URL@@";
 const G='#00843D',R='#C8102E',B_='#1f6fd1',INK='currentColor';
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtN=v=>{const s=String(Math.round(v*1000)/1000);return s.replace('-','−')};
 const flagIcon=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect width="12" height="27" fill="${R}"/><rect x="12" width="36" height="9" fill="${G}"/><rect x="12" y="9" width="36" height="9" fill="#fff" stroke="#bbb" stroke-width=".5"/><rect x="12" y="18" width="36" height="9" fill="#111"/></g>`;
 const ST=`<style>.l{font:600 15px Lexend,sans-serif;fill:${INK}}.big{font:700 26px Lexend,sans-serif;fill:${INK}}.sm{font:600 12px Lexend,sans-serif;fill:${INK};opacity:.75}.gr{fill:${G}}.rd{fill:${R}}.bl{fill:${B_}}</style>`;
