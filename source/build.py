@@ -68,7 +68,7 @@ head='''<!doctype html>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script>try{var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{if(!localStorage.getItem("omega-theme-v1")){localStorage.setItem("ais-theme","omega");localStorage.setItem("omega-theme-v1","1");}var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark"||t==="omega")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 '''
 src=head+src.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
 # ---- security: strict Content Security Policy (only our own scripts run; only listed services are contacted)
@@ -83,10 +83,14 @@ def csp(html, connect, frames, referrer, scripts="", styles="", fonts=""):
     return html.replace('<meta charset="utf-8">\n','<meta charset="utf-8">\n'+meta,1)
 GS="https://script.google.com https://script.googleusercontent.com"
 calc_widget=open(S+'/calculator.html').read()   # the shared scientific calculator (button + panel + how-to video)
+fx_widget=open(S+'/omega-fx.html').read()   # Omega theme: WebGL particle surfaces (SAT, ACT, Worksheets)
+def add_fx(html):
+    i=html.rfind('</body>'); assert i>0
+    return html[:i]+fx_widget+html[i:]
 def add_calc(html, root):
     i=html.rfind('</body>'); assert i>0
     return html[:i]+calc_widget.replace('@@ROOT@@',root)+html[i:]
-src=csp(add_calc(src,''), GS, "https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io", "strict-origin-when-cross-origin")
+src=csp(add_fx(add_calc(src,'')), GS, "https://www.youtube-nocookie.com https://www.desmos.com https://sceptrell.github.io", "strict-origin-when-cross-origin")
 open(OUT+'/index.html','w').write(src)
 # ---- ACT practice site (act.html + act-questions.json), sharing the SAT page's design
 sys.path.insert(0,os.path.join(S,'act')); import build_act
@@ -97,7 +101,7 @@ sprite=re.search(r'<svg width="0" height="0" style="position:absolute" aria-hidd
 logo=re.search(r'<img class="mark" src="(data:image/[^"]+)"',src).group(1)
 act=act.replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 act=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega ACT: free timed ACT practice').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega ACT">')+act.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
-open(OUT+'/act.html','w').write(csp(add_calc(act,''), GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
+open(OUT+'/act.html','w').write(csp(add_fx(add_calc(act,'')), GS, "https://www.desmos.com", "strict-origin-when-cross-origin"))
 # ---- Worksheets page (worksheets.html, Grades 6-12) + the interactive worksheets in source/worksheets/
 grades=open(S+'/worksheets-catalog.js').read()      # the worksheet list (grade → term → module → worksheet)
 landing_css=open(S+'/landing.css').read()           # bright landing look for teacher.html (signed out) and join.html
@@ -107,7 +111,7 @@ STATS_URL=re.search(r'const STATS_URL="([^"]*)"',src).group(1)   # the school's 
 ws=open(S+'/worksheets.html').read().replace('/*@@GRADES@@*/',grades,1).replace('/*@@QRLIB@@*/',open(S+'/vendor/qrcode.js').read(),1)
 ws=ws.replace('@@STATS_URL@@',STATS_URL).replace('/*@@SHARED_CSS@@*/',css,1).replace('<!--@@SPRITE@@-->',sprite,1).replace('@@LOGO@@',logo)
 ws=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega Worksheets: interactive math class worksheets for Grades 6-12').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+ws.replace('</style>\n','</style>\n</head>\n<body>\n',1)+'</body>\n</html>\n'
-open(OUT+'/worksheets.html','w').write(csp(add_calc(ws,''), GS, None, "strict-origin-when-cross-origin"))   # GS: lists worksheets made with the builder
+open(OUT+'/worksheets.html','w').write(csp(add_fx(add_calc(ws,'')), GS, None, "strict-origin-when-cross-origin"))   # GS: lists worksheets made with the builder
 report=open(S+'/ws-report.html').read().replace('@@STATS_URL@@',STATS_URL)   # "Send to my teacher" on every worksheet
 os.makedirs(OUT+'/worksheets',exist_ok=True)
 SITE_URL='https://aamermath-ai.github.io/ais-sat/'   # public address of the site, used in the worksheet QR codes

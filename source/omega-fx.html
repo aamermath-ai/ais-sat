@@ -1,0 +1,152 @@
+<!-- Omega theme: WebGL particle field (source/omega-fx.html, added to the SAT, ACT and Worksheets pages by build.py) -->
+<div class="orbitbg" id="orbitbg" aria-hidden="true"><canvas id="orbitcv"></canvas><div class="grain"></div></div>
+<button class="orbit-hud" id="orbit-hud" type="button" aria-label="Draw the next surface"><span class="oh-k"><i></i>Now drawing</span><b>Torus</b><span class="oh-eq"></span><span class="oh-c"></span></button>
+<script>
+/* Omega theme: ~50k WebGL points that morph between mathematical surfaces.
+   Each tab has its own surface; the pointer pushes points away; scrolling spins the shape.
+   Runs only in the Omega theme, pauses when hidden, draws a still frame under reduced motion. */
+window.OMEGA_FX=(()=>{
+  const SHAPES=[
+    {n:"Torus",eq:"((R + r cos v) cos u,  r sin v,  (R + r cos v) sin u)"},
+    {n:"Spherical harmonic",eq:"ρ = 1 + ε sin 4θ cos 3φ"},
+    {n:"Trefoil knot",eq:"(sin t + 2 sin 2t,  cos t − 2 cos 2t,  −sin 3t)"},
+    {n:"Hyperbolic paraboloid",eq:"z = x² − y²"},
+    {n:"Möbius strip",eq:"((1 + ½w cos ½u) cos u,  (1 + ½w cos ½u) sin u,  ½w sin ½u)"},
+    {n:"Ripple surface",eq:"z = cos(14r − t)(1 − r)"}
+  ];
+  const TABMAP={worksheets:0,today:1,practice:2,progress:3,formulas:4,desmos:5,unis:1,bank:2,guide:3,creator:1,act:2,home:0};
+  const PAGE=/act(\.html)?$/.test(location.pathname)?"act":/worksheets(\.html)?$/.test(location.pathname)?"worksheets":null;
+  const VS=`
+attribute vec4 a;
+uniform float uT,uM,uA,uB,uAsp,uRot,uTilt,uPx,uScale,uPress;
+uniform vec2 uMouse,uOff;
+varying float vC; varying float vA;
+const float TAU=6.2831853;
+vec3 shape(float id,vec3 s){
+  if(id<.5){float u=s.x*TAU,v=s.y*TAU,R=.70,r=.34+.03*sin(3.*u+uT*.6);return vec3((R+r*cos(v))*cos(u),r*sin(v),(R+r*cos(v))*sin(u));}
+  if(id<1.5){float th=acos(2.*s.x-1.),ph=s.y*TAU;float r=.80+.15*sin(4.*th)*cos(3.*ph+uT*.25)+.04*sin(9.*ph+uT*.4);return r*vec3(sin(th)*cos(ph),cos(th),sin(th)*sin(ph));}
+  if(id<2.5){float t=s.x*TAU;vec3 c=vec3(sin(t)+2.*sin(2.*t),cos(t)-2.*cos(2.*t),-sin(3.*t))/3.1;
+    vec3 tg=normalize(vec3(cos(t)+4.*cos(2.*t),-sin(t)+4.*sin(2.*t),-3.*cos(3.*t)));
+    vec3 n=normalize(cross(tg,vec3(.3,.2,1.)));vec3 b=cross(tg,n);float an=s.y*TAU;return c+.14*(cos(an)*n+sin(an)*b);}
+  if(id<3.5){vec2 p=vec2(s.x,s.y)*2.1-1.05;return vec3(p.x,.55*(p.x*p.x-p.y*p.y)+.025*sin(7.*p.x+uT),p.y);}
+  if(id<4.5){float u=s.x*TAU,w=(s.y-.5)*1.4;float k=1.+.5*w*cos(.5*u);return .84*vec3(k*cos(u),.9*w*sin(.5*u),k*sin(u));}
+  float r=sqrt(s.x),an=s.y*TAU;vec2 p=r*vec2(cos(an),sin(an))*1.1;return vec3(p.x,.30*cos(14.*r-uT*1.6)*(1.-r)+.05,p.y);
+}
+void main(){
+  vec3 s=a.xyz;float k=a.w;vec3 p;float star=step(.935,k);
+  if(star>.5){p=normalize(s*2.-1.+.0001)*(2.2+s.z*2.6);}
+  else{
+    float d=clamp((uM-k*.35)/.65,0.,1.);d=d*d*(3.-2.*d);
+    p=mix(shape(uA,s),shape(uB,s),d);
+    p+=sin(d*3.14159)*.42*(vec3(s.z,s.x,s.y)-.5);
+    p+=.012*vec3(sin(uT*1.3+s.x*40.),sin(uT*1.1+s.y*40.),sin(uT*1.7+s.z*40.));
+    p+=.018*(s.z-.5)*normalize(p+.0001);
+  }
+    float rot=uRot*(star>.5?.25:1.),cy=cos(rot),sy=sin(rot),cx=cos(uTilt),sx=sin(uTilt);
+  vec3 q=vec3(cy*p.x+sy*p.z,p.y,-sy*p.x+cy*p.z);
+  q=vec3(q.x,cx*q.y-sx*q.z,sx*q.y+cx*q.z);
+  q*=star>.5?1.:uScale;
+  vC=clamp(.5-q.y*.62+(s.x-.5)*.18,0.,1.);
+  float z=q.z+3.2;
+  vec2 sc=q.xy/z*2.7;
+  vec2 pos=vec2(sc.x/uAsp,sc.y)+(star>.5?vec2(0.):uOff);
+  vec2 dl=pos-uMouse;dl.x*=uAsp;float dist=length(dl);
+  float f=exp(-dist*dist*22.)*(.10+uPress*.22)*(1.-star);
+  pos+=normalize(dl+.00001)*f*vec2(1./uAsp,1.);
+  gl_Position=vec4(pos,0.,1.);
+  gl_PointSize=uPx*(star>.5?(.5+s.z*.9):(1.75/z)*(.65+s.z*.8));
+  float depth=smoothstep(1.2,-1.,q.z);
+  vA=star>.5?(.20+.30*sin(uT*(.6+s.x)+s.y*30.)*.5+.15):(.55+.65*depth+f*6.);
+}`;
+  const FS=`
+precision mediump float;
+varying float vC; varying float vA;
+void main(){
+  vec2 c=gl_PointCoord-.5;float r=length(c);if(r>.5)discard;
+  float al=smoothstep(.5,.05,r);
+  vec3 mint=vec3(.25,.92,.76),ind=vec3(.42,.42,1.),sky=vec3(.30,.70,.95);
+  vec3 col=vC<.5?mix(mint,sky,vC*2.):mix(sky,ind,vC*2.-1.);
+  col=mix(col,vec3(1.),smoothstep(.15,0.,r)*.35);
+  gl_FragColor=vec4(col*al*vA,al*vA);
+}`;
+  let gl,cv,hud,U={},on=false,raf=0,ok=null,N=0,DPR=1;
+  let cur=0,nxt=0,pending=0,mStart=-1e9,lastTab=null,lastSwitch=0;
+  let mx=0,my=0,tmx=.0,tmy=0,press=0,tpress=0,spin=0,rot=0,lastY=0,still=false,last=0;
+  function init(){
+    cv=document.getElementById("orbitcv");hud=document.getElementById("orbit-hud");
+    if(!cv)return false;
+    try{gl=cv.getContext("webgl",{alpha:true,antialias:false,premultipliedAlpha:true,powerPreference:"high-performance"});}catch(e){gl=null;}
+    if(!gl)return false;
+    const sh=(t,src)=>{const s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;};
+    try{
+      const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(pr);
+      if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(pr));
+      gl.useProgram(pr);
+      ["uT","uM","uA","uB","uAsp","uRot","uTilt","uPx","uScale","uPress","uMouse","uOff"].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
+      const small=matchMedia("(max-width: 860px)").matches;
+      N=small?22000:54000;
+      const d=new Float32Array(N*4);for(let i=0;i<d.length;i++)d[i]=Math.random();
+      const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,d,gl.STATIC_DRAW);
+      const loc=gl.getAttribLocation(pr,"a");gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,4,gl.FLOAT,false,0,0);
+      gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.disable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);
+    }catch(e){console.warn("Omega theme: WebGL unavailable",e);return false;}
+    addEventListener("resize",size);
+    addEventListener("pointermove",e=>{tmx=e.clientX/innerWidth*2-1;tmy=-(e.clientY/innerHeight*2-1);},{passive:true});
+    addEventListener("pointerdown",()=>{tpress=1;},{passive:true});
+    addEventListener("pointerup",()=>{tpress=0;},{passive:true});
+    document.documentElement.addEventListener("pointerleave",()=>{tmx=9;tmy=9;});
+    lastY=scrollY;addEventListener("scroll",()=>{spin+=(scrollY-lastY)*.0016;lastY=scrollY;},{passive:true});
+    
+    if(hud)hud.addEventListener("click",()=>go((pending+1)%SHAPES.length));
+    tmx=9;tmy=9;mx=9;my=9;
+    size();label(cur);return true;
+  }
+  function size(){
+    if(!gl)return;DPR=Math.min(devicePixelRatio||1,1.75);
+    cv.width=Math.round(innerWidth*DPR);cv.height=Math.round(innerHeight*DPR);gl.viewport(0,0,cv.width,cv.height);
+    if(still)frame(performance.now());
+  }
+  function label(i){if(!hud)return;hud.querySelector("b").textContent=SHAPES[i].n;hud.querySelector(".oh-eq").textContent=SHAPES[i].eq;
+    hud.querySelector(".oh-c").textContent=Math.round(N*.935/1000)+"k points · move to disturb · click for next";}
+  function go(i){pending=i;lastSwitch=performance.now();label(i);if(still){cur=nxt=i;frame(performance.now());}}
+  function frame(now){
+    const t=now/1000,dt=Math.min(.05,(now-(last||now))/1000);last=now;
+    const tb=window.omegaTab||PAGE;if(tb&&tb!==lastTab){lastTab=tb;const s=TABMAP[tb];if(s!=null&&s!==pending)go(s);}
+    if(!still&&now-lastSwitch>16000)go((pending+1)%SHAPES.length);
+    let m=(now-mStart)/2600;
+    if(m>=1&&nxt!==cur){cur=nxt;}
+    if(m>=1&&pending!==cur){nxt=pending;mStart=now;m=0;}
+    if(still){cur=nxt=pending;m=1;}
+    const e=still?1:Math.min(1,dt*4);mx+=(tmx-mx)*e;my+=(tmy-my)*e;press+=(tpress-press)*e;
+    spin*=Math.pow(.04,dt);rot+=dt*.14+spin*dt*6;if(still)rot=.6;
+    const w=innerWidth,h=innerHeight,asp=w/h,wide=w>860;
+    const scale=wide?.95:Math.min(.9,asp*1.2);
+    const home=window.omegaTab==="home";
+    const ox=home?0:wide?Math.min(.36,(1-272/w*2)*.5+.18):0,oy=home?(wide?-.30:.05):wide?-.02:.30;
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniform1f(U.uT,still?4:t);gl.uniform1f(U.uM,Math.max(0,Math.min(1,m)));
+    gl.uniform1f(U.uA,cur);gl.uniform1f(U.uB,nxt);gl.uniform1f(U.uAsp,asp);gl.uniform1f(U.uRot,rot);
+    gl.uniform1f(U.uTilt,.42+(Math.abs(my)<2?my:0)*.18);gl.uniform1f(U.uPx,(wide?3.3:2.8)*DPR);
+    gl.uniform1f(U.uScale,scale);gl.uniform1f(U.uPress,press);gl.uniform2f(U.uMouse,mx,my);gl.uniform2f(U.uOff,ox,oy);
+    gl.drawArrays(gl.POINTS,0,N);
+  }
+  function loop(now){frame(now);raf=requestAnimationFrame(loop);}
+  function toggle(want){
+    on=want;
+    if(want&&ok===null)ok=init();
+    if(!ok)return;
+    still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+    cancelAnimationFrame(raf);raf=0;
+    if(!want||document.hidden)return;
+    cv.classList.add("on");
+    if(still)frame(performance.now());else raf=requestAnimationFrame(loop);
+  }
+  const root=document.documentElement;
+  const want=()=>root.getAttribute("data-theme")==="omega"&&!root.classList.contains("exam")&&!root.classList.contains("solo-dx");
+  const sync=()=>toggle(want());
+  new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:["data-theme","class"]});
+  document.addEventListener("visibilitychange",sync);
+  sync();
+  return {toggle};
+})();
+</script>

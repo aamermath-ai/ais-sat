@@ -132,7 +132,7 @@ const API="@@STATS_URL@@";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
-(function(){const t=lsGet("ais-theme");if(t&&t!=="system")document.documentElement.setAttribute("data-theme",t==="night"?"dark":t);})();
+(function(){const t=lsGet("ais-theme");if(t&&t!=="system")document.documentElement.setAttribute("data-theme",t==="night"||t==="omega"?"dark":t);})();
 let me=null;try{me=JSON.parse(lsGet("ais-teacher")||"null")}catch(e){}
 const api=b=>fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(b)}).then(r=>r.json());
 function msg(t,c){const m=$("b-msg");m.hidden=!t;m.textContent=t||"";m.className="bmsg"+(c?" "+c:"");if(t)m.scrollIntoView({block:"nearest"});}

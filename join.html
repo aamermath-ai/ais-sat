@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wgvT6/OuzEz+sDdVWqDElg0JO6GslrrJhpUj0tfZIjU=' 'sha256-YiH44Mue0EWTDvZJBNXjsUkwUCbCUN6i2WPv/DvO+Lg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-rDHv7EkJEw+wUoAih2tkGc5MaDXTT4zcfIa5psoDZ5o=' 'sha256-YiH44Mue0EWTDvZJBNXjsUkwUCbCUN6i2WPv/DvO+Lg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Join your class on Omega with the code from your teacher. The last word in math.">
@@ -14,7 +14,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script>try{var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{if(!localStorage.getItem("omega-theme-v1")){localStorage.setItem("ais-theme","omega");localStorage.setItem("omega-theme-v1","1");}var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark"||t==="omega")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <title>Join a worksheet · Omega</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

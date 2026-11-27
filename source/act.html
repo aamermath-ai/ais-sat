@@ -1,7 +1,7 @@
 <title>Omega ACT</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
 /*@@SHARED_CSS@@*/
 /* ================= ACT app ================= */
@@ -138,7 +138,7 @@
 <div class="app">
   <aside class="side" aria-label="Omega ACT">
     <div class="brand">
-      <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="Omega logo"><span class="word act">Omega <span>ACT</span></span></div>
+      <a class="brand-row" href="./#home" title="Omega home: Worksheets, SAT and ACT" aria-label="Omega home"><img class="mark" src="@@LOGO@@" alt="Omega logo"><span class="word act">Omega <span>ACT</span></span></a>
       <p class="inst"><b>The last word in math.</b>From algebra to calculus</p>
       <span class="free"><svg><use href="#i-seal"/></svg>Free for every student</span>
     </div>
@@ -152,7 +152,7 @@
     <div class="side-foot">
       <div class="prefs">
         <span class="pl">Appearance</span>
-        <div class="segmented sm" id="theme-seg" role="group" aria-label="Appearance"><button data-v="night" aria-pressed="true">Night</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></div>
+        <div class="segmented sm" id="theme-seg" role="group" aria-label="Appearance"><button data-v="omega" aria-pressed="true">Omega</button><button data-v="night" aria-pressed="false">Night</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></div>
       </div>
       <span class="conn" id="conn"><span class="dot warn"></span>Loading…</span>
       <span>ACT preparation · Grades 11–12</span>
@@ -160,7 +160,7 @@
     </div>
   </aside>
   <header class="mhead">
-    <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="Omega logo"><div><span class="word act">Omega <span>ACT</span></span><p class="inst">The last word in math.</p></div></div>
+    <a class="brand-row" href="./#home" title="Omega home: Worksheets, SAT and ACT" aria-label="Omega home"><img class="mark" src="@@LOGO@@" alt="Omega logo"><div><span class="word act">Omega <span>ACT</span></span><p class="inst">The last word in math.</p></div></a>
     <div class="hbtns"><a class="free" href="./#today" id="to-sat-m">Switch to SAT</a></div>
   </header>
   <div class="content">
@@ -294,7 +294,7 @@ const TEST=(()=>{try{const v=new URLSearchParams(location.search).get("test");if
 if(TEST)document.documentElement.classList.add("exam");
 
 /* ---------- theme (shared with SAT) ---------- */
-let theme=lsGet("ais-theme")||"night";
+let theme=lsGet("ais-theme")||"omega";
 function applyTheme(t){theme=t;lsSet("ais-theme",t);if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
   document.querySelectorAll("#theme-seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===t));
   const v=$("nightvid");if(!v)return;const still=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.connection&&navigator.connection.saveData);

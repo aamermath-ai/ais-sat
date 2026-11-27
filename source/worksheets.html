@@ -1,7 +1,7 @@
 <title>Omega Worksheets</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600&family=Unbounded:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
 /*@@SHARED_CSS@@*/
 /* ================= Worksheets (Grades 6–12) ================= */
@@ -55,7 +55,7 @@ a.row:hover{background:var(--fill)}
 <div class="app">
   <aside class="side" aria-label="Omega Worksheets">
     <div class="brand">
-      <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="Omega logo"><span class="word ws">Omega <span>Worksheets</span></span></div>
+      <a class="brand-row" href="./#home" title="Omega home: Worksheets, SAT and ACT" aria-label="Omega home"><img class="mark" src="@@LOGO@@" alt="Omega logo"><span class="word ws">Omega <span>Worksheets</span></span></a>
       <p class="inst"><b>The last word in math.</b>From algebra to calculus</p>
       <span class="free"><svg><use href="#i-seal"/></svg>Free for every student</span>
     </div>
@@ -70,14 +70,14 @@ a.row:hover{background:var(--fill)}
     <div class="side-foot">
       <div class="prefs">
         <span class="pl">Appearance</span>
-        <div class="segmented sm" id="theme-seg" role="group" aria-label="Appearance"><button data-v="night" aria-pressed="true">Night</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></div>
+        <div class="segmented sm" id="theme-seg" role="group" aria-label="Appearance"><button data-v="omega" aria-pressed="true">Omega</button><button data-v="night" aria-pressed="false">Night</button><button data-v="system" aria-pressed="false">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></div>
       </div>
       <span>Class worksheets · Grades 6–12</span>
       <a class="credit" href="./#creator"><span><small>Created and developed by</small><b>Aamer Bashir</b></span></a>
     </div>
   </aside>
   <header class="mhead">
-    <div class="brand-row"><img class="mark" src="@@LOGO@@" alt="Omega logo"><div><span class="word ws">Omega <span>Worksheets</span></span><p class="inst">The last word in math.</p></div></div>
+    <a class="brand-row" href="./#home" title="Omega home: Worksheets, SAT and ACT" aria-label="Omega home"><img class="mark" src="@@LOGO@@" alt="Omega logo"><div><span class="word ws">Omega <span>Worksheets</span></span><p class="inst">The last word in math.</p></div></a>
   </header>
   <div class="content">
     <section class="page fade" id="v-ws">
@@ -138,7 +138,7 @@ function applyTheme(t){lsSet("ais-theme",t);if(t==="system")document.documentEle
   if(!v.dataset.src){v.dataset.src=matchMedia("(min-width: 861px)").matches||devicePixelRatio>2.5?"assets/night-1080.mp4":"assets/night-720.mp4";v.addEventListener("playing",()=>v.classList.add("on"),{once:true});v.src=v.dataset.src;}
   const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});}
 $("theme-seg").addEventListener("click",e=>{const b=e.target.closest("button");if(b)applyTheme(b.dataset.v);});
-applyTheme(lsGet("ais-theme")||"night");
+applyTheme(lsGet("ais-theme")||"omega");
 
 /* ---------- worksheets: grade → term → module → worksheet ----------
    The list itself is in source/worksheets-catalog.js (shared with teacher.html). */
