@@ -59,11 +59,11 @@ A free Digital SAT practice website for students of the American International S
 | **Universities** | SAT ranges and scholarships at 50 universities (20 US, 20 UK, 10 UAE), with a score slider, a nationality filter for 10 countries and links to every official website |
 | **Question Bank** | Browse every question by skill |
 
-Themes: **Omega** (default: a live WebGL field of ~50,000 points that draws mathematical surfaces: torus, spherical harmonic, trefoil knot, saddle, Möbius strip, ripple; each section has its own surface, the pointer pushes the points away), Night (animated beach video), Auto, Light, Dark. Sounds can be switched off.
+Themes: **Omega** (default: a live WebGL field of ~50,000 points that draws mathematical surfaces: torus, spherical harmonic, trefoil knot, saddle, Möbius strip, ripple; each section has its own surface, the pointer pushes the points away; a slim bar at the top of the page names the surface and its equation: click it for the next surface, × to close it, and choosing Omega under Appearance shows it again), Night (animated beach video), Auto, Light, Dark. Sounds can be switched off.
 
 **Home screen:** clicking the Omega logo or name (top left, on the SAT, ACT and Worksheets pages) opens the home screen (`index.html#home`) with the three choices: Worksheets, SAT and ACT. It also appears on a student's first visit in each session.
 
-**Omega theme files:** the effect (canvas and script) is `source/omega-fx.html`; `build.py` adds it to `index.html`, `act.html` and `worksheets.html`. Its styles are in `source/emir.html` under `OMEGA theme`. It pauses in test windows, when the tab is hidden and under reduced motion, and phones draw fewer points.
+**Omega theme files:** the effect (canvas, top bar and script) is `source/omega-fx.html`; `build.py` adds it to `index.html`, `act.html` and `worksheets.html`. Its styles are in `source/emir.html` under `OMEGA theme`. It pauses in test windows, when the tab is hidden and under reduced motion, and phones draw fewer points.
 
 ## 2. How it works (technical summary)
 
