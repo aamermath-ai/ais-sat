@@ -82,5 +82,6 @@ Run `python3 source/tools/check_worksheet.py draft.json`. It must say **OK**. It
   - `sections`: [{id, title, points}].
   - `questions`: [{id, section, label, kind: "mc" | "written", points, text, table?, work?, after?, options? (mc), answer (mc: 0-based index), model (written: model answer for markers)}].
   - Maths goes between `$…$` (KaTeX); `**bold**` and `<br>` are allowed.
+  - Diagrams, graphs and pictures from the paper: crop them from the PDF and put them in `fig` (one `data:image/jpeg;base64,…` string, or a list). They show under the question text, in the exam and on the printed scripts. Keep each under about 60 KB.
   - `answer` and `model` stay on the server: students never receive them.
 - **Never commit an exam paper or its JSON to this repository.** The repository is public.

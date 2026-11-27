@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-rDHv7EkJEw+wUoAih2tkGc5MaDXTT4zcfIa5psoDZ5o=' 'sha256-SpRl9vth6NjTL+yji7fxj5kU/NY6/7/prLgv/RuHElE=' https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-rDHv7EkJEw+wUoAih2tkGc5MaDXTT4zcfIa5psoDZ5o=' 'sha256-NO6O9RhaTTEPHpGi/ms+iJh/2mhRs9F8oUg5VjNcYsM=' https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Omega exam scripts. The last word in math.">
@@ -37,6 +37,7 @@ body{margin:0;background:#eef1f5;color:#14181f;font:14.5px/1.5 Georgia,"Times Ne
 .q{border-top:1px solid #ddd;padding:10px 0}
 .q .h{display:flex;justify-content:space-between;font:700 13px system-ui,sans-serif;color:#444}
 .q table.vt{border-collapse:collapse;margin:4px 0}.q table.vt td{border:1px solid #555;padding:3px 10px;text-align:center}
+.qfig{display:block;max-width:420px;height:auto;margin:6px 0}
 .work{border:1px solid #333;padding:6px 10px;margin:4px 0;max-width:560px}.work div{padding-left:12px}
 .ans{border:1.5px solid #222;min-height:60px;padding:8px 10px;margin-top:6px;white-space:pre-wrap;font:14px/1.55 system-ui,sans-serif;background:#fcfcfc}
 .mc{font:600 14px system-ui,sans-serif;margin-top:6px}
@@ -83,6 +84,7 @@ function render(){
     if(a.exits)h+='<div class="exits"><b>Left the exam screen '+a.exits+(a.exits===1?" time":" times")+':</b> '+a.log.map(e=>esc(when(e.t))+" ("+esc(e.k)+")").join(", ")+'</div>';
     paper.questions.forEach(q=>{const S=(paper.sections||[]).find(s=>s.id===q.section)||{};const v=a.answers[q.id];
       h+='<div class="q"><div class="h"><span>'+esc(S.title||q.section)+' · '+esc(q.label)+'</span><span>'+q.points+' pt</span></div><div>'+md(q.text)+'</div>';
+      h+=(q.fig?[].concat(q.fig).filter(f=>/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+\/=]+$/.test(f)).map(f=>'<img class="qfig" alt="Diagram for question '+esc(q.label)+'" src="'+f+'">').join(""):"");   // pictures from the paper (data: images only)
       if(q.table)h+='<table class="vt">'+q.table.map(r=>'<tr>'+r.map(c=>'<td>'+md(c)+'</td>').join("")+'</tr>').join("")+'</table>';
       if(q.work)h+='<div class="work"><b>Student’s work:</b>'+q.work.map(w=>'<div>'+md(w)+'</div>').join("")+'</div>';
       if(q.after)h+='<div>'+md(q.after)+'</div>';
