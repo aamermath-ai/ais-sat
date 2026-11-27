@@ -71,3 +71,16 @@ Run `python3 source/tools/check_worksheet.py draft.json`. It must say **OK**. It
   - the contributor gets an email;
   - the file is renamed `imported-<id>.json`.
 - **Rejected drafts:** an `invalid-<id>.json` name means the draft did not pass the check. Fix it and upload it again under the original name.
+
+
+## Exams (lockdown): building a queued exam paper
+
+- **Where requests come from:** on `admin.html` → **Exams**, the admin uploads a paper (PDF or Word). A row appears in the **Exams** tab of "SAT AIS statistics" with status **queued**, and the file goes to the Drive folder **"Omega exam uploads"**. Its name starts with the exam id, e.g. `xk7q2mxab · paper.pdf`.
+- **What to build:** a JSON exam file named exactly `<id>.json`, put in the Drive folder **"Omega exams"** (create it if missing). Use `contentMimeType` `application/json` and `disableConversionToGoogleType: true`. It is imported the next time the admin page opens, and the exam becomes **Ready**.
+- **Format:** keep the paper **exactly as written**. Same questions, same order, same options, same points. Do not invent or reword anything: it is the school's own exam.
+  - `cover`: `logos` (data URIs taken from the paper), `title` (lines), `subtitle`, `details` ([label, value]), `strands` ([{strand, standards[]}]), `marks` ([[DOK, items, mark]]), `total`, `instructions`, `footer`.
+  - `sections`: [{id, title, points}].
+  - `questions`: [{id, section, label, kind: "mc" | "written", points, text, table?, work?, after?, options? (mc), answer (mc: 0-based index), model (written: model answer for markers)}].
+  - Maths goes between `$…$` (KaTeX); `**bold**` and `<br>` are allowed.
+  - `answer` and `model` stay on the server: students never receive them.
+- **Never commit an exam paper or its JSON to this repository.** The repository is public.

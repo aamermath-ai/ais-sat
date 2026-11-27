@@ -33,6 +33,28 @@ A free Digital SAT practice website for students of the American International S
   2. Run **testEmail** once: Google asks for the new **Drive** permission (the script saves uploads to your Drive). Click Allow.
   3. Deploy a **New version**.
 
+## Exams in lockdown mode (exam.html)
+
+- **The paper is never in the public website.** The exam (questions, answer key and model answers) lives in your Google Drive (folder **Omega exams**) and in the Apps Script. Students receive the questions without answers, and only while the exam is open and they have typed the exam code.
+- **Adding an exam:**
+  1. On `admin.html` → **Exams**, upload the paper (PDF or Word) and ask Claude to "build the queued exam". Claude follows the section "Exams" in `source/worksheets/BUILDER.md`.
+  2. The exam appears as **Ready**. Use **Preview** (or **Preview with answers**) to check it.
+- **Running it:**
+  1. Set the **duration**, an optional **opening and closing time**, and **auto-submit after N exits** (0 = never).
+  2. Press **Open now**, and give students the **exam code** (or the student link).
+  3. Students go to `exam.html`, type the code, and see the paper's cover (logos, details, standards, marks, instructions). They type their name and class, tick "I have read the instructions" and press **Start**.
+- **Lockdown:** the exam runs full screen. Leaving it (another tab, another app, leaving full screen, reloading) shows a red warning, records the exit with its time, and can auto-submit after the number of exits you set. Copy, paste, right-click and print shortcuts are blocked. **Limits:** this is "detect and warn". It cannot stop a second device, and phones (iPhone Safari) do not support full screen, so only tab switches are detected there. Supervise the room as usual.
+- **Saving and time:**
+  - Answers save every few seconds and are kept on the device if the connection drops.
+  - The timer comes from the server, and time up = automatic submit.
+  - A student who reloads, or moves to another device, continues the same attempt.
+  - **+10 min** gives one student more time, and also reopens a submitted exam.
+- **Results:**
+  - **Results** shows each student's status, their auto-marked multiple-choice score and their exits.
+  - **Download CSV** gives every answer.
+  - **Print scripts** gives one page per student, with answers, ✓/✗ for multiple choice, model answers and mark lines; save it as PDF or print it.
+- **Setup:** paste the new `Code.gs`, run **testEmail** if Google asks for permissions again, then deploy a **New version**.
+
 ## Free and Pro plans
 
 - **Students** always use everything for free.

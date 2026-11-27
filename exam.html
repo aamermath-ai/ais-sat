@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-rDHv7EkJEw+wUoAih2tkGc5MaDXTT4zcfIa5psoDZ5o=' 'sha256-XjZRrTJNQ7gxLiiEaikkuHaEsSKu+rdCc6hOk2xTqo0=' https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Omega exam: type the exam code from your teacher. The last word in math.">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Omega">
+<meta name="author" content="Aamer Bashir">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>try{if(!localStorage.getItem("omega-theme-v1")){localStorage.setItem("ais-theme","omega");localStorage.setItem("omega-theme-v1","1");}var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark"||t==="omega")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<title>Exam · Omega</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel:wght@700;900&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<style>
+/* Omega exam (lockdown). Light, paper-like, calm: large text, clear buttons, nothing that distracts. */
+:root{--bg:#eef1f5;--paper:#fff;--ink:#14181f;--mut:#5b6573;--line:#d8dee6;--acc:#1d5fd1;--acc-s:#e8f0ff;--good:#1a7f45;--bad:#c8102e;--warn:#b86e00;--navy:#1f3a68}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Inter,system-ui,sans-serif}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding:22px 16px 60px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(20,30,60,.06)}
+.btn{border:0;border-radius:12px;padding:12px 22px;font-weight:700;background:var(--acc);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:var(--acc-s);color:var(--acc)}
+.btn.red{background:var(--bad)}
+.in{font:inherit;font-size:17px;padding:11px 13px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+.in:focus{outline:none;border-color:var(--acc)}
+.msg{padding:12px 14px;border-radius:12px;background:#fff6e6;color:#7a4b00;font-weight:600}
+.msg.err{background:#fdebee;color:var(--bad)}
+/* code screen */
+.codebox{max-width:460px;margin:12vh auto 0;padding:28px;display:flex;flex-direction:column;gap:16px;text-align:center}
+.codebox h1{margin:0;font-size:26px}
+.codein{font:800 34px/1 ui-monospace,Menlo,monospace;letter-spacing:.25em;text-align:center;text-transform:uppercase;padding:14px 8px 14px calc(8px + .25em)}
+/* cover (welcome) */
+.cover{padding:26px clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:20px;border:3px double #222}
+.cv-top{display:grid;grid-template-columns:110px minmax(0,1fr) 150px;gap:14px;align-items:center}
+.cv-top img{width:100%;height:auto;display:block}
+.cv-title{text-align:center}
+.cv-title div{font:900 clamp(18px,2.6vw,26px)/1.3 Cinzel,Georgia,serif;letter-spacing:.02em}
+.cv-title p{margin:6px 0 0;font:700 19px Georgia,serif}
+table.det{width:100%;border-collapse:collapse;border:3px solid var(--navy)}
+table.det td{border:2px solid var(--navy);padding:10px 12px;font-weight:700;font-size:15px;vertical-align:middle}
+table.det td .in{margin-top:6px;font-weight:500}
+table.std{width:100%;border-collapse:collapse;font-size:13.5px}
+table.std th,table.std td{border:1px solid #444;padding:7px 8px;vertical-align:top}
+table.std th{font:700 15px Georgia,serif}
+table.std .strand{font:700 20px/1.2 Georgia,serif;width:22%}
+table.std ul{margin:0;padding-left:16px}
+table.std table td{white-space:nowrap}
+.instr{background:#f6f8fb;border-radius:14px;padding:16px 18px}
+.instr h3{margin:0 0 8px;font-size:17px}
+.instr ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15.5px}
+.lockrule{border:2px solid var(--bad);background:#fff5f6;border-radius:14px;padding:12px 16px;color:#7d0f1f;font-weight:600;font-size:15px}
+.agree{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+.agree input{width:22px;height:22px;margin-top:2px;flex:none}
+.cv-foot{text-align:right;font:italic 13px Georgia,serif;color:var(--mut)}
+/* exam */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.top-in img{height:34px;width:auto}
+.top-in .who{flex:1;min-width:160px;font-size:14px;color:var(--mut)}
+.top-in .who b{color:var(--ink);display:block;font-size:15px}
+.timer{font:800 22px/1 ui-monospace,Menlo,monospace;padding:8px 12px;border-radius:10px;background:var(--acc-s);color:var(--acc)}
+.timer.low{background:#fdebee;color:var(--bad);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.6}}
+.save{font-size:13px;color:var(--mut);min-width:110px;text-align:right}
+.save.bad{color:var(--bad);font-weight:700}
+.pal{display:flex;flex-wrap:wrap;gap:6px;padding:12px 0}
+.pal button{min-width:44px;height:40px;border-radius:10px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:14px;position:relative}
+.pal button.ans{background:var(--acc-s);border-color:#b9cdf6;color:var(--acc)}
+.pal button.cur{outline:3px solid var(--acc);outline-offset:1px}
+.pal button.flag::after{content:"";position:absolute;top:-4px;right:-4px;width:12px;height:12px;border-radius:50%;background:var(--warn);border:2px solid #fff}
+.qcard{padding:22px clamp(16px,3vw,30px);display:flex;flex-direction:column;gap:14px}
+.qhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.qhead .sec{font-weight:800}.qhead .pts{color:var(--bad);font-weight:800}
+.qtext{font-size:18px}
+.qtext .katex{font-size:1.1em}
+table.vt{border-collapse:collapse;margin:6px 0;font-size:16px}
+table.vt td{border:1px solid #555;padding:6px 14px;text-align:center}
+.work{border:1px solid #333;padding:10px 14px;border-radius:4px;background:#fafafa;max-width:640px}
+.work b{display:block;margin-bottom:4px}
+.work div{padding:3px 0 3px 18px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;font-size:17px}
+.opt b{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-weight:800}
+.opt:hover{border-color:#b9cdf6}
+.opt.sel{border-color:var(--acc);background:var(--acc-s)}.opt.sel b{background:var(--acc);color:#fff}
+.opt.key{box-shadow:inset 0 0 0 3px var(--good)}
+textarea.ans{font:17px/1.6 Inter,system-ui,sans-serif;min-height:220px;resize:vertical;padding:14px;border:2px solid #333;border-radius:4px;width:100%}
+textarea.ans:focus{outline:none;border-color:var(--acc)}
+.kp{display:flex;flex-wrap:wrap;gap:6px}
+.kp button{min-width:44px;height:40px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:16px;font-weight:600}
+.model{background:#eaf7ef;border-radius:10px;padding:10px 12px;color:#0d4f2a;font-size:15px}
+.qnav{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.flagbtn{background:#fff7e8;color:var(--warn);border:2px solid #f0d29a}
+.flagbtn.on{background:var(--warn);color:#fff;border-color:var(--warn)}
+/* lockdown warning */
+.lock{position:fixed;inset:0;z-index:100;background:rgba(150,10,28,.97);color:#fff;display:grid;place-items:center;padding:20px;text-align:center}
+.lock-in{max-width:560px;display:flex;flex-direction:column;gap:16px;align-items:center}
+.lock-in h2{margin:0;font-size:30px}
+.lock-in .n{font:900 64px/1 ui-monospace,Menlo,monospace}
+.lock-in .btn{background:#fff;color:var(--bad);font-size:18px;padding:14px 28px}
+.modal{position:fixed;inset:0;z-index:90;background:rgba(10,20,40,.55);display:grid;place-items:center;padding:16px}
+.modal .card{max-width:520px;width:100%;padding:22px;display:flex;flex-direction:column;gap:12px}
+.done{max-width:620px;margin:14vh auto 0;padding:30px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.done .tick{width:74px;height:74px;border-radius:50%;background:#e6f5ec;color:var(--good);display:grid;place-items:center;font-size:40px}
+.pvbar{background:#ffc23d;color:#2b1d00;font-weight:700;text-align:center;padding:8px}
+.noselect{-webkit-user-select:none;user-select:none}
+@media (max-width:640px){.cv-top{grid-template-columns:70px minmax(0,1fr) 90px}table.det td{display:block}.top-in .who{order:3;flex-basis:100%}}
+@media print{.top,.pal,.qnav,.kp{display:none}}
+</style>
+</head>
+<body>
+<div class="pvbar" id="pvbar" hidden>Preview · nothing is saved and there is no lockdown</div>
+
+<!-- 1. exam code -->
+<section id="s-code" hidden>
+  <form class="card codebox" id="code-form" autocomplete="off">
+    <h1>Start your exam</h1>
+    <p style="margin:0;color:var(--mut)">Type the exam code your teacher gives you.</p>
+    <input class="in codein" id="code" maxlength="6" placeholder="ABC123" spellcheck="false" aria-label="Exam code">
+    <button class="btn" type="submit" id="code-go">Continue</button>
+    <div class="msg err" id="code-msg" hidden></div>
+  </form>
+</section>
+
+<!-- 2. welcome = the paper's cover page -->
+<section id="s-cover" hidden><div class="wrap">
+  <div class="card cover">
+    <div class="cv-top"><img id="cv-l1" alt=""><div class="cv-title" id="cv-title"></div><img id="cv-l2" alt=""></div>
+    <table class="det"><tbody>
+      <tr><td>Student’s Name:<input class="in" id="st-name" autocomplete="name" placeholder="First and last name"></td><td>Grade: <span id="cv-grade"></span><br><span style="font-weight:600">Class:</span><input class="in" id="st-cls" placeholder="e.g. 12A" style="max-width:180px"></td></tr>
+      <tr><td>Time: <span id="cv-time"></span></td><td>Student ID (if your teacher asks):<input class="in" id="st-sid" style="max-width:220px"></td></tr>
+      <tr><td>Subject: <span id="cv-subj"></span></td><td>Date: <span id="cv-date"></span></td></tr>
+    </tbody></table>
+    <div style="overflow-x:auto"><table class="std" id="cv-std"></table></div>
+    <div class="instr"><h3>Instructions</h3><ol id="cv-instr"></ol></div>
+    <div class="lockrule">🔒 This exam runs in lockdown mode. If you leave the exam screen, a warning appears and your teacher is told how many times you left<span id="cv-maxexits"></span>.</div>
+    <div class="msg" id="cv-open" hidden></div>
+    <label class="agree"><input type="checkbox" id="agree"> I have read the instructions. I will not leave the exam screen until I submit.</label>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn" id="start" type="button" disabled>Start the exam</button><span class="msg err" id="start-msg" hidden></span></div>
+    <div class="cv-foot" id="cv-foot"></div>
+  </div>
+</div></section>
+
+<!-- 3. the exam -->
+<section id="s-exam" hidden>
+  <div class="top"><div class="top-in">
+    <img id="tp-logo" alt="">
+    <div class="who"><b id="tp-title"></b><span id="tp-who"></span></div>
+    <span class="save" id="save" aria-live="polite"></span>
+    <span class="timer" id="timer" aria-live="off">--:--</span>
+    <button class="btn" id="finish" type="button">Finish</button>
+  </div></div>
+  <div class="wrap noselect" id="exam-wrap">
+    <nav class="pal" id="pal" aria-label="Questions"></nav>
+    <article class="card qcard" id="qcard"></article>
+  </div>
+</section>
+
+<!-- 4. submitted -->
+<section id="s-done" hidden><div class="card done">
+  <div class="tick">✓</div><h1 style="margin:0">Exam submitted</h1>
+  <p id="done-txt" style="margin:0;color:var(--mut)"></p>
+  <p style="margin:0;color:var(--mut)">You can close this window now.</p>
+</div></section>
+
+<div class="lock" id="lock" hidden role="alertdialog" aria-labelledby="lock-h">
+  <div class="lock-in"><h2 id="lock-h">You left the exam screen</h2><div class="n" id="lock-n">1</div>
+    <p style="margin:0;font-size:18px" id="lock-p">This has been recorded and your teacher will see it. Go back to your exam now.</p>
+    <button class="btn" id="lock-back" type="button">Return to the exam</button></div>
+</div>
+<div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cf-h">
+  <div class="card"><h2 id="cf-h" style="margin:0">Submit your exam?</h2><p id="cf-p" style="margin:0"></p>
+    <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap"><button class="btn ghost" id="cf-no" type="button">Keep working</button><button class="btn red" id="cf-yes" type="button">Submit now</button></div></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const API="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+const post=b=>fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(b)}).then(r=>r.json());
+const P=new URLSearchParams(location.search), PREVIEW=P.get("preview");
+function show(id){["s-code","s-cover","s-exam","s-done"].forEach(s=>$(s).hidden=s!==id);window.scrollTo(0,0);}
+// text from the paper: **bold**, <br>, and maths between $…$ (KaTeX). Everything else is escaped.
+function md(s){
+  return String(s??"").split(/(\$[^$]+\$)/g).map(part=>{
+    if(/^\$[^$]+\$$/.test(part)){try{return katex.renderToString(part.slice(1,-1),{throwOnError:false,output:"html"});}catch(e){return esc(part);}}
+    return esc(part).replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/&lt;br&gt;/g,"<br>");
+  }).join("");
+}
+const devId=()=>{let d=ls.get("ais-dev");if(!d||!/^[a-z0-9]{6,16}$/.test(d)){d=Array.from(crypto.getRandomValues(new Uint8Array(12)),x=>"abcdefghijklmnopqrstuvwxyz0123456789"[x%36]).join("");ls.set("ais-dev",d);}return d;};
+
+let META=null, PAPER=null, TOKEN=null, END=0, OFFSET=0, ANS={}, FLAGS={}, EXITS=0, PEND=[], CUR=0, dirty=false, finished=false, CODE="";
+const KEYP=()=>"omega-exam:"+CODE;
+
+/* ---------- 1. code ---------- */
+$("code").addEventListener("input",e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);});
+$("code-form").addEventListener("submit",e=>{e.preventDefault();openCode($("code").value);});
+async function openCode(c){
+  CODE=String(c||"").toUpperCase();const m=$("code-msg");m.hidden=true;
+  if(CODE.length!==6){m.hidden=false;m.textContent="The exam code has 6 letters and numbers.";return;}
+  $("code-go").disabled=true;
+  try{const r=await post({a:"exam-meta",code:CODE});if(!r.ok){m.hidden=false;m.textContent=r.error||"Exam not found.";return;}
+    META=r;OFFSET=Date.parse(r.serverNow)-Date.now();cover();}
+  catch(x){m.hidden=false;m.textContent="Could not reach the school server. Check the internet connection.";}
+  finally{$("code-go").disabled=false;}
+}
+
+/* ---------- 2. cover ---------- */
+function cover(){
+  const C=META.cover||{};
+  const L=C.logos||[];$("cv-l1").src=L[0]||"";$("cv-l2").src=L[1]||"";$("cv-l1").hidden=!L[0];$("cv-l2").hidden=!L[1];
+  $("cv-title").innerHTML=(C.title||[META.title]).map(t=>"<div>"+esc(t)+"</div>").join("")+(C.subtitle?"<p>"+esc(C.subtitle)+"</p>":"");
+  const det=Object.fromEntries((C.details||[]).map(x=>[String(x[0]).toLowerCase(),x[1]]));
+  $("cv-grade").textContent=det.grade||"";$("cv-subj").textContent=det.subject||"";$("cv-date").textContent=det.date||new Date().toLocaleDateString("en-GB");
+  $("cv-time").textContent=META.duration?META.duration+" minutes":"";
+  let t='<thead><tr><th>Strands</th><th>Standards</th><th>DOK</th><th>Item(s)</th><th>Mark</th></tr></thead><tbody>';
+  const marks=C.marks||[];
+  (C.strands||[]).forEach((s,i)=>{t+='<tr><td class="strand">'+esc(s.strand)+'</td><td><ul>'+(s.standards||[]).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></td>'+
+    (i===0?'<td colspan="3" rowspan="'+(C.strands.length)+'"><table class="std" style="font-size:14px">'+marks.map(m=>'<tr><td>'+esc(m[0])+'</td><td>'+esc(m[1])+'</td><td>/ '+esc(m[2])+'</td></tr>').join("")+'<tr><td colspan="3"><b>'+esc(C.total||"")+'</b></td></tr></table></td>':'')+'</tr>';});
+  $("cv-std").innerHTML=t+'</tbody>';
+  $("cv-instr").innerHTML=(C.instructions||[]).map(x=>"<li>"+md(x)+"</li>").join("");
+  $("cv-maxexits").textContent=META.maxExits?(". After "+META.maxExits+" exits the exam is submitted automatically"):"";
+  $("cv-foot").textContent=C.footer||"";
+  document.title=(C.title&&C.title[1]||META.title)+" · Omega";
+  const saved=JSON.parse(ls.get(KEYP())||"null");if(saved){$("st-name").value=saved.name||"";$("st-cls").value=saved.cls||"";$("st-sid").value=saved.sid||"";}
+  openState();show("s-cover");
+}
+function openState(){
+  const o=$("cv-open"),why=META.closed;
+  o.hidden=!why;o.className="msg"+(why==="closed"?" err":"");
+  o.textContent=why==="closed"?"This exam is closed.":why==="notyet"?"The exam opens at "+new Date(META.opensAt).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})+". This page will let you start then.":why?"The exam is not open yet. Wait for your teacher, then press Check again.":"";
+  checkStart();
+}
+function checkStart(){$("start").disabled=!!PREVIEW?false:!( $("agree").checked && $("st-name").value.trim().length>=3 && $("st-cls").value.trim() && !(META&&META.closed==="closed") );}
+["agree","st-name","st-cls"].forEach(id=>$(id).addEventListener("input",checkStart));
+$("agree").addEventListener("change",checkStart);
+$("start").addEventListener("click",async()=>{
+  const m=$("start-msg");m.hidden=true;
+  if(PREVIEW){begin();return;}
+  const name=$("st-name").value.trim(),cls=$("st-cls").value.trim(),sid=$("st-sid").value.trim();
+  ls.set(KEYP(),JSON.stringify(Object.assign(JSON.parse(ls.get(KEYP())||"{}"),{name,cls,sid})));
+  goFull();   // full screen must start from the button press
+  $("start").disabled=true;
+  try{
+    const r=await post({a:"exam-start",code:CODE,name,cls,sid,d:devId()});
+    if(!r.ok){m.hidden=false;m.textContent=r.error||"Could not start.";if(r.closed&&r.closed!=="closed"){const x=await post({a:"exam-meta",code:CODE});if(x.ok){META=x;openState();}}
+      if(r.submitted){exitFull();$("done-txt").textContent=r.error;show("s-done");}return;}
+    META=r;PAPER=r.paper;TOKEN=r.token;END=Date.parse(r.endAt);OFFSET=Date.parse(r.serverNow)-Date.now();EXITS=r.exits||0;
+    const local=JSON.parse(ls.get(KEYP())||"{}");
+    ANS=Object.assign({},r.answers||{},local.token===r.token&&local.ans?local.ans:{});FLAGS=local.token===r.token&&local.flags||{};
+    if(local.token===r.token&&local.pend)PEND=local.pend;
+    if(local.token===r.token&&local.started){logExit("reload");}   // opening the exam again counts as leaving it
+    keep({token:r.token,started:true});
+    begin();
+  }catch(x){m.hidden=false;m.textContent="Could not reach the school server. Check the internet connection and try again.";}
+  finally{checkStart();}
+});
+
+/* ---------- 3. exam ---------- */
+const QS=()=>PAPER.questions;
+function begin(){
+  const C=META.cover||{};$("tp-logo").src=(C.logos||[])[0]||"";$("tp-logo").hidden=!(C.logos||[])[0];
+  $("tp-title").textContent=(C.title&&C.title[1])||META.title;$("tp-who").textContent=PREVIEW?"Preview":(META.name+" · "+META.cls);
+  show("s-exam");renderPal();go(0);if(!PREVIEW){tick();setInterval(tick,1000);setInterval(()=>{if(dirty||PEND.length)save();},10000);armLock();}
+}
+function answered(q){const a=ANS[q.id];return q.kind==="mc"?a!==undefined&&a!==null:!!String(a||"").trim();}
+function renderPal(){$("pal").innerHTML=QS().map((q,i)=>'<button type="button" data-i="'+i+'" class="'+(answered(q)?"ans ":"")+(FLAGS[q.id]?"flag ":"")+(i===CUR?"cur":"")+'" aria-label="Question '+esc(sec(q).id+" "+q.label)+'">'+esc((q.section==="B"?"":sec(q).id.replace(/^Q/,""))+q.label)+'</button>').join("");}
+const sec=q=>(PAPER.sections||[]).find(s=>s.id===q.section)||{id:q.section,title:q.section};
+$("pal").addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(b)go(+b.dataset.i);});
+const KP=["√","∛","π","²","³","⁻¹","÷","×","±","≤","≥","≠","∞","→","θ","′","ln","sin","cos","tan","lim","eˣ","∴","½","|x|","( )","[ ]"];
+function go(i){
+  CUR=Math.max(0,Math.min(QS().length-1,i));const q=QS()[CUR],S=sec(q);
+  let h='<div class="qhead"><span class="sec">'+esc(S.title||S.id)+'</span><span class="pts">('+q.points+(q.points===1?" point":" points")+')</span></div>';
+  h+='<div class="qtext"><b>'+esc(q.label)+'.</b> '+md(q.text)+'</div>';
+  if(q.table)h+='<div style="overflow-x:auto"><table class="vt">'+q.table.map(r=>'<tr>'+r.map(c=>'<td>'+md(c)+'</td>').join("")+'</tr>').join("")+'</table></div>';
+  if(q.work)h+='<div class="work"><b>Student’s work:</b>'+q.work.map(w=>'<div>'+md(w)+'</div>').join("")+'</div>';
+  if(q.after)h+='<div class="qtext">'+md(q.after)+'</div>';
+  if(q.kind==="mc")h+='<div class="opts">'+q.options.map((o,k)=>'<button type="button" class="opt'+(ANS[q.id]===k?" sel":"")+(PREVIEW&&P.get("key")&&q.answer===k?" key":"")+'" data-k="'+k+'"><b>'+"ABCDEFG"[k]+'</b><span>'+md(o)+'</span></button>').join("")+'</div>';
+  else h+='<div class="kp" aria-label="Symbols">'+KP.map(s=>'<button type="button" data-s="'+esc(s)+'">'+esc(s)+'</button>').join("")+'</div><textarea class="ans" id="ans" spellcheck="false" placeholder="Show your working and write your final answer.">'+esc(ANS[q.id]||"")+'</textarea>';
+  if(PREVIEW&&P.get("key")&&q.model)h+='<div class="model"><b>Model answer:</b> '+esc(q.model)+'</div>';
+  h+='<div class="qnav"><button class="btn ghost" type="button" id="prev"'+(CUR?"":" disabled")+'>← Previous</button><button type="button" class="btn flagbtn'+(FLAGS[q.id]?" on":"")+'" id="flag">⚑ '+(FLAGS[q.id]?"Flagged":"Flag for review")+'</button><button class="btn" type="button" id="next">'+(CUR<QS().length-1?"Next →":"Review & finish")+'</button></div>';
+  $("qcard").innerHTML=h;renderPal();
+  $("prev").onclick=()=>go(CUR-1);$("next").onclick=()=>CUR<QS().length-1?go(CUR+1):finishAsk();
+  $("flag").onclick=()=>{FLAGS[q.id]=!FLAGS[q.id];keep({flags:FLAGS});go(CUR);};
+  $("qcard").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ANS[q.id]=+b.dataset.k;changed();go(CUR);});
+  const ta=$("ans");
+  if(ta){ta.addEventListener("input",()=>{ANS[q.id]=ta.value;changed();});
+    $("qcard").querySelectorAll(".kp button").forEach(b=>b.onclick=()=>{const s=b.dataset.s,ins=s==="( )"?"()":s==="[ ]"?"[]":s==="|x|"?"||":s,p=ta.selectionStart||ta.value.length;
+      ta.value=ta.value.slice(0,p)+ins+ta.value.slice(ta.selectionEnd||p);const c=p+(/^[(\[|]/.test(ins)&&ins.length===2?1:ins.length);ta.focus();ta.setSelectionRange(c,c);ANS[q.id]=ta.value;changed();});}
+  window.scrollTo(0,0);   // keep the question map in view
+}
+let renderT=0;
+function changed(){dirty=true;keep({ans:ANS});clearTimeout(renderT);renderT=setTimeout(renderPal,300);if(!PREVIEW){clearTimeout(changed.t);changed.t=setTimeout(save,2500);}}
+function keep(o){if(PREVIEW)return;ls.set(KEYP(),JSON.stringify(Object.assign(JSON.parse(ls.get(KEYP())||"{}"),o)));}
+let saving=false;
+async function save(final){
+  if(PREVIEW||finished&&!final)return;if(saving&&!final)return;saving=true;
+  const sent=PEND.slice();
+  try{
+    const r=await post({a:final?"exam-submit":"exam-save",t:TOKEN,answers:ANS,exits:EXITS,log:sent});
+    if(r.ok){dirty=false;PEND=PEND.slice(sent.length);keep({pend:PEND});
+      if(r.submitted){done(r.byExits?"Your exam was submitted automatically because you left the exam screen too many times.":r.late?"Time was up. Your answers were submitted.":"Your answers have been sent to your teacher.");return true;}
+      if(r.endAt){END=Date.parse(r.endAt);OFFSET=Date.parse(r.serverNow)-Date.now();}
+      $("save").className="save";$("save").textContent="Saved ✓ "+new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});return true;}
+    if(r.error==="session"){$("save").className="save bad";$("save").textContent="Session problem – tell your teacher";}
+  }catch(x){$("save").className="save bad";$("save").textContent="Offline – answers kept on this device";}
+  finally{saving=false;}
+  return false;
+}
+function tick(){
+  const left=END-(Date.now()+OFFSET),t=$("timer");
+  if(left<=0){t.textContent="0:00";if(!finished){finished=true;$("save").textContent="Time is up – submitting…";submitNow();}return;}
+  const m=Math.floor(left/60000),s=Math.floor(left%60000/1000);
+  t.textContent=(m>=60?Math.floor(m/60)+":"+String(m%60).padStart(2,"0"):m)+":"+String(s).padStart(2,"0");
+  t.classList.toggle("low",left<5*60000);
+}
+function finishAsk(){
+  const un=QS().filter(q=>!answered(q)),fl=QS().filter(q=>FLAGS[q.id]);
+  $("cf-p").innerHTML=(un.length?"<b>"+un.length+" unanswered:</b> "+un.map(q=>esc(sec(q).id.replace(/^Q/,"Q")+" "+q.label)).join(", ")+"<br>":"All questions have an answer. ")+(fl.length?"<b>"+fl.length+" flagged</b> for review.<br>":"")+"After you submit you cannot change your answers.";
+  $("confirm").hidden=false;$("cf-no").focus();
+}
+$("finish").addEventListener("click",finishAsk);
+$("cf-no").addEventListener("click",()=>{$("confirm").hidden=true;});
+$("cf-yes").addEventListener("click",()=>{$("confirm").hidden=true;finished=true;submitNow();});
+async function submitNow(){
+  if(PREVIEW){done("This was a preview: nothing was saved.");return;}
+  $("finish").disabled=true;$("save").textContent="Submitting…";
+  for(let i=0;i<6;i++){if(await save(true))return;await new Promise(r=>setTimeout(r,2500*(i+1)));}
+  $("save").className="save bad";$("save").textContent="Could not submit – stay on this page and tell your teacher";finished=false;$("finish").disabled=false;
+}
+function done(t){finished=true;exitFull();$("lock").hidden=true;$("done-txt").textContent=t;ls.del(KEYP());show("s-done");}
+
+/* ---------- lockdown: detect and warn ---------- */
+const FS=!!(document.documentElement.requestFullscreen);
+function goFull(){if(FS&&!document.fullscreenElement&&!PREVIEW)document.documentElement.requestFullscreen().catch(()=>{});}
+function exitFull(){if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});}
+let lastExit=0;
+function logExit(kind){
+  if(PREVIEW||finished)return;const now=Date.now();if(now-lastExit<1500)return;lastExit=now;   // one exit, not three events for the same moment
+  EXITS++;PEND.push({t:new Date(now+OFFSET).toISOString(),k:kind});keep({pend:PEND,exits:EXITS});
+  $("lock-n").textContent=EXITS;
+  const max=META&&META.maxExits;$("lock-p").textContent="This has been recorded and your teacher will see it."+(max?" After "+max+" exits your exam is submitted automatically ("+Math.max(0,max-EXITS)+" left).":"")+" Go back to your exam now.";
+  $("lock").hidden=false;save();
+}
+function armLock(){
+  document.addEventListener("visibilitychange",()=>{if(document.hidden)logExit("tab");});
+  window.addEventListener("blur",()=>{setTimeout(()=>{if(!document.hasFocus())logExit("window");},400);});
+  document.addEventListener("fullscreenchange",()=>{if(FS&&!document.fullscreenElement&&!finished)logExit("fullscreen");});
+  ["copy","cut","paste","contextmenu","dragstart","drop"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));
+  document.addEventListener("keydown",e=>{const k=e.key.toLowerCase();if((e.ctrlKey||e.metaKey)&&["c","v","x","p","s","u","f"].includes(k)||k==="f12"){e.preventDefault();}});
+  window.addEventListener("beforeunload",e=>{if(!finished){save();e.preventDefault();e.returnValue="";}});
+  window.addEventListener("online",()=>save());
+}
+$("lock-back").addEventListener("click",()=>{$("lock").hidden=true;goFull();});
+
+/* ---------- start ---------- */
+if(PREVIEW){   // admin preview: reads the paper with the admin key of this browser
+  $("pvbar").hidden=false;
+  const key=(()=>{try{return sessionStorage.getItem("ais-admin-key")||localStorage.getItem("ais-admin-key")}catch(e){return null}})();
+  post({a:"admin",key,op:"exam-get",id:PREVIEW}).then(r=>{if(!r.ok){document.body.innerHTML='<p style="padding:24px">'+esc(r.error||"Open the admin page first, then the preview again.")+'</p>';return;}
+    META={cover:r.paper.cover,title:r.exam.title,duration:r.exam.duration,maxExits:r.exam.maxExits,closed:""};PAPER=r.paper;cover();$("agree").checked=true;checkStart();});
+}else{
+  const c=(P.get("c")||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);
+  if(c){$("code").value=c;openCode(c);}else show("s-code");
+}
+})();
+</script>
+</body>
+</html>

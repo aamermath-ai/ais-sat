@@ -127,6 +127,13 @@ for f in sorted(os.listdir(S+'/worksheets')):
         w=add_calc(w,'../')
         KX="https://cdnjs.cloudflare.com" if "KaTeX" in w else ""   # calculus worksheets typeset maths with KaTeX
         open(OUT+'/worksheets/'+f,'w').write(csp(w, GS, None, "strict-origin-when-cross-origin", scripts=KX, styles=KX, fonts=KX))
+# ---- Exams in lockdown mode: exam.html (students) and exam-print.html (printable scripts for teachers).
+#      The papers themselves are NOT in this repository: they live in the school's Drive/Apps Script.
+KXS="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/"
+for name,desc,ref in (('exam','Omega exam: type the exam code from your teacher','no-referrer'),('exam-print','Omega exam scripts','no-referrer')):
+    ep=open(S+'/'+name+'.html').read().replace('@@STATS_URL@@',STATS_URL)
+    ep=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="'+desc)+ep+'</html>\n'
+    open(OUT+'/'+name+'.html','w').write(csp(ep, GS, None, ref, scripts=KXS+"katex.min.js", styles=KXS+"katex.min.css", fonts=KXS+"fonts/"))
 # ---- Worksheet builder (contributors upload lessons, edit drafts): build.html
 bp=open(S+'/build.html').read().replace('@@STATS_URL@@',STATS_URL).replace('/*@@SHARED_CSS@@*/',css,1).replace('@@LOGO@@',logo)
 bp=head.replace('content="Omega SAT: free adaptive Digital SAT practice','content="Omega Worksheet builder').replace('<meta name="apple-mobile-web-app-title" content="Omega">','<meta name="apple-mobile-web-app-title" content="Omega">')+bp+'</html>\n'

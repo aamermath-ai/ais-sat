@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-DU9f3wnMzgesWRqv/Bs5l0aCGCqeNp7iHG4o2yT38g8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-/E6gZ43oKOdN1SuZ63jeJJQZ7dIABWVnwQHHJB6B++Q='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -73,6 +73,19 @@ th{color:var(--muted);font-weight:600}
 .pill.pending{background:rgba(199,110,0,.14);color:#C76E00}
 .pill.removed{background:var(--fill);color:var(--muted)}
 .tmsg{margin-top:10px;font-size:.88rem}
+.xrow{border-bottom:1px solid var(--line);padding:14px 0;display:flex;flex-direction:column;gap:10px}
+.xrow .top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.xrow .top b{flex:1;min-width:200px}
+.xset{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.xset label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:var(--muted);font-weight:600}
+.xset input{flex:none;width:100%}
+.xbtns{display:flex;gap:6px;flex-wrap:wrap}
+.xbtns button,.xbtns a{padding:8px 14px;font-size:.85rem}
+.xcode{font:800 1.05rem ui-monospace,Menlo,monospace;letter-spacing:.12em;background:var(--fill);border-radius:8px;padding:4px 10px}
+.xres table{font-size:.82rem}.xres td,.xres th{text-align:left}
+.pill.open{background:rgba(30,142,74,.13);color:var(--good)}.pill.ready{background:var(--fill);color:var(--ink-2)}.pill.closed{background:rgba(198,46,58,.1);color:var(--bad)}
+.pill.active{background:rgba(47,123,245,.12);color:var(--bar)}.pill.submitted,.pill.time,.pill.exits{background:var(--fill);color:var(--ink-2)}
+@media (max-width:640px){.xset{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .gr{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--muted)}
 .gr label{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;background:var(--fill);color:var(--ink);font-weight:600;cursor:pointer}
 .gr input{flex:none;width:auto;margin:0}
@@ -118,6 +131,13 @@ a.btnl{font:inherit;font-weight:700;border-radius:999px;background:var(--fill);c
       <div class="tform"><input id="t-name" placeholder="Teacher’s name (e.g. Sana Malik)" autocomplete="off"><input id="t-email" type="email" placeholder="Email, e.g. name@school.ae" autocomplete="off"><button id="t-add">Add teacher</button></div>
       <p class="tmsg" id="t-msg" hidden></p>
       <div class="trows" id="t-list"></div>
+    </div>
+    <div class="card" id="exams" style="margin-bottom:16px">
+      <div class="row" style="justify-content:space-between"><h2>Exams (lockdown)</h2><span class="note" id="x-count"></span></div>
+      <p class="note">Upload a paper (PDF or Word). A Claude session turns it into an online exam (ask Claude to “build the queued exam”); it appears here as <b>Ready</b>. Set the time, then <b>Open now</b>. Students go to <b>exam.html</b> and type the exam code. The paper and its answers are never part of the public website.</p>
+      <div class="tform" style="grid-template-columns:minmax(0,1.4fr) 110px minmax(0,1.2fr) auto"><input id="x-title" placeholder="Exam title (e.g. G12 Calculus Term 1 Final, Version A)"><input id="x-dur" type="number" min="5" max="600" placeholder="Minutes"><input id="x-file" type="file" accept=".pdf,.doc,.docx"><button id="x-up">Upload paper</button></div>
+      <p class="tmsg" id="x-msg" hidden></p>
+      <div id="x-list"></div>
     </div>
     <div class="card" id="prs" style="margin-bottom:16px" hidden>
       <div class="row" style="justify-content:space-between"><h2>Pro requests</h2><span class="note" id="pr-count"></span></div>
@@ -182,7 +202,7 @@ async function load(){
     if(j.ok&&!j.days)j=await (await fetch(url+(url.includes("?")?"&":"?")+"key="+encodeURIComponent(key)+"&since="+iso(since))).json();   // older Code.gs without POST statistics
     if(!j.ok)throw new Error(j.error||"The script refused the request.");
     ls.set("ais-admin-url",url); keySet(key,$("remember").checked); idle();
-    data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers(); loadBuilds(); loadPro(); loadFeedback();
+    data=j; $("err").hidden=true; $("login").hidden=true; $("dash").hidden=false; render(); loadTeachers(); loadBuilds(); loadPro(); loadExams(); loadFeedback();
   }catch(e){showErr(e.message&&e.message!=="Failed to fetch"?e.message:"Could not reach the script. Check the address and that it is deployed with access “Anyone”.");}
   $("go").textContent="Show statistics";
 }
@@ -280,6 +300,71 @@ $("t-list").addEventListener("change",async e=>{const box=e.target.closest(".gr"
   try{const r=await tapi({op:"grades",email:box.dataset.e,grades});if(!r.ok){tmsg(r.error||"Could not update.","err");return;}
     teachers=r.teachers;renderTeachers();tmsg(grades?"Saved: "+box.dataset.e+" can build worksheets for Grade "+grades.split(",").join(", ")+".":"Saved: "+box.dataset.e+" cannot build worksheets.","ok");}
   catch(x){tmsg("Could not reach the script.","err");}finally{box.style.opacity="";}});
+/* ---- Exams (lockdown) ---- */
+let exams=[], xopen="", xres={};
+function xmsg(t,c){const m=$("x-msg");m.hidden=!t;m.textContent=t||"";m.className="tmsg"+(c?" "+c:"");}
+const dtl=v=>{if(!v)return "";const d=new Date(v);if(isNaN(d))return "";const p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+"T"+p(d.getHours())+":"+p(d.getMinutes());};
+async function loadExams(){try{const r=await tapi({op:"exams"});if(!r.ok){$("exams").hidden=true;return;}exams=r.exams||[];renderExams();}catch(e){$("exams").hidden=true;}}
+function renderExams(){
+  $("x-count").textContent=exams.filter(x=>x.status==="open").length+" open · "+exams.length+" in total";
+  const lab={queued:"Queue · for Claude",ready:"Ready",open:"Open",closed:"Closed"};
+  $("x-list").innerHTML=exams.length?exams.slice().reverse().map(x=>{
+    const link=new URL("exam.html",location.href).href+(x.code?"?c="+x.code:"");
+    return '<div class="xrow" data-x="'+esc(x.id)+'"><div class="top"><b>'+esc(x.title)+'</b><span class="pill '+esc(x.status)+'">'+(lab[x.status]||esc(x.status))+'</span>'+
+      (x.code?'<span class="note">Code</span><span class="xcode">'+esc(x.code)+'</span>':'')+'<span class="note">'+x.counts.started+' started · '+x.counts.submitted+' submitted</span></div>'+
+      (x.status==="queued"?'<p class="note" style="margin:0">Waiting for a Claude session to build it from “'+esc(x.uploadName)+'”.</p>':
+      '<div class="xset"><label>Duration (minutes)<input type="number" min="5" max="600" data-f="duration" value="'+x.duration+'"></label>'+
+      '<label>Opens (optional)<input type="datetime-local" data-f="opensAt" value="'+dtl(x.opensAt)+'"></label>'+
+      '<label>Closes (optional)<input type="datetime-local" data-f="closesAt" value="'+dtl(x.closesAt)+'"></label>'+
+      '<label>Auto-submit after exits (0 = never)<input type="number" min="0" max="50" data-f="maxExits" value="'+x.maxExits+'"></label></div>'+
+      '<div class="xbtns"><button data-xa="save">Save settings</button>'+(x.status!=="open"?'<button data-xa="open">Open now</button>':'<button class="ghost" data-xa="close">Close now</button>')+
+      '<button class="ghost" data-xa="preview">Preview</button><button class="ghost" data-xa="key">Preview with answers</button><button class="ghost" data-xa="results">'+(xopen===x.id?"Hide results":"Results")+'</button></div>'+
+      (x.code?'<p class="note" style="margin:0">Student link: <a href="'+esc(link)+'" target="_blank" rel="noopener">'+esc(link)+'</a></p>':''))+
+      (xopen===x.id?'<div class="xres" id="xres-'+esc(x.id)+'">'+resHtml(x.id)+'</div>':'')+'</div>';}).join("")
+    :'<p class="note" style="padding:12px 0">No exams yet. Upload a paper above.</p>';
+}
+function resHtml(id){const r=xres[id];if(!r)return '<p class="note">Loading…</p>';const A=r.attempts||[];
+  if(!A.length)return '<p class="note">No students have started yet.</p>';
+  const lab={active:"Writing",submitted:"Submitted",time:"Time up",exits:"Auto (exits)"};
+  return '<div class="xbtns"><button data-xa="csv">Download CSV</button><button data-xa="print">Print scripts</button><button class="ghost" data-xa="results">Refresh</button></div><div class="tablewrap"><table><thead><tr><th>Student</th><th>Class</th><th>ID</th><th>Status</th><th>MC</th><th>Exits</th><th>Last save</th><th></th></tr></thead><tbody>'+
+    A.slice().sort((a,b)=>a.cls.localeCompare(b.cls)||a.name.localeCompare(b.name)).map(a=>'<tr><td>'+esc(a.name)+'</td><td>'+esc(a.cls)+'</td><td>'+esc(a.sid)+'</td><td><span class="pill '+esc(a.status)+'">'+(lab[a.status]||esc(a.status))+'</span></td><td>'+a.mcScore+'/'+a.mcTotal+'</td><td'+(a.exits?' style="color:var(--bad);font-weight:700"':'')+'>'+a.exits+'</td><td>'+esc(when(a.lastSave))+'</td><td><button class="ghost" data-xa="extend" data-att="'+esc(a.id)+'" title="Give 10 more minutes (also reopens a submitted exam)">+10 min</button></td></tr>').join("")+'</tbody></table></div>';}
+$("x-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-xa]");if(!b)return;const row=b.closest(".xrow"),id=row.dataset.x,a=b.dataset.xa;
+  const val=f=>{const el=row.querySelector('[data-f="'+f+'"]');return el?el.value:"";};
+  if(a==="preview"||a==="key"){window.open("exam.html?preview="+id+(a==="key"?"&key=1":""),"_blank");return;}
+  if(a==="results"&&xopen===id&&!b.closest(".xres")){xopen="";renderExams();return;}
+  if(a==="csv"){csv(id);return;}
+  if(a==="print"){window.open("exam-print.html?id="+id,"_blank");return;}   // opened from this tab so it can use the admin key
+  b.disabled=true;
+  try{
+    if(a==="results"){xopen=id;renderExams();const r=await tapi({op:"exam-results",id});xres[id]=r.ok?r:{attempts:[]};renderExams();return;}
+    if(a==="extend"){const r=await tapi({op:"exam-extend",id,attempt:b.dataset.att,minutes:10});if(r.ok){xres[id]=r;renderExams();xmsg("Gave 10 more minutes.","ok");}else xmsg(r.error||"Could not update.","err");return;}
+    const toIso=v=>v?new Date(v).toISOString():"";
+    const body={op:"exam-set",id,duration:val("duration"),opensAt:toIso(val("opensAt")),closesAt:toIso(val("closesAt")),maxExits:val("maxExits")};
+    if(a==="open")body.status="open";if(a==="close")body.status="closed";
+    if(a==="close"&&!confirm("Close this exam now? Students who are still writing can save until their time ends, but nobody new can start."))return;
+    const r=await tapi(body);if(!r.ok){xmsg(r.error||"Could not save.","err");return;}
+    exams=r.exams;renderExams();xmsg(a==="open"?"The exam is open. Give students the code.":a==="close"?"The exam is closed.":"Saved.","ok");
+  }catch(x){xmsg("Could not reach the script.","err");}finally{b.disabled=false;}
+});
+async function csv(id){
+  const [g,r]=await Promise.all([tapi({op:"exam-get",id}),xres[id]&&xres[id].attempts?Promise.resolve(xres[id]):tapi({op:"exam-results",id})]);
+  if(!g.ok){xmsg(g.error||"Could not load the exam.","err");return;}
+  const Q=g.paper.questions,c=v=>{v=String(v??"");if(/^[=+\-@]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"';};
+  const head=["Name","Class","Student ID","Status","Started","Submitted","Exits","Exit times","MC score","MC total"].concat(Q.map(q=>(q.section==="B"?"":q.section+" ")+q.label));
+  const rows=(r.attempts||[]).map(a=>[a.name,a.cls,a.sid,a.status,a.started,a.submitted,a.exits,a.log.map(x=>x.t+" "+x.k).join("; "),a.mcScore,a.mcTotal].concat(Q.map(q=>{const v=a.answers[q.id];return q.kind==="mc"?(v===undefined?"":"ABCDEFG"[v]+(v===q.answer?" ✓":" ✗")):(v||"");})));
+  const blob=new Blob(["\ufeff"+[head].concat(rows).map(x=>x.map(c).join(",")).join("\r\n")],{type:"text/csv"});
+  const el=document.createElement("a");el.href=URL.createObjectURL(blob);el.download=(g.exam.title||"exam").replace(/[^\w .-]+/g,"")+" – results.csv";document.body.appendChild(el);el.click();el.remove();
+}
+$("x-up").addEventListener("click",async()=>{const f=$("x-file").files[0];if(!f){xmsg("Choose the paper (PDF or Word).","err");return;}
+  if(f.size>15*1048576){xmsg("The file is bigger than 15 MB.","err");return;}
+  const ext=(f.name.split(".").pop()||"").toLowerCase(),mime={pdf:"application/pdf",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"}[ext];
+  if(!mime){xmsg("Upload a PDF or Word file.","err");return;}
+  $("x-up").disabled=true;xmsg("Uploading…");
+  try{const data=await new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>ok(String(fr.result).split(",")[1]);fr.onerror=no;fr.readAsDataURL(f);});
+    const r=await tapi({op:"exam-new",title:$("x-title").value.trim(),duration:$("x-dur").value,fileName:f.name,mime,data});
+    if(!r.ok){xmsg(r.error||"Upload failed.","err");return;}exams=r.exams;renderExams();$("x-title").value="";$("x-file").value="";xmsg("Uploaded. Ask Claude to build the queued exam; it will then appear here as Ready.","ok");}
+  catch(x){xmsg("Upload failed. Check the connection.","err");}finally{$("x-up").disabled=false;}});
+
 /* ---- Omega Pro requests ---- */
 async function loadPro(){try{const r=await tapi({op:"prorequests"});if(!r.ok||!r.requests){$("prs").hidden=true;return;}
   $("prs").hidden=!r.requests.length;$("pr-count").textContent=r.requests.length+(r.requests.length===1?" request":" requests");

@@ -71,7 +71,7 @@ function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
     var body = (e && e.postData && e.postData.contents) || '';
-    var big = /^\{"a":"build-(new|save)"/.test(body.slice(0, 20));   // contributor upload (file) or saved worksheet draft
+    var big = /^\{"a":"(build-(new|save)|exam-(save|submit)|admin)"/.test(body.slice(0, 22));   // contributor upload (file) or saved worksheet draft
     if (body.length > (big ? MAX_UPLOAD_BODY : MAX_BODY)) return out_({ ok: false, error: big ? 'The file is too big (max 15 MB).' : '' });
     var d = JSON.parse(body || '{}');
     if (d.a) return out_(teacherApi_(d));   // teacher sign-in and dashboard (teacher.html)
@@ -319,6 +319,7 @@ function teacherApi_(d) {
   if (d.a === 'verify') return verifyCode_(d.email, d.code);
   if (d.a === 'request') return requestAccess_(d.email, d.name);
   if (d.a === 'pro-request') return proRequest_(d);
+  if (/^exam-/.test(String(d.a))) return examApi_(d);   // students taking an exam (exam.html)
   // everything below needs a valid session of an approved teacher
   var email = readSession_(d.s);
   if (!email) return { ok: false, error: 'session' };
@@ -555,6 +556,7 @@ function adminTeachers_(d) {
   var op = String(d.op || 'list'), mailNote = '';
   if (op === 'stats') return stats_(d.since);
   if (/^build/.test(op)) return adminBuilds_(op, d);
+  if (/^exam/.test(op)) return adminExams_(op, d);
   if (op === 'plan') {
     var pe = cleanEmail_(d.email), tp = teachers_(), pi = findTeacher_(tp, pe);
     if (pi < 0) return { ok: false, error: 'Teacher not found.' };
@@ -607,7 +609,7 @@ var B_HEAD = ['id', 'created', 'email', 'name', 'grade', 'term', 'module', 'topi
 var GRADES_OK = ['6', '7', '8', '9', '10', '11', '12'];
 var UPLOAD_TYPES = { 'application/pdf': 1, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 1, 'application/msword': 1,
   'application/vnd.openxmlformats-officedocument.presentationml.presentation': 1, 'application/vnd.ms-powerpoint': 1, 'image/png': 1, 'image/jpeg': 1 };
-var MAX_WS_JSON = 250000;
+var MAX_WS_JSON = 48000;   // one Google Sheet cell holds at most 50,000 characters
 // The browser says what type a file is; check the file's first bytes so a renamed file of another type is refused.
 function magicOk_(bytes, mime) {
   var h = []; for (var i = 0; i < 8 && i < bytes.length; i++) h.push((bytes[i] + 256) % 256);
@@ -871,4 +873,213 @@ function adminFeedback_(op, d) {
     f = fbSheet_();
   }
   return { ok: true, feedback: f.rows.map(fbRow_).reverse() };
+}
+
+
+// ======================================================================================================
+// Exams in lockdown mode (exam.html). The paper and its answer key live only in Drive ("Omega exams/<id>.json")
+// and are never part of the public website. Students get the questions (without answers) only while the exam is
+// open and they type the exam code. Answers autosave; every time a student leaves the exam screen is recorded.
+// ======================================================================================================
+var E_SHEET = 'Exams';
+var E_HEAD = ['id', 'created', 'title', 'fileId', 'status', 'duration', 'opensAt', 'closesAt', 'code', 'maxExits', 'uploadId', 'uploadName', 'notes', 'updated'];
+var EA_SHEET = 'ExamAttempts';
+var EA_HEAD = ['id', 'exam', 'name', 'class', 'studentId', 'started', 'endAt', 'submitted', 'status', 'answers', 'exits', 'exitLog', 'mcScore', 'mcTotal', 'lastSave', 'device'];
+var EXAM_GRACE_MS = 120000;   // answers sent up to 2 minutes after time is up still count (slow networks)
+
+function exams_() { var sh = tab_(E_SHEET, E_HEAD), last = sh.getLastRow(); return { sh: sh, rows: last > 1 ? sh.getRange(2, 1, last - 1, E_HEAD.length).getValues() : [] }; }
+function attempts_() { var sh = tab_(EA_SHEET, EA_HEAD), last = sh.getLastRow(); return { sh: sh, rows: last > 1 ? sh.getRange(2, 1, last - 1, EA_HEAD.length).getValues() : [] }; }
+function iso_(v) { return v instanceof Date ? v.toISOString() : String(v || ''); }
+function ms_(v) { var t = v instanceof Date ? v.getTime() : Date.parse(String(v || '')); return isFinite(t) ? t : 0; }
+function eRow_(r) {
+  return { id: String(r[0]), created: iso_(r[1]), title: unplain_(r[2]), fileId: String(r[3]), status: String(r[4]), duration: +r[5] || 0,
+    opensAt: iso_(r[6]), closesAt: iso_(r[7]), code: String(r[8]), maxExits: +r[9] || 0, uploadName: unplain_(r[11]), notes: unplain_(r[12]), updated: iso_(r[13]) };
+}
+function findExamBy_(e, k, v) { for (var i = 0; i < e.rows.length; i++) if (String(e.rows[i][k]) === v) return i; return -1; }
+function examJson_(fileId) {
+  var cache = CacheService.getScriptCache(), c = cache.get('exam:' + fileId);
+  if (c) return JSON.parse(c);
+  var w = JSON.parse(DriveApp.getFileById(fileId).getBlob().getDataAsString('UTF-8'));
+  try { cache.put('exam:' + fileId, JSON.stringify(w), 600); } catch (e) {}   // too big for the cache is fine: read from Drive
+  return w;
+}
+function examPublic_(w) {   // the paper without the answer key
+  var o = JSON.parse(JSON.stringify(w)); delete o.key;
+  (o.questions || []).forEach(function (q) { delete q.answer; delete q.model; });
+  return o;
+}
+// is the exam open right now? returns '' or a reason
+function examClosedWhy_(E, now) {
+  if (E.status !== 'open') return E.status === 'closed' ? 'closed' : 'notopen';
+  if (E.opensAt && now < ms_(E.opensAt)) return 'notyet';
+  if (E.closesAt && now > ms_(E.closesAt)) return 'closed';
+  return '';
+}
+// Drive "Omega exams": exam files written by a Claude session become ready (named <id>.json)
+function importExams_() {
+  var it = DriveApp.getFoldersByName('Omega exams'); if (!it.hasNext()) return;
+  var lock = LockService.getScriptLock(); if (!lock.tryLock(5000)) return;
+  try {
+    var e = null;
+    while (it.hasNext()) {
+      var files = it.next().getFiles();
+      while (files.hasNext()) {
+        var f = files.next(), m = /^(x[a-z0-9]{8})\.json$/.exec(f.getName()); if (!m) continue;
+        e = e || exams_();
+        var w; try { w = JSON.parse(f.getBlob().getDataAsString('UTF-8')); } catch (x) { f.setName('invalid-' + f.getName()); continue; }
+        if (!w || !Array.isArray(w.questions) || !w.questions.length || !w.cover) { f.setName('invalid-' + f.getName()); continue; }
+        var i = findExamBy_(e, 0, m[1]), title = plain_((w.cover.title || []).join(' · ') || w.title || 'Exam', 120);
+        if (i < 0) { e.sh.appendRow([m[1], new Date(), title, f.getId(), 'ready', +w.duration || 60, '', '', '', 0, '', '', '', new Date()]); e = exams_(); }
+        else e.sh.getRange(i + 2, 3, 1, 3).setValues([[title, f.getId(), String(e.rows[i][4]) === 'queued' ? 'ready' : e.rows[i][4]]]);
+        f.setName('imported-' + f.getName());
+      }
+    }
+  } finally { try { lock.releaseLock(); } catch (x) {} }
+}
+function examByCode_(code) {
+  code = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!/^[A-Z0-9]{6}$/.test(code)) return null;
+  var e = exams_(), i = findExamBy_(e, 8, code);
+  return i < 0 ? null : { row: i, E: eRow_(e.rows[i]), sh: e.sh };
+}
+function attemptToken_(id) { return id + '.' + sign_('exam|' + id); }
+function readAttempt_(t) {
+  var m = /^(a[a-z0-9]{10})\.([A-Za-z0-9_\-]{20,80})$/.exec(String(t || ''));
+  if (!m || !sameKey_(sign_('exam|' + m[1]), m[2])) return null;
+  var a = attempts_();
+  for (var i = 0; i < a.rows.length; i++) if (String(a.rows[i][0]) === m[1]) return { i: i, r: a.rows[i], sh: a.sh };
+  return null;
+}
+function cleanAnswers_(w, raw) {   // keep only answers to real questions, with sensible sizes
+  var out = {}, ids = {}; (w.questions || []).forEach(function (q) { ids[q.id] = q; });
+  var a = raw && typeof raw === 'object' ? raw : {};
+  Object.keys(a).slice(0, 80).forEach(function (k) {
+    var q = ids[k]; if (!q) return;
+    if (q.kind === 'mc') { var n = Number(a[k]); if (n >= 0 && n < (q.options || []).length) out[k] = n; }
+    else out[k] = String(a[k] == null ? '' : a[k]).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').slice(0, 4000);
+  });
+  return out;
+}
+function mcScore_(w, ans) {
+  var sc = 0, tot = 0;
+  (w.questions || []).forEach(function (q) { if (q.kind !== 'mc') return; var pts = +q.points || 1; tot += pts; if (ans[q.id] === q.answer) sc += pts; });
+  return { score: sc, total: tot };
+}
+function finishAttempt_(A, w, ans, how) {
+  var sc = mcScore_(w, ans), txt = JSON.stringify(ans);
+  if (txt.length > 48000) txt = txt.slice(0, 48000);
+  A.sh.getRange(A.i + 2, 8, 1, 2).setValues([[new Date(), how]]);
+  A.sh.getRange(A.i + 2, 10).setValue(txt);
+  A.sh.getRange(A.i + 2, 13, 1, 3).setValues([[sc.score, sc.total, new Date()]]);
+}
+
+function examApi_(d) {
+  var cache = CacheService.getScriptCache(), now = Date.now();
+  if (count_(cache, 'exam:' + new Date().toISOString().slice(0, 16), 120) > 3000) return { ok: false, error: 'busy' };
+  if (d.a === 'exam-meta' || d.a === 'exam-start') {
+    var X = examByCode_(d.code);
+    if (!X || ['open', 'ready'].indexOf(X.E.status) < 0 && X.E.status !== 'closed') return { ok: false, error: 'That exam code was not found. Check it with your teacher.' };
+    var w = examJson_(X.E.fileId), why = examClosedWhy_(X.E, now);
+    var meta = { ok: true, code: X.E.code, title: X.E.title, cover: w.cover, duration: X.E.duration, opensAt: X.E.opensAt, closesAt: X.E.closesAt, maxExits: X.E.maxExits,
+      sections: (w.sections || []).map(function (s) { return { id: s.id, title: s.title, points: s.points }; }), nQuestions: (w.questions || []).length, serverNow: new Date(now).toISOString(), closed: why };
+    if (d.a === 'exam-meta') return meta;
+    if (why) return { ok: false, error: why === 'notyet' ? 'The exam has not started yet.' : why === 'closed' ? 'This exam is closed.' : 'The exam is not open yet. Wait for your teacher.', closed: why };
+    var name = plain_(d.name, 60), cls = plain_(d.cls, 12).toUpperCase(), sid = plain_(d.sid, 30);
+    if (name.length < 3 || !cls) return { ok: false, error: 'Write your full name and class.' };
+    if (count_(cache, 'examstart:' + String(d.d || '') + X.E.id, 3600) > 40) return { ok: false, error: 'Too many attempts from this device. Ask your teacher.' };
+    var lock = LockService.getScriptLock(); lock.waitLock(10000);
+    try {
+      var a = attempts_(), key = name.toLowerCase().replace(/\s+/g, ' ') + '|' + cls, at = -1;
+      for (var i = 0; i < a.rows.length; i++) if (String(a.rows[i][1]) === X.E.id && unplain_(a.rows[i][2]).toLowerCase().replace(/\s+/g, ' ') + '|' + unplain_(a.rows[i][3]) === key) { at = i; break; }
+      var id, endAt, saved = {}, exits = 0;
+      if (at >= 0) {   // the same student again (reload, new device): continue the same attempt
+        var r = a.rows[at];
+        if (String(r[8]) !== 'active') return { ok: false, error: 'You have already submitted this exam.', submitted: true };
+        id = String(r[0]); endAt = iso_(r[6]); exits = +r[10] || 0;
+        try { saved = JSON.parse(String(r[9] || '{}')); } catch (x) { saved = {}; }
+        if (now > ms_(endAt) + EXAM_GRACE_MS) { finishAttempt_({ sh: a.sh, i: at }, w, saved, 'time'); return { ok: false, error: 'Your time for this exam is over. Your answers were submitted.', submitted: true }; }
+      } else {
+        id = 'a' + (newCode_() + newCode_()).toLowerCase().slice(0, 10);
+        var end = now + X.E.duration * 60000; if (X.E.closesAt) end = Math.min(end, ms_(X.E.closesAt));
+        endAt = new Date(end).toISOString();
+        a.sh.appendRow([id, X.E.id, name, "'" + cls, sid, new Date(now), endAt, '', 'active', '{}', 0, '[]', '', '', new Date(now), String(d.d || '').slice(0, 16)]);
+      }
+    } finally { try { lock.releaseLock(); } catch (x) {} }
+    meta.token = attemptToken_(id); meta.endAt = endAt; meta.answers = saved; meta.exits = exits; meta.paper = examPublic_(w); meta.name = name; meta.cls = cls;
+    return meta;
+  }
+  if (d.a === 'exam-save' || d.a === 'exam-submit') {
+    var A = readAttempt_(d.t); if (!A) return { ok: false, error: 'session' };
+    var r2 = A.r; if (String(r2[8]) !== 'active') return { ok: true, submitted: true };
+    var e2 = exams_(), ei = findExamBy_(e2, 0, String(r2[1])); if (ei < 0) return { ok: false };
+    var E2 = eRow_(e2.rows[ei]), w2 = examJson_(E2.fileId);
+    var ans = cleanAnswers_(w2, d.answers), late = now > ms_(r2[6]) + EXAM_GRACE_MS;
+    if (late) { var old = {}; try { old = JSON.parse(String(r2[9] || '{}')); } catch (x) {} finishAttempt_(A, w2, old, 'time'); return { ok: true, submitted: true, late: true }; }
+    // exits: only ever goes up; the log keeps the last 60 events
+    var exits2 = Math.max(+r2[10] || 0, num_(d.exits, 999)), log = []; try { log = JSON.parse(String(r2[11] || '[]')); } catch (x) {}
+    (Array.isArray(d.log) ? d.log : []).slice(0, 20).forEach(function (ev) { log.push({ t: String(ev && ev.t || '').slice(0, 30), k: plain_(ev && ev.k, 20) }); });
+    log = log.slice(-60);
+    A.sh.getRange(A.i + 2, 10, 1, 3).setValues([[JSON.stringify(ans).slice(0, 48000), exits2, JSON.stringify(log)]]);
+    A.sh.getRange(A.i + 2, 15).setValue(new Date());
+    if (d.a === 'exam-submit') { finishAttempt_(A, w2, ans, 'submitted'); return { ok: true, submitted: true }; }
+    if (E2.maxExits > 0 && exits2 >= E2.maxExits) { finishAttempt_(A, w2, ans, 'exits'); return { ok: true, submitted: true, byExits: true }; }
+    return { ok: true, saved: new Date(now).toISOString(), endAt: iso_(r2[6]), serverNow: new Date(now).toISOString() };
+  }
+  return { ok: false };
+}
+
+// ---------------- admin.html: exams (needs ADMIN_KEY; called from adminTeachers_) ----------------
+function adminExams_(op, d) {
+  if (op === 'exams') { importExams_(); return examList_(); }
+  if (op === 'exam-new') {   // upload a paper (PDF / Word) for a Claude session to turn into an online exam
+    var mime = String(d.mime || '');
+    if (!/pdf|wordprocessingml|msword/.test(mime)) return { ok: false, error: 'Upload the paper as a PDF or Word file.' };
+    var bytes; try { bytes = Utilities.base64Decode(String(d.data || '')); } catch (e) { return { ok: false, error: 'The file could not be read.' }; }
+    if (!bytes.length || bytes.length > 15 * 1048576 || !magicOk_(bytes, mime)) return { ok: false, error: 'The file is empty, too big (max 15 MB) or not a real PDF / Word file.' };
+    var id = 'x' + (newCode_() + newCode_()).toLowerCase().slice(0, 8), name = plain_(d.fileName, 80).replace(/^'/, '') || 'paper';
+    var f = folder_('Omega exam uploads').createFile(Utilities.newBlob(bytes, mime, id + ' · ' + name));
+    tab_(E_SHEET, E_HEAD).appendRow([id, new Date(), plain_(d.title, 120) || name, '', 'queued', +d.duration || 60, '', '', '', 0, f.getId(), name, plain_(d.notes, 600), new Date()]);
+    return examList_();
+  }
+  var e = exams_(), i = findExamBy_(e, 0, String(d.id || ''));
+  if (i < 0) return { ok: false, error: 'Exam not found.' };
+  var E = eRow_(e.rows[i]);
+  if (op === 'exam-get') { if (!E.fileId) return { ok: false, error: 'This exam is still in the queue.' }; return { ok: true, exam: E, paper: examJson_(E.fileId) }; }
+  if (op === 'exam-set') {
+    if (!E.fileId) return { ok: false, error: 'This exam is still in the queue: Claude has not built it yet.' };
+    var dur = Math.max(5, Math.min(600, Math.round(+d.duration || E.duration || 60)));
+    var opens = d.opensAt ? new Date(d.opensAt) : '', closes = d.closesAt ? new Date(d.closesAt) : '';
+    if (opens && isNaN(opens)) opens = ''; if (closes && isNaN(closes)) closes = '';
+    var st = ['ready', 'open', 'closed'].indexOf(String(d.status)) >= 0 ? String(d.status) : E.status;
+    var code = E.code; if (!code) { do { code = newCode_(); } while (findExamBy_(e, 8, code) >= 0); }
+    e.sh.getRange(i + 2, 5, 1, 6).setValues([[st, dur, opens, closes, code, Math.max(0, Math.min(50, Math.round(+d.maxExits || 0)))]]);
+    e.sh.getRange(i + 2, 14).setValue(new Date());
+    return examList_();
+  }
+  if (op === 'exam-results') {
+    var w = E.fileId ? examJson_(E.fileId) : { questions: [] };
+    var list = attempts_().rows.filter(function (r) { return String(r[1]) === E.id; }).map(function (r) {
+      var ans = {}; try { ans = JSON.parse(String(r[9] || '{}')); } catch (x) {}
+      var log = []; try { log = JSON.parse(String(r[11] || '[]')); } catch (x) {}
+      var live = String(r[8]) === 'active' ? mcScore_(w, ans) : { score: +r[12] || 0, total: +r[13] || 0 };
+      return { id: String(r[0]), name: unplain_(r[2]), cls: unplain_(r[3]), sid: unplain_(r[4]), started: iso_(r[5]), endAt: iso_(r[6]), submitted: iso_(r[7]),
+        status: String(r[8]), answers: ans, exits: +r[10] || 0, log: log, mcScore: live.score, mcTotal: live.total, lastSave: iso_(r[14]) };
+    });
+    return { ok: true, exam: E, attempts: list };
+  }
+  if (op === 'exam-extend') {   // give one student more time, or let them continue after a submit
+    var A2 = attempts_(), k = -1;
+    for (var j = 0; j < A2.rows.length; j++) if (String(A2.rows[j][0]) === String(d.attempt) && String(A2.rows[j][1]) === E.id) { k = j; break; }
+    if (k < 0) return { ok: false, error: 'Attempt not found.' };
+    var mins = Math.max(1, Math.min(240, Math.round(+d.minutes || 10)));
+    var base = Math.max(Date.now(), ms_(A2.rows[k][6]));
+    A2.sh.getRange(k + 2, 7, 1, 3).setValues([[new Date(base + mins * 60000).toISOString(), '', 'active']]);
+    return adminExams_('exam-results', d);
+  }
+  return { ok: false };
+}
+function examList_() {
+  var counts = {};
+  attempts_().rows.forEach(function (r) { var k = String(r[1]); counts[k] = counts[k] || { started: 0, submitted: 0 }; counts[k].started++; if (String(r[8]) !== 'active') counts[k].submitted++; });
+  return { ok: true, exams: exams_().rows.map(function (r) { var o = eRow_(r); o.counts = counts[o.id] || { started: 0, submitted: 0 }; return o; }) };
 }

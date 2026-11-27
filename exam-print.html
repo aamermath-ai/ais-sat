@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-rDHv7EkJEw+wUoAih2tkGc5MaDXTT4zcfIa5psoDZ5o=' 'sha256-SpRl9vth6NjTL+yji7fxj5kU/NY6/7/prLgv/RuHElE=' https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Omega exam scripts. The last word in math.">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Omega">
+<meta name="author" content="Aamer Bashir">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>try{if(!localStorage.getItem("omega-theme-v1")){localStorage.setItem("ais-theme","omega");localStorage.setItem("omega-theme-v1","1");}var t=localStorage.getItem("ais-theme");if(t==="light"||t==="dark"||t==="omega")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<title>Exam scripts · Omega</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<style>
+/* Printable students' scripts for one exam (opened from admin.html → Exams → Print scripts). */
+*{box-sizing:border-box}
+body{margin:0;background:#eef1f5;color:#14181f;font:14.5px/1.5 Georgia,"Times New Roman",serif}
+[hidden]{display:none!important}
+.bar{position:sticky;top:0;z-index:5;background:#14181f;color:#fff;display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 16px;font:600 14px system-ui,sans-serif}
+.bar button{font:inherit;border:0;border-radius:8px;padding:8px 14px;background:#fff;color:#14181f;cursor:pointer}
+.bar label{display:inline-flex;gap:6px;align-items:center}
+.sheet{background:#fff;max-width:820px;margin:18px auto;padding:28px 34px;box-shadow:0 4px 18px rgba(0,0,0,.08);page-break-after:always;break-after:page}
+.hd{display:grid;grid-template-columns:80px minmax(0,1fr) 110px;gap:12px;align-items:center;border-bottom:3px double #222;padding-bottom:10px}
+.hd img{width:100%;height:auto}
+.hd .t{text-align:center;font-weight:700;font-size:16px}
+.who{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:2px solid #1f3a68;margin:12px 0}
+.who div{border:1px solid #1f3a68;padding:6px 9px;font:600 13px system-ui,sans-serif}
+.exits{font:13px system-ui,sans-serif;color:#7d0f1f;background:#fff5f6;border:1px solid #f1c2c9;border-radius:6px;padding:6px 9px;margin-bottom:10px}
+.q{border-top:1px solid #ddd;padding:10px 0}
+.q .h{display:flex;justify-content:space-between;font:700 13px system-ui,sans-serif;color:#444}
+.q table.vt{border-collapse:collapse;margin:4px 0}.q table.vt td{border:1px solid #555;padding:3px 10px;text-align:center}
+.work{border:1px solid #333;padding:6px 10px;margin:4px 0;max-width:560px}.work div{padding-left:12px}
+.ans{border:1.5px solid #222;min-height:60px;padding:8px 10px;margin-top:6px;white-space:pre-wrap;font:14px/1.55 system-ui,sans-serif;background:#fcfcfc}
+.mc{font:600 14px system-ui,sans-serif;margin-top:6px}
+.ok{color:#1a7f45}.no{color:#c8102e}
+.model{font:13px system-ui,sans-serif;background:#eaf7ef;color:#0d4f2a;padding:5px 8px;border-radius:4px;margin-top:5px}
+.mark{font:700 13px system-ui,sans-serif;text-align:right;margin-top:4px}
+.empty{padding:40px;text-align:center;font:16px system-ui,sans-serif}
+@media print{body{background:#fff}.bar{display:none}.sheet{box-shadow:none;margin:0;max-width:none;padding:0 6mm}}
+</style>
+</head>
+<body>
+<div class="bar"><span id="b-t">Loading…</span><span style="flex:1"></span>
+  <label><input type="checkbox" id="b-model" checked> Show model answers</label>
+  <label>Class <select id="b-cls"></select></label>
+  <button type="button" id="b-print">Print / Save as PDF</button></div>
+<div id="out"></div>
+<script>
+(function(){
+"use strict";
+const API="https://script.google.com/macros/s/AKfycbzPahnDRJJ1AcqR9gf5nNSSdm4xafydLe9gJND5tFeQgOQimifg5SkNRIPxJFYXpsvZ/exec";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function md(s){return String(s??"").split(/(\$[^$]+\$)/g).map(p=>/^\$[^$]+\$$/.test(p)?(window.katex?katex.renderToString(p.slice(1,-1),{throwOnError:false}):esc(p)):esc(p).replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/&lt;br&gt;/g,"<br>")).join("");}
+const when=v=>{const d=new Date(v);return isNaN(d)?"—":d.toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});};
+const id=new URLSearchParams(location.search).get("id");
+const key=(()=>{try{return sessionStorage.getItem("ais-admin-key")||localStorage.getItem("ais-admin-key")}catch(e){return null}})();
+const post=b=>fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(b)}).then(r=>r.json());
+let paper=null,list=[];
+Promise.all([post({a:"admin",key,op:"exam-get",id}),post({a:"admin",key,op:"exam-results",id})]).then(([g,r])=>{
+  if(!g.ok||!r.ok){$("out").innerHTML='<div class="empty">'+esc(g.error||r.error||"Open the admin page first, then Print scripts again.")+'</div>';$("b-t").textContent="";return;}
+  paper=g.paper;list=r.attempts.slice().sort((a,b)=>a.cls.localeCompare(b.cls,undefined,{numeric:true})||a.name.localeCompare(b.name));
+  $("b-t").textContent=(paper.cover.title||[g.exam.title]).join(" · ")+" — "+list.length+" scripts";document.title=g.exam.title+" · scripts";
+  const cls=[...new Set(list.map(a=>a.cls))];$("b-cls").innerHTML='<option value="">All</option>'+cls.map(c=>'<option>'+esc(c)+'</option>').join("");
+  render();
+}).catch(()=>{$("out").innerHTML='<div class="empty">Could not reach the school server.</div>';});
+function render(){
+  const C=paper.cover||{},L=C.logos||[],showM=$("b-model").checked,cf=$("b-cls").value;
+  const L2=list.filter(a=>!cf||a.cls===cf);
+  $("out").innerHTML=L2.length?L2.map(a=>{
+    const wr=paper.questions.filter(q=>q.kind!=="mc").reduce((s,q)=>s+(+q.points||0),0);
+    let h='<section class="sheet"><div class="hd">'+(L[0]?'<img src="'+esc(L[0])+'" alt="">':'<span></span>')+'<div class="t">'+(C.title||[]).map(esc).join("<br>")+'</div>'+(L[1]?'<img src="'+esc(L[1])+'" alt="">':'<span></span>')+'</div>';
+    h+='<div class="who"><div>Name: '+esc(a.name)+'</div><div>Class: '+esc(a.cls)+(a.sid?' · ID '+esc(a.sid):'')+'</div><div>Started: '+esc(when(a.started))+'</div><div>Submitted: '+(a.status==="active"?"<b>not submitted</b> (last save "+esc(when(a.lastSave))+")":esc(when(a.submitted))+" ("+esc(a.status)+")")+'</div>'+
+      '<div>Multiple choice (auto-marked): <b>'+a.mcScore+' / '+a.mcTotal+'</b></div><div>Written: ______ / '+wr+' &nbsp;&nbsp; Total: ______</div></div>';
+    if(a.exits)h+='<div class="exits"><b>Left the exam screen '+a.exits+(a.exits===1?" time":" times")+':</b> '+a.log.map(e=>esc(when(e.t))+" ("+esc(e.k)+")").join(", ")+'</div>';
+    paper.questions.forEach(q=>{const S=(paper.sections||[]).find(s=>s.id===q.section)||{};const v=a.answers[q.id];
+      h+='<div class="q"><div class="h"><span>'+esc(S.title||q.section)+' · '+esc(q.label)+'</span><span>'+q.points+' pt</span></div><div>'+md(q.text)+'</div>';
+      if(q.table)h+='<table class="vt">'+q.table.map(r=>'<tr>'+r.map(c=>'<td>'+md(c)+'</td>').join("")+'</tr>').join("")+'</table>';
+      if(q.work)h+='<div class="work"><b>Student’s work:</b>'+q.work.map(w=>'<div>'+md(w)+'</div>').join("")+'</div>';
+      if(q.after)h+='<div>'+md(q.after)+'</div>';
+      if(q.kind==="mc"){const ok=v===q.answer;h+='<div class="mc">Answer: '+(v===undefined?'<span class="no">no answer</span>':'<span class="'+(ok?"ok":"no")+'">'+"ABCDEFG"[v]+') '+md(q.options[v])+' '+(ok?"✓":"✗")+'</span>')+(ok?'':' &nbsp;·&nbsp; correct: '+"ABCDEFG"[q.answer])+'</div>';}
+      else{h+='<div class="ans">'+(v?esc(v):'<i style="color:#999">no answer</i>')+'</div>'+(showM&&q.model?'<div class="model"><b>Model:</b> '+esc(q.model)+'</div>':'')+'<div class="mark">____ / '+q.points+'</div>';}
+      h+='</div>';});
+    return h+'</section>';}).join(""):'<div class="empty">No students have started this exam yet.</div>';
+}
+$("b-model").addEventListener("change",render);$("b-cls").addEventListener("change",render);
+$("b-print").addEventListener("click",()=>window.print());
+})();
+</script>
+</body>
+</html>

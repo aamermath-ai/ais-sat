@@ -15,7 +15,7 @@ def check(w):
     pids = [p.get('id') for p in parts]
     if len(set(pids)) != len(pids): errs.append('part ids must be different')
     if not (12 <= len(qs) <= 16): warns.append(f'{len(qs)} questions (12–16 is the usual size)')
-    if len(json.dumps(w, ensure_ascii=False)) > 250000: errs.append('worksheet is bigger than 250 KB')
+    if len(json.dumps(w, ensure_ascii=False)) > 48000: errs.append('worksheet is bigger than 48,000 characters (a Google Sheet cell holds 50,000): simplify the pictures')
     ids = set()
     for i, q in enumerate(qs, 1):
         tag = f'Q{i}'
